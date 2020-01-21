@@ -1,12 +1,23 @@
 /*
- * 20-Jan-2020, discovering OpenSCAD.
+ * 20-Jan-2020, MLK day, discovering OpenSCAD.
  *
  * Raspberry Pi Zero dev board, 
  * A Raspberry Pi Zero, next to a small breadboard.
  *
  * For the Raspberry Pi dimension:
  * See https://www.raspberrypi.org/documentation/hardware/raspberrypi/mechanical/rpi_MECH_Zero_1p3.pdf
-*/
+ *
+ * Features:
+ * - Text
+ * - Image
+ * - etc
+ */
+echo(version=version());
+
+logo = "RPiLogo.png"; // res 240 x 300
+logox = 200; 
+logoy = 200; 
+
 module roundedRect(size, radius) {  
   linear_extrude(height=size.z, center=true) {
     offset(radius) offset(-radius) {
@@ -17,72 +28,98 @@ module roundedRect(size, radius) {
 
 // Base plate
 // ----------
-plateWidth=90;
-plateLength=90;
-plateThickNess=3;
-cornerRadius=10;
+plateWidth = 90;
+plateLength = 90;
+plateThickNess = 3;
+cornerRadius = 10;
 
 // roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius);
 
-text="Oliv did it";
+text1="Oliv did it.";
+text2="2020";
 difference() {  
     roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius);
-    linear_extrude(height=plateThickNess, center=true) {
-        rotate([0, 0, -90]) {
-            translate([
-             -13, // left - right (Y)
-             -20, // Top - bottom (X)
-             10   // Up - down    (Z)
-            ]) {
-                text(text, 5);
+    color("lime") {
+        linear_extrude(height=plateThickNess + 1, center=true) {
+            rotate([0, 0, -90]) {
+                translate([
+                 -18, // left - right (Y)
+                 -15, // Top - bottom (X)
+                 0    // Up - down    (Z)
+                ]) {
+                    text(text1, 6);
+                }
+                translate([
+                 -9,  // left - right (Y)
+                 -25, // Top - bottom (X)
+                 0    // Up - down    (Z)
+                ]) {
+                    text(text2, 6);
+                }
+            }
+        }
+    }
+    translate([25, 0, 3]) {
+        scale([.1 * plateWidth / logox, .1 * plateWidth / logoy, .02]) {
+            color("lime") {
+                rotate([0, 0, -90]) {
+                    surface(file=logo, invert=true, center=true);
+                }
             }
         }
     }
 }
 
+// Add a plate under the text...
+color("lime") {
+    translate([-15, 0, -1]) {
+        cube(size=[25, 50, 1], center=true);
+    }
+}
+
 // Raspberry Pi holes: diameter: 2.5mm
 // 23mm x 58mm (between holes axis)
-rPiWidth=58;
-rPiLength=23;
+rPiWidth = 58;
+rPiLength = 23;
 
 // Raspberry Pi pegs
-// ----------------
+// -----------------
 // Base Pegs
-basePegDiam=5;
-basePegHeight=3;
-offset=7;
+basePegDiam = 5;
+basePegHeight = 3;
+offset = 7;
 translate([ ((plateLength/2) - offset), (rPiWidth / 2), plateThickNess]) {
-        cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
+    cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
 }
 translate([ ((plateLength/2) - offset), -(rPiWidth / 2), plateThickNess]) {
-        cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
+    cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
 }
 translate([ ((plateLength/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
-        cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
+    cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
 }
 translate([ ((plateLength/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
-        cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
+    cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
 }
-topPegDiam=2;
-topPegHeight=7;
+topPegDiam = 2;
+topPegHeight = 7;
 translate([ ((plateLength/2) - offset), (rPiWidth / 2), plateThickNess]) {
-        cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
+    cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
 }
 translate([ ((plateLength/2) - offset), -(rPiWidth / 2), plateThickNess]) {
-        cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
+    cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
 }
 translate([ ((plateLength/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
-        cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
+    cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
 }
 translate([ ((plateLength/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
-        cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
+    cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
 }
 
 // Small Breadboard: 35mm x 45.6mm
-breadboardLength=45.6;
-breadboardWidth=35;
-borderHeight=5;
-borderThickness=3;
+breadboardLength = 45.6;
+breadboardWidth = 35;
+borderHeight = 5;
+borderThickness = 3;
 // Same offset for the breadboard as for the raspberry
 
 // Breadboard frame
