@@ -6,7 +6,7 @@
  *
  * For the Raspberry Pi dimension:
  * See https://www.raspberrypi.org/documentation/hardware/raspberrypi/mechanical/rpi_MECH_Zero_1p3.pdf
-*/
+ */
 module roundedRect(size, radius) {  
   linear_extrude(height=size.z, center=true) {
     offset(radius) offset(-radius) {

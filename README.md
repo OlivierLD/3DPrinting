@@ -3,9 +3,10 @@
 
 ## OpenSCAD
 [OpenSCAD](https://www.openscad.org/) is a programmatic approach to shape modeling. 
-Re-usablity comes naturally, I like it!
+Re-usablity comes naturally with it, I like that!
 
-Wow!
+You can generate your models with a (proprietary) programming language, and finally turn them into `stl` format,
+which is understood by all 3D printers.
 
 ## Others
 To come...
