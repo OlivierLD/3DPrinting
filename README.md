@@ -8,5 +8,8 @@ Re-usablity comes naturally with it, I like that!
 You can generate your models with a (proprietary) programming language, and finally turn them into `stl` format,
 which is understood by all 3D printers.
 
+- [User Manual](https://en.wikibooks.org/wiki/OpenSCAD_User_Manual)
+- [Language reference](https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language)
+
 ## Others
 To come...
