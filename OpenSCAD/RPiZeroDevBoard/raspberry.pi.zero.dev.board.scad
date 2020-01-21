@@ -124,5 +124,5 @@ translate([ -((plateLength / 2) - offset - (breadboardWidth / 2)),
                 borderHeight], 
          center=true);
 }
-// Tht's it!
+// That's it!
 
