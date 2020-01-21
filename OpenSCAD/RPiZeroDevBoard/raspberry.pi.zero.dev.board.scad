@@ -6,7 +6,7 @@
  *
  * For the Raspberry Pi dimension:
  * See https://www.raspberrypi.org/documentation/hardware/raspberrypi/mechanical/rpi_MECH_Zero_1p3.pdf
- */
+*/
 module roundedRect(size, radius) {  
   linear_extrude(height=size.z, center=true) {
     offset(radius) offset(-radius) {
@@ -50,7 +50,7 @@ rPiLength=23;
 // Base Pegs
 basePegDiam=5;
 basePegHeight=3;
-offset=10;
+offset=7;
 translate([ ((plateLength/2) - offset), (rPiWidth / 2), plateThickNess]) {
             cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
 }
@@ -87,7 +87,7 @@ borderThickness=3;
 
 // Breadboard frame
 // ----------------
-slack = 1.1;
+slack = 1.05;
 // Outer width (close to the edge()
 translate([ -((plateLength/2) - offset + ((slack * borderThickness) / 2)), 
             0, 
@@ -98,7 +98,7 @@ translate([ -((plateLength/2) - offset + ((slack * borderThickness) / 2)),
          center=true);
 }
 // Inner width (close to the center)
-translate([-((plateLength / 2) - offset - breadboardWidth - ((slack * borderThickness) / 2)), 
+translate([-((plateLength / 2) - offset - (slack * breadboardWidth) - borderThickness - (borderThickness / 2)), 
             0, 
             plateThickNess ]) {
     cube(size=[ borderThickness, 
@@ -107,19 +107,19 @@ translate([-((plateLength / 2) - offset - breadboardWidth - ((slack * borderThic
          center=true);
 }
 // Left
-translate([ -((plateLength / 2) - offset - (breadboardWidth / 2)), 
+translate([ -((plateLength / 2) - offset - (slack * breadboardWidth / 2)), 
             (breadboardLength / 2) + ((slack * borderThickness) / 2), 
             plateThickNess ]) {
-    cube(size=[ breadboardWidth * slack, 
+    cube(size=[ (breadboardWidth * slack) + (2 * borderThickness), 
                 borderThickness, 
                 borderHeight], 
          center=true);
 }
 // Right
-translate([ -((plateLength / 2) - offset - (breadboardWidth / 2)), 
+translate([ -((plateLength / 2) - offset - (slack * breadboardWidth / 2)), 
             -((breadboardLength / 2) + ((slack * borderThickness) / 2)), 
             plateThickNess ]) {
-    cube(size=[ breadboardWidth * slack, 
+    cube(size=[ (breadboardWidth * slack) + (2 * borderThickness), 
                 borderThickness, 
                 borderHeight], 
          center=true);
