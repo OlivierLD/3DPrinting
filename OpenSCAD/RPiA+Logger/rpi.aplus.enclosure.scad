@@ -18,19 +18,19 @@ basePegHeight = 3;
 basePegInnerDiam = 2.5;
 
 module box() {
-    difference() {
-        roundedRect([ outerWidth,
-                      outerLength,
-                      outerHeight ],
-                    outerRadius, $fn=100);
+	difference() {
+		roundedRect([ outerWidth,
+									outerLength,
+									outerHeight ],
+								outerRadius, $fn=100);
 
-        translate([0, 0, boxThickness]) {
-            roundedRect([ outerWidth - boxThickness,
-                          outerLength - boxThickness,
-                          outerHeight - boxThickness ],
-                        outerRadius - boxThickness, $fn=100);
-        }
-    }
+		translate([0, 0, boxThickness]) {
+			roundedRect([ outerWidth - boxThickness,
+										outerLength - boxThickness,
+										outerHeight - boxThickness ],
+									outerRadius - boxThickness, $fn=100);
+		}
+	}
 }
 
 // Pegs
@@ -38,83 +38,83 @@ widthBetweenPegs = 42.73;
 lengthBetweenPegs = 49.31;
 
 module pegs() {
-    color("green") {
-        translate([ lengthBetweenPegs / 2,
-                    widthBetweenPegs / 2,
-                    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-            cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
-        }
-        translate([ lengthBetweenPegs / 2,
-                    - widthBetweenPegs / 2,
-                    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-            cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
-        }
-        translate([ - lengthBetweenPegs / 2,
-                    widthBetweenPegs / 2,
-                    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-            cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
-        }
-        translate([ - lengthBetweenPegs / 2,
-                    - widthBetweenPegs / 2,
-                    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-            cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
-        }
-    }
+	color("green") {
+		translate([ lengthBetweenPegs / 2,
+						    widthBetweenPegs / 2,
+						    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
+		}
+		translate([ lengthBetweenPegs / 2,
+						    - widthBetweenPegs / 2,
+						    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
+		}
+		translate([ - lengthBetweenPegs / 2,
+						    widthBetweenPegs / 2,
+						    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
+		}
+		translate([ - lengthBetweenPegs / 2,
+						    - widthBetweenPegs / 2,
+						    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
+		}
+	}
 }         
 
 module drillPegs() {
-    color("red") {
-        translate([ lengthBetweenPegs / 2,
-                    widthBetweenPegs / 2,
-                    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-            cylinder(h=basePegHeight * 10, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
-        }
-        translate([ lengthBetweenPegs / 2,
-                    - widthBetweenPegs / 2,
-                    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-            cylinder(h=basePegHeight * 10, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
-        }
-        translate([ - lengthBetweenPegs / 2,
-                    widthBetweenPegs / 2,
-                    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-            cylinder(h=basePegHeight * 10, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
-        }
-        translate([ - lengthBetweenPegs / 2,
-                    - widthBetweenPegs / 2,
-                    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-            cylinder(h=basePegHeight * 10, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
-        }
-    }
+	color("red") {
+		translate([ lengthBetweenPegs / 2,
+								widthBetweenPegs / 2,
+								- (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight * 10, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
+		}
+		translate([ lengthBetweenPegs / 2,
+								- widthBetweenPegs / 2,
+								- (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight * 10, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
+		}
+		translate([ - lengthBetweenPegs / 2,
+								widthBetweenPegs / 2,
+								- (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight * 10, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
+		}
+		translate([ - lengthBetweenPegs / 2,
+								- widthBetweenPegs / 2,
+								- (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight * 10, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
+		}
+	}
 }  
 
 module boxPegsAndScrews() {
-    difference() {
-        union() {
-            box();
-            pegs();
-        }
-        drillPegs();
-    }
+	difference() {
+		union() {
+			box();
+			pegs();
+		}
+		drillPegs();
+	}
 }
 
 module drillUSB() {
-    // TODO 
+	// TODO 
 }
 
 if (true) {
-    // Holes
-    difference() {
-        boxPegsAndScrews();
-        rotate([0, 90, 0]) {
-            cylinder(h=100, d1=10, d2=10, center=true, $fn=100);
-        }
-    }
+	// Holes
+	difference() {
+		boxPegsAndScrews();
+		rotate([0, 90, 0]) {
+			cylinder(h=100, d1=10, d2=10, center=true, $fn=100);
+		}
+	}
 } else {
-    // Bar
-    boxPegsAndScrews();
-    rotate([0, 90, 0]) {
-        color("cyan") {
-            cylinder(h=100, d1=10, d2=10, center=true, $fn=100);
-        }
-    }
+	// Bar
+	boxPegsAndScrews();
+	rotate([0, 90, 0]) {
+		color("cyan") {
+			cylinder(h=100, d1=10, d2=10, center=true, $fn=100);
+		}
+	}
 }
