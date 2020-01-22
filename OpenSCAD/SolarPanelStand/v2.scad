@@ -1,6 +1,9 @@
 /*
  * Getting started on the Solar Panel Stand.
  * Using linear_extrude (had problems with polyhedron)
+ * 
+ * TODO:
+ * - Ball bearing sockets
  */
 echo(version=version());
  
@@ -15,6 +18,7 @@ module flatSide(base, height, top) {
 	
 	union() {
 		polygon(points, paths, convexity=10);
+		// Rounded top
 		translate([0, height]) {
 			circle(d=top, $fn=50);
 		}
@@ -49,6 +53,39 @@ module motor(motorSide, motorAxisDiam, motorAxisLength) {
 	}
 }
 
+module buildMainStand(totalStandWidth, length, height, topWidth, thickness, holeDiam) {
+	// left
+	translate([0, totalStandWidth / 2, 0]) {
+		rotate([90, 0, 0]) {
+			color("red") {
+				oneDrilledSide(length, height, topWidth, thickness, holeDiam);
+			}
+		}
+	}
+	// right, with the motor socket
+	difference() {
+		translate([0, -totalStandWidth / 2, 0]) {
+			rotate([90, 0, 0]) {
+				color("green") {
+					oneDrilledSide(length, height, topWidth, thickness, holeDiam);
+				}
+			}
+		}
+		color("silver") {
+			// Motor socket
+			translate([0, -((totalStandWidth / 2) + (motorSide / 2)), height / 2]) {
+				motor(motorSide, motorAxisDiam, motorAxisLength);
+			}
+		}
+	}
+	// base
+	translate([0, 0, -thickness / 2]) {
+		color("yellow") {
+			cube([length, totalStandWidth + thickness, thickness], center=true);
+		}
+	}
+}
+
 // Let's draw it
 
 totalStandWidth = 40;
@@ -60,35 +97,11 @@ holeDiam = 3;
 motorSide = 8;
 motorAxisDiam = 1;
 motorAxisLength = 10;
+mainAxisDiam = 5;
 
-// left
-translate([0, totalStandWidth / 2, 0]) {
-	rotate([90, 0, 0]) {
-		color("red") {
-			oneDrilledSide(length, height, topWidth, thickness, holeDiam);
-		}
-	}
-}
-// right, with the motor socket
 difference() {
-	translate([0, -totalStandWidth / 2, 0]) {
-		rotate([90, 0, 0]) {
-			color("green") {
-				oneDrilledSide(length, height, topWidth, thickness, holeDiam);
-			}
-		}
-	}
-	color("silver") {
-		// Motor socket
-		translate([0, -((totalStandWidth / 2) + (motorSide / 2)), height / 2]) {
-			motor(motorSide, motorAxisDiam, motorAxisLength);
-		}
-	}
-}
-// base
-translate([0, 0, -thickness / 2]) {
-	color("yellow") {
-		cube([length, totalStandWidth + thickness, thickness], center=true);
-	}
+	buildMainStand(totalStandWidth, length, height, topWidth, thickness, holeDiam);
+	// Drill axis
+	cylinder(h=3*thickness, d=mainAxisDiam, center=true, $fn=50);
 }
 
