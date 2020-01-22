@@ -8,6 +8,8 @@ Free and OpenSource, [OpenSCAD](https://www.openscad.org/) is a programmatic app
 
 You can generate your models with a (proprietary) functional programming language (good paper [here](https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/For_C/Java/Python_Programmers)), and finally turn them into [`stl`](https://en.wikipedia.org/wiki/STL_(file_format)) (short for _stereolithography_) format, which is understood by all 3D printers.
 
+Generating `stl` code by hand is just a nonsense, but take a look at the sizes of the `stl` and `scad` files (the one that contains the code)...
+
 - [User Manual](https://en.wikibooks.org/wiki/OpenSCAD_User_Manual)
 - [Language reference](https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language)
 
