@@ -2,8 +2,10 @@
  * Getting started on the Solar Panel Stand.
  * Using linear_extrude (had problems with polyhedron)
  * 
+ * The idea is to have all dimensions as parameters.
+ *
  * TODO:
- * - Ball bearing sockets
+ * - Ball bearing sockets for all axis
  */
 echo(version=version());
  
@@ -31,18 +33,25 @@ module oneSolidSide(base, height, top, thickness) {
 	}
 }
 
-module oneDrilledSide(base, height, top, thickness, holeDiam) {
+module oneDrilledSide(base, height, top, thickness, holeDiam, left=true) {
 	difference() {
 		oneSolidSide(base, height, top, thickness);
+		// The top axis
 		translate([0, height, 0]) {
 			cylinder(h=thickness * 2, d=holeDiam, center=true, $fn=50);
+		}
+		// Ball bearing socket
+		translate([0, height, (left ? 1 : -1) * thickness / 2]) {
+			cylinder(h=thickness, d=holeDiam * 2, center=true, $fn=50); // TODO replace holeDiam * 2: socket diameter
 		}
 	}
 }
 
-module motor(motorSide, motorAxisDiam, motorAxisLength) {
+module motor(motorSide, motorAxisDiam, motorAxisLength, betweenScrews) {
 	union() {
+		// Motor
 		cube(motorSide, center=true);
+		// Axis
 		rotate([90, 0, 0]) {
 			translate([0, 0, -motorSide]) {
 				color("white") {
@@ -50,15 +59,37 @@ module motor(motorSide, motorAxisDiam, motorAxisLength) {
 				}
 			}
 		}
+		// Screws
+		rotate([90, 0, 0]) {
+			for (i = [0:1]) {
+				for (j = [0:1]) {
+					translate([-(betweenScrews / 2) + (i * betweenScrews), -(betweenScrews / 2) + (j * betweenScrews), -motorSide]) {
+						color("white") {
+							cylinder(h=motorAxisLength, d=0.5, center=true, $fn=50);
+						}
+					}
+				}
+			}
+		}
 	}
 }
 
-module buildMainStand(totalStandWidth, length, height, topWidth, thickness, holeDiam) {
+module buildMainStand(totalStandWidth, 
+											length, 
+											height, 
+											topWidth, 
+											thickness, 
+											mainAxisDiam, 
+											motorSide, 
+											motorAxisDiam, 
+											motorAxisLength, 
+											betweenScrews,
+											withMotor=false) {
 	// left
 	translate([0, totalStandWidth / 2, 0]) {
 		rotate([90, 0, 0]) {
 			color("red") {
-				oneDrilledSide(length, height, topWidth, thickness, holeDiam);
+				oneDrilledSide(length, height, topWidth, thickness, mainAxisDiam);
 			}
 		}
 	}
@@ -67,17 +98,22 @@ module buildMainStand(totalStandWidth, length, height, topWidth, thickness, hole
 		translate([0, -totalStandWidth / 2, 0]) {
 			rotate([90, 0, 0]) {
 				color("green") {
-					oneDrilledSide(length, height, topWidth, thickness, holeDiam);
+					oneDrilledSide(length, height, topWidth, thickness, mainAxisDiam, false);
 				}
 			}
 		}
 		color("silver") {
 			// Motor socket
 			translate([0, -((totalStandWidth / 2) + (motorSide / 2)), height / 2]) {
-				motor(motorSide, motorAxisDiam, motorAxisLength);
+				motor(motorSide, motorAxisDiam, motorAxisLength, betweenScrews);
 			}
 		}
 	}
+	if (withMotor) {
+		translate([0, -((totalStandWidth / 2) + (motorSide / 2)), height / 2]) {
+			motor(motorSide, motorAxisDiam, motorAxisLength, betweenScrews);
+		}
+	}		
 	// base
 	translate([0, 0, -thickness / 2]) {
 		color("yellow") {
@@ -88,20 +124,32 @@ module buildMainStand(totalStandWidth, length, height, topWidth, thickness, hole
 
 // Let's draw it
 
-totalStandWidth = 40;
-length = 30;
-height = 40;
-topWidth = 10;
-thickness = 2;
-holeDiam = 3;
-motorSide = 8;
-motorAxisDiam = 1;
-motorAxisLength = 10;
-mainAxisDiam = 5;
+_totalStandWidth = 40;
+_length = 30;
+_height = 40;
+_topWidth = 10;
+_thickness = 2;
+_horizontalAxisDiam = 3;
+_motorSide = 8;
+_betweenScrews = 6;
+_motorAxisDiam = 1;
+_motorAxisLength = 10;
+_mainAxisDiam = 5;
 
 difference() {
-	buildMainStand(totalStandWidth, length, height, topWidth, thickness, holeDiam);
+	buildMainStand(
+		_totalStandWidth, 
+		_length, 
+		_height, 
+		_topWidth, 
+		_thickness, 
+		_horizontalAxisDiam, 
+		_motorSide, 
+		_motorAxisDiam, 
+		_motorAxisLength, 
+		_betweenScrews,
+	  true); // Set this to false for printing.
 	// Drill axis
-	cylinder(h=3*thickness, d=mainAxisDiam, center=true, $fn=50);
+	cylinder(h=3 * _thickness, d=_mainAxisDiam, center=true, $fn=50);
 }
 
