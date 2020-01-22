@@ -125,38 +125,38 @@ borderThickness = 3;
 // Breadboard frame
 // ----------------
 slack = 1.05;
-// Outer width (close to the edge()
+// Outer width (close to the edge(), the bottom)
 translate([ -((plateLength/2) - offset + ((slack * borderThickness) / 2)), 
             0, 
             plateThickNess ]) {
     cube(size=[ borderThickness, 
-                breadboardLength + (2 * borderThickness * slack), 
+                (breadboardLength + (2 * borderThickness)) * slack, 
                 borderHeight], 
          center=true);
 }
-// Inner width (close to the center)
+// Inner width (close to the center, the top)
 translate([-((plateLength / 2) - offset - (slack * breadboardWidth) - borderThickness - (borderThickness / 2)), 
             0, 
             plateThickNess ]) {
     cube(size=[ borderThickness, 
-                breadboardLength + (2 * borderThickness * slack), 
+                (breadboardLength + (2 * borderThickness)) * slack, 
                 borderHeight], 
          center=true);
 }
 // Left
-translate([ -((plateLength / 2) - offset - (slack * breadboardWidth / 2)), 
-            (breadboardLength / 2) + ((slack * borderThickness) / 2), 
+translate([ -((plateLength / 2) - offset - (slack * (breadboardWidth + borderThickness) / 2)), 
+            ((breadboardLength * slack) / 2) + ((slack * borderThickness) / 2), 
             plateThickNess ]) {
-    cube(size=[ (breadboardWidth * slack) + (2 * borderThickness), 
+    cube(size=[ (breadboardWidth + (3 * borderThickness)) * slack, 
                 borderThickness, 
                 borderHeight], 
          center=true);
 }
 // Right
-translate([ -((plateLength / 2) - offset - (slack * breadboardWidth / 2)), 
-            -((breadboardLength / 2) + ((slack * borderThickness) / 2)), 
+translate([ -((plateLength / 2) - offset - (slack * (breadboardWidth + borderThickness) / 2)), 
+            -(((breadboardLength * slack) / 2) + ((slack * borderThickness) / 2)), 
             plateThickNess ]) {
-    cube(size=[ (breadboardWidth * slack) + (2 * borderThickness), 
+    cube(size=[ (breadboardWidth + (3 * borderThickness)) * slack, 
                 borderThickness, 
                 borderHeight], 
          center=true);
