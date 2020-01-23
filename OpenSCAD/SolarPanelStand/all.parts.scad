@@ -119,7 +119,7 @@ if (option == FULL_BASE) {
 			footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
 			#wormGearAxis(workGearAxisDiam, extDiam / 3, cylHeight / 2);	
 		}
-		if (false) {
+		if (false) { // Drilling patterns or screws.
 			color("grey", 0.6) {
 				drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness);
 			}
