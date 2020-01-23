@@ -75,6 +75,18 @@ module drillingPattern(extDiam, fixingFootSize, screwDiam, wallThickness, length
 	}
 }
 
+module screws(extDiam, fixingFootSize, screwDiam, wallThickness, length=50) {
+	// 0.2 is the drilling offset in the foot. See in grooved.cylinder.scad.
+	radius = (extDiam / 2) + (fixingFootSize / 2) + (fixingFootSize * 0.2) - wallThickness; // + (screwDiam / 2);
+	for (angle = [0, 120, 240]) {				
+		rotate([0, 0, angle - 90]) {
+			translate([0, radius]) {
+				metalScrew(screwDiam, length);
+			}
+		}		
+	}
+}
+
 module axisDrillingPattern(length=100, diam=5) {
 	cylinder(h=length, d=diam, center=true, $fn=50);
 }
@@ -107,8 +119,16 @@ if (option == FULL_BASE) {
 			footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
 			#wormGearAxis(workGearAxisDiam, extDiam / 3, cylHeight / 2);	
 		}
-		color("grey", 0.6) {
-			drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness);
+		if (false) {
+			color("grey", 0.6) {
+				drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness);
+			}
+		} else {
+			color("grey", 0.6) {
+				translate([0, 0, -10]) {
+					screws(extDiam, fixingFootSize, screwDiam, minWallThickness, 30);
+				}
+			}
 		}
 		color("green", 0.6) {
 			axisDrillingPattern();
