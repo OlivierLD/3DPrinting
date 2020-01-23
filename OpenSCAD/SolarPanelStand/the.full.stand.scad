@@ -8,8 +8,8 @@ use <./all.parts.scad>
 echo(version=version());
 echo("\n>>> For visualization only, not for print\n");
 
-// A grooved cylinder, with 3 feet, and a crosshair.
-
+// Two grooved cylinders, with 3 feet, and a crosshair.
+// The bottom one has a place for a worm gear.
 baseCylHeight = 50;
 cylHeight2 = 35;
 extDiam = 110;
@@ -40,7 +40,7 @@ _mainAxisDiam = 5;
 _screwDiam = 3;
 _bbDiam = 16;
 
-stuck = false; // Components stuck together, or apart.
+stuck = true; // Components stuck together, or apart.
 betweenParts = 20;
 
 difference() {
