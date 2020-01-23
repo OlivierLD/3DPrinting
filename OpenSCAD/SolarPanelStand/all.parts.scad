@@ -57,7 +57,7 @@ module footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootS
 			}
 			// Axis
 			color("gray") {
-				cylinder(h=50, d=5, center=true);
+				cylinder(h=50, d=5, center=true, $fn=50);
 			}
 		}
 	}
@@ -73,6 +73,10 @@ module drillingPattern(extDiam, fixingFootSize, screwDiam, wallThickness, length
 			}
 		}		
 	}
+}
+
+module axisDrillingPattern(length=100, diam=5) {
+	cylinder(h=length, d=diam, center=true, $fn=50);
 }
 
 // A grooved cylinder, with 3 feet, and a crosshair.
@@ -103,8 +107,11 @@ if (option == FULL_BASE) {
 			footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
 			#wormGearAxis(workGearAxisDiam, extDiam / 3, cylHeight / 2);	
 		}
-		color("grey", 0.75) {
+		color("grey", 0.6) {
 			drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness);
+		}
+		color("green", 0.6) {
+			axisDrillingPattern();
 		}
 	}
 } else {

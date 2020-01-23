@@ -38,10 +38,16 @@ union() {
 			footedBase(cylHeight2, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
 		}
 	}
-	// Drilling pattern
-	color("grey", 0.75) {
+	// Drilling pattern. Can be used with a difference() to drill holes in the top and bottom plates.
+	color("grey", 0.6) {
 		translate([0, 0, 50]) {
 			drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness, 200);
+		}
+	}
+	// Axis drilling pattern. Same as above.
+	color("green", 0.6) {
+		translate([0, 0, 50]) {
+			axisDrillingPattern(length=200);
 		}
 	}
 }
