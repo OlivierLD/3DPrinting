@@ -5,7 +5,6 @@
  */
 use <./all.parts.scad>
 
-
 echo(version=version());
 echo("\n>>> For visualization only, not for print\n");
 
@@ -37,6 +36,12 @@ union() {
 	translate([0, 0, 100]) {
 		rotate([180, 0, 0]) {
 			footedBase(cylHeight2, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+		}
+	}
+	// Drilling pattern
+	color("grey", 0.75) {
+		translate([0, 0, 50]) {
+			drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness, 200);
 		}
 	}
 }

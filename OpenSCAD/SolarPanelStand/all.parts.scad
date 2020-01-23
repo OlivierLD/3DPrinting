@@ -63,8 +63,19 @@ module footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootS
 	}
 }
 
-// A grooved cylinder, with 3 feet, and a crosshair.
+module drillingPattern(extDiam, fixingFootSize, screwDiam, wallThickness, length=100) {
+	// 0.2 is the drilling offset in the foot. See in grooved.cylinder.scad.
+	radius = (extDiam / 2) + (fixingFootSize / 2) + (fixingFootSize * 0.2) - wallThickness; // + (screwDiam / 2);
+	for (angle = [0, 120, 240]) {				
+		rotate([0, 0, angle - 90]) {
+			translate([0, radius]) {
+				cylinder(h=length, d=screwDiam, center=true, $fn=50);
+			}
+		}		
+	}
+}
 
+// A grooved cylinder, with 3 feet, and a crosshair.
 cylHeight = 50;
 extDiam = 110;
 torusDiam = 100;
@@ -87,9 +98,14 @@ option = FULL_BASE_WITH_WORK_GEAR;
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
 } else if (option == FULL_BASE_WITH_WORK_GEAR) {
-	difference() {
-		footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
-		#wormGearAxis(workGearAxisDiam, extDiam / 3, cylHeight / 2);	
+	union() {
+		difference() {
+			footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
+			#wormGearAxis(workGearAxisDiam, extDiam / 3, cylHeight / 2);	
+		}
+		color("grey", 0.75) {
+			drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness);
+		}
 	}
 } else {
 	echo(str("Unknown option ", option));
