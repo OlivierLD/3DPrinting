@@ -135,7 +135,7 @@ if (option == FULL_BASE) {
 		}
 	}
 } else {
-	echo(str("Unknown option ", option));
+	echo(str("Unknown option for now [", option, "]"));
 }
 
 
