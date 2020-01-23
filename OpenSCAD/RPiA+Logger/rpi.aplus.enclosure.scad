@@ -3,7 +3,7 @@
  * Check https://www.raspberrypi.org/documentation/hardware/raspberrypi/mechanical/rpi_MECH_3aplus_case.pdf
  * and https://www.raspberrypi.org/documentation/hardware/raspberrypi/mechanical/rpi_MECH_3aplus.pdf
  */
-use <../OlivUtils.scad>;
+use <../oliv.utils.scad>;
 
 echo(version=version());
 

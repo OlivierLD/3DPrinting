@@ -4,6 +4,7 @@
  * 
  * The idea is to have all dimensions as parameters.
  *
+ *
  * TODO:
  * - Ball bearing sockets for all axis
  */
@@ -18,7 +19,7 @@ module flatSide(base, height, top) {
 	];
 	paths = [[0, 1, 2, 3]];
 	
-	union() {
+	hull() {
 		polygon(points, paths, convexity=10);
 		// Rounded top
 		translate([0, height]) {
@@ -65,7 +66,7 @@ module motor(motorSide, motorAxisDiam, motorAxisLength, betweenScrews) {
 				for (j = [0:1]) {
 					translate([-(betweenScrews / 2) + (i * betweenScrews), -(betweenScrews / 2) + (j * betweenScrews), -motorSide]) {
 						color("white") {
-							cylinder(h=motorAxisLength, d=0.5, center=true, $fn=50);
+							cylinder(h=motorAxisLength, d=0.5, center=true, $fn=50); // TODO replace 0.5 with screw diameter
 						}
 					}
 				}
@@ -148,7 +149,7 @@ difference() {
 		_motorAxisDiam, 
 		_motorAxisLength, 
 		_betweenScrews,
-	  true); // Set this to false for printing.
+	  false); // Set this to false for printing.
 	// Drill axis
 	cylinder(h=3 * _thickness, d=_mainAxisDiam, center=true, $fn=50);
 }

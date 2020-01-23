@@ -41,6 +41,10 @@ text1="Oliv did it.";
 text2="2020";
 difference() {  
 	roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius);
+	// Top right (inverted) corner hole
+	translate([- ((plateWidth / 2) - cornerRadius), ((plateLength / 2) - cornerRadius), 0]) {
+		cylinder(h=plateThickNess * 2, d=cornerRadius/2, center=true, $fn=100);
+	}
 	color("lime") {
 		linear_extrude(height=plateThickNess + 1, center=true) {
 			rotate([0, 0, -90]) {

@@ -49,12 +49,12 @@ if (true) {
 	// Circular/toric groove on top of a cylinder
 	translate([0, 0, -12]) {
 		difference() {
-			cylinder(h=5, d1=12.5, d2=12.5, center=true, $fn=100);
+			cylinder(h=5, d=12.5, center=true, $fn=100);
 			translate([0, 0, 2.6]) { // Higher than previously, some slack for ball bearings...
 				torus(10, 1);
 			}
 			// Hole in the middle
-			cylinder(h=5.1, d1=7.5, d2=7.5, center=true, $fn=100);
+			cylinder(h=5.1, d=7.5, center=true, $fn=100);
 			// Some axis, not centered...
 			rotate([0, 90, 0]) {
 				translate([0, 2.5, 0]) {
