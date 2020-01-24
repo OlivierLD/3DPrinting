@@ -185,21 +185,33 @@ module oneDrilledSide(base, height, top, thickness, holeDiam, flapScrewDiam, bbD
 module motor(motorSide=42.32, 
 						 motorDepth=39, 
 						 motorAxisDiam=5, 
+						 axisStageThickness=2,
+						 axisStageDiam=22,
 						 motorAxisLength=24, 
 						 betweenScrews=31, 
 						 screwDiam=3, 
 						 withScrews=false, 
 						 screwLen=10,
 						 wallThickness=0) {
+	
+	axisHangingFromBox = 	motorAxisLength + axisStageThickness;				 
 	union() {
 		// Motor
 		cube(size=[motorSide, motorDepth, motorSide], center=true);
-		// Axis
+		
+		// Axis stage and axis
 		offset = 5; // Stuck inside (usefull when difference()...)
 		rotate([90, 0, 0]) {
-			translate([0, 0, -((motorAxisLength / 2) + (motorDepth / 2) - offset)]) {
+			// Axis stage
+			translate([0, 0, -(motorDepth / 2) - axisStageThickness]) {
+				color("orange") {
+					cylinder(h=axisStageThickness + 1, d=axisStageDiam); // + 1 is an offset, for difference()...
+				}
+			}
+			// Axis
+			translate([0, 0, -((axisHangingFromBox / 2) + (motorDepth / 2) - offset)]) {
 				color("white") {
-					cylinder(h=motorAxisLength + (offset * 2), d=motorAxisDiam, center=true, $fn=50);
+					cylinder(h=axisHangingFromBox + (offset * 2), d=motorAxisDiam, center=true, $fn=50);
 				}
 			}
 		}
@@ -381,6 +393,11 @@ if (option == FULL_BASE) {
 				screwLen=10,
 				wallThickness=0		 
 		*/
+	
+	translate([0, 0, 60]) {
+			motor(withScrews=true, wallThickness=3);
+	}
+	
 	translate([30, 0, 0]) {
 		cubeThickness = 20;
 		motorDepth = 39;
