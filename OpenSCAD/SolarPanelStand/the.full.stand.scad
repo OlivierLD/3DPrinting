@@ -2,6 +2,7 @@
  * The full stand... Using other scad files.
  *
  * Used to visualize the whole project, not for print.
+ * Animation available in stuck mode.
  */
 use <./all.parts.scad>
 
@@ -17,9 +18,9 @@ torusDiam = 100;
 intDiam = 90;
 ballsDiam = 5;
 
-fixingFootSize = 30;
+fixingFootSize = 20;
 fixingFootWidth = 30;
-screwDiam = 5;
+screwDiam = 4;
 screwLen = 30;
 minWallThickness = 5;
 
@@ -30,7 +31,7 @@ _totalStandWidth = 160;
 _length = 160;
 _height = 150;
 _topWidth = 35;
-_thickness = 5;
+_thickness = 10;
 _horizontalAxisDiam = 5;
 _motorSide = 42.3;
 _betweenScrews = 31;
@@ -38,10 +39,14 @@ _motorAxisDiam = 5;
 _motorAxisLength = 24;
 _mainAxisDiam = 5;
 _screwDiam = 3;
+_flapScrewDiam = 3;
 _bbDiam = 16;
 
-stuck = true; // Components stuck together, or apart.
-betweenParts = 20;
+stuck = false; // Components stuck together, or apart.
+betweenParts = 20; // When apart 
+
+function timeToRot(t, stuck) =
+	stuck ? (t * 360) % 360 : 0;
 
 difference() {
 	union() {
@@ -50,9 +55,9 @@ difference() {
 			footedBase(baseCylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
 			#wormGearAxis(workGearAxisDiam, extDiam / 3, baseCylHeight / 2);	// TODO Adjust height and everything.
 		}
-		// inverted one, under the rotating stand
+		// inverted one on top, under the rotating stand
 		translate([0, 0, (baseCylHeight + cylHeight2 + 1) + (stuck ? 0 : (1 * betweenParts))]) {
-			rotate([180, 0, 0]) {
+			rotate([180, 0, timeToRot($t, stuck)]) {
 				footedBase(cylHeight2, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
 			}
 		}
@@ -72,19 +77,22 @@ difference() {
 		}
 		// Main stand
 		translate([0, 0, (baseCylHeight + cylHeight2 + 1 + _thickness) + (stuck ? 0 : (2 * betweenParts))]) {
-			mainStand(_totalStandWidth, 
-								_length, 
-								_height, 
-								_topWidth, 
-								_thickness, 
-								_horizontalAxisDiam, 
-								_motorSide, 
-								_motorAxisDiam, 
-								_motorAxisLength, 
-								_betweenScrews,
-								_screwDiam,
-								_bbDiam,
-								true);
+			rotate([0, 0, timeToRot($t, stuck)]) {
+				mainStand(_totalStandWidth, 
+									_length, 
+									_height, 
+									_topWidth, 
+									_thickness, 
+									_horizontalAxisDiam, 
+									_motorSide, 
+									_motorAxisDiam, 
+									_motorAxisLength, 
+									_betweenScrews,
+									_screwDiam,
+									_flapScrewDiam,
+									_bbDiam,
+									false);
+			}
 		}
 	}
 	if (stuck) {

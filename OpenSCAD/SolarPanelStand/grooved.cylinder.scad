@@ -2,7 +2,9 @@
  * Cylinder with toric grrove (for balls)
  * and related widgets (screws, fixing foot)
  *
- * Screws specs: https://us.misumi-ec.com/vona2/detail/221005020316/
+ * Screws specs: 
+ * - countersunk: https://us.misumi-ec.com/vona2/detail/221005020316/
+ * - metric hex bolts: http://stsindustrial.com/a2-hex-cap-screw-technical-data/
  */
 
 
@@ -30,22 +32,51 @@ module groovedCylinder(cylinderHeight, extDiam, torusDiam, intDiam, grooveDiam) 
 	}
 }
 
-function getScrewDims(diam) = 
-	(diam == 3) ? [6.72, 1.86] :
-	(diam == 4) ? [8.96, 2.48] :
-	(diam == 5) ? [11.20, 3.1] :
-	(diam == 6) ? [13.44, 3.72] :
-	(diam == 8) ? [17.92, 4.96] :
+// Countresunk. [dk, k]
+M3_CS = [6.72, 1.86];
+M4_CS = [8.96, 2.48];
+M5_CS = [11.20, 3.1];
+M6_CS = [13.44, 3.72];
+M8_CS = [17.92, 4.96];
+
+// Hex Bolt [h, f]. h: Head thickness, f: head spanner size (ex: M6, f: 10)
+M2_HB = [1.525, 4];
+M25_HB = [1.825, 5];
+M3_HB = [2.125, 5.5];
+M4_HB = [2.925, 7];
+M5_HB = [3.65, 8];
+M6_HB = [4.15, 10];
+M8_HB = [5.45, 13];
+
+// TODO Washers, nuts
+
+function getCSScrewDims(diam) = 
+	(diam == 3) ? M3_CS :
+	(diam == 4) ? M4_CS :
+	(diam == 5) ? M5_CS :
+	(diam == 6) ? M6_CS :
+	(diam == 8) ? M8_CS :
+  [0, 0];
+
+function getHBScrewDims(diam) = 
+	(diam == 2) ? M2_HB :
+	(diam == 2.5) ? M25_HB :
+	(diam == 3) ? M3_HB :
+	(diam == 4) ? M4_HB :
+	(diam == 5) ? M5_HB :
+	(diam == 6) ? M6_HB :
+	(diam == 8) ? M8_HB :
   [0, 0];
 
 /**
  * A countersunk metal screw 
  * Can be used for the screw itself, or the hole it needs.
  * diameter can be one of 3, 4, 5, 6, or 8
+ * Use a top greater than 0 for difference().
  */
-module metalScrew(diam, length, top=0) {
+module metalScrewCS(diam, length, top=0) {
 	//echo (str("Diam:", diam, "mm"));
-	dims = getScrewDims(diam);
+	dims = getCSScrewDims(diam);
 	dk = dims[0];
 	k = dims[1];
 	//echo (str("Diam:", diam, "mm, k:", k, ", dk:", dk));
@@ -60,6 +91,64 @@ module metalScrew(diam, length, top=0) {
 		}
 		translate([0, 0, 0.1]) {
 			cylinder(h=length - k + 0.1, d=diam, $fn=50);
+		}
+	}
+}
+
+/**
+ * A hex bolt metal screw 
+ * Can be used for the screw itself, or the hole it needs.
+ * diameter can be one of 2, 2.5, 3, 4, 5, 6, or 8
+ * Use a top greater than 0 for difference().
+ */
+module metalScrewHB(diam, length, top=0) {
+	//echo (str("Diam:", diam, "mm"));
+	dims = getHBScrewDims(diam);
+	h = dims[0];
+	s = dims[1];
+
+	union() {
+		if (top > 0) {
+			translate([0, 0, length - 0.01]) {
+				cylinder(h=top + 0.01, d=s, $fn=6); // 6 faces
+			}
+		}
+		translate([0, 0, length]) {
+			cylinder(h=h, d=s, center=false, $fn=6); // 6 faces
+		}
+		translate([0, 0, 0.1]) {
+			cylinder(h=length + 0.1, d=diam, $fn=50);
+		}
+	}
+}
+
+/**
+ * A hex nut
+ * Can be used for the screw itself, or the hole it needs.
+ * diameter can be one of 2, 2.5, 3, 4, 5, 6, or 8
+ * Use a top greater than 0 for difference().
+ */
+module hexNut(diam, top=0) {
+	//echo (str("Diam:", diam, "mm"));
+	dims = getHBScrewDims(diam);
+	h = dims[0];
+	s = dims[1];
+
+	length = 0;
+	
+	difference() {
+		union() {
+			if (top > 0) {
+				translate([0, 0, length - 0.01]) {
+					cylinder(h=top + 0.01, d=s, $fn=6); // 6 faces
+				}
+			}
+			translate([0, 0, length]) {
+				cylinder(h=h, d=s, center=false, $fn=6); // 6 faces
+			}
+		}
+		translate([0, 0, -2]) {
+			cylinder(h=h + 4, d=diam, $fn=50);
 		}
 	}
 }
@@ -87,7 +176,7 @@ module fixingFoot(heightAndLength, width, screwDiam, wallMinThickness) {
 		}
 		// 0.2: drilling offset
 		translate([0, heightAndLength * 0.2, -(screwLength + (heightAndLength / 2) - wallMinThickness)]) {
-			metalScrew(screwDiam, screwLength, screwTop);
+			metalScrewCS(screwDiam, screwLength, screwTop);
 		}
 	}
 }
@@ -106,25 +195,73 @@ if (false) { // Grooved Cylinder
 	groovedCylinder(cylHeight, extDiam, torusDiam, intDiam, ballsDiam);
 }
 
-if (false) { // Screw test
+if (false) { // CS Screw test
 	screwDiam = 5;
 	screwLen = 30;
 
 	translate([-20, 0, 0]) {
-		metalScrew(screwDiam, screwLen);
+		metalScrewCS(screwDiam, screwLen);
 	}
 	translate([20, 0, 0]) {
 		difference() {
 			cube(16);
 			translate([8, 8, -20]) { // Try #translate ;)
-				metalScrew(screwDiam, screwLen, 10);
+				metalScrewCS(screwDiam, screwLen, 10);
 			}
 		}
 	}
 	
 	for (i=[3, 4, 5, 6, 8]) {
 		translate([-15 * i, 0, 0]) {
-			metalScrew(i, screwLen);
+			metalScrewCS(i, screwLen);
+		}
+	}
+}
+
+if (false) { // HB Screw test
+	screwLen = 30;
+
+	translate([20, 0, 0]) {
+		difference() {
+			cube(16);
+			translate([8, 8, -23.5]) { // Try #translate ;)
+				metalScrewHB(6, screwLen, 10);
+			}
+		}
+	}
+
+	for (i=[2, 2.5, 3, 4, 5, 6, 8]) {
+		translate([-15 * i, 0, 0]) {
+			metalScrewHB(i, screwLen);
+		}
+	}
+}
+
+if (true) { // Hex Nut test
+	
+	cubeSize = 16;
+	diam = 6;
+	translate([20, 5, 0]) {
+		difference() {
+			cube(cubeSize);
+			translate([cubeSize / 2, cubeSize / 2, cubeSize - getHBScrewDims(6)[0]]) { // Try #translate ;)
+				hexNut(diam, top=10); 
+			}
+		}
+	}
+
+	translate([20, - 5 - cubeSize, 0]) {
+		difference() {
+			cube(cubeSize);
+			translate([cubeSize / 2, cubeSize / 2, cubeSize - getHBScrewDims(6)[0]]) { // Try #translate ;)
+				hull() { hexNut(diam, top=10); }
+			}
+		}
+	}
+
+	for (i=[2, 2.5, 3, 4, 5, 6, 8]) {
+		translate([-15 * i, 0, 0]) {
+			hexNut(i);
 		}
 	}
 }
@@ -133,7 +270,7 @@ if (false) { // Fixing foot
 	fixingFoot(30, 30, 5, 5);
 }
 
-if (true) { // Grooved Cylinder with fixing feet
+if (false) { // Grooved Cylinder with fixing feet
 	cylHeight = 50;
 	extDiam = 110;
 	torusDiam = 100;

@@ -16,7 +16,7 @@ module wormGearAxis(axisThickness, centerOffset, axisHeight, cylLen=150) {
 	}
 }
 
-
+// Grooved cylinder with feet
 module footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness) {
 	union() {
 		// Grooved Cylinder
@@ -63,6 +63,7 @@ module footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootS
 	}
 }
 
+// For the bases with feet
 module drillingPattern(extDiam, fixingFootSize, screwDiam, wallThickness, length=100) {
 	// 0.2 is the drilling offset in the foot. See in grooved.cylinder.scad.
 	radius = (extDiam / 2) + (fixingFootSize / 2) + (fixingFootSize * 0.2) - wallThickness; // + (screwDiam / 2);
@@ -75,13 +76,14 @@ module drillingPattern(extDiam, fixingFootSize, screwDiam, wallThickness, length
 	}
 }
 
+// Same as above, with screws
 module screws(extDiam, fixingFootSize, screwDiam, wallThickness, length=50) {
 	// 0.2 is the drilling offset in the foot. See in grooved.cylinder.scad.
 	radius = (extDiam / 2) + (fixingFootSize / 2) + (fixingFootSize * 0.2) - wallThickness; // + (screwDiam / 2);
 	for (angle = [0, 120, 240]) {				
 		rotate([0, 0, angle - 90]) {
 			translate([0, radius]) {
-				metalScrew(screwDiam, length);
+				metalScrewCS(screwDiam, length);
 			}
 		}		
 	}
@@ -91,7 +93,11 @@ module axisDrillingPattern(length=100, diam=5) {
 	cylinder(h=length, d=diam, center=true, $fn=50);
 }
 
-module flatSide(base, height, top) {
+FLAP_THICKNESS = 5;
+OVERLAP = 5;
+SLOT_WIDTH = 1;
+
+module flatSide(base, height, top, holeDiam=5) {
 	points = [ 
 		[-base / 2, 0],
 		[base / 2, 0],
@@ -100,44 +106,100 @@ module flatSide(base, height, top) {
 	];
 	paths = [[0, 1, 2, 3]];
 	
-	hull() {
-		polygon(points, paths, convexity=10);
-		// Rounded top
-		translate([0, height]) {
-			circle(d=top, $fn=50);
+	overlap = OVERLAP;
+	flapThickness = FLAP_THICKNESS;
+	slotWidth = SLOT_WIDTH;
+	
+	difference() {
+		union() {
+			polygon(points, paths, convexity=10);
+			// Rounded top
+			translate([(top / 6), height]) {
+				circle(d=2 * top / 3, $fn=50);
+			}
+			translate([-(top / 3) + (overlap / 2), height + (flapThickness / 2) + slotWidth]) {
+				square(size=[overlap + (top / 3), flapThickness], center=true);
+			}
+		}
+		translate([-(top / 6), height + (slotWidth / 2)]) {
+			square(size=[2 * (top / 3), slotWidth], center=true);
+		}
+		translate([(top / 6), height]) {
+			circle(d=holeDiam, $fn=50);
+		}
+		// Nut socket
+		translate([(- top / 3), height - (3 * flapThickness / 2)]) {
+			square(size=[flapThickness * 1.5, // TODO That one depends on the screw diameter
+			             flapThickness], 
+						 center=true);
 		}
 	}
 }
  
-module oneSolidSide(base, height, top, thickness) {  
+module oneSolidSide(base, height, top, thickness, holeDiam=5) {  
 	linear_extrude(height=thickness, center=true) {
-		flatSide(base, height, top);
+		flatSide(base, height, top, holeDiam);
 	}
 }
 
-module oneDrilledSide(base, height, top, thickness, holeDiam, bbDiam, left=true) {
-	difference() {
-		oneSolidSide(base, height, top, thickness);
-		// The top axis
-		translate([0, height, 0]) {
-			cylinder(h=thickness * 2, d=holeDiam, center=true, $fn=50);
+module oneDrilledSide(base, height, top, thickness, holeDiam, flapScrewDiam, bbDiam=16, left=true) {
+	if (true) { // New version
+		screwLength = FLAP_THICKNESS * 3;
+		difference() {
+			oneSolidSide(base, height, top, thickness, holeDiam);
+			// Flap Screw
+			rotate([90, 0, 0]) {
+				translate([-(top / 3), 
+									 0, 
+									 -(height + (FLAP_THICKNESS) + SLOT_WIDTH - screwLength + 0.1) ]) {
+					rotate([180, 0, 0]) {					 
+						// Use this for countersunk head
+						metalScrewCS(flapScrewDiam, screwLength);
+						// Use this for hexagonal head
+						// cylinder(d=flapScrewDiam, h=screwLength, $fn=50);
+					}
+				}
+			}
 		}
-		// Ball bearing socket
-		translate([0, height, (left ? 1 : -1) * (0.5 * thickness / 3)]) {
-			cylinder(h=thickness, d=bbDiam, center=true, $fn=50);
+	} else {
+		difference() {
+			oneSolidSide(base, height, top, thickness);
+			// The top axis
+			translate([0, height, 0]) {
+				cylinder(h=thickness * 2, d=holeDiam, center=true, $fn=50);
+			}
+			// Ball bearing socket
+			translate([0, height, (left ? 1 : -1) * (0.5 * thickness / 3)]) {
+				cylinder(h=thickness, d=bbDiam, center=true, $fn=50);
+			}
 		}
 	}
 }
 
-module motor(motorSide, motorAxisDiam, motorAxisLength, betweenScrews, screwDiam) {
+/**
+ * For pre-viewing only, not to print.
+ * Can be used with a difference() for a motor socket.
+ * Datasheet at http://www.mosaic-industries.com/embedded-systems/microcontroller-projects/stepper-motors/specifications
+ * Defvault values for NEMA-17
+ */
+module motor(motorSide=42.32, 
+						 motorDepth=39, 
+						 motorAxisDiam=5, 
+						 motorAxisLength=24, 
+						 betweenScrews=31, 
+						 screwDiam=3, 
+						 withScrews=false, 
+						 screwLen=10,
+						 wallThickness=0) {
 	union() {
 		// Motor
-		cube(motorSide, center=true);
+		cube(size=[motorSide, motorDepth, motorSide], center=true);
 		// Axis
+		offset = 5; // Stuck inside (usefull when difference()...)
 		rotate([90, 0, 0]) {
-			translate([0, 0, -motorAxisLength]) {
+			translate([0, 0, -((motorAxisLength / 2) + (motorDepth / 2) - offset)]) {
 				color("white") {
-					cylinder(h=motorAxisLength, d=motorAxisDiam, center=true, $fn=50);
+					cylinder(h=motorAxisLength + (offset * 2), d=motorAxisDiam, center=true, $fn=50);
 				}
 			}
 		}
@@ -145,11 +207,22 @@ module motor(motorSide, motorAxisDiam, motorAxisLength, betweenScrews, screwDiam
 		rotate([90, 0, 0]) {
 			for (i = [0:1]) {
 				for (j = [0:1]) {
-					translate([	-(betweenScrews / 2) + (i * betweenScrews), 
-											-(betweenScrews / 2) + (j * betweenScrews), 
-											-motorAxisLength]) {
-						color("white") {
-							cylinder(h=motorAxisLength, d=screwDiam, center=true, $fn=50);
+					color("grey") {
+						if (!withScrews) {
+							translate([	-(betweenScrews / 2) + (i * betweenScrews), 
+												-(betweenScrews / 2) + (j * betweenScrews), 
+												-(motorAxisLength)]) {
+								cylinder(h=motorAxisLength * 2.1, d=screwDiam, center=true, $fn=50);
+							}
+						} else {
+							headThickness = getHBScrewDims(screwDiam)[0];
+							translate([	-(betweenScrews / 2) + (i * betweenScrews), 
+												-(betweenScrews / 2) + (j * betweenScrews), 
+												-((motorDepth / 2) - screwLen + wallThickness)]) {
+								rotate([180, 0, 0]) {					
+									metalScrewHB(screwDiam, screwLen);
+								}
+							}
 						}
 					}
 				}
@@ -165,39 +238,43 @@ module mainStand(totalStandWidth,
 								 thickness, 
 								 mainAxisDiam, 
 								 motorSide, 
+								 motorDepth,
 								 motorAxisDiam, 
 								 motorAxisLength, 
 								 betweenScrews,
 								 screwDiam,
+								 flapScrewDiam,
 								 bbDiam,
 								 withMotor=false) {
 	// left
 	translate([0, totalStandWidth / 2, 0]) {
 		rotate([90, 0, 0]) {
 			color("red") {
-				oneDrilledSide(length, height, topWidth, thickness, mainAxisDiam, bbDiam);
+				oneDrilledSide(length, height, topWidth, thickness, mainAxisDiam, flapScrewDiam);
 			}
 		}
 	}
-	// right, with the motor socket
+	// right /*, with the motor socket */
 	difference() {
 		translate([0, -totalStandWidth / 2, 0]) {
 			rotate([90, 0, 0]) {
 				color("green") {
-					oneDrilledSide(length, height, topWidth, thickness, mainAxisDiam, bbDiam, false);
+					oneDrilledSide(length, height, topWidth, thickness, mainAxisDiam, flapScrewDiam);
 				}
 			}
 		}
-		color("silver") {
-			// Motor socket
-			translate([0, -((totalStandWidth / 2) + (motorSide / 2)), height / 2]) {
-				motor(motorSide, motorAxisDiam, motorAxisLength, betweenScrews, screwDiam);
+		if (false) {
+			color("silver") {
+				// Motor socket
+				translate([0, -((totalStandWidth / 2) + (motorSide / 2)), height / 2]) {
+					motor(motorSide, 39, motorAxisDiam, motorAxisLength, betweenScrews, screwDiam);
+				}
 			}
 		}
 	}
 	if (withMotor) {
 		translate([0, -((totalStandWidth / 2) + (motorSide / 2)), height / 2]) {
-			motor(motorSide, motorAxisDiam, motorAxisLength, betweenScrews, screwDiam);
+			motor(motorSide, 39, motorAxisDiam, motorAxisLength, betweenScrews, screwDiam);
 		}
 	}		
 	// base
@@ -227,7 +304,7 @@ _totalStandWidth = 120;
 _length = 120;
 _height = 150;
 _topWidth = 35;
-_thickness = 5;
+_thickness = 10;
 _horizontalAxisDiam = 5;
 _motorSide = 42.3;
 _betweenScrews = 31;
@@ -235,13 +312,18 @@ _motorAxisDiam = 5;
 _motorAxisLength = 24;
 _mainAxisDiam = 5;
 _screwDiam = 3;
+_flapScrewDiam = 3;
 _bbDiam = 16;
 
 FULL_BASE = 1;
 FULL_BASE_WITH_WORK_GEAR = 2;
 MAIN_STAND = 3;
+FLAT_SIDE = 4;
+ONE_DRILLED_SIDE = 5;
+MOTOR = 6;
+MOTOR_SOCKET = 7;
 
-option = MAIN_STAND;
+option = MOTOR_SOCKET;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -278,8 +360,49 @@ if (option == FULL_BASE) {
 						_motorAxisLength, 
 						_betweenScrews,
 						_screwDiam,
+						_flapScrewDiam,
 						_bbDiam,
 						false);
+} else if (option == FLAT_SIDE) {
+	flatSide(_length, _height, _topWidth);
+} else if (option == ONE_DRILLED_SIDE) {
+	oneDrilledSide(_length, _height, _topWidth, _thickness, _horizontalAxisDiam, _flapScrewDiam);
+} else if (option == MOTOR) {
+	motor(withScrews=true, wallThickness=3);
+} else if (option == MOTOR_SOCKET) {
+		/* Default vaklues for motor:
+				motorSide=42.32, 
+				motorDepth=39, 
+				motorAxisDiam=5, 
+				motorAxisLength=24, 
+				betweenScrews=31, 
+				screwDiam=3, 
+				withScrews=false, 
+				screwLen=10,
+				wallThickness=0		 
+		*/
+	translate([30, 0, 0]) {
+		cubeThickness = 20;
+		motorDepth = 39;
+		wallThickness = 3;
+		union() {
+			#cube(size=[50, cubeThickness, 50], center=true);
+			translate([0, - ((motorDepth / 2) - (cubeThickness / 2) + wallThickness), 0]) {
+				motor(withScrews=true, wallThickness=wallThickness);
+			}
+		}
+	}
+	translate([-30, 0, 0]) {
+		cubeThickness = 20;
+		motorDepth = 39;
+		wallThickness = 3;
+		difference() {
+			cube(size=[50, cubeThickness, 50], center=true);
+			translate([0, - ((motorDepth / 2) - (cubeThickness / 2) + wallThickness), 0]) {
+				motor(withScrews=false, wallThickness=wallThickness);
+			}
+		}
+	}
 } else {
 	echo(str("Unknown option for now [", option, "]"));
 }
