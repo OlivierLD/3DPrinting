@@ -687,8 +687,11 @@ module printCylinder() {
 	cylinderThickness = 1;
 	counterweightCylinder(cylinderLength, _bottomCylinderDiam, cylinderThickness);	
 }
+echo(">>> -----------------------------------------------------");
+echo(">>> After adjusting the values,");
 echo(">>> Choose the part to design at the bottom of the script");
-// Choose your own
+echo(">>> -----------------------------------------------------");
+// Choose your own below, uncomment the desired one.
 //----------------
 // printBracket();
 // printBase1();

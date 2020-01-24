@@ -129,9 +129,14 @@ difference() {
 				_widthOutAll = ((_totalStandWidth - (2 * _thickness)) - slack) - wheelThickness;
 				// Panel bracket
 				rotate([0, 0, -90]) {
-					translate([0, _topWidth / 6, (baseCylHeight + cylHeight2 + 1 + _thickness) + (_height - _thickness) - _sizeAboveAxis + (stuck ? 0 : (3 * betweenParts)) /*_sizeAboveAxis - (_thickness / 2)*/]) {
+					translate([0, 
+										 _topWidth / 6, 
+										 (baseCylHeight + cylHeight2 + 1 + _thickness) // Full base height
+										 + (_height - _thickness) // Main stand height
+										 - _sizeAboveAxis // Bracket
+										 + (stuck ? 0 : (3 * betweenParts))]) { // stuck / apart
 						
-						rotate([0, 0, 0]) { // TODO Tweak for animation
+						rotate([0, 0, 0]) { // TODO Tweak for animation, on X
 							panelBracket(_horizontalAxisDiam,
 													 _bbDiam,
 													 _sizeAboveAxis,
