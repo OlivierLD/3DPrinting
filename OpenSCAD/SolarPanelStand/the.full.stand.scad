@@ -7,7 +7,7 @@
 use <./all.parts.scad>
 
 echo(version=version());
-echo(">>>>>> For visualization only, not for print! <<<<<<");
+echo(">>>>>> For visualization only, not for print!");
 
 // Two grooved cylinders, with 3 feet, and a crosshair.
 // The bottom one has a place for a worm gear.
@@ -38,7 +38,7 @@ _motorDepth = 39;
 _betweenScrews = 31;
 _motorAxisDiam = 5;
 _motorAxisLength = 24;
-_mainAxisDiam = 5;
+_mainAxisDiam = 5; // vertical one
 _screwDiam = 3;
 _flapScrewDiam = 3;
 _bbDiam = 16;
@@ -131,7 +131,7 @@ difference() {
 				rotate([0, 0, -90]) {
 					translate([0, _topWidth / 6, (baseCylHeight + cylHeight2 + 1 + _thickness) + (_height - _thickness) - _sizeAboveAxis + (stuck ? 0 : (3 * betweenParts)) /*_sizeAboveAxis - (_thickness / 2)*/]) {
 						
-						rotate([30, 0, 0]) { // TODO Tweak for animation
+						rotate([0, 0, 0]) { // TODO Tweak for animation
 							panelBracket(_horizontalAxisDiam,
 													 _bbDiam,
 													 _sizeAboveAxis,
@@ -141,7 +141,8 @@ difference() {
 													 _plateWidth,
 													 _betweenAxis, // between main axis and motor axis
 													 _bottomCylinderDiam,
-													 withMotor=true);
+													 withMotor=true,
+													 withCylinder=true);
 							// Small wheel
 							rotate([0, 90, 0]) {
 								translate([(-smallWheelDiam / 2) + _betweenAxis, 0, (_widthOutAll / 2) + 3 /*slack*/]) {
@@ -172,12 +173,12 @@ difference() {
 	}
 	if (stuck) {
 		// Drilling pattern
-		translate([0, 0, 50]) {
-			drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness, 200);
+		translate([0, 0, 0]) {
+			%drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness, 200);
 		}
 		// Axis drilling pattern. Same as above.
-		translate([0, 0, 50]) {
-			axisDrillingPattern(length=200);
+		translate([0, 0, 0]) {
+			%axisDrillingPattern(length=200);
 		}
 	}
 }
