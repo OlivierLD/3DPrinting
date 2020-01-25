@@ -2,3 +2,7 @@
 - To print the different parts, in `OpenSCAD`, use the script named `all.parts.scad`.
 	- See the `option` variable at the bottom of the script.
 - To visualize the current state of the art, open `the.full.stand.scad` in `OpenSCAD`.
+
+#### First preview
+
+![Animated](./images/sunflower.gif)

@@ -192,12 +192,26 @@ module motor(motorSide=42.32,
 						 screwDiam=3, 
 						 withScrews=false, 
 						 screwLen=10,
-						 wallThickness=0) {
+						 wallThickness=0,
+						 label="NEMA-17") {
 	
 	axisHangingFromBox = 	motorAxisLength + axisStageThickness;				 
 	union() {
 		// Motor
-		cube(size=[motorSide, motorDepth, motorSide], center=true);
+		difference() {
+			cube(size=[motorSide, motorDepth, motorSide], center=true);
+			translate([-motorSide / 2, 0, 0]) {
+				rotate([90, 0, -90]) {
+					color("green") {
+						linear_extrude(1.5, center=true, convexity=4) {
+							resize([motorDepth * 0.75, 0], auto=true) {
+								text(label, valign = "center", halign = "center");
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		// Axis stage and axis
 		offset = 5; // Stuck inside (usefull when difference()...)
@@ -205,7 +219,7 @@ module motor(motorSide=42.32,
 			// Axis stage
 			translate([0, 0, -(motorDepth / 2) - axisStageThickness]) {
 				color("orange") {
-					cylinder(h=axisStageThickness + 1, d=axisStageDiam); // + 1 is an offset, for difference()...
+					cylinder(h=axisStageThickness + 1, d=axisStageDiam, $fn=100); // + 1 is an offset, for difference()...
 				}
 			}
 			// Axis
@@ -303,7 +317,6 @@ module oneBracketSide(mainAxisDiam,
 											sizeBelowAxis,
 											thickness=10,
 											plateWidth,
-											betweenAxis,
 											bottomCylinderDiam) {
 	heightOutAll = sizeAboveAxis + sizeBelowAxis;													
   difference() {												
@@ -324,8 +337,8 @@ module oneBracketSide(mainAxisDiam,
 
 module counterweightCylinder(length, extDiam, thickness) {
 	difference() {
-		cylinder(d=extDiam, h=length, center=true);
-		cylinder(d=extDiam - thickness, h=length * 1.1, $fn=50, center=true);
+		cylinder(d=extDiam, h=length, $fn=100, center=true);
+		cylinder(d=extDiam - thickness, h=length * 1.1, $fn=100, center=true);
 	}
 }
 
@@ -354,7 +367,6 @@ module panelBracket(mainAxisDiam,
 											 sizeBelowAxis,
 											 thickness,
 											 plateWidth,
-											 betweenAxis,
 											 bottomCylinderDiam);
 				// Motor socket here
 				rotate([0, 0, -90]) {
@@ -383,22 +395,32 @@ module panelBracket(mainAxisDiam,
 										 sizeBelowAxis,
 										 thickness,
 										 plateWidth,
-										 betweenAxis,
 										 bottomCylinderDiam);
 		}
 	}
 	
 	// top
 	translate([0, 0, (heightOutAll / 2) - (thickness / 2)]) {
-		color("cyan") {
-			cube(size=[widthOutAll, plateWidth, thickness], center=true);
+		difference() {
+			color("cyan") {
+				cube(size=[widthOutAll, plateWidth, thickness], center=true);
+			}
+			color("green") {
+				// Write on it
+				translate([0, 0, (thickness / 2)]) {
+					linear_extrude(1.5, center=true, convexity = 4) {
+						resize([widthOutAll * 0.75, 0], auto=true) {
+							text("Panel stuck here", valign="center", halign="center");
+						}
+					}
+				}
+			}
 		}
 	}
 	
 	// bottom cylinder 
-	// Plugs
 	plateThickness = 1.5;
-	
+	// Plugs on each side
 	difference() {
 		union() {
 			// right plug
@@ -499,7 +521,7 @@ MOTOR_SOCKET = 7;
 ONE_BRACKET_SIDE = 8;
 FULL_BRACKET = 9;
 
-option = -1;
+option = FULL_BRACKET;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -592,7 +614,6 @@ if (option == FULL_BASE) {
 								 _sizeBelowAxis,
 								 _thickness,
 								 _plateWidth,
-								 _betweenAxis, // between main axis and motor axis
 								 _bottomCylinderDiam);
 } else if (option == FULL_BRACKET) {
 	  translate([-_widthOutAll, 0, 0]) {
@@ -636,16 +657,16 @@ if (option == FULL_BASE) {
 // Modules for printing
 module printBracket() {
 	panelBracket(_horizontalAxisDiam,
-									_bbDiam,
-									_sizeAboveAxis,
-									_sizeBelowAxis,
-									_widthOutAll,
-									_thickness,
-									_plateWidth,
-									_betweenAxis, // between main axis and motor axis
-									_bottomCylinderDiam,
-									withMotor=false,
-									withCylinder=false);
+							 _bbDiam,
+							 _sizeAboveAxis,
+							 _sizeBelowAxis,
+							 _widthOutAll,
+							 _thickness,
+							 _plateWidth,
+							 _betweenAxis, // between main axis and motor axis
+							 _bottomCylinderDiam,
+							 withMotor=false,
+							 withCylinder=false);
 }
 module printBase1() {
 	difference() {
