@@ -6,10 +6,14 @@
  * Used to visualize the whole project, not for print.
  * Animation available in stuck mode.
  */
+use <./mechanical.parts.scad>
 use <./all.parts.scad>
 
 echo(version=version());
 echo(">>>>>> For visualization only, not for print!");
+
+stuck = true; // Components stuck together, or apart.
+betweenParts = 20; // When apart 
 
 baseAnimation = true; // Set to true to enable %$t based animations on the base's rotation.
 tiltAnimation = true; // Set to true to enable %$t based animations on the bracket's tilt.
@@ -24,6 +28,7 @@ extDiam = 110;
 torusDiam = 100;
 intDiam = 90;
 ballsDiam = 5;
+verticalAxisDiam = 5;
 
 fixingFootSize = 20;
 fixingFootWidth = 20;
@@ -57,9 +62,6 @@ _plateWidth = 60;
 _betweenAxis = 60;
 _bottomCylinderDiam = 35;
 
-stuck = true; // Components stuck together, or apart.
-betweenParts = 20; // When apart 
-
 // Base rotation
 function timeToRot(t, stuck) =
 	stuck ? (baseAnimation ? (t * 360) % 360 : 0) : 0;
@@ -91,9 +93,32 @@ difference() {
 	union() {
 		// Base, on the bootom plate
 		if (withBase) {
-			difference() {
-				footedBase(baseCylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
-				#wormGearAxis(workGearAxisDiam, workGearOffset, wormGearHeight);	
+			union() {
+				difference() {
+					footedBase(baseCylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
+					#wormGearAxis(workGearAxisDiam, workGearOffset, wormGearHeight);	
+				}
+				// Bottom ball bearing socket.
+				dims = getBBDims(verticalAxisDiam); // [id, od, t]
+				bbSocketBaseThickness = 3;
+				socketWallThickness = 3;
+				difference() {
+					translate([0, 0, 0]) {
+						rotate([0, 0, 0]) {
+							cylinder(d=dims[1] + socketWallThickness, h=(dims[2] * 0.9) + bbSocketBaseThickness, $fn=50);
+						}
+					}
+					translate([0, 0, bbSocketBaseThickness]) {
+						rotate([0, 0, 0]) {
+							cylinder(d=dims[1], h=dims[2], $fn=50);
+						}
+					}
+					translate([0, 0, -1]) {
+						rotate([0, 0, 0]) {
+							cylinder(d=dims[0], h=dims[2] * 2, $fn=50);
+						}
+					}
+				}
 			}
 			// inverted one on top, under the rotating stand
 			translate([0, 0, (baseCylHeight + cylHeight2 + 1) + (stuck ? 0 : (1 * betweenParts))]) {

@@ -5,9 +5,52 @@
  *
  * To set the required option, see the option variable at the bottom of the script.
  */
+use <./mechanical.parts.scad>
 use <./grooved.cylinder.scad>
 
 echo(version=version());
+
+module ballBearingStand(diam,
+												axisHeight,
+												fixingFootSize, 
+												fixingFootWidth, 
+												screwDiam, 
+												minWallThickness) {
+  bbDims = getBBDims(diam); // [ID, OD, Thickness]		
+	bottomToAxis = max(axisHeight, fixingFootSize);									
+  difference() {														
+		union() {												
+			translate([0, (fixingFootSize / 2) + (bbDims[1] / 2), fixingFootSize / 2]) {
+				fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+			}
+			rotate([0, 0, 180]) {
+				translate([0, (fixingFootSize / 2) + (bbDims[1] / 2), fixingFootSize / 2]) {
+					fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+				}
+			}
+			translate([0, 0, bottomToAxis / 2]) {
+				cube(size=[fixingFootWidth, bbDims[1] * 1.1, bottomToAxis], center=true);
+			}
+			translate([0, 0, bottomToAxis]) {
+				rotate([0, 90, 0]) {
+					cylinder(h=fixingFootWidth, d=(bbDims[1] * 1.1), $fn=50, center=true);
+				}
+			}
+		}
+		// The socket itself
+		rotate([0, 90, 0]) {
+			translate([-bottomToAxis, 0, (fixingFootWidth / 2) - (bbDims[2] * .9 / 2)]) {
+				cylinder(h=bbDims[2], d=(bbDims[1]), $fn=50, center=true);		
+			}
+		}
+		// Drill
+		rotate([0, 90, 0]) {
+			translate([-bottomToAxis, 0, 0]) {
+				cylinder(h=fixingFootWidth * 1.1, d=diam * 1.1, $fn=50, center=true);		
+			}
+		}
+	}										
+}
 
 // Horizontal axis for the worm gear
 module wormGearAxis(axisThickness, centerOffset, axisHeight, cylLen=150) {
@@ -117,7 +160,7 @@ module footedBase(cylHeight,
 					translate([(extDiam / 2) + 3,  // TODO Fix all that...
 										 0, 
 										 cylHeight - (indexHeight / 2) - 1]) {
-						color("lime") {
+						color("cyan") {
 							cube(size=[12, 1, indexHeight], center=true);
 						}
 					}
@@ -544,6 +587,7 @@ extDiam = 110;
 torusDiam = 100;
 intDiam = 90;
 ballsDiam = 5;
+verticalAxisDiam = 5;
 
 fixingFootSize = 20;
 fixingFootWidth = 20;
@@ -587,6 +631,7 @@ MOTOR = 6;
 MOTOR_SOCKET = 7;
 ONE_BRACKET_SIDE = 8;
 FULL_BRACKET = 9;
+BALL_BEARING_STAND = 10;
 
 option = NONE;
 
@@ -683,38 +728,46 @@ if (option == FULL_BASE) {
 								 _plateWidth,
 								 _bottomCylinderDiam);
 } else if (option == FULL_BRACKET) {
-	  translate([-_widthOutAll, 0, 0]) {
-			panelBracket(_horizontalAxisDiam,
-									_bbDiam,
-									_sizeAboveAxis,
-									_sizeBelowAxis,
-									_widthOutAll,
-									_thickness,
-									_plateWidth,
-									_betweenAxis, // between main axis and motor axis
-									_bottomCylinderDiam,
-									withMotor=false,
-									withCylinder=false);
-		}
-		cylinderLength = _widthOutAll - (2 * _thickness) - (2 * _thickness);
-		cylinderThickness = 1;
-		color("yellow") {
-			counterweightCylinder(cylinderLength, _bottomCylinderDiam, cylinderThickness);
-		}
-		
-	  translate([_widthOutAll, 0, 0]) {
-			panelBracket(_horizontalAxisDiam,
-									_bbDiam,
-									_sizeAboveAxis,
-									_sizeBelowAxis,
-									_widthOutAll,
-									_thickness,
-									_plateWidth,
-									_betweenAxis, // between main axis and motor axis
-									_bottomCylinderDiam,
-									withMotor=true,
-									withCylinder=true);
-		}
+	translate([-_widthOutAll, 0, 0]) {
+		panelBracket(_horizontalAxisDiam,
+								_bbDiam,
+								_sizeAboveAxis,
+								_sizeBelowAxis,
+								_widthOutAll,
+								_thickness,
+								_plateWidth,
+								_betweenAxis, // between main axis and motor axis
+								_bottomCylinderDiam,
+								withMotor=false,
+								withCylinder=false);
+	}
+	cylinderLength = _widthOutAll - (2 * _thickness) - (2 * _thickness);
+	cylinderThickness = 1;
+	color("yellow") {
+		counterweightCylinder(cylinderLength, _bottomCylinderDiam, cylinderThickness);
+	}
+	
+	translate([_widthOutAll, 0, 0]) {
+		panelBracket(_horizontalAxisDiam,
+								_bbDiam,
+								_sizeAboveAxis,
+								_sizeBelowAxis,
+								_widthOutAll,
+								_thickness,
+								_plateWidth,
+								_betweenAxis, // between main axis and motor axis
+								_bottomCylinderDiam,
+								withMotor=true,
+								withCylinder=true);
+	}
+} else if (option == BALL_BEARING_STAND) {
+	echo("FootSize", fixingFootSize, " width", fixingFootWidth);
+	ballBearingStand(6,
+									 30,
+									 fixingFootSize, 
+									 fixingFootWidth, 
+									 screwDiam, 
+									 minWallThickness);
 } else {
 	if (option != NONE) {
 		echo(str("Unknown option for now [", option, "]"));
@@ -737,9 +790,32 @@ module printBracket() {
 							 withCylinder=false);
 }
 module printBase1() {
-	difference() {
-		footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
-		wormGearAxis(workGearAxisDiam, extDiam / 3, cylHeight / 2);	
+	union() {
+		difference() {
+			footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
+			wormGearAxis(workGearAxisDiam, extDiam / 3, cylHeight / 2);	
+		}
+		// Bottom ball bearing socket.
+		dims = getBBDims(verticalAxisDiam); // [id, od, t]
+		bbSocketBaseThickness = 3;
+		socketWallThickness = 3;
+		difference() {
+			translate([0, 0, 0]) {
+				rotate([0, 0, 0]) {
+					cylinder(d=dims[1] + socketWallThickness, h=(dims[2] * 0.9) + bbSocketBaseThickness, $fn=50);
+				}
+			}
+			translate([0, 0, bbSocketBaseThickness]) {
+				rotate([0, 0, 0]) {
+					cylinder(d=dims[1], h=dims[2], $fn=50);
+				}
+			}
+			translate([0, 0, -1]) { // Drill
+				rotate([0, 0, 0]) {
+					cylinder(d=dims[0], h=dims[2] * 2, $fn=50);
+				}
+			}
+		}
 	}
 }
 module printBase2() {
@@ -776,6 +852,14 @@ module printCylinder() {
 	cylinderThickness = 1;
 	counterweightCylinder(cylinderLength, _bottomCylinderDiam, cylinderThickness);	
 }
+module printBallBearingStand() {
+	ballBearingStand(6,
+									 30,
+									 fixingFootSize, 
+									 fixingFootWidth, 
+									 screwDiam, 
+									 minWallThickness);
+}
 module customPrint() { // You choose!
 	footedBase(40, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
 }
@@ -790,4 +874,5 @@ echo(">>> ------------------------------------------------------");
 // printBase2();
 // printCylinder();
 // printMainStand();
-customPrint();
+printBallBearingStand();
+// customPrint();
