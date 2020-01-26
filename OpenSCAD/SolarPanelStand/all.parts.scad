@@ -543,9 +543,9 @@ torusDiam = 100;
 intDiam = 90;
 ballsDiam = 5;
 
-fixingFootSize = 30;
-fixingFootWidth = 30;
-screwDiam = 5;
+fixingFootSize = 20;
+fixingFootWidth = 20;
+screwDiam = 4;
 screwLen = 30;
 minWallThickness = 5;
 
@@ -567,8 +567,8 @@ _screwDiam = 3;
 _flapScrewDiam = 3;
 _bbDiam = 16;
 
-_sizeAboveAxis = 100;
-_sizeBelowAxis = 130;
+_sizeAboveAxis = 100; // Tossion!
+_sizeBelowAxis = 130; // Tossion!
 _widthOutAll = 90;
 _plateWidth = 60;
 _betweenAxis = 60;
@@ -774,6 +774,9 @@ module printCylinder() {
 	cylinderThickness = 1;
 	counterweightCylinder(cylinderLength, _bottomCylinderDiam, cylinderThickness);	
 }
+module customPrint() { // You choose!
+	footedBase(50, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
+}
 echo(">>> ------------------------------------------------------");
 echo(">>> After adjusting the values,");
 echo(">>> Choose the part to design at the bottom of the script.");
@@ -782,6 +785,7 @@ echo(">>> ------------------------------------------------------");
 //----------------
 // printBracket();
 // printBase1();
-printBase2();
+// printBase2();
 // printCylinder();
 // printMainStand();
+customPrint();

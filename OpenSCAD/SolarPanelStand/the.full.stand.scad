@@ -24,7 +24,7 @@ intDiam = 90;
 ballsDiam = 5;
 
 fixingFootSize = 20;
-fixingFootWidth = 30;
+fixingFootWidth = 20;
 screwDiam = 4;
 screwLen = 30;
 minWallThickness = 5;
