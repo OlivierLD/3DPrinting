@@ -1,4 +1,6 @@
 /**
+ * @author OlivierLD
+ *
  * The full stand... Using other scad files.
  *
  * Used to visualize the whole project, not for print.

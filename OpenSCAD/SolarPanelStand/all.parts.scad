@@ -1,4 +1,6 @@
 /**
+ * @author OlivierLD
+ *
  * The full stand... Using other scad files.
  *
  * To set the required option, see the option variable at the bottom of the script.
@@ -775,7 +777,7 @@ module printCylinder() {
 	counterweightCylinder(cylinderLength, _bottomCylinderDiam, cylinderThickness);	
 }
 module customPrint() { // You choose!
-	footedBase(50, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
+	footedBase(40, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
 }
 echo(">>> ------------------------------------------------------");
 echo(">>> After adjusting the values,");

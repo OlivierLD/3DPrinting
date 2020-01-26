@@ -1,4 +1,6 @@
 /**
+ * @author OlivierLD
+ *
  * Cylinder with toric grrove (for balls)
  * and related widgets (screws, fixing foot)
  *
