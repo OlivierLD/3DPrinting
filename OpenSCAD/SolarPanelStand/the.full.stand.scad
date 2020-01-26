@@ -96,7 +96,7 @@ difference() {
 			// inverted one on top, under the rotating stand
 			translate([0, 0, (baseCylHeight + cylHeight2 + 1) + (stuck ? 0 : (1 * betweenParts))]) {
 				rotate([180, 0, baseRotationAngle]) {
-					footedBase(cylHeight2, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+					footedBase(cylHeight2, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness, fullIndex=false);
 				}
 			}
 			if (!stuck) {

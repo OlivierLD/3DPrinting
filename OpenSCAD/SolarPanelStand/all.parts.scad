@@ -16,48 +16,110 @@ module wormGearAxis(axisThickness, centerOffset, axisHeight, cylLen=150) {
 	}
 }
 
-// Grooved cylinder with feet
-module footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness) {
-	union() {
-		// Grooved Cylinder
-		translate([0, 0, cylHeight/ 2]) {
-			groovedCylinder(cylHeight, extDiam, torusDiam, intDiam, ballsDiam);
-		}
+CARD_POINTS = ["N", "W", "S", "E"]; // yes, counter-clockwise
 
-		// 3 Feet
-		for (foot = [0:2]) {
-			rotate([0, 0, (foot * (360 / 3))]) {
-				translate([(extDiam / 2) + ((fixingFootSize / 2) - minWallThickness), 0, 0]) {
-					rotate([0, 0, -90]) {
-						translate([0, 0, fixingFootSize / 2]) {
-							fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+// Grooved cylinder with feet
+module footedBase(cylHeight, 
+									extDiam, 
+									torusDiam, 
+									intDiam, 
+									ballsDiam, 
+									fixingFootSize, 
+									fixingFootWidth, 
+									screwDiam, 
+									minWallThickness,
+									withIndex=true,
+									fullIndex=true) {
+	difference() {
+		union() {
+			// Grooved Cylinder
+			translate([0, 0, cylHeight/ 2]) {
+				groovedCylinder(cylHeight, extDiam, torusDiam, intDiam, ballsDiam);
+			}
+
+			// 3 Feet
+			for (foot = [0:2]) {
+				rotate([0, 0, (foot * (360 / 3))]) {
+					translate([(extDiam / 2) + ((fixingFootSize / 2) - minWallThickness), 0, 0]) {
+						rotate([0, 0, -90]) {
+							translate([0, 0, fixingFootSize / 2]) {
+								fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+							}
 						}
 					}
 				}
 			}
-		}
 
-		// Crosshair
-		crosshairThickness = 2;
-		crosshairBaseWidth = 5;
-		points = [[0, 0], [0, crosshairBaseWidth * 2], [(extDiam / 2) + (fixingFootSize / 2) + (screwDiam / 2), crosshairBaseWidth]];
-		paths = [[0, 1 ,2]];
-		difference() {
-			// A crosshair
-			for (angle = [0, 120, 240]) {
-				translate([0, 0, crosshairThickness / 2]) {
-					linear_extrude(height=crosshairThickness, center=true) {				
-						rotate([0, 0, angle]) {
-							translate([0, -crosshairBaseWidth]) {
-								polygon(points=points, paths=paths);
-							}
-						}		
+			// Crosshair
+			crosshairThickness = 2;
+			crosshairBaseWidth = 5;
+			points = [[0, 0], [0, crosshairBaseWidth * 2], [(extDiam / 2) + (fixingFootSize / 2) + (screwDiam / 2), crosshairBaseWidth]];
+			paths = [[0, 1 ,2]];
+			difference() {
+				// A crosshair
+				for (angle = [0, 120, 240]) {
+					translate([0, 0, crosshairThickness / 2]) {
+						linear_extrude(height=crosshairThickness, center=true) {				
+							rotate([0, 0, angle]) {
+								translate([0, -crosshairBaseWidth]) {
+									polygon(points=points, paths=paths);
+								}
+							}		
+						}
 					}
 				}
+				// Axis
+				color("gray") {
+					cylinder(h=50, d=5, center=true, $fn=50);
+				}
 			}
-			// Axis
-			color("gray") {
-				cylinder(h=50, d=5, center=true, $fn=50);
+		}
+		// Engraving on cylinder?
+		if (withIndex) {
+			bigIndexHeight   = 8;
+			smallIndexHeight = 5;
+			if (fullIndex) {
+				offset = 3;
+				for (angle = [0:5:359]) {
+					// echo("Angle: ", angle);
+					indexHeight = (angle % 45 == 0) ? bigIndexHeight : smallIndexHeight;
+					rotate([0, 0, angle]) {
+						translate([(extDiam / 2) - 0.5, 
+											 0, 
+											 cylHeight - offset - (indexHeight / 2)]) {
+							color("cyan") {
+								cube(size=[1, 1, indexHeight], center=true);
+							}
+						}
+						if (angle % 90 == 0) {
+							fontSize = 6;
+							str = CARD_POINTS[angle / 90];
+							// echo("For ", angle, " => ", str);
+							translate([(extDiam / 2) - 0.5, 
+											 0, 
+											 cylHeight - indexHeight - fontSize - 1]) {
+								rotate([90, 0, 90]) {
+									color("red") {
+										linear_extrude(1.5, center=true, convexity=4) {
+											text(str, valign="center", halign="center", size=fontSize);
+										}
+									} 
+								}
+							}
+						}
+					}
+				}
+			} else { // Just one
+				indexHeight = bigIndexHeight;
+				rotate([0, 0, 0]) {
+					translate([(extDiam / 2) + 3,  // TODO Fix all that...
+										 0, 
+										 cylHeight - (indexHeight / 2) - 1]) {
+						color("lime") {
+							cube(size=[12, 1, indexHeight], center=true);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -475,6 +537,7 @@ module panelBracket(mainAxisDiam,
 
 // Options
 cylHeight = 50;
+cylHeight2 = 35;
 extDiam = 110;
 torusDiam = 100;
 intDiam = 90;
@@ -511,6 +574,8 @@ _plateWidth = 60;
 _betweenAxis = 60;
 _bottomCylinderDiam = 35;
 
+NONE = -1;
+
 FULL_BASE = 1;
 FULL_BASE_WITH_WORM_GEAR = 2;
 MAIN_STAND = 3;
@@ -521,7 +586,7 @@ MOTOR_SOCKET = 7;
 ONE_BRACKET_SIDE = 8;
 FULL_BRACKET = 9;
 
-option = FULL_BRACKET;
+option = NONE;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -649,11 +714,12 @@ if (option == FULL_BASE) {
 									withCylinder=true);
 		}
 } else {
-	if (option != -1) {
+	if (option != NONE) {
 		echo(str("Unknown option for now [", option, "]"));
 	}
 }
 
+// ----------------------------------------
 // Modules for printing
 module printBracket() {
 	panelBracket(_horizontalAxisDiam,
@@ -675,7 +741,7 @@ module printBase1() {
 	}
 }
 module printBase2() {
-  footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+  footedBase(cylHeight2, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness, fullIndex=false);
 }
 module printMainStand() {
 	difference() {
@@ -708,14 +774,14 @@ module printCylinder() {
 	cylinderThickness = 1;
 	counterweightCylinder(cylinderLength, _bottomCylinderDiam, cylinderThickness);	
 }
-echo(">>> -----------------------------------------------------");
+echo(">>> ------------------------------------------------------");
 echo(">>> After adjusting the values,");
-echo(">>> Choose the part to design at the bottom of the script");
-echo(">>> -----------------------------------------------------");
+echo(">>> Choose the part to design at the bottom of the script.");
+echo(">>> ------------------------------------------------------");
 // Choose your own below, uncomment the desired one.
 //----------------
 // printBracket();
 // printBase1();
-// printBase2();
+printBase2();
 // printCylinder();
 // printMainStand();
