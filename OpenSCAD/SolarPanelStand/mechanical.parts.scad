@@ -38,6 +38,7 @@ M6_W = [12, 1.8];
 M8_W = [16, 1.8];
 
 // Ball Bearings [ID, OD, Thickness]
+// Warning: do check the data sheet of your ball bearing! Dimensions may vary!
 BB_05 = [5, 16, 5];
 BB_06 = [6, 19, 6];
 
@@ -76,7 +77,7 @@ function getWasherDims(diam) =  // Washer dims
 module ballBearing(id) {
 	dims = getBBDims(id); // [id, od, t]
 	difference() {
-		color("grey") {
+		color("grey", 0.85) {
 			cylinder(h=dims[2], d=dims[1], $fn=100, center=true); 
 		}
 		cylinder(h=dims[2] * 1.1, d=dims[0], $fn=100, center=true); 

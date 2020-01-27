@@ -73,6 +73,7 @@ module footedBase(cylHeight,
 									fixingFootWidth, 
 									screwDiam, 
 									minWallThickness,
+									crosshairThickness = 2,
 									withIndex=true,
 									fullIndex=true) {
 	difference() {
@@ -96,10 +97,14 @@ module footedBase(cylHeight,
 			}
 
 			// Crosshair
-			crosshairThickness = 2;
 			crosshairBaseWidth = 5;
-			points = [[0, 0], [0, crosshairBaseWidth * 2], [(extDiam / 2) + (fixingFootSize / 2) + (screwDiam / 2), crosshairBaseWidth]];
-			paths = [[0, 1 ,2]];
+			points = [
+				[0, 0], 
+				[0, crosshairBaseWidth * 2], 
+				[(extDiam / 2) + (screwDiam / 2), 3 * crosshairBaseWidth / 2], // tip
+				[(extDiam / 2) + (screwDiam / 2), crosshairBaseWidth / 2]  // tip
+			];
+			paths = [[0, 1 ,2, 3]];
 			difference() {
 				// A crosshair
 				for (angle = [0, 120, 240]) {
@@ -154,14 +159,16 @@ module footedBase(cylHeight,
 						}
 					}
 				}
-			} else { // Just one
+			} else { // Just two (N & S)
 				indexHeight = bigIndexHeight;
-				rotate([0, 0, 0]) {
-					translate([(extDiam / 2) + 3,  // TODO Fix all that...
-										 0, 
-										 cylHeight - (indexHeight / 2) - 1]) {
-						color("cyan") {
-							cube(size=[12, 1, indexHeight], center=true);
+				for (angle = [0, 180]) {
+					rotate([0, 0, angle]) {
+						translate([(extDiam / 2) + 3,  // TODO Fix all that...
+											 0, 
+											 cylHeight - (indexHeight / 2) - 1]) {
+							color("cyan") {
+								cube(size=[12, 1, indexHeight], center=true);
+							}
 						}
 					}
 				}
@@ -419,18 +426,22 @@ module mainStand(totalStandWidth,
 }
 
 module oneBracketSide(mainAxisDiam,
-										  bbDiam=16, // Ball Bearing diam
+										  bbDiam=16, // Ball Bearing diam, @deprecated
 										  sizeAboveAxis,
 											sizeBelowAxis,
 											thickness=10,
 											plateWidth,
 											bottomCylinderDiam) {
+  echo("Main Axis Diam", mainAxisDiam);												
 	heightOutAll = sizeAboveAxis + sizeBelowAxis;													
   difference() {												
 		cube([thickness, plateWidth, (heightOutAll)], center=true);
+		// Main axis socket
+		dims = getBBDims(mainAxisDiam);
 		rotate([90, 0, 90]) {
-			translate([0, (heightOutAll / 2) - sizeAboveAxis, 0]) {
-				cylinder(h=thickness * 1.1, d=bbDiam, center=true, $fn=true);
+			translate([0, (heightOutAll / 2) - sizeAboveAxis, -(thickness / 2) + (dims[2] * 0.85 / 2)]) {
+				cylinder(h=dims[2] * 0.9, d=dims[1], center=true, $fn=true);
+				cylinder(thickness * 2, d=dims[0] * 1.1, center=true, $fn=true);
 			}
 		}
 		// drill for the cylinder threaded rod
@@ -494,15 +505,17 @@ module panelBracket(mainAxisDiam,
 
   // left
 	translate([- ((widthOutAll / 2) - (thickness / 2)), 0, 0]) {
-		// No need to flip it if the ball bearing goes throught the full stuff
-		color("red") {
-			oneBracketSide(mainAxisDiam,
-										 bbDiam,
-										 sizeAboveAxis,
-										 sizeBelowAxis,
-										 thickness,
-										 plateWidth,
-										 bottomCylinderDiam);
+		// Flip it, the ball bearing socket faces inside
+		rotate([0, 0, 180]) {
+			color("red") {
+				oneBracketSide(mainAxisDiam,
+											 bbDiam,
+											 sizeAboveAxis,
+											 sizeBelowAxis,
+											 thickness,
+											 plateWidth,
+											 bottomCylinderDiam);
+			}
 		}
 	}
 	
@@ -595,14 +608,14 @@ screwDiam = 4;
 screwLen = 30;
 minWallThickness = 5;
 
-workGearAxisDiam = 10;
+wormGearAxisDiam = 10; // Tube diam.
 
 _totalStandWidth = 160;
 _length = 160;
 _height = 150;
 _topWidth = 35;
 _thickness = 10;
-_horizontalAxisDiam = 10;
+_horizontalAxisDiam = 6;
 _motorSide = 42.3;
 _motorDepth = 39;
 _betweenScrews = 31;
@@ -641,7 +654,7 @@ if (option == FULL_BASE) {
 	union() {
 		difference() {
 			footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
-			#wormGearAxis(workGearAxisDiam, extDiam / 3, cylHeight / 2);	
+			#wormGearAxis(wormGearAxisDiam, extDiam / 3, cylHeight / 2);	
 		}
 		if (false) { // Drilling patterns or screws.
 			color("grey", 0.6) {
@@ -762,117 +775,27 @@ if (option == FULL_BASE) {
 	}
 } else if (option == BALL_BEARING_STAND) {
 	echo("FootSize", fixingFootSize, " width", fixingFootWidth);
+	dims = getBBDims(6);
 	ballBearingStand(6,
 									 30,
 									 fixingFootSize, 
 									 fixingFootWidth, 
 									 screwDiam, 
 									 minWallThickness);
+	translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, 30]) {
+		rotate([0, 90, 0]) {
+			ballBearing(6);
+			// An axis
+			translate([0, 0, -60]) {
+				color("black", 0.8) {
+					cylinder(h=100, d=6, $fn=50);
+				}
+			}
+		}
+	}
 } else {
 	if (option != NONE) {
 		echo(str("Unknown option for now [", option, "]"));
 	}
 }
 
-// ----------------------------------------
-// Modules for printing
-module printBracket() {
-	panelBracket(_horizontalAxisDiam,
-							 _bbDiam,
-							 _sizeAboveAxis,
-							 _sizeBelowAxis,
-							 _widthOutAll,
-							 _thickness,
-							 _plateWidth,
-							 _betweenAxis, // between main axis and motor axis
-							 _bottomCylinderDiam,
-							 withMotor=false,
-							 withCylinder=false);
-}
-module printBase1() {
-	union() {
-		difference() {
-			footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
-			wormGearAxis(workGearAxisDiam, extDiam / 3, cylHeight / 2);	
-		}
-		// Bottom ball bearing socket.
-		dims = getBBDims(verticalAxisDiam); // [id, od, t]
-		bbSocketBaseThickness = 3;
-		socketWallThickness = 3;
-		difference() {
-			translate([0, 0, 0]) {
-				rotate([0, 0, 0]) {
-					cylinder(d=dims[1] + socketWallThickness, h=(dims[2] * 0.9) + bbSocketBaseThickness, $fn=50);
-				}
-			}
-			translate([0, 0, bbSocketBaseThickness]) {
-				rotate([0, 0, 0]) {
-					cylinder(d=dims[1], h=dims[2], $fn=50);
-				}
-			}
-			translate([0, 0, -1]) { // Drill
-				rotate([0, 0, 0]) {
-					cylinder(d=dims[0], h=dims[2] * 2, $fn=50);
-				}
-			}
-		}
-	}
-}
-module printBase2() {
-  footedBase(cylHeight2, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness, fullIndex=false);
-}
-module printMainStand() {
-	difference() {
-		mainStand(_totalStandWidth, 
-							_length, 
-							_height, 
-							_topWidth, 
-							_thickness, 
-							_horizontalAxisDiam, 
-							_motorSide, 
-							_motorDepth,
-							_motorAxisDiam, 
-							_motorAxisLength, 
-							_betweenScrews,
-							_screwDiam,
-							_flapScrewDiam,
-							_bbDiam,
-							false);
-		translate([0, 0, 0]) {
-			drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness, 100);
-		}
-		// Axis drilling pattern. Same as above.
-		translate([0, 0, 0]) {
-			axisDrillingPattern(length=100);
-		}
-	}
-}
-module printCylinder() {
-	cylinderLength = _widthOutAll - (2 * _thickness) - (2 * _thickness);
-	cylinderThickness = 1;
-	counterweightCylinder(cylinderLength, _bottomCylinderDiam, cylinderThickness);	
-}
-module printBallBearingStand() {
-	ballBearingStand(6,
-									 30,
-									 fixingFootSize, 
-									 fixingFootWidth, 
-									 screwDiam, 
-									 minWallThickness);
-}
-module customPrint() { // You choose!
-	footedBase(40, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
-}
-echo(">>> ------------------------------------------------------");
-echo(">>> After adjusting the values,");
-echo(">>> Choose the part to design at the bottom of the script.");
-echo(">>> ------------------------------------------------------");
-// Choose your own below, uncomment the desired one.
-//----------------
-// printBracket();
-// printBase1();
-// printBase2();
-// printCylinder();
-// printMainStand();
-printBallBearingStand();
-// customPrint();

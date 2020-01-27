@@ -36,7 +36,7 @@ screwDiam = 4;
 screwLen = 30;
 minWallThickness = 5;
 
-workGearAxisDiam = 10;
+wormGearAxisDiam = 10; // external diam of the "tube" in wchih the axis rotates.
 
 // Main stand
 _totalStandWidth = 160;
@@ -44,7 +44,7 @@ _length = 160;
 _height = 150;
 _topWidth = 35;
 _thickness = 10;
-_horizontalAxisDiam = 10; // 5;
+_horizontalAxisDiam = 6; // 5;
 _motorSide = 42.3;
 _motorDepth = 39;
 _betweenScrews = 31;
@@ -61,6 +61,9 @@ _widthOutAll = 90;
 _plateWidth = 60;
 _betweenAxis = 60;
 _bottomCylinderDiam = 35;
+
+withSolarPanel = true;
+solarPanelDimensions = [420, 280, 3]; // [width, length, thickness]
 
 // Base rotation
 function timeToRot(t, stuck) =
@@ -84,7 +87,7 @@ function timeToTilt(t, stuck) =
 
 // TODO Adjust height and everything.
 wormGearHeight = _motorSide / 2; // baseCylHeight / 2;
-workGearOffset = extDiam / 3;
+wormGearOffset = extDiam / 3;
 
 difference() {
 	currentHeight = 0;
@@ -96,9 +99,9 @@ difference() {
 			union() {
 				difference() {
 					footedBase(baseCylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
-					#wormGearAxis(workGearAxisDiam, workGearOffset, wormGearHeight);	
+					#wormGearAxis(wormGearAxisDiam, wormGearOffset, wormGearHeight);	
 				}
-				// Bottom ball bearing socket.
+				// Bottom ball bearing socket. TODO Use printBase1 !!!
 				dims = getBBDims(verticalAxisDiam); // [id, od, t]
 				bbSocketBaseThickness = 3;
 				socketWallThickness = 3;
@@ -208,6 +211,8 @@ difference() {
 												 _bottomCylinderDiam,
 												 withMotor=true,
 												 withCylinder=true);
+						// TODO Main axis ball bearings
+						
 						// Small wheel, attached to the motor axis
 						rotate([0, 90, 0]) {
 							translate([_betweenAxis, 0, (_widthOutAll / 2) + 3 /*slack*/]) {
@@ -218,13 +223,21 @@ difference() {
 								}
 							}
 						}
+						// Solar panel?
+						if (withSolarPanel) {
+							translate([-solarPanelDimensions[0] / 2, -solarPanelDimensions[1] / 2, _sizeAboveAxis + solarPanelDimensions[2]]) {
+								color("black", 0.9) {
+									cube(size=solarPanelDimensions);
+								}
+							}
+						}
 					}
 				}
 			}
 		}
 		// Worm gear motor
 		if (withBase) {
-			translate([workGearOffset, 150, (_motorSide / 2)]) {
+			translate([wormGearOffset, 150, (_motorSide / 2)]) {
 				rotate([0, 0, 180]) {
 					motor(withScrews=true);
 				}
@@ -232,6 +245,40 @@ difference() {
 				rotate([90, 0, 0]) {
 					color("grey") {
 						cylinder(d=_motorAxisDiam, h=300, $fn=50);
+					}
+				}
+			}
+			// Ball bearings stands
+			dims = getBBDims(5);
+			// left
+			translate([wormGearOffset, 100, 0]) { 
+				rotate([0, 0, -90]) {
+					ballBearingStand(5,
+													 _motorSide / 2,
+													 fixingFootSize, 
+													 fixingFootWidth, 
+													 screwDiam, 
+													 minWallThickness);
+					translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, _motorSide / 2]) {
+						rotate([0, 90, 0]) {
+							ballBearing(6);
+						}
+					}
+				}
+			}
+			// right
+			translate([wormGearOffset, -100, 0]) { 
+				rotate([0, 0, 90]) {
+					ballBearingStand(5,
+													 _motorSide / 2,
+													 fixingFootSize, 
+													 fixingFootWidth, 
+													 screwDiam, 
+													 minWallThickness);
+					translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, _motorSide / 2]) {
+						rotate([0, 90, 0]) {
+							ballBearing(6);
+						}
 					}
 				}
 			}
