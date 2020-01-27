@@ -29,7 +29,7 @@ topBaseFeetInside = true; // For the top base only
 wormGearAxisDiam = 10; // Tube diam.
 
 _totalStandWidth = 130;
-_length = 130;
+_length = 130; 
 _height = 130;
 _topWidth = 35;
 _thickness = 10;
@@ -43,7 +43,7 @@ _mainAxisDiam = 5; // vertical one
 _screwDiam = 3;
 _flapScrewDiam = 3;
 
-_sizeAboveAxis = 90; // Tossion!
+_sizeAboveAxis = 80; // Tossion! Needs to be bigger than _length / 2
 _sizeBelowAxis = 120; // Tossion!
 _widthOutAll = 90;
 _plateWidth = 60;
@@ -70,7 +70,7 @@ printBracket(_horizontalAxisDiam,
 						 withMotor=false,
 						 withCylinder=false);
 */
-/*
+
 printBase1(cylHeight, 
 					 extDiam, 
 					 torusDiam, 
@@ -84,7 +84,6 @@ printBase1(cylHeight,
 					 wormGearAxisDiam,
 					 extDiam / 3, 
 					 cylHeight / 2);
-*/
 /*
 printBase2(cylHeight2, 
 					 extDiam, 
@@ -100,7 +99,7 @@ printBase2(cylHeight2,
 /*
 printCylinder(_widthOutAll, _thickness, _bottomCylinderDiam);
 */
-
+/*
 printMainStand(_totalStandWidth, 
 							 _length, 
 							 _height, 
@@ -113,7 +112,7 @@ printMainStand(_totalStandWidth,
 							 screwDiam, 
 							 minWallThickness,
 							 topFeetInside=topBaseFeetInside);
-
+*/
 /*
 printBallBearingStand(6,
 										  30,
