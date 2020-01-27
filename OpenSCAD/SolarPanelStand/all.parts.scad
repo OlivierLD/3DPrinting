@@ -613,7 +613,6 @@ _motorAxisLength = 24;
 _mainAxisDiam = 5; // vertical one
 _screwDiam = 3;
 _flapScrewDiam = 3;
-_bbDiam = 16;
 
 _sizeAboveAxis = 100; // Tossion!
 _sizeBelowAxis = 130; // Tossion!

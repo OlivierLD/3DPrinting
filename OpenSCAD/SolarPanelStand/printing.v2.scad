@@ -70,7 +70,7 @@ printBracket(_horizontalAxisDiam,
 						 withMotor=false,
 						 withCylinder=false);
 */
-
+/*
 printBase1(cylHeight, 
 					 extDiam, 
 					 torusDiam, 
@@ -84,6 +84,7 @@ printBase1(cylHeight,
 					 wormGearAxisDiam,
 					 extDiam / 3, 
 					 cylHeight / 2);
+*/					 
 /*
 printBase2(cylHeight2, 
 					 extDiam, 
@@ -113,12 +114,12 @@ printMainStand(_totalStandWidth,
 							 minWallThickness,
 							 topFeetInside=topBaseFeetInside);
 */
-/*
-printBallBearingStand(6,
+
+printBallBearingStand(5,
 										  30,
 										  fixingFootSize, 
 										  fixingFootWidth, 
 										  screwDiam, 
 										  minWallThickness);
-*/
+
 // customPrint();

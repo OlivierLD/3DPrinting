@@ -105,7 +105,7 @@ module printBase1(cylHeight,
 						holeDepth = (extDiam - intDiam) * 1.1;
 						linear_extrude(height=holeDepth, center=true) {		
 							resize([cylHeight / 3, (cylHeight / 3) * 2]) {
-								circle(d=cylHeight / 3);
+								circle(d=cylHeight / 3, $fn=100);
 							}
 						}
 					}
