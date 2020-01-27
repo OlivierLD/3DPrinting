@@ -13,13 +13,15 @@ use <./parts.printer.scad>
 echo(version=version());
 echo(">>>>>> For visualization only, not for print!");
 
-stuck = true; // Components stuck together, or apart.
+stuck = false; // Components stuck together, or apart.
 betweenParts = 20; // When apart 
 
 baseAnimation = true; // Set to true to enable %$t based animations on the base's rotation.
 tiltAnimation = true; // Set to true to enable %$t based animations on the bracket's tilt.
 
 withBase = true;
+topFeetInside = true;
+withSolarPanel = true && stuck;
 
 // Two grooved cylinders, with 3 feet, and a crosshair.
 // The bottom one has a place for a worm gear.
@@ -63,9 +65,6 @@ _plateWidth = 60;
 _betweenAxis = 60;
 _bottomCylinderDiam = 35;
 
-topFeetInside = true;
-
-withSolarPanel = true;
 solarPanelDimensions = [420, 280, 3]; // [width, length, thickness]
 
 // Base rotation
@@ -86,7 +85,7 @@ function timeToTilt(t, stuck) =
 		[ 0.75, 0],
 		[ 0.875, 45 ],
 		[ 1, 90 ]
-	]) : 0) : 0;
+	]) : 0) : 90;
 
 // TODO Adjust height and everything.
 wormGearHeight = _motorSide / 2; // baseCylHeight / 2;

@@ -1,8 +1,10 @@
 # 3DPrinting
 3D printed models elaboration, tools, hints, ideas, and stuff!
 
-## OpenSCAD
-Free and OpenSource, [OpenSCAD](https://www.openscad.org/) is a programmatic approach to shape modeling. 
+## [OpenSCAD](https://www.openscad.org/)
+- Free and OpenSource
+- DEsktop based
+- Programmatic approach to shape modeling, _very_ cool.
 
 > _Note:_ Re-usablity comes naturally with it, I like that!
 
@@ -14,4 +16,8 @@ Generating `stl` code by hand is just a nonsense, but take a look at the sizes o
 - [Language reference](https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language)
 
 ## Others
-To come...
+- [TinkerCAD](https://www.tinkercad.com/learn/codeblocks), web-based, also has a programmatic approach, based on `blockly` or something similar.
+- [OnShape](https://www.onshape.com/), web-based, looks really good, but not always free.
+- [FreeCAD](https://www.freecadweb.org/), programmable in Python.
+- [AutoCAD](https://www.autodesk.com/products/autocad/overview), a reference, very good. But far from free...
+- More to come...

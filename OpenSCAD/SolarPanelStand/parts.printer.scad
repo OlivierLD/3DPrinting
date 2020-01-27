@@ -363,8 +363,10 @@ printBase2(cylHeight2,
 					 minWallThickness,
 					 feetInside = feetInside);
 */
-// printCylinder(_widthOutAll, _thickness, _bottomCylinderDiam);
-
+/* 
+printCylinder(_widthOutAll, _thickness, _bottomCylinderDiam);
+*/
+/*
 printMainStand(_totalStandWidth, 
 							 _length, 
 							 _height, 
@@ -377,13 +379,13 @@ printMainStand(_totalStandWidth,
 							 screwDiam, 
 							 minWallThickness,
 							 topFeetInside=topBaseFeetInside);
+*/
 
-/*
 printBallBearingStand(6,
 										  30,
 										  fixingFootSize, 
 										  fixingFootWidth, 
 										  screwDiam, 
 										  minWallThickness);
-*/
+
 // customPrint();
