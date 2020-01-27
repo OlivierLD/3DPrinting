@@ -20,6 +20,8 @@ screwDiam = 4;
 screwLen = 30;
 minWallThickness = 5;
 
+topBaseFeetInside = true; // Topo base only
+
 wormGearAxisDiam = 10; // Tube diam.
 
 _totalStandWidth = 160;
@@ -192,6 +194,7 @@ module printBase1(cylHeight,
  * @param fixingFootWidth Number. Fixing foot width
  * @param screwDiam Number. Diameter of the screws for the fixing foot
  * @param minWallThickness Number. How far inside the cylinder the fixing foot goes
+ * @param feetInside Boolean. default false
  */
 module printBase2(cylHeight, 
 								  extDiam, 
@@ -201,17 +204,26 @@ module printBase2(cylHeight,
 								  fixingFootSize, 
 								  fixingFootWidth, 
 								  screwDiam, 
-								  minWallThickness) {
-	footedBase(cylHeight, 
-						 extDiam, 
-						 torusDiam, 
-						 intDiam, 
-						 ballsDiam, 
-						 fixingFootSize, 
-						 fixingFootWidth, 
-						 screwDiam, 
-						 minWallThickness, 
-						 fullIndex=false);
+								  minWallThickness,
+									feetInside = false) {
+	difference() {									
+		footedBase(cylHeight, 
+							 extDiam, 
+							 torusDiam, 
+							 intDiam, 
+							 ballsDiam, 
+							 fixingFootSize, 
+							 fixingFootWidth, 
+							 screwDiam, 
+							 minWallThickness, 
+							 fullIndex=false,
+							 feetInside=feetInside);
+		drillingPattern(extDiam, 
+										fixingFootSize, 
+										screwDiam, 
+										minWallThickness, 
+										feetInside=feetInside);
+	}
 }
 
 /**
@@ -240,7 +252,8 @@ module printMainStand(totalStandWidth,
 											extDiam, 
 											fixingFootSize, 
 											screwDiam, 
-											minWallThickness) {
+											minWallThickness,
+											topFeetInside=false) {
 	difference() {
 		mainStand(totalStandWidth, 
 							length, 
@@ -250,7 +263,12 @@ module printMainStand(totalStandWidth,
 							horizontalAxisDiam, 
 							flapScrewDiam);
 		translate([0, 0, 0]) {
-			drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness, 100);
+			drillingPattern(extDiam, 
+											fixingFootSize, 
+											screwDiam, 
+											minWallThickness, 
+											100, 
+											feetInside=topFeetInside);
 		}
 		// Axis drilling pattern. Same as above.
 		translate([0, 0, 0]) {
@@ -307,6 +325,7 @@ echo(">>> Choose the part to design at the bottom of the script.");
 echo(">>> ------------------------------------------------------");
 // Choose your own below, uncomment the desired one.
 //----------------
+/*
 printBracket(_horizontalAxisDiam,
 						 _sizeAboveAxis,
 						 _sizeBelowAxis,
@@ -317,6 +336,7 @@ printBracket(_horizontalAxisDiam,
 						 _bottomCylinderDiam,
 						 withMotor=false,
 						 withCylinder=false);
+*/
 /*
 printBase1(cylHeight, 
 					 extDiam, 
@@ -340,10 +360,11 @@ printBase2(cylHeight2,
 					 fixingFootSize, 
 					 fixingFootWidth, 
 					 screwDiam, 
-					 minWallThickness);
+					 minWallThickness,
+					 feetInside = feetInside);
 */
 // printCylinder(_widthOutAll, _thickness, _bottomCylinderDiam);
-/*
+
 printMainStand(_totalStandWidth, 
 							 _length, 
 							 _height, 
@@ -354,8 +375,9 @@ printMainStand(_totalStandWidth,
 							 extDiam, 
 							 fixingFootSize, 
 							 screwDiam, 
-							 minWallThickness);
-*/
+							 minWallThickness,
+							 topFeetInside=topBaseFeetInside);
+
 /*
 printBallBearingStand(6,
 										  30,

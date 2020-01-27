@@ -63,6 +63,8 @@ _plateWidth = 60;
 _betweenAxis = 60;
 _bottomCylinderDiam = 35;
 
+topFeetInside = true;
+
 withSolarPanel = true;
 solarPanelDimensions = [420, 280, 3]; // [width, length, thickness]
 
@@ -114,14 +116,28 @@ difference() {
 			// inverted one on top, under the rotating stand
 			translate([0, 0, (baseCylHeight + cylHeight2 + 1) + (stuck ? 0 : (1 * betweenParts))]) {
 				rotate([180, 0, baseRotationAngle]) {
-					printBase2(cylHeight2, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+					printBase2(cylHeight2, 
+										 extDiam, 
+										 torusDiam, 
+										 intDiam, 
+										 ballsDiam, 
+										 fixingFootSize, 
+										 fixingFootWidth, 
+										 screwDiam, 
+										 minWallThickness, 
+										 feetInside=topFeetInside);
 				}
 			}
 			if (!stuck) {
 				// Drilling pattern. Can be used with a difference() to drill holes in the top and bottom plates.
 				color("grey", 0.6) {
 					translate([0, 0, 50]) {
-						drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness, 200);
+						drillingPattern(extDiam, 
+														fixingFootSize, 
+														screwDiam, 
+														minWallThickness, 
+														200, 
+														feetInside=topFeetInside);
 					}
 				}
 				// Axis drilling pattern. Same as above.
@@ -148,7 +164,8 @@ difference() {
 											 extDiam, 
 											 fixingFootSize, 
 											 screwDiam,
-											 minWallThickness);
+											 minWallThickness,
+											 topFeetInside=topFeetInside);
 				// The main axis / rod, with the big wheel gear
 				wheelThickness = 10;
 				bigWheelDiam = 100;
@@ -271,7 +288,12 @@ difference() {
 		// Drilling pattern
 		translate([0, 0, withBase ? baseCylHeight + cylHeight2 : 0]) {
 			rotate([0, 0, baseRotationAngle]) {
-				drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness, withBase ? 50 : 20);
+				drillingPattern(extDiam, 
+												fixingFootSize, 
+												screwDiam, 
+												minWallThickness, 
+												withBase ? 50 : 20, 
+												feetInside=topFeetInside);
 			}
 		}
 		// Axis drilling pattern. Same as above.

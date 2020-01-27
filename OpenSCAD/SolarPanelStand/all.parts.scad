@@ -66,6 +66,7 @@ module wormGearAxis(axisThickness, centerOffset, axisHeight, cylLen=150) {
 CARD_POINTS = ["N", "W", "S", "E"]; // yes, counter-clockwise
 
 // Grooved cylinder with feet
+// TODO: Option to turn the feet inside to minimize the size
 module footedBase(cylHeight, 
 									extDiam, 
 									torusDiam, 
@@ -77,6 +78,7 @@ module footedBase(cylHeight,
 									minWallThickness,
 									crosshairThickness = 2,
 									withIndex=true,
+									feetInside=false,
 									fullIndex=true) {
 	difference() {
 		union() {
@@ -86,10 +88,13 @@ module footedBase(cylHeight,
 			}
 
 			// 3 Feet
+			footOffset = !feetInside ?
+									 (extDiam / 2) + ((fixingFootSize / 2) - minWallThickness) :
+									 (extDiam / 2) - ((fixingFootSize / 2) + minWallThickness);
 			for (foot = [0:2]) {
 				rotate([0, 0, (foot * (360 / 3))]) {
-					translate([(extDiam / 2) + ((fixingFootSize / 2) - minWallThickness), 0, 0]) {
-						rotate([0, 0, -90]) {
+					translate([footOffset, 0, 0]) {
+						rotate([0, 0, (feetInside ? 90 : -90)]) {
 							translate([0, 0, fixingFootSize / 2]) {
 								fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
 							}
@@ -103,8 +108,8 @@ module footedBase(cylHeight,
 			points = [
 				[0, 0], 
 				[0, crosshairBaseWidth * 2], 
-				[(extDiam / 2) + (screwDiam / 2), 3 * crosshairBaseWidth / 2], // tip
-				[(extDiam / 2) + (screwDiam / 2), crosshairBaseWidth / 2]  // tip
+				[(extDiam / 2) - (screwDiam / 1), 3 * crosshairBaseWidth / 2], // tip
+				[(extDiam / 2) - (screwDiam / 1), crosshairBaseWidth / 2]      // tip
 			];
 			paths = [[0, 1 ,2, 3]];
 			difference() {
@@ -180,9 +185,17 @@ module footedBase(cylHeight,
 }
 
 // For the bases with feet
-module drillingPattern(extDiam, fixingFootSize, screwDiam, wallThickness, length=100) {
+module drillingPattern(extDiam, 
+											 fixingFootSize, 
+											 screwDiam, 
+											 wallThickness,
+											 length=100, 
+											 feetInside=false) {
 	// 0.2 is the drilling offset in the foot. See in grooved.cylinder.scad.
-	radius = (extDiam / 2) + (fixingFootSize / 2) + (fixingFootSize * 0.2) - wallThickness; // + (screwDiam / 2);
+	radius = !feetInside ? 
+					 (extDiam / 2) + (fixingFootSize / 2) + (fixingFootSize * 0.2) - wallThickness :
+					 (intDiam / 2) - (fixingFootSize / 2) + wallThickness - (fixingFootSize * 0.2);
+			//	 (extDiam / 2) - ((fixingFootSize / 2) + minWallThickness
 	for (angle = [0, 120, 240]) {				
 		rotate([0, 0, angle - 90]) {
 			translate([0, radius]) {
@@ -609,11 +622,17 @@ MOTOR_SOCKET = 7;
 ONE_BRACKET_SIDE = 8;
 FULL_BRACKET = 9;
 BALL_BEARING_STAND = 10;
+FULL_BASE_FEET_INSIDE = 11;
 
-option = MAIN_STAND;
+option = FULL_BASE_FEET_INSIDE;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+} else if (option == FULL_BASE_FEET_INSIDE) {
+	difference() {
+		footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness, feetInside=true);
+		drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness, feetInside=true);
+	}
 } else if (option == FULL_BASE_WITH_WORM_GEAR) {
 	union() {
 		difference() {
