@@ -184,8 +184,8 @@ echo(">>> Choose the part to design at the bottom of the script.");
 echo(">>> ------------------------------------------------------");
 // Choose your own below, uncomment the desired one.
 //----------------
-printBracket();
-// printBase1();
+// printBracket();
+printBase1();
 // printBase2();
 // printCylinder();
 // printMainStand();

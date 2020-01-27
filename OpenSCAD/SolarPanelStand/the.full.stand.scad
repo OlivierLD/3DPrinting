@@ -249,11 +249,11 @@ difference() {
 				}
 			}
 			// Ball bearings stands
-			dims = getBBDims(5);
+			dims = getBBDims(_motorAxisDiam);
 			// left
 			translate([wormGearOffset, 100, 0]) { 
 				rotate([0, 0, -90]) {
-					ballBearingStand(5,
+					ballBearingStand(_motorAxisDiam,
 													 _motorSide / 2,
 													 fixingFootSize, 
 													 fixingFootWidth, 
@@ -261,7 +261,7 @@ difference() {
 													 minWallThickness);
 					translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, _motorSide / 2]) {
 						rotate([0, 90, 0]) {
-							ballBearing(6);
+							ballBearing(_motorAxisDiam);
 						}
 					}
 				}
@@ -269,7 +269,7 @@ difference() {
 			// right
 			translate([wormGearOffset, -100, 0]) { 
 				rotate([0, 0, 90]) {
-					ballBearingStand(5,
+					ballBearingStand(_motorAxisDiam,
 													 _motorSide / 2,
 													 fixingFootSize, 
 													 fixingFootWidth, 
@@ -277,7 +277,7 @@ difference() {
 													 minWallThickness);
 					translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, _motorSide / 2]) {
 						rotate([0, 90, 0]) {
-							ballBearing(6);
+							ballBearing(_motorAxisDiam);
 						}
 					}
 				}

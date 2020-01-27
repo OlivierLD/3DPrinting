@@ -19,12 +19,14 @@ module ballBearingStand(diam,
   bbDims = getBBDims(diam); // [ID, OD, Thickness]		
 	bottomToAxis = max(axisHeight, fixingFootSize);									
   difference() {														
-		union() {												
-			translate([0, (fixingFootSize / 2) + (bbDims[1] / 2), fixingFootSize / 2]) {
+		union() {					
+      // right			
+			translate([0, (fixingFootSize / 2) + (bbDims[1] * 1.1 / 2), fixingFootSize / 2]) {
 				fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
 			}
+			// left
 			rotate([0, 0, 180]) {
-				translate([0, (fixingFootSize / 2) + (bbDims[1] / 2), fixingFootSize / 2]) {
+				translate([0, (fixingFootSize / 2) + (bbDims[1] * 1.1 / 2), fixingFootSize / 2]) {
 					fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
 				}
 			}
@@ -39,7 +41,7 @@ module ballBearingStand(diam,
 		}
 		// The socket itself
 		rotate([0, 90, 0]) {
-			translate([-bottomToAxis, 0, (fixingFootWidth / 2) - (bbDims[2] * .9 / 2)]) {
+			translate([-bottomToAxis, 0, (fixingFootWidth / 2) - (bbDims[2] * 0.9 / 2)]) {
 				cylinder(h=bbDims[2], d=(bbDims[1]), $fn=50, center=true);		
 			}
 		}
@@ -646,7 +648,7 @@ ONE_BRACKET_SIDE = 8;
 FULL_BRACKET = 9;
 BALL_BEARING_STAND = 10;
 
-option = NONE;
+option = BALL_BEARING_STAND;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -775,8 +777,8 @@ if (option == FULL_BASE) {
 	}
 } else if (option == BALL_BEARING_STAND) {
 	echo("FootSize", fixingFootSize, " width", fixingFootWidth);
-	dims = getBBDims(6);
-	ballBearingStand(6,
+	dims = getBBDims(_motorAxisDiam);
+	ballBearingStand(_motorAxisDiam,
 									 30,
 									 fixingFootSize, 
 									 fixingFootWidth, 
@@ -784,11 +786,11 @@ if (option == FULL_BASE) {
 									 minWallThickness);
 	translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, 30]) {
 		rotate([0, 90, 0]) {
-			ballBearing(6);
+			ballBearing(_motorAxisDiam);
 			// An axis
 			translate([0, 0, -60]) {
 				color("black", 0.8) {
-					cylinder(h=100, d=6, $fn=50);
+					cylinder(h=100, d=_motorAxisDiam, $fn=50);
 				}
 			}
 		}
