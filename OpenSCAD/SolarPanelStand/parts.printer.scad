@@ -1,50 +1,11 @@
 /**
  * To print all parts 
  * for the solar panel stand
+ *
+ * Note: Use it from prinitng.v1.scad and similar sc ripts.
  */
 use <./mechanical.parts.scad>
 use <./all.parts.scad>
-
-// Options, dimensions
-cylHeight = 50;
-cylHeight2 = 35;
-extDiam = 110;
-torusDiam = 100;
-intDiam = 90;
-ballsDiam = 5;
-verticalAxisDiam = 5;
-
-fixingFootSize = 20;
-fixingFootWidth = 20;
-screwDiam = 4;
-screwLen = 30;
-minWallThickness = 5;
-
-topBaseFeetInside = true; // Topo base only
-
-wormGearAxisDiam = 10; // Tube diam.
-
-_totalStandWidth = 160;
-_length = 160;
-_height = 150;
-_topWidth = 35;
-_thickness = 10;
-_horizontalAxisDiam = 6;
-_motorSide = 42.3;
-_motorDepth = 39;
-_betweenScrews = 31;
-_motorAxisDiam = 5;
-_motorAxisLength = 24;
-_mainAxisDiam = 5; // vertical one
-_screwDiam = 3;
-_flapScrewDiam = 3;
-
-_sizeAboveAxis = 100; // Tossion!
-_sizeBelowAxis = 130; // Tossion!
-_widthOutAll = 90;
-_plateWidth = 60;
-_betweenAxis = 60;
-_bottomCylinderDiam = 35;
 
 /**
  * Panel Bracket.
@@ -113,6 +74,7 @@ module printBase1(cylHeight,
 									fixingFootWidth, 
 									screwDiam, 
 									minWallThickness,
+									verticalAxisDiam,
 									wormGearAxisDiam,
 									workGearOffset,
 									wormGearHeight) {
@@ -319,73 +281,3 @@ module printBallBearingStand(diam,
 module customPrint() { // You choose!
 	footedBase(40, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
 }
-echo(">>> ------------------------------------------------------");
-echo(">>> After adjusting the values,");
-echo(">>> Choose the part to design at the bottom of the script.");
-echo(">>> ------------------------------------------------------");
-// Choose your own below, uncomment the desired one.
-//----------------
-/*
-printBracket(_horizontalAxisDiam,
-						 _sizeAboveAxis,
-						 _sizeBelowAxis,
-						 _widthOutAll,
-						 _thickness,
-						 _plateWidth,
-						 _betweenAxis, // between main axis and motor axis
-						 _bottomCylinderDiam,
-						 withMotor=false,
-						 withCylinder=false);
-*/
-/*
-printBase1(cylHeight, 
-					 extDiam, 
-					 torusDiam, 
-					 intDiam, 
-					 ballsDiam, 
-					 fixingFootSize, 
-					 fixingFootWidth, 
-					 screwDiam, 
-					 minWallThickness,
-					 wormGearAxisDiam,
-					 extDiam / 3, 
-					 cylHeight / 2);
-*/
-/*
-printBase2(cylHeight2, 
-					 extDiam, 
-					 torusDiam, 
-					 intDiam, 
-					 ballsDiam, 
-					 fixingFootSize, 
-					 fixingFootWidth, 
-					 screwDiam, 
-					 minWallThickness,
-					 feetInside = feetInside);
-*/
-/* 
-printCylinder(_widthOutAll, _thickness, _bottomCylinderDiam);
-*/
-/*
-printMainStand(_totalStandWidth, 
-							 _length, 
-							 _height, 
-							 _topWidth, 
-							 _thickness, 
-							 _horizontalAxisDiam, 
-							 _flapScrewDiam,
-							 extDiam, 
-							 fixingFootSize, 
-							 screwDiam, 
-							 minWallThickness,
-							 topFeetInside=topBaseFeetInside);
-*/
-
-printBallBearingStand(6,
-										  30,
-										  fixingFootSize, 
-										  fixingFootWidth, 
-										  screwDiam, 
-										  minWallThickness);
-
-// customPrint();

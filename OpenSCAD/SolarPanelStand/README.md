@@ -7,8 +7,10 @@
 - I started from the hardware of [this instructable](https://www.instructables.com/id/Ammo-Can-Solar-Power-Supply/), and now want to have the solar panel powering the battery facing the sun as long as the sun is in the sky. This is what the device presented her is all about.
 
 ### How-to
-- To print the different parts, in `OpenSCAD`, use the script named `parts.printer.scad`.
+- To print the different parts, in `OpenSCAD`, use the script named `parts.printer.scad`, or better, the scripts like `printing.v*.scad`, they come with distinct sets of parameters.
 	- Comment or un-comment the function calls at the bottom of the script.
+	- Preview your part.
+	- Generate ths `stl` file.
 - To visualize the current state of the art, open `the.full.stand.scad` in `OpenSCAD`.
 
 #### First preview

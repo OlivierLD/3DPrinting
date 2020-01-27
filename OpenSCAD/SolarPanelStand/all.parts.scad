@@ -205,7 +205,7 @@ module drillingPattern(extDiam,
 	}
 }
 
-// Same as above, with screws
+// Same as above, with screws. TODO feet inside option
 module screws(extDiam, fixingFootSize, screwDiam, wallThickness, length=50) {
 	// 0.2 is the drilling offset in the foot. See in grooved.cylinder.scad.
 	radius = (extDiam / 2) + (fixingFootSize / 2) + (fixingFootSize * 0.2) - wallThickness; // + (screwDiam / 2);
@@ -226,6 +226,7 @@ FLAP_THICKNESS = 5;
 OVERLAP = 5;
 SLOT_WIDTH = 1;
 
+// This is for the main stand
 module flatSide(base, height, top, holeDiam=5) {
 	points = [ 
 		[-base / 2, 0],
@@ -265,6 +266,7 @@ module flatSide(base, height, top, holeDiam=5) {
 	}
 }
  
+// One side of the main stand
 module oneSolidSide(base, height, top, thickness, holeDiam=5) {  
 	linear_extrude(height=thickness, center=true) {
 		flatSide(base, height, top, holeDiam);
@@ -414,8 +416,18 @@ module oneBracketSide(mainAxisDiam,
 											bottomCylinderDiam) {
   // echo("Main Axis Diam", mainAxisDiam);												
 	heightOutAll = sizeAboveAxis + sizeBelowAxis;													
-  difference() {												
-		cube([thickness, plateWidth, (heightOutAll)], center=true);
+  difference() {			
+		union() {
+			translate([0, 0, plateWidth / 4]) {
+				cube([thickness, plateWidth, (heightOutAll - plateWidth / 2)], center=true);
+			}
+			// Bottom corners
+			translate([0, 0, - (heightOutAll / 2) + (plateWidth / 2)]) {
+				rotate([0 , 90, 0]) {
+					cylinder(h=thickness, d=plateWidth, $fn=100, center=true);
+				}
+			}
+		}
 		// Main axis socket
 		dims = getBBDims(mainAxisDiam);
 		rotate([90, 0, 90]) {
@@ -497,7 +509,7 @@ module panelBracket(mainAxisDiam,
 	}
 	
 	// top
-	translate([0, 0, (heightOutAll / 2) - (thickness / 2)]) {
+	translate([0, 0, (heightOutAll / 2) - (thickness/ 2)]) {
 		difference() {
 			color("cyan") {
 				cube(size=[widthOutAll, plateWidth, thickness], center=true);
@@ -624,7 +636,7 @@ FULL_BRACKET = 9;
 BALL_BEARING_STAND = 10;
 FULL_BASE_FEET_INSIDE = 11;
 
-option = FULL_BASE_FEET_INSIDE;
+option = FULL_BRACKET;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);

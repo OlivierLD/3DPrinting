@@ -13,7 +13,7 @@ use <./parts.printer.scad>
 echo(version=version());
 echo(">>>>>> For visualization only, not for print!");
 
-stuck = false; // Components stuck together, or apart.
+stuck = true; // Components stuck together, or apart.
 betweenParts = 20; // When apart 
 
 baseAnimation = true; // Set to true to enable %$t based animations on the base's rotation.
@@ -26,7 +26,7 @@ withSolarPanel = true && stuck;
 // Two grooved cylinders, with 3 feet, and a crosshair.
 // The bottom one has a place for a worm gear.
 baseCylHeight = 50;
-cylHeight2 = 35;
+cylHeight2 = 20; // 35;
 extDiam = 110;
 torusDiam = 100;
 intDiam = 90;
@@ -42,9 +42,9 @@ minWallThickness = 5;
 wormGearAxisDiam = 10; // external diam of the "tube" in wchih the axis rotates.
 
 // Main stand
-_totalStandWidth = 160;
-_length = 160;
-_height = 150;
+_totalStandWidth = 130;
+_length = 130;
+_height = 130; // 150;
 _topWidth = 35;
 _thickness = 10;
 _horizontalAxisDiam = 6; // 5;
@@ -56,13 +56,16 @@ _motorAxisLength = 24;
 _mainAxisDiam = 5; // vertical one
 _screwDiam = 3;
 _flapScrewDiam = 3;
-_bbDiam = 16;
 
-_sizeAboveAxis = 130;
-_sizeBelowAxis = 130;
-_widthOutAll = 90;
+wheelThickness = 10;
+bigWheelDiam = 100;
+smallWheelDiam = 12; // 30;
+
+_sizeAboveAxis = 120;
+_sizeBelowAxis = 120;
+_widthOutAll = 0; // Reclaculated
 _plateWidth = 60;
-_betweenAxis = 60;
+//_betweenAxis = 60;
 _bottomCylinderDiam = 35;
 
 solarPanelDimensions = [420, 280, 3]; // [width, length, thickness]
@@ -108,6 +111,7 @@ difference() {
 									 fixingFootWidth, 
 									 screwDiam, 
 									 minWallThickness, 
+									 verticalAxisDiam,
 									 wormGearAxisDiam, 
 									 wormGearOffset, 
 									 wormGearHeight);
@@ -166,9 +170,6 @@ difference() {
 											 minWallThickness,
 											 topFeetInside=topFeetInside);
 				// The main axis / rod, with the big wheel gear
-				wheelThickness = 10;
-				bigWheelDiam = 100;
-				smallWheelDiam = 30;
 				_betweenAxis = (bigWheelDiam + smallWheelDiam) / 2;
 				slack = 5; // Around the wheels, left and right.
 				// echo("Tilt:", bracketTiltAngle);
@@ -225,7 +226,7 @@ difference() {
 						// Solar panel?
 						if (withSolarPanel) {
 							translate([-solarPanelDimensions[0] / 2, -solarPanelDimensions[1] / 2, _sizeAboveAxis + solarPanelDimensions[2]]) {
-								color("black", 0.9) {
+								color("black", 0.75) {
 									cube(size=solarPanelDimensions);
 								}
 							}
