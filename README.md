@@ -3,7 +3,7 @@
 
 ## [OpenSCAD](https://www.openscad.org/)
 - Free and OpenSource
-- DEsktop based
+- Desktop based
 - Programmatic approach to shape modeling, _very_ cool.
 
 > _Note:_ Re-usablity comes naturally with it, I like that!
