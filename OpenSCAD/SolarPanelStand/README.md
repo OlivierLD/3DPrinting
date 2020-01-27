@@ -15,4 +15,6 @@
 
 ![Animated](./images/sunflower.gif)
 
+> Note: `github` supports the rendering of `stl` files. Click them above to **see** them.
+
 ---
