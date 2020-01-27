@@ -8,6 +8,7 @@
  */
 use <./mechanical.parts.scad>
 use <./all.parts.scad>
+use <./parts.printer.scad>
 
 echo(version=version());
 echo(">>>>>> For visualization only, not for print!");
@@ -94,39 +95,26 @@ difference() {
 	baseRotationAngle = timeToRot($t, stuck); // [0..360]
 	bracketTiltAngle = timeToTilt($t, stuck); // [-90..90];
 	union() {
-		// Base, on the bootom plate
+		// Base, on the bottom plate
 		if (withBase) {
 			union() {
-				difference() {
-					footedBase(baseCylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
-					#wormGearAxis(wormGearAxisDiam, wormGearOffset, wormGearHeight);	
-				}
-				// Bottom ball bearing socket. TODO Use printBase1 !!!
-				dims = getBBDims(verticalAxisDiam); // [id, od, t]
-				bbSocketBaseThickness = 3;
-				socketWallThickness = 3;
-				difference() {
-					translate([0, 0, 0]) {
-						rotate([0, 0, 0]) {
-							cylinder(d=dims[1] + socketWallThickness, h=(dims[2] * 0.9) + bbSocketBaseThickness, $fn=50);
-						}
-					}
-					translate([0, 0, bbSocketBaseThickness]) {
-						rotate([0, 0, 0]) {
-							cylinder(d=dims[1], h=dims[2], $fn=50);
-						}
-					}
-					translate([0, 0, -1]) {
-						rotate([0, 0, 0]) {
-							cylinder(d=dims[0], h=dims[2] * 2, $fn=50);
-						}
-					}
-				}
+				printBase1(baseCylHeight, 
+									 extDiam, 
+									 torusDiam, 
+									 intDiam, 
+									 ballsDiam, 
+									 fixingFootSize, 
+									 fixingFootWidth, 
+									 screwDiam, 
+									 minWallThickness, 
+									 wormGearAxisDiam, 
+									 wormGearOffset, 
+									 wormGearHeight);
 			}
 			// inverted one on top, under the rotating stand
 			translate([0, 0, (baseCylHeight + cylHeight2 + 1) + (stuck ? 0 : (1 * betweenParts))]) {
 				rotate([180, 0, baseRotationAngle]) {
-					footedBase(cylHeight2, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness, fullIndex=false);
+					printBase2(cylHeight2, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
 				}
 			}
 			if (!stuck) {
@@ -150,21 +138,17 @@ difference() {
 		// Main stand and bracket
 		translate([0, 0, (currentHeight + (0 * _thickness)) + (stuck ? 0 : (2 * betweenParts))]) {
 			rotate([0, 0, baseRotationAngle]) {
-				mainStand(_totalStandWidth, 
-									_length, 
-									_height, 
-									_topWidth, 
-									_thickness, 
-									_horizontalAxisDiam, 
-									_motorSide, 
-				          _motorDepth,
-									_motorAxisDiam, 
-									_motorAxisLength, 
-									_betweenScrews,
-									_screwDiam,
-									_flapScrewDiam,
-									_bbDiam,
-									false);
+				printMainStand(_totalStandWidth, 
+											 _length, 
+											 _height, 
+											 _topWidth, 
+											 _thickness, 
+											 _horizontalAxisDiam, 
+											 _flapScrewDiam,
+											 extDiam, 
+											 fixingFootSize, 
+											 screwDiam,
+											 minWallThickness);
 				// The main axis / rod, with the big wheel gear
 				wheelThickness = 10;
 				bigWheelDiam = 100;
@@ -201,7 +185,6 @@ difference() {
 					
 					rotate([bracketTiltAngle, 0, -90]) { // Bracket rotation (tilt angle) here.
 						panelBracket(_horizontalAxisDiam,
-												 _bbDiam,
 												 _sizeAboveAxis,
 												 _sizeBelowAxis,
 												 _widthOutAll,

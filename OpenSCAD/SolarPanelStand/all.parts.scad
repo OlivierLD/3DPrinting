@@ -258,35 +258,22 @@ module oneSolidSide(base, height, top, thickness, holeDiam=5) {
 	}
 }
 
-module oneDrilledSide(base, height, top, thickness, holeDiam, flapScrewDiam, bbDiam=16, left=true) {
-	if (true) { // New version
-		screwLength = FLAP_THICKNESS * 3;
-		difference() {
-			oneSolidSide(base, height, top, thickness, holeDiam);
-			// Flap Screw
-			rotate([90, 0, 0]) {
-				translate([-(top / 3), 
-									 0, 
-									 -(height + (FLAP_THICKNESS) + SLOT_WIDTH - screwLength + 0.1) ]) {
-					rotate([180, 0, 0]) {				
-						// Use this for countersunk head
-						metalScrewCS(flapScrewDiam, screwLength);
-						// Use this for hexagonal head
-						// cylinder(d=flapScrewDiam, h=screwLength, $fn=50);
-					}
+module oneDrilledSide(base, height, top, thickness, holeDiam, flapScrewDiam) {
+	screwLength = FLAP_THICKNESS * 3;
+	// bbDiam = getBBDims(holeDiam)[1];
+	difference() {
+		oneSolidSide(base, height, top, thickness, holeDiam);
+		// Flap Screw
+		rotate([90, 0, 0]) {
+			translate([-(top / 3), 
+								 0, 
+								 -(height + (FLAP_THICKNESS) + SLOT_WIDTH - screwLength + 0.1) ]) {
+				rotate([180, 0, 0]) {				
+					// Use this for countersunk head
+					metalScrewCS(flapScrewDiam, screwLength);
+					// Use this for hexagonal head
+					// cylinder(d=flapScrewDiam, h=screwLength, $fn=50);
 				}
-			}
-		}
-	} else {
-		difference() {
-			oneSolidSide(base, height, top, thickness);
-			// The top axis
-			translate([0, height, 0]) {
-				cylinder(h=thickness * 2, d=holeDiam, center=true, $fn=50);
-			}
-			// Ball bearing socket
-			translate([0, height, (left ? 1 : -1) * (0.5 * thickness / 3)]) {
-				cylinder(h=thickness, d=bbDiam, center=true, $fn=50);
 			}
 		}
 	}
@@ -379,15 +366,7 @@ module mainStand(totalStandWidth,
 								 topWidth, 
 								 thickness, 
 								 mainAxisDiam, 
-								 motorSide, 
-								 motorDepth,
-								 motorAxisDiam, 
-								 motorAxisLength, 
-								 betweenScrews,
-								 screwDiam,
-								 flapScrewDiam,
-								 bbDiam,
-								 withMotor=false) {
+								 flapScrewDiam) {
 	// left
 	translate([0, totalStandWidth / 2, 0]) {
 		rotate([90, 0, 0]) {
@@ -396,7 +375,7 @@ module mainStand(totalStandWidth,
 			}
 		}
 	}
-	// right /*, with the motor socket */
+	// right
 	difference() {
 		translate([0, -totalStandWidth / 2, 0]) {
 			rotate([90, 0, 0]) {
@@ -405,20 +384,7 @@ module mainStand(totalStandWidth,
 				}
 			}
 		}
-		if (false) {
-			color("silver") {
-				// Motor socket
-				translate([0, -((totalStandWidth / 2) + (motorSide / 2)), height / 2]) {
-					motor(motorSide, 39, motorAxisDiam, motorAxisLength, betweenScrews, screwDiam);
-				}
-			}
-		}
 	}
-	if (withMotor) {
-		translate([0, -((totalStandWidth / 2) + (motorSide / 2)), height / 2]) {
-			motor(motorSide, 39, motorAxisDiam, motorAxisLength, betweenScrews, screwDiam);
-		}
-	}		
 	// base
 	translate([0, 0, -thickness / 2]) {
 		color("turquoise") {
@@ -428,13 +394,12 @@ module mainStand(totalStandWidth,
 }
 
 module oneBracketSide(mainAxisDiam,
-										  bbDiam=16, // Ball Bearing diam, @deprecated
 										  sizeAboveAxis,
 											sizeBelowAxis,
 											thickness=10,
 											plateWidth,
 											bottomCylinderDiam) {
-  echo("Main Axis Diam", mainAxisDiam);												
+  // echo("Main Axis Diam", mainAxisDiam);												
 	heightOutAll = sizeAboveAxis + sizeBelowAxis;													
   difference() {												
 		cube([thickness, plateWidth, (heightOutAll)], center=true);
@@ -463,7 +428,6 @@ module counterweightCylinder(length, extDiam, thickness) {
 }
 
 module panelBracket(mainAxisDiam,
-										bbDiam=16, // Ball Bearing diam
 										sizeAboveAxis,
 										sizeBelowAxis,
 										widthOutAll,
@@ -482,7 +446,6 @@ module panelBracket(mainAxisDiam,
 		color("green") {
 			difference() {
 				oneBracketSide(mainAxisDiam,
-											 bbDiam,
 											 sizeAboveAxis,
 											 sizeBelowAxis,
 											 thickness,
@@ -511,7 +474,6 @@ module panelBracket(mainAxisDiam,
 		rotate([0, 0, 180]) {
 			color("red") {
 				oneBracketSide(mainAxisDiam,
-											 bbDiam,
 											 sizeAboveAxis,
 											 sizeBelowAxis,
 											 thickness,
@@ -648,7 +610,7 @@ ONE_BRACKET_SIDE = 8;
 FULL_BRACKET = 9;
 BALL_BEARING_STAND = 10;
 
-option = BALL_BEARING_STAND;
+option = MAIN_STAND;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -680,15 +642,7 @@ if (option == FULL_BASE) {
 						_topWidth, 
 						_thickness, 
 						_horizontalAxisDiam, 
-						_motorSide, 
-						_motorDepth,
-						_motorAxisDiam, 
-						_motorAxisLength, 
-						_betweenScrews,
-						_screwDiam,
-						_flapScrewDiam,
-						_bbDiam,
-						false);
+						_flapScrewDiam);
 } else if (option == FLAT_SIDE) {
 	flatSide(_length, _height, _topWidth);
 } else if (option == ONE_DRILLED_SIDE) {
@@ -736,7 +690,6 @@ if (option == FULL_BASE) {
 	}
 } else if (option == ONE_BRACKET_SIDE) {
 	oneBracketSide(_horizontalAxisDiam,
-								 _bbDiam,
 								 _sizeAboveAxis,
 								 _sizeBelowAxis,
 								 _thickness,
@@ -745,7 +698,6 @@ if (option == FULL_BASE) {
 } else if (option == FULL_BRACKET) {
 	translate([-_widthOutAll, 0, 0]) {
 		panelBracket(_horizontalAxisDiam,
-								_bbDiam,
 								_sizeAboveAxis,
 								_sizeBelowAxis,
 								_widthOutAll,
@@ -764,7 +716,6 @@ if (option == FULL_BASE) {
 	
 	translate([_widthOutAll, 0, 0]) {
 		panelBracket(_horizontalAxisDiam,
-								_bbDiam,
 								_sizeAboveAxis,
 								_sizeBelowAxis,
 								_widthOutAll,
@@ -776,7 +727,7 @@ if (option == FULL_BASE) {
 								withCylinder=true);
 	}
 } else if (option == BALL_BEARING_STAND) {
-	echo("FootSize", fixingFootSize, " width", fixingFootWidth);
+	// echo("FootSize", fixingFootSize, " width", fixingFootWidth);
 	dims = getBBDims(_motorAxisDiam);
 	ballBearingStand(_motorAxisDiam,
 									 30,
