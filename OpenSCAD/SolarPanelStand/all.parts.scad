@@ -102,7 +102,6 @@ module footedBase(cylHeight,
 					}
 				}
 			}
-
 			// Crosshair
 			crosshairBaseWidth = 5;
 			points = [
@@ -153,8 +152,8 @@ module footedBase(cylHeight,
 							str = CARD_POINTS[angle / 90];
 							// echo("For ", angle, " => ", str);
 							translate([(extDiam / 2) - 0.5, 
-											 0, 
-											 cylHeight - indexHeight - fontSize - 1]) {
+											   0, 
+											   cylHeight - indexHeight - fontSize - 1]) {
 								rotate([90, 0, 90]) {
 									color("red") {
 										linear_extrude(1.5, center=true, convexity=4) {
@@ -295,27 +294,39 @@ module oneDrilledSide(base, height, top, thickness, holeDiam, flapScrewDiam) {
 	}
 }
 
-
 /**
  * For pre-viewing only, not to print.
  * Can be used with a difference() for a motor socket.
  * Datasheet at http://www.mosaic-industries.com/embedded-systems/microcontroller-projects/stepper-motors/specifications
  * Default values for NEMA-17
+ *
+ * @param motorSide Number. Edge size of the square face of the motor
+ * @param motorDepth Number. Edge size of the side of the motor
+ * @param motorAxisDiam Number. Motor axis diameter
+ * @param axisStageThickness Number. Thickness of the circular base of the axis
+ * @param axisStageDiam Number. Diameter of the circular base of the axis
+ * @param motorAxisLength Number. Axis length, from the circular bas top to the end of the axis
+ * @param betweenScrews Number. Distance between the 4 screws fixing the motor
+ * @param screwDiam Number. Diameter of the screws fixing the motor
+ * @param withScrews Boolean. Tells if the screws (HB) have to be displayed (for motor rendering). If not, cylinders will be used instead, that would be for a difference()
+ * @param screwLen Number. Used if withScrews is true
+ * @param wallThickness Number. Used if withScrews is true, to know how far from the motor the screw's head is.
+ * @param forSocket Boolean. If true, this would be for a difference(). Circular base diameter, thickness and axis diameter will be multiplied by 1.1
+ * @param label String. Label to display on the motor, if the motor is displayed.
  */
 module motor(motorSide=42.32, 
 						 motorDepth=39, 
-						 motorAxisDiam=5, 
+						 motorAxisDiam=5,      // Increase that one when in difference
 						 axisStageThickness=2,
-						 axisStageDiam=22,
+						 axisStageDiam=22,     // Increase that one when in difference
 						 motorAxisLength=24, 
 						 betweenScrews=31, 
 						 screwDiam=3, 
 						 withScrews=false, 
 						 screwLen=10,
 						 wallThickness=0,
+						 forSocket=false,
 						 label="NEMA-17") {
-							 
-	
 	axisHangingFromBox = 	motorAxisLength + axisStageThickness;				 
 	union() {
 		// Motor
@@ -333,20 +344,24 @@ module motor(motorSide=42.32,
 				}
 			}
 		}
-		
 		// Axis stage and axis
 		offset = 5; // Stuck inside (usefull when difference()...)
 		rotate([90, 0, 0]) {
 			// Axis stage
 			translate([0, 0, -(motorDepth / 2) - axisStageThickness]) {
 				color("orange") {
-					cylinder(h=axisStageThickness + 1, d=axisStageDiam, $fn=100); // + 1 is an offset, for difference()...
+					cylinder(h=axisStageThickness * (forSocket ? 1.1 : 1), 
+									 d=(axisStageDiam * (forSocket ? 1.1 : 1)), 
+									 $fn=100); 
 				}
 			}
 			// Axis
 			translate([0, 0, -((axisHangingFromBox / 2) + (motorDepth / 2) - offset)]) {
 				color("white") {
-					cylinder(h=axisHangingFromBox + (offset * 2), d=motorAxisDiam, center=true, $fn=50);
+					cylinder(h=axisHangingFromBox + (offset * 2), 
+									 d=motorAxisDiam  * (forSocket ? 1.1 : 1), 
+									 center=true, 
+									 $fn=50);
 				}
 			}
 		}
@@ -466,7 +481,6 @@ module panelBracket(mainAxisDiam,
 										motorDepth=39,
 										withMotor=false,
 										withCylinder=false) {
-
   heightOutAll = sizeAboveAxis + sizeBelowAxis;
 	cylinderThickness = 1;
   // right
@@ -482,7 +496,7 @@ module panelBracket(mainAxisDiam,
 				// Motor socket here
 				rotate([0, 0, -90]) {
 					translate([0, -motorDepth / 2, (heightOutAll / 2) - sizeAboveAxis - betweenAxis]) {
-						motor(withScrews=false, wallThickness=thickness / 2); // TODO Tweak thickness
+						motor(withScrews=false, wallThickness=thickness / 2, forSocket=true); // TODO Tweak thickness
 					}
 				}
 			}
@@ -573,7 +587,6 @@ module panelBracket(mainAxisDiam,
 				}
 			}
 		}
-	
 		translate([0, 0, -(heightOutAll / 2) + (bottomCylinderDiam / 2)]) {
 			rotate([0, 90, 0]) {
 				color("yellow") {
@@ -585,7 +598,6 @@ module panelBracket(mainAxisDiam,
 	}
 }
 
-
 module motorSocketTest() {
 	motorDepth = 39;
 	socketThickness = 20;
@@ -593,7 +605,7 @@ module motorSocketTest() {
 		cube(size=[60, 60, 20], center=true);
 		rotate([-90, 0, 0]) {
 			translate([0, -(motorDepth / 2), 0]) {
-				motor(withScrews=false, motorDepth=motorDepth, label=" ");
+				motor(withScrews=false, motorDepth=motorDepth, forSocket=true, label=" ");
 			}
 		}
 		translate([0, -25.5, 10]) {
@@ -615,7 +627,7 @@ module motorSocketTest() {
 	}
 }
 
-// Options
+// Options, for local tests
 cylHeight = 50;
 cylHeight2 = 35;
 extDiam = 110;
@@ -670,7 +682,7 @@ FULL_BASE_FEET_INSIDE = 11;
 
 MOTOR_SOCKET_TEST = 12;
 
-option = MOTOR_SOCKET_TEST;
+option = MOTOR_SOCKET;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -728,9 +740,8 @@ if (option == FULL_BASE) {
 		*/
 	
 	translate([0, 0, 60]) {
-		motor(withScrews=true, wallThickness=3);
+		motor(withScrews=true, wallThickness=3, forSocket=false);
 	}
-	
 	translate([30, 0, 0]) {
 		cubeThickness = 20;
 		motorDepth = 39;
@@ -749,7 +760,7 @@ if (option == FULL_BASE) {
 		difference() {
 			cube(size=[50, cubeThickness, 50], center=true);
 			translate([0, - ((motorDepth / 2) - (cubeThickness / 2) + wallThickness), 0]) {
-				motor(withScrews=false, wallThickness=wallThickness);
+				motor(withScrews=false, wallThickness=wallThickness, forSocket=true);
 			}
 		}
 	}
@@ -763,22 +774,21 @@ if (option == FULL_BASE) {
 } else if (option == FULL_BRACKET) {
 	translate([-_widthOutAll, 0, 0]) {
 		panelBracket(_horizontalAxisDiam,
-								_sizeAboveAxis,
-								_sizeBelowAxis,
-								_widthOutAll,
-								_thickness,
-								_plateWidth,
-								_betweenAxis, // between main axis and motor axis
-								_bottomCylinderDiam,
-								withMotor=false,
-								withCylinder=false);
+								 _sizeAboveAxis,
+								 _sizeBelowAxis,
+								 _widthOutAll,
+								 _thickness,
+								 _plateWidth,
+								 _betweenAxis, // between main axis and motor axis
+								 _bottomCylinderDiam,
+								 withMotor=false,
+								 withCylinder=false);
 	}
 	cylinderLength = _widthOutAll - (2 * _thickness) - (2 * _thickness);
 	cylinderThickness = 1;
 	color("yellow") {
 		counterweightCylinder(cylinderLength, _bottomCylinderDiam, cylinderThickness);
 	}
-	
 	translate([_widthOutAll, 0, 0]) {
 		panelBracket(_horizontalAxisDiam,
 								_sizeAboveAxis,
@@ -819,3 +829,4 @@ if (option == FULL_BASE) {
 	}
 }
 
+// Tadaaa!

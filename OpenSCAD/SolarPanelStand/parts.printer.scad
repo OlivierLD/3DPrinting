@@ -2,7 +2,7 @@
  * To print all parts 
  * for the solar panel stand
  *
- * Note: Use it from prinitng.v1.scad and similar sc ripts.
+ * Note: Use it from prinitng.v*.scad and similar scripts.
  */
 use <./mechanical.parts.scad>
 use <./all.parts.scad>
@@ -281,3 +281,5 @@ module printBallBearingStand(diam,
 module customPrint() { // You choose!
 	footedBase(40, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
 }
+
+echo("This script will show nothing...");
