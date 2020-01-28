@@ -58,7 +58,7 @@ echo(">>> Choose the part to design at the bottom of the script.");
 echo(">>> ------------------------------------------------------");
 // Choose your own below, uncomment the desired one.
 //----------------
-/*
+
 printBracket(_horizontalAxisDiam,
 						 _sizeAboveAxis,
 						 _sizeBelowAxis,
@@ -69,7 +69,7 @@ printBracket(_horizontalAxisDiam,
 						 _bottomCylinderDiam,
 						 withMotor=false,
 						 withCylinder=false);
-*/
+
 /*
 printBase1(cylHeight, 
 					 extDiam, 
@@ -114,12 +114,12 @@ printMainStand(_totalStandWidth,
 							 minWallThickness,
 							 topFeetInside=topBaseFeetInside);
 */
-
+/*
 printBallBearingStand(5,
-										  30,
+										  20,
 										  fixingFootSize, 
 										  fixingFootWidth, 
 										  screwDiam, 
 										  minWallThickness);
-
+*/
 // customPrint();

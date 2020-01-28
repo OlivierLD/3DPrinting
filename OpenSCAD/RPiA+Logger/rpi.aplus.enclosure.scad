@@ -118,3 +118,9 @@ if (true) {
 		}
 	}
 }
+color("green") {
+	translate([665, -525, 2]) {
+		import("/Users/olediour/repos/3DPrinting/Raspberry_Pi_A+_board/A+_Board.stl");
+	}
+}
+
