@@ -162,6 +162,7 @@ difference() {
 											 _height, 
 											 _topWidth, 
 											 _thickness, 
+											 verticalAxisDiam,
 											 _horizontalAxisDiam, 
 											 _flapScrewDiam,
 											 extDiam, 

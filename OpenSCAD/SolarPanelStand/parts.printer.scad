@@ -197,6 +197,7 @@ module printBase2(cylHeight,
  * @param height Number. Height of the horizontal axis
  * @param topWidth Number. Width of the top, on which the flaps sit (the ones hnolding the main axis)
  * @param thickness Number. Wall tickness
+ * @param verticalAxisDiam Number. Vertical axis diameter
  * @param horizontalAxisDiam Number. Horizontal axis diameter
  * @param flapScrewDiam Number. Diam of the screws fixing the main axis in place
  * @param extDiam Number. Used to find the fixig foot drilling.
@@ -209,6 +210,7 @@ module printMainStand(totalStandWidth,
 											height, 
 											topWidth, 
 											thickness, 
+											verticalAxisDiam,
 											horizontalAxisDiam, 
 											flapScrewDiam,
 											extDiam, 
@@ -233,8 +235,15 @@ module printMainStand(totalStandWidth,
 											feetInside=topFeetInside);
 		}
 		// Axis drilling pattern. Same as above.
+		dims = getHBScrewDims(verticalAxisDiam);
+		headThickness = dims[0];
+		len = 20;
 		translate([0, 0, 0]) {
-			axisDrillingPattern(length=100);
+			axisDrillingPattern(length=100, diam=verticalAxisDiam);
+			// Add Hex Head. TODO an option
+			translate([0, 0, -(len + (headThickness * 0.75))]) {
+				metalScrewHB(verticalAxisDiam, len);
+			}
 		}
 	}
 }

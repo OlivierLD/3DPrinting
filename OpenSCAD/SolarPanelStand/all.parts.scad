@@ -682,7 +682,7 @@ FULL_BASE_FEET_INSIDE = 11;
 
 MOTOR_SOCKET_TEST = 12;
 
-option = MOTOR_SOCKET;
+option = MAIN_STAND;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
