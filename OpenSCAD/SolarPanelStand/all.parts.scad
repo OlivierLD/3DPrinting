@@ -596,6 +596,22 @@ module motorSocketTest() {
 				motor(withScrews=false, motorDepth=motorDepth, label=" ");
 			}
 		}
+		translate([0, -25.5, 10]) {
+			linear_extrude(1.5, center=true, convexity=4) {
+				resize([20, 0], auto=true) {
+					text("This is for test", valign="center", halign="center");
+				}
+			}
+		}
+		translate([0, -30, 0]) {
+			rotate([90, 0, 0]) {
+				linear_extrude(1.5, center=true, convexity=4) {
+					resize([50, 0], auto=true) {
+						text("Motor Socket", valign="center", halign="center");
+					}
+				}
+			}
+		}
 	}
 }
 
