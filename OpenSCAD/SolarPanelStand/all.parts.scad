@@ -273,6 +273,7 @@ module oneSolidSide(base, height, top, thickness, holeDiam=5) {
 	}
 }
 
+// Main stand
 module oneDrilledSide(base, height, top, thickness, holeDiam, flapScrewDiam) {
 	screwLength = FLAP_THICKNESS * 3;
 	// bbDiam = getBBDims(holeDiam)[1];
@@ -294,11 +295,12 @@ module oneDrilledSide(base, height, top, thickness, holeDiam, flapScrewDiam) {
 	}
 }
 
+
 /**
  * For pre-viewing only, not to print.
  * Can be used with a difference() for a motor socket.
  * Datasheet at http://www.mosaic-industries.com/embedded-systems/microcontroller-projects/stepper-motors/specifications
- * Defvault values for NEMA-17
+ * Default values for NEMA-17
  */
 module motor(motorSide=42.32, 
 						 motorDepth=39, 
@@ -312,6 +314,7 @@ module motor(motorSide=42.32,
 						 screwLen=10,
 						 wallThickness=0,
 						 label="NEMA-17") {
+							 
 	
 	axisHangingFromBox = 	motorAxisLength + axisStageThickness;				 
 	union() {
@@ -582,6 +585,20 @@ module panelBracket(mainAxisDiam,
 	}
 }
 
+
+module motorSocketTest() {
+	motorDepth = 39;
+	socketThickness = 20;
+	difference() {
+		cube(size=[60, 60, 20], center=true);
+		rotate([-90, 0, 0]) {
+			translate([0, -(motorDepth / 2), 0]) {
+				motor(withScrews=false, motorDepth=motorDepth, label=" ");
+			}
+		}
+	}
+}
+
 // Options
 cylHeight = 50;
 cylHeight2 = 35;
@@ -635,7 +652,9 @@ FULL_BRACKET = 9;
 BALL_BEARING_STAND = 10;
 FULL_BASE_FEET_INSIDE = 11;
 
-option = FULL_BRACKET;
+MOTOR_SOCKET_TEST = 12;
+
+option = MOTOR_SOCKET_TEST;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -693,7 +712,7 @@ if (option == FULL_BASE) {
 		*/
 	
 	translate([0, 0, 60]) {
-			motor(withScrews=true, wallThickness=3);
+		motor(withScrews=true, wallThickness=3);
 	}
 	
 	translate([30, 0, 0]) {
@@ -776,6 +795,8 @@ if (option == FULL_BASE) {
 			}
 		}
 	}
+} else if (option == MOTOR_SOCKET_TEST) {
+	motorSocketTest();
 } else {
 	if (option != NONE) {
 		echo(str("Unknown option for now [", option, "]"));
