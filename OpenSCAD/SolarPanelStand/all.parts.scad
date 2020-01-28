@@ -600,15 +600,15 @@ module panelBracket(mainAxisDiam,
 
 module motorSocketTest() {
 	motorDepth = 39;
-	socketThickness = 20;
+	socketThickness = 10;
 	difference() {
-		cube(size=[60, 60, 20], center=true);
+		cube(size=[60, 60, socketThickness], center=true);
 		rotate([-90, 0, 0]) {
 			translate([0, -(motorDepth / 2), 0]) {
 				motor(withScrews=false, motorDepth=motorDepth, forSocket=true, label=" ");
 			}
 		}
-		translate([0, -25.5, 10]) {
+		translate([0, -26, (socketThickness / 2) - 0]) {
 			linear_extrude(1.5, center=true, convexity=4) {
 				resize([20, 0], auto=true) {
 					text("This is for test", valign="center", halign="center");
@@ -682,7 +682,7 @@ FULL_BASE_FEET_INSIDE = 11;
 
 MOTOR_SOCKET_TEST = 12;
 
-option = MAIN_STAND;
+option = MOTOR_SOCKET_TEST;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
