@@ -286,7 +286,7 @@ module oneDrilledSide(base, height, top, thickness, holeDiam, flapScrewDiam) {
 				rotate([180, 0, 0]) {				
 					// Use this for countersunk head
 					metalScrewCS(flapScrewDiam, screwLength);
-					// Use this for hexagonal head
+					// Use this for hexagonal head (no counteersink).
 					// cylinder(d=flapScrewDiam, h=screwLength, $fn=50);
 				}
 			}
@@ -348,9 +348,9 @@ module motor(motorSide=42.32,
 		offset = 5; // Stuck inside (usefull when difference()...)
 		rotate([90, 0, 0]) {
 			// Axis stage
-			translate([0, 0, -(motorDepth / 2) - axisStageThickness]) {
+			translate([0, 0, -(motorDepth / 2) - (axisStageThickness * (forSocket ? 1.1 : 1))]) {
 				color("orange") {
-					cylinder(h=axisStageThickness * (forSocket ? 1.1 : 1), 
+					cylinder(h=axisStageThickness * (forSocket ? 1.15 : 1), 
 									 d=(axisStageDiam * (forSocket ? 1.1 : 1)), 
 									 $fn=100); 
 				}
