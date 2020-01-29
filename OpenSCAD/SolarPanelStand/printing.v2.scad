@@ -11,22 +11,22 @@ use <./parts.printer.scad>
 // Options, dimensions, parameters
 
 cylHeight = 50;
-cylHeight2 = 20;
+cylHeight2 = 24;
 extDiam = 110;
 torusDiam = 100;
 intDiam = 90;
 ballsDiam = 5;
-verticalAxisDiam = 5;
+verticalAxisDiam = 6;
 
 fixingFootSize = 20;
 fixingFootWidth = 20;
 screwDiam = 4;
-screwLen = 30;
+// screwLen = 30;
 minWallThickness = 5;
 
 topBaseFeetInside = true; // For the top base only
 
-wormGearAxisDiam = 10; // Tube diam.
+wormGearAxisDiam = 10; // Tube diam, not axis.
 
 _totalStandWidth = 130;
 _length = 130; 
@@ -56,6 +56,7 @@ echo(">>> ------------------------------------------------------");
 echo(">>> After adjusting the values,");
 echo(">>> Choose the part to design at the bottom of the script.");
 echo(">>> ------------------------------------------------------");
+
 // Choose your own below, uncomment the desired one.
 //----------------
 /*
@@ -85,7 +86,7 @@ printBase1(cylHeight,
 					 extDiam / 3, 
 					 cylHeight / 2);
 */					 
-/*
+
 printBase2(cylHeight2, 
 					 extDiam, 
 					 torusDiam, 
@@ -96,11 +97,11 @@ printBase2(cylHeight2,
 					 screwDiam, 
 					 minWallThickness,
 					 feetInside = topBaseFeetInside);
-*/
+
 /*
 printCylinder(_widthOutAll, _thickness, _bottomCylinderDiam);
 */
-
+/*
 printMainStand(_totalStandWidth, 
 							 _length, 
 							 _height, 
@@ -114,7 +115,7 @@ printMainStand(_totalStandWidth,
 							 screwDiam, 
 							 minWallThickness,
 							 topFeetInside=topBaseFeetInside);
-
+*/
 /*
 printBallBearingStand(5,
 										  20,

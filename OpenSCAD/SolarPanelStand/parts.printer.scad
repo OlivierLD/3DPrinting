@@ -2,6 +2,8 @@
  * To print all parts 
  * for the solar panel stand
  *
+ * Uses all.parts.scad
+ *
  * Note: Use it from prinitng.v*.scad and similar scripts.
  */
 use <./mechanical.parts.scad>
@@ -36,6 +38,19 @@ module printBracket(horizontalAxisDiam,
 										motorDepth=39,
 									  withMotor=false,
 									  withCylinder=false) {
+	echo(str("--- Current Settings for Bracket ---"));
+  echo(str("Horizontal axis diam...........: ", horizontalAxisDiam));												
+  echo(str("Above axis.....................: ", sizeAboveAxis));												
+  echo(str("Below axis.....................: ", sizeBelowAxis));												
+  echo(str("Total width....................: ", widthOutAll));												
+  echo(str("Wall thickness.................: ", thickness));												
+  echo(str("Walls and plate width..........: ", plateWidth));												
+  echo(str("Between axis (motor and main)..: ", betweenAxis));												
+  echo(str("Cylinder diam..................: ", bottomCylinderDiam));												
+  echo(str("Motor depth....................: ", motorDepth));												
+  echo(str("With motor.....................: ", (withMotor?"yes":"no")));												
+  echo(str("With cylinder..................: ", (withCylinder?"yes":"no")));												
+
 	panelBracket(horizontalAxisDiam,
 							 sizeAboveAxis,
 							 sizeBelowAxis,
@@ -102,7 +117,7 @@ module printBase1(cylHeight,
 				// hole at the back, to access the screw on the axis
 				translate([-torusDiam / 2, 0, cylHeight / 3]) {
 					rotate([0, 90, 0]) {
-						holeDepth = (extDiam - intDiam) * 1.1;
+						holeDepth = (extDiam - intDiam) * 2;
 						linear_extrude(height=holeDepth, center=true) {		
 							resize([cylHeight / 3, (cylHeight / 3) * 2]) {
 								circle(d=cylHeight / 3, $fn=100);
@@ -110,6 +125,12 @@ module printBase1(cylHeight,
 						}
 					}
 				}
+				// E-W holes
+//				translate([0, (extDiam * 1.1) / 2, cylHeight / 3]) {
+//					rotate([90, 0, 0]) {
+//						cylinder(d=cylHeight / 3, h=extDiam * 1.1, $fn=100);
+//					}
+//				}
 			}
 			// Bottom ball bearing socket, facing down.
 			rotate([180, 0, 0]) {
@@ -218,6 +239,22 @@ module printMainStand(totalStandWidth,
 											screwDiam, 
 											minWallThickness,
 											topFeetInside=false) {
+
+	echo(str("--- Current Settings for Main Stand ---"));
+  echo(str("Total width...................: ", totalStandWidth));					
+  echo(str("Length........................: ", length));												
+  echo(str("Height........................: ", height));												
+  echo(str("Top length....................: ", topWidth));												
+  echo(str("Wall thickness................: ", thickness));												
+  echo(str("Verticxal axis diam...........: ", verticalAxisDiam));												
+  echo(str("Horizontal axis diam..........: ", horizontalAxisDiam));												
+  echo(str("Flap screws diam..............: ", flapScrewDiam));												
+  echo(str("Cylinder below ext diam.......: ", extDiam));												
+  echo(str("Fixing feet size..............: ", fixingFootSize));												
+  echo(str("Fixing feet screw diam........: ", screwDiam));												
+  echo(str("Fixing feet min wall thickness: ", minWallThickness));												
+  echo(str("Feet inside...................: ", (topFeetInside ? "yes" : "no")));
+												
 	difference() {
 		mainStand(totalStandWidth, 
 							length, 

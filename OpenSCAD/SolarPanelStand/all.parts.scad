@@ -1,9 +1,12 @@
 /**
  * @author OlivierLD
  *
- * The full stand... Using other scad files.
+ * All parts for the full stand... Using other scad files.
+ * Used by parts.printer.scad,
+ * itsef used by printing.v*.scad
  *
- * To set the required option, see the option variable at the bottom of the script.
+ * For testing, to set the required option, 
+ * see the option variable at the bottom of the script.
  */
 use <./mechanical.parts.scad>
 use <./grooved.cylinder.scad>
@@ -87,7 +90,7 @@ module footedBase(cylHeight,
 				groovedCylinder(cylHeight, extDiam, torusDiam, intDiam, ballsDiam);
 			}
 
-			// 3 Feet
+			// 3 Feet. TODO Make it a parameter?
 			footOffset = !feetInside ?
 									 (extDiam / 2) + ((fixingFootSize / 2) - minWallThickness) :
 									 (extDiam / 2) - ((fixingFootSize / 2) + minWallThickness);
@@ -135,7 +138,7 @@ module footedBase(cylHeight,
 			bigIndexHeight   = 8;
 			smallIndexHeight = 5;
 			if (fullIndex) {
-				offset = 3;
+				offset = 2; // Engraving depth
 				for (angle = [0:5:359]) {
 					// echo("Angle: ", angle);
 					indexHeight = (angle % 45 == 0) ? bigIndexHeight : smallIndexHeight;
@@ -169,7 +172,7 @@ module footedBase(cylHeight,
 				indexHeight = bigIndexHeight;
 				for (angle = [0, 180]) {
 					rotate([0, 0, angle]) {
-						translate([(extDiam / 2) + 3,  // TODO Fix all that...
+						translate([(extDiam / 2) + 4,  // TODO Fix all that...
 											 0, 
 											 cylHeight - (indexHeight / 2) - 1]) {
 							color("cyan") {
@@ -193,7 +196,7 @@ module drillingPattern(extDiam,
 	// 0.2 is the drilling offset in the foot. See in grooved.cylinder.scad.
 	radius = !feetInside ? 
 					 (extDiam / 2) + (fixingFootSize / 2) + (fixingFootSize * 0.2) - wallThickness :
-					 (intDiam / 2) - (fixingFootSize / 2) + wallThickness - (fixingFootSize * 0.2);
+					 (extDiam / 2) - (fixingFootSize / 2) - (fixingFootSize * 0.2) - wallThickness ;
 			//	 (extDiam / 2) - ((fixingFootSize / 2) + minWallThickness
 	for (angle = [0, 120, 240]) {				
 		rotate([0, 0, angle - 90]) {
@@ -545,7 +548,7 @@ module panelBracket(mainAxisDiam,
 	}
 	
 	// bottom cylinder 
-	plateThickness = 1.5;
+	plateThickness = 1.5; // TODO Expose this
 	// Plugs on each side
 	difference() {
 		union() {
@@ -601,6 +604,10 @@ module panelBracket(mainAxisDiam,
 module motorSocketTest() {
 	motorDepth = 39;
 	socketThickness = 10;
+	
+	echo(str("Motor Depth........: ", motorDepth));
+	echo(str("Socket thickness...: ", socketThickness));
+	
 	difference() {
 		cube(size=[60, 60, socketThickness], center=true);
 		rotate([-90, 0, 0]) {
