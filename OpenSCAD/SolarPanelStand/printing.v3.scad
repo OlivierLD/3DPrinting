@@ -33,7 +33,7 @@ wormGearAxisRadiusOffset = 25.5;
 wormGearAxisHeight = 30;
 
 standWidth = 130;
-standLength = 130; 
+standLength = 100; 
 standHeight = 130;
 standTopWidth = 35;
 wallThickness = 10;
@@ -90,7 +90,7 @@ printBase1(cylHeight,
 					 wormGearAxisRadiusOffset, 
 					 wormGearAxisHeight);
 */
-
+/*
 printBase2(cylHeight2, 
 					 extDiam, 
 					 torusDiam, 
@@ -101,11 +101,11 @@ printBase2(cylHeight2,
 					 fixingFootScrewDiam, 
 					 minFootWallThickness,
 					 feetInside = topBaseFeetInside);
-
+*/
 /*
 printCylinder(bracketWidthOutAll, wallThickness, bottomCylinderDiam);
 */
-/*
+
 printMainStand(standWidth, 
 							 standLength, 
 							 standHeight, 
@@ -119,7 +119,7 @@ printMainStand(standWidth,
 							 fixingFootScrewDiam, 
 							 minFootWallThickness,
 							 topFeetInside=topBaseFeetInside);
-*/
+
 /*
 printBallBearingStand(5,
 										  20,

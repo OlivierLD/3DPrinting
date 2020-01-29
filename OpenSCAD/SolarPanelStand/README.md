@@ -11,12 +11,13 @@
 	- Comment or un-comment the function calls at the bottom of the script.
 	- Preview your part.
 	- Generate ths `stl` file.
-- To visualize the current state of the art, open `the.full.stand.scad` in `OpenSCAD`.
+- To visualize the current state of the art, open `the.full.stand.scad` in `OpenSCAD`. This script itself is driven by the parameters mentioned in the scripts `included` in it, like `full.stand.prm.0*.scad`. Change the `inclkude` statement in `the.full.stand.scad` to refer to the required set of parameters.
 
 #### First preview
 
 ![Animated](./images/sunflower.gif)
 
 > Note: `github` supports the rendering of `stl` files. Click them above to **see** them.
+
 
 ---
