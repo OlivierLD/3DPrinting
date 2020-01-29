@@ -63,6 +63,7 @@ module printBracket(horizontalAxisDiam,
 							 withMotor,
 							 withCylinder);
 }
+
 /** 
  * Bottom base
  * All dimensions in millimeters.
@@ -178,8 +179,8 @@ module printBase1(cylHeight,
 			}
 		}
 	}
-
 }
+
 /**
  * Top base, the one upside down
  * All dimensions in millimeters.

@@ -149,7 +149,7 @@ difference() {
 				bracketWidthOutAll = ((standWidth - (2 * wallThickness)) - slack) - wheelThickness;
 				bracketHeightOutAll = sizeAboveAxis + sizeBelowAxis;
 				// Temp, force tilt.
-				// bracketTiltAngle = -45;
+				bracketTiltAngle = -45;
 				deltaH = ((bracketHeightOutAll / 2) - sizeAboveAxis);
 				// Panel bracket. See sinus and cosinus on the translate.
 				translate([(standTopWidth / 6) + (sin(bracketTiltAngle) * deltaH), // Back and forth
@@ -201,14 +201,29 @@ difference() {
 		}
 		// Worm gear motor
 		if (withBase) {
-			translate([wormGearAxisRadiusOffset, 150, (motorSide / 2)]) {
+			axisLength = 300;
+			motorBaseSide = 50;
+			
+			translate([wormGearAxisRadiusOffset, (axisLength / 2) + 30, wormGearAxisHeight /*(motorSide / 2)*/ ]) {
+				translate([-(motorBaseSide / 2), -(motorBaseSide / 2), -wormGearAxisHeight]) {
+					// A base for the motor
+					color("brown") {
+						cube(size=[motorBaseSide, motorBaseSide, (wormGearAxisHeight - (motorSide / 2))]);
+					}
+				}
 				rotate([0, 0, 180]) {
 					motor(withScrews=true);
 				}
-				// worm gear axis
+				// worm gear axis and coupler
 				rotate([90, 0, 0]) {
-					color("grey") {
-						cylinder(d=motorAxisDiam, h=300, $fn=50);
+					color("grey", 0.75) {
+						cylinder(d=motorAxisDiam, h=axisLength, $fn=50);
+					}
+					// Coupler
+					translate([0, 0, 20 + (25 / 2)]) {
+						color("blue", 0.85) {
+							cylinder(d=19, h=25); // 5-5 coupler
+						}
 					}
 				}
 			}
@@ -218,7 +233,7 @@ difference() {
 			translate([wormGearAxisRadiusOffset, 100, 0]) { 
 				rotate([0, 0, -90]) {
 					ballBearingStand(motorAxisDiam,
-													 motorSide / 2,
+													 wormGearAxisHeight, // motorSide / 2,
 													 fixingFootSize, 
 													 fixingFootWidth, 
 													 fixingFootScrewDiam, 
@@ -234,7 +249,7 @@ difference() {
 			translate([wormGearAxisRadiusOffset, -100, 0]) { 
 				rotate([0, 0, 90]) {
 					ballBearingStand(motorAxisDiam,
-													 motorSide / 2,
+													 wormGearAxisHeight, // motorSide / 2,
 													 fixingFootSize, 
 													 fixingFootWidth, 
 													 fixingFootScrewDiam, 
