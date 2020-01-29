@@ -45,9 +45,9 @@ bigWheelDiam = 100;
 smallWheelDiam = 12; // 30;
 // -------------------------
 
-sizeAboveAxis = 80; // Tossion! Needs to be bigger than standLength / 2
-sizeBelowAxis = 120; // Tossion!
+sizeAboveAxis = 70;   // Needs to be bigger than standLength / 2
+sizeBelowAxis = 120; 
 bracketWidthOutAll = 90; // Can be re-calculated
 bracketPlateWidth = 60;
-betweenAxis = 60;        // Between main and motor axis. May be re-calculated
-conterweightCylinderDiam = 35;
+betweenAxis = 56;        // Between main and motor axis. May be re-calculated
+counterweightCylinderDiam = 35;

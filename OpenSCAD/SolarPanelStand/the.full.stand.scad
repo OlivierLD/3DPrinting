@@ -2,6 +2,7 @@
  * @author OlivierLD
  *
  * The full stand... Using other scad files.
+ * See "include" statement below.
  *
  * Used to visualize the whole project, not for print.
  * Animation available in stuck mode.
@@ -21,9 +22,6 @@ tiltAnimation = true; // Set to true to enable %$t based animations on the brack
 
 withBase = true;
 withSolarPanel = true && stuck;
-
-// Two grooved cylinders, with 3 feet, and a crosshair.
-// The bottom one has a place for a worm gear.
 
 // Change at will...
 include <./param.set.03.scad>
@@ -127,7 +125,7 @@ difference() {
 											 minFootWallThickness,
 											 topFeetInside=topBaseFeetInside);
 				// The main axis / rod, with the big wheel gear
-				betweenAxis = (bigWheelDiam + smallWheelDiam) / 2;
+				// betweenAxis = (bigWheelDiam + smallWheelDiam) / 2;
 				slack = 5; // Around the wheels, left and right.
 				// echo("Tilt:", bracketTiltAngle);
 				rotate([90, 0, 0]) {
@@ -149,30 +147,37 @@ difference() {
 					}
 				}
 				bracketWidthOutAll = ((standWidth - (2 * wallThickness)) - slack) - wheelThickness;
-				// Panel bracket
-				translate([(standTopWidth / 6),   // Back and forth
-									 0,                 // Along the axis
+				bracketHeightOutAll = sizeAboveAxis + sizeBelowAxis;
+				// Temp, force tilt.
+				bracketTiltAngle = -45;
+				deltaH = ((bracketHeightOutAll / 2) - sizeAboveAxis);
+				// Panel bracket. See sinus and cosinus on the translate.
+				translate([(standTopWidth / 6) + (sin(bracketTiltAngle) * deltaH), // Back and forth
+									 0,                   // Along the axis
 									// Up & Down
-									 + (standHeight + (0 * wallThickness / 2))                      // Main stand height
-									 - (((sizeAboveAxis + sizeBelowAxis) / 2) - sizeAboveAxis) // Bracket // FIXME Pb on bracketTilt when above and below are different
-									 + (stuck ? 0 : (3 * betweenParts))]) {        // stuck / apart
+									 + (standHeight + (0 * wallThickness / 2))       // Main stand height
+									// Pb on bracketTilt when above and below are different
+						  		 - (cos(bracketTiltAngle) * deltaH)              // Bracket 
+									 + (stuck ? 0 : (3 * betweenParts))]) {          // stuck / apart
 					
 					rotate([bracketTiltAngle, 0, -90]) { // Bracket rotation (tilt angle) here.
-						panelBracket(horizontalAxisDiam,
+						printBracket(horizontalAxisDiam,
 												 sizeAboveAxis,
 												 sizeBelowAxis,
 												 bracketWidthOutAll,
 												 wallThickness,
 												 bracketPlateWidth,
 												 betweenAxis, // between main axis and motor axis
-												 conterweightCylinderDiam,
+												 counterweightCylinderDiam,
 												 withMotor=true,
 												 withCylinder=true);
 						// TODO Main axis ball bearings
 						
 						// Small wheel, attached to the motor axis
 						rotate([0, 90, 0]) {
-							translate([betweenAxis, 0, (bracketWidthOutAll / 2) + 3 /*slack*/]) {
+							translate([betweenAxis - ((sizeBelowAxis - sizeAboveAxis) / 2), 
+							           0, 
+							           (bracketWidthOutAll / 2) + 3 /*slack*/]) {
 								color("orange") {
 									cylinder(d=smallWheelDiam,
 													 h=wheelThickness,
@@ -182,7 +187,9 @@ difference() {
 						}
 						// Solar panel?
 						if (withSolarPanel) {
-							translate([-solarPanelDimensions[0] / 2, -solarPanelDimensions[1] / 2, sizeAboveAxis + solarPanelDimensions[2]]) {
+							translate([-solarPanelDimensions[0] / 2, 
+												 -solarPanelDimensions[1] / 2, 
+												 (bracketHeightOutAll / 2) + solarPanelDimensions[2]]) {
 								color("black", 0.75) {
 									cube(size=solarPanelDimensions);
 								}

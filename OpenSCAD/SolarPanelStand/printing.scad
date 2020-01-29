@@ -30,7 +30,7 @@ printBracket(horizontalAxisDiam,
 						 wallThickness,
 						 bracketPlateWidth,
 						 betweenAxis, // between main axis and motor axis
-						 conterweightCylinderDiam,
+						 counterweightCylinderDiam,
 						 withMotor=false,
 						 withCylinder=false);
 
@@ -62,7 +62,7 @@ printBase2(topCylinderHeight,
 					 feetInside = topBaseFeetInside);
 */
 /*
-printCylinder(bracketWidthOutAll, wallThickness, conterweightCylinderDiam);
+printCylinder(bracketWidthOutAll, wallThickness, counterweightCylinderDiam);
 */
 /*
 printMainStand(standWidth, 

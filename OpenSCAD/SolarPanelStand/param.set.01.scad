@@ -42,7 +42,7 @@ flapScrewDiam = 3;
 // -- See what this becomes... 
 wheelThickness = 10;
 bigWheelDiam = 100;
-smallWheelDiam = 12; // 30;
+smallWheelDiam = 30;
 // -------------------------
 
 sizeAboveAxis = 100; // Tossion! Needs to be bigger than standLength / 2
@@ -50,4 +50,4 @@ sizeBelowAxis = 130; // Tossion!
 bracketWidthOutAll = 90; // Can be re-calculated
 bracketPlateWidth = 60;
 betweenAxis = 60;        // Between main and motor axis. May be re-calculated
-conterweightCylinderDiam = 35;
+counterweightCylinderDiam = 35;

@@ -46,7 +46,7 @@ module printBracket(horizontalAxisDiam,
   echo(str("Wall thickness.................: ", thickness));												
   echo(str("Walls and plate width..........: ", plateWidth));												
   echo(str("Between axis (motor and main)..: ", betweenAxis));												
-  echo(str("Cylinder diam..................: ", bottomCylinderDiam));												
+  echo(str("Counterweight cylinder diam....: ", bottomCylinderDiam));												
   echo(str("Motor depth....................: ", motorDepth));												
   echo(str("With motor.....................: ", (withMotor?"yes":"no")));												
   echo(str("With cylinder..................: ", (withCylinder?"yes":"no")));												

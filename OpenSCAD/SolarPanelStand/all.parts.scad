@@ -172,7 +172,7 @@ module footedBase(cylHeight,
 				indexHeight = bigIndexHeight;
 				for (angle = [0, 180]) {
 					rotate([0, 0, angle]) {
-						translate([(extDiam / 2) + 4,  // TODO Fix all that...
+						translate([(extDiam / 2) + 3,  // TODO Fix all that...
 											 0, 
 											 cylHeight - (indexHeight / 2) - 1]) {
 							color("cyan") {
@@ -457,7 +457,7 @@ module oneBracketSide(mainAxisDiam,
 				cylinder(thickness * 2, d=dims[0] * 1.1, center=true, $fn=true);
 			}
 		}
-		// drill for the cylinder threaded rod
+		// drill for the cylinder threaded rod, at the bottom. HardCoded diam 4 for now.
 		rotate([90, 0, 90]) {
 			translate([0, (- (heightOutAll/2) + (bottomCylinderDiam / 2)), 0]) {
 				cylinder(h=thickness * 3, d=4, center=true, $fn=true); // TODO 4: prm

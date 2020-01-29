@@ -50,4 +50,4 @@ sizeBelowAxis = 120; // Tossion!
 bracketWidthOutAll = 90; // Can be re-calculated
 bracketPlateWidth = 60;
 betweenAxis = 60;        // Between main and motor axis. May be re-calculated
-conterweightCylinderDiam = 35;
+counterweightCylinderDiam = 35;
