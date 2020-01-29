@@ -7,13 +7,13 @@
 - I started from the hardware of [this instructable](https://www.instructables.com/id/Ammo-Can-Solar-Power-Supply/), and now want to have the solar panel powering the battery facing the sun as long as the sun is in the sky. This is what the device presented her is all about.
 
 ### How-to
-Different parameter sets can drive the printing process as well as the preview process. The same parameter sets (scripts) drive the two processes. Thnose parameter sets are held in files named like `param.set.**.scad`.
+Different parameter sets can drive the printing process as well as the preview process. The same parameter sets (scripts) drive the two processes. Those parameter sets are held in files named like `param.set.**.scad`.
 
 - To print the different parts, in `OpenSCAD`, use the script named `printing.scad`, which refers to scripts like `param.set.**.scad`, which hold distinct sets of parameters.
 	- Comment or un-comment the function calls at the bottom of the `printing.scad` script.
 	- Preview your part.
 	- Generate the `stl` file.
-- To visualize the current state of the art, open `the.full.stand.scad` in `OpenSCAD`. This script itself is driven by the same parameters as above, mentioned in the `include` statement, like `param.set.0*.scad`. Change the `include` statement in `the.full.stand.scad` to refer to the required set of parameters.
+- To visualize the current state of the art, open `the.full.stand.scad` in `OpenSCAD`. This script itself is driven by the same parameter files as above, mentioned in the `include` statement, like `include <./param.set.0*.scad>`. Change the `include` statement in `the.full.stand.scad` to refer to the required set of parameters.
 
 #### Examples
 To view the full device, with the set of parameters contained in `param.set.03.scad`, modify the `include` statement in the `the.full.stand.scad` so it looks like this:
