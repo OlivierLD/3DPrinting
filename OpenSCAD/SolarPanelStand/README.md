@@ -7,21 +7,27 @@
 - I started from the hardware of [this instructable](https://www.instructables.com/id/Ammo-Can-Solar-Power-Supply/), and now want to have the solar panel powering the battery facing the sun as long as the sun is in the sky. This is what the device presented her is all about.
 
 ### How-to
-- To print the different parts, in `OpenSCAD`, use the script named `parts.printer.scad`, or better, the scripts like `printing.v*.scad`, they come with distinct sets of parameters.
-	- Comment or un-comment the function calls at the bottom of the script.
+Different parameter sets can drive the printing process as well as the preview process. The same parameter sets (scripts) drive the two processes. Thnose parameter sets are held in files named like `param.set.**.scad`.
+
+- To print the different parts, in `OpenSCAD`, use the script named `printing.scad`, which refers to scripts like `param.set.**.scad`, which hold distinct sets of parameters.
+	- Comment or un-comment the function calls at the bottom of the `printing.scad` script.
 	- Preview your part.
 	- Generate the `stl` file.
-- To visualize the current state of the art, open `the.full.stand.scad` in `OpenSCAD`. This script itself is driven by the parameters mentioned in the scripts `included` in it, like `full.stand.prm.0*.scad`. Change the `include` statement in `the.full.stand.scad` to refer to the required set of parameters.
+- To visualize the current state of the art, open `the.full.stand.scad` in `OpenSCAD`. This script itself is driven by the same parameters as above, mentioned in the `include` statement, like `param.set.0*.scad`. Change the `include` statement in `the.full.stand.scad` to refer to the required set of parameters.
 
 #### Examples
-To view the full device, with the set of parameters contained in `full.stand.prm.02.scad`, modify the `include` statement in the `the.full.stand.scad` so it looks like this:
+To view the full device, with the set of parameters contained in `param.set.03.scad`, modify the `include` statement in the `the.full.stand.scad` so it looks like this:
 ```
-include <./full.stand.prm.02.scad>
+include <./param.set.03.scad>
 ```
 and then run the script (or use `F5` or `F6`).
 
-To prepare the bottom base for printing with the parameters of `printing.v3.scad`:
-- Load `printing.v3.scad` in `OpenSCAD`
+To prepare the bottom base for printing with the parameters of `param.set.03.scad`:
+- Load `printing.scad` in `OpenSCAD`
+- Make sure the `include` statement refers to `param.set.03.scad`
+```
+include <./param.set.03.scad>
+```
 - In the code editor, uncomment (remove the `/*` on top and the `*/` below) the call to the `printBase1` module:
 ```
 

@@ -205,6 +205,18 @@ module printBase2(cylHeight,
 								  screwDiam, 
 								  minWallThickness,
 									feetInside = false) {
+
+	echo(str("--- Current Settings for Top Base ---"));
+  echo(str("Height....................: ", cylHeight));												
+  echo(str("External diameter.........: ", extDiam));												
+  echo(str("Torus diameter............: ", torusDiam));												
+  echo(str("Internal diameter.........: ", intDiam));												
+  echo(str("Balls diameter............: ", ballsDiam));												
+  echo(str("Fixing feet size (H & L)..: ", fixingFootSize));												
+  echo(str("Fixing feet width.........: ", fixingFootWidth));												
+  echo(str("Fixing feet screw size....: ", screwDiam));												
+  echo(str("Fixing feet inside........: ", (feetInside ? "yes":"no")));												
+
 	difference() {									
 		footedBase(cylHeight, 
 							 extDiam, 
@@ -310,6 +322,12 @@ module printMainStand(totalStandWidth,
  * @param bottomCylinderDiam Number. External cylinder's diameter
  */
 module printCylinder(widthOutAll, thickness, bottomCylinderDiam) {
+	
+	echo(str("--- Current Settings for Cylinder ---"));
+  echo(str("Total bracket width......: ", widthOutAll));					
+  echo(str("Bracket walls thickness..: ", thickness));					
+  echo(str("Cylinder diameter........: ", bottomCylinderDiam));					
+
 	cylinderLength = widthOutAll - (2 * thickness) - (2 * thickness);
 	cylinderThickness = 1;
 	counterweightCylinder(cylinderLength, bottomCylinderDiam, cylinderThickness);	
@@ -332,6 +350,15 @@ module printBallBearingStand(diam,
 														 fixingFootWidth, 
 														 screwDiam, 
 														 minWallThickness) {
+															 
+	echo(str("--- Current Settings for Ball Bearing Stand ---"));
+  echo(str("Axis diameter...................: ", diam));					
+  echo(str("Axis height.....................: ", height));					
+  echo(str("Fixing feet Height and Length...: ", fixingFootSize));					
+  echo(str("Fixing feet width...............: ", fixingFootWidth));					
+  echo(str("Fixing feet screws diameter.....: ", screwDiam));					
+  echo(str("Fixing feet min wall thickness..: ", minWallThickness));					
+
 	ballBearingStand(diam,
 									 height,
 									 fixingFootSize, 
