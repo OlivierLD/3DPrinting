@@ -25,7 +25,7 @@ use <./all.parts.scad>
  * @param withMotor Boolean, default false.
  * @param withCylinder Boolean, default false.
  *
- * TODO Other motor dimensions (currently defaulted to NEMA-17)
+ * TODO Other motor dimensions, width and height (currently defaulted to NEMA-17)
  */
 module printBracket(horizontalAxisDiam,
 									  sizeAboveAxis,
@@ -44,12 +44,12 @@ module printBracket(horizontalAxisDiam,
   echo(str("Below axis.....................: ", sizeBelowAxis));												
   echo(str("Total width....................: ", widthOutAll));												
   echo(str("Wall thickness.................: ", thickness));												
-  echo(str("Walls and plate width..........: ", plateWidth));												
+  echo(str("Sides and plate width..........: ", plateWidth));												
   echo(str("Between axis (motor and main)..: ", betweenAxis));												
   echo(str("Counterweight cylinder diam....: ", bottomCylinderDiam));												
   echo(str("Motor depth....................: ", motorDepth));												
   echo(str("With motor.....................: ", (withMotor?"yes":"no")));												
-  echo(str("With cylinder..................: ", (withCylinder?"yes":"no")));												
+  echo(str("With counterweight cylinder....: ", (withCylinder?"yes":"no")));												
 
 	panelBracket(horizontalAxisDiam,
 							 sizeAboveAxis,

@@ -55,7 +55,7 @@ difference() {
 	union() {
 		// Base, on the bottom plate
 		if (withBase) {
-			union() {
+			union() { // TODO remove this
 				printBase1(bottomCylinderHeight, 
 									 extDiam, 
 									 torusDiam, 
@@ -149,16 +149,16 @@ difference() {
 				bracketWidthOutAll = ((standWidth - (2 * wallThickness)) - slack) - wheelThickness;
 				bracketHeightOutAll = sizeAboveAxis + sizeBelowAxis;
 				// Temp, force tilt.
-				bracketTiltAngle = -45;
+				// bracketTiltAngle = -45;
 				deltaH = ((bracketHeightOutAll / 2) - sizeAboveAxis);
 				// Panel bracket. See sinus and cosinus on the translate.
 				translate([(standTopWidth / 6) + (sin(bracketTiltAngle) * deltaH), // Back and forth
-									 0,                   // Along the axis
+									 0,                                                      // Along the axis
 									// Up & Down
-									 + (standHeight + (0 * wallThickness / 2))       // Main stand height
+									 + (standHeight + (0 * wallThickness / 2))               // Main stand height
 									// Pb on bracketTilt when above and below are different
-						  		 - (cos(bracketTiltAngle) * deltaH)              // Bracket 
-									 + (stuck ? 0 : (3 * betweenParts))]) {          // stuck / apart
+						  		 - (cos(bracketTiltAngle) * deltaH)                      // Bracket 
+									 + (stuck ? 0 : (3 * betweenParts))]) {                  // stuck / apart
 					
 					rotate([bracketTiltAngle, 0, -90]) { // Bracket rotation (tilt angle) here.
 						printBracket(horizontalAxisDiam,
@@ -181,7 +181,7 @@ difference() {
 								color("orange") {
 									cylinder(d=smallWheelDiam,
 													 h=wheelThickness,
-													$fn=50);
+													 $fn=50);
 								}
 							}
 						}
@@ -189,7 +189,7 @@ difference() {
 						if (withSolarPanel) {
 							translate([-solarPanelDimensions[0] / 2, 
 												 -solarPanelDimensions[1] / 2, 
-												 (bracketHeightOutAll / 2) + solarPanelDimensions[2]]) {
+												 (bracketHeightOutAll / 2) - (solarPanelDimensions[2] / 2)]) {
 								color("black", 0.75) {
 									cube(size=solarPanelDimensions);
 								}
@@ -266,6 +266,3 @@ difference() {
 		}
 	}
 }
-
-	
-
