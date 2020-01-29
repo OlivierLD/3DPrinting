@@ -11,7 +11,39 @@
 	- Comment or un-comment the function calls at the bottom of the script.
 	- Preview your part.
 	- Generate ths `stl` file.
-- To visualize the current state of the art, open `the.full.stand.scad` in `OpenSCAD`. This script itself is driven by the parameters mentioned in the scripts `included` in it, like `full.stand.prm.0*.scad`. Change the `inclkude` statement in `the.full.stand.scad` to refer to the required set of parameters.
+- To visualize the current state of the art, open `the.full.stand.scad` in `OpenSCAD`. This script itself is driven by the parameters mentioned in the scripts `included` in it, like `full.stand.prm.0*.scad`. Change the `include` statement in `the.full.stand.scad` to refer to the required set of parameters.
+
+#### Examples
+To view the full device, with the set of parameters contained in `full.stand.prm.02.scad`, modify the `include` statement in the `the.full.stand.scad` so it looks like this:
+```
+include <./full.stand.prm.02.scad>
+```
+and then run the script (or use `F5` or `F6`).
+
+To prepare the bottom base for printing with the pareameters of `printing.v3.scad`:
+- Load `printing.v3.scad` in `OpenSCAD`
+- In the code editor, uncomment (remove the `/*` on top and the `*/` below) the call to the `printBase1` module:
+```
+
+printBase1(cylHeight, 
+           extDiam, 
+           torusDiam, 
+           intDiam, 
+           ballsDiam, 
+           fixingFootSize, 
+           fixingFootWidth, 
+           fixingFootScrewDiam, 
+           minFootWallThickness,
+           verticalAxisDiam,
+           wormGearAxisDiam,
+           wormGearAxisRadiusOffset, 
+           wormGearAxisHeight);
+
+```
+- Then render the part (use `F6`)
+- Finally Export as STL (use `F7`)
+![Rendering](./images/rendering.png)
+- Your generated STL file is ready to be used on your 3D printer.
 
 #### First preview
 

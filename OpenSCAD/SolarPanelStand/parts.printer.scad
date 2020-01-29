@@ -93,6 +93,22 @@ module printBase1(cylHeight,
 									wormGearAxisDiam,
 									workGearOffset,
 									wormGearHeight) {
+
+	echo(str("--- Current Settings for Bottom Base ---"));
+  echo(str("Height.......................................................: ", cylHeight));												
+  echo(str("External diameter............................................: ", extDiam));												
+  echo(str("Torus diameter...............................................: ", torusDiam));												
+  echo(str("Internal diameter............................................: ", intDiam));												
+  echo(str("Balls diameter...............................................: ", ballsDiam));												
+  echo(str("Fixing feet size (H & L).....................................: ", fixingFootSize));												
+  echo(str("Fixing feet width............................................: ", fixingFootWidth));												
+  echo(str("Fixing feet screw size.......................................: ", screwDiam));												
+  echo(str("Fixing feet min wall thnickness..............................: ", minWallThickness));												
+  echo(str("Vertical axis diameter.......................................: ", verticalAxisDiam));												
+  echo(str("Worm gear axis (tube) diameter...............................: ", wormGearAxisDiam));												
+  echo(str("Worm gear axis offset (between vertical and worm gear axis)..: ", workGearOffset));												
+  echo(str("Worm gear axis height........................................: ", wormGearHeight));												
+
 	dims = getBBDims(verticalAxisDiam); // [id, od, t]
 	boltDims = getHBScrewDims(verticalAxisDiam);
 	bbSocketBaseThickness = 3; // Bottom ball bearing in its socket, facing down.
