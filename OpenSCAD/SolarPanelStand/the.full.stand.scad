@@ -238,7 +238,7 @@ difference() {
 													 fixingFootWidth, 
 													 fixingFootScrewDiam, 
 													 minFootWallThickness);
-					translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, motorSide / 2]) {
+					translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, wormGearAxisHeight]) {
 						rotate([0, 90, 0]) {
 							ballBearing(motorAxisDiam);
 						}
@@ -254,7 +254,7 @@ difference() {
 													 fixingFootWidth, 
 													 fixingFootScrewDiam, 
 													 minFootWallThickness);
-					translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, motorSide / 2]) {
+					translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, wormGearAxisHeight]) {
 						rotate([0, 90, 0]) {
 							ballBearing(motorAxisDiam);
 						}
