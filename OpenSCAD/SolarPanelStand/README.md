@@ -69,6 +69,7 @@ After preparing the parts as explained above, you need to 3D-print:
 - 2 x [Ball Bearing Stands](ball.bearing.stand.stl)
 
 _**BOM**_ (in progress, details to come)
+Hardware mechanical parts
 - Ball Bearings
 - Threaded rods
 - Rods
@@ -76,6 +77,7 @@ _**BOM**_ (in progress, details to come)
 - Pinions and wheels
 - Worm gear set
 
+And then
 - Stepper motors (2, NEMA-17 in my case)
 - Raspberry Pi with its SD Card, power supply, etc.
 - Motor Hat
