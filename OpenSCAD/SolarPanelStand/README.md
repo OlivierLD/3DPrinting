@@ -78,6 +78,7 @@ Hardware mechanical parts (may vary, depending on your options)
 - [Pinion](https://www.amazon.com/gp/product/B07RVJCQS5/ref=ppx_yo_dt_b_asin_title_o00_s03?ie=UTF8&psc=1) and [wheel](https://www.amazon.com/gp/product/B00KVN5BKU/ref=ppx_yo_dt_b_asin_image_o01_s00?ie=UTF8&psc=1)
 - [Worm gear set](https://www.amazon.com/gp/product/B07G54YQL4/ref=ppx_yo_dt_b_asin_title_o00_s02?ie=UTF8&psc=1)
 - [Couplers](https://www.amazon.com/gp/product/B07M5Q7HTV/ref=ppx_yo_dt_b_asin_image_o00_s05?ie=UTF8&psc=1)
+- [Motor stand](https://www.amazon.com/gp/product/B06XPX7PPB/ref=ppx_od_dt_b_asin_title_s03?ie=UTF8&psc=1)
 
 And then
 - 2 x [Stepper motors](https://www.adafruit.com/product/324) (NEMA-17 in my case, may vary)

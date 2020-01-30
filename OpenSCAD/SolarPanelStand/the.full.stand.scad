@@ -48,6 +48,31 @@ function timeToTilt(t, stuck) =
 		[ 1, 90 ]
 	]) : 0) : 90;
 
+function spinCoupler(t, stuck) =
+	stuck ? (baseAnimation ? t * 10 * 360 : 0) : 0;
+
+module coupler() {
+	diam = 19;
+	length = 25;
+	color("silver", 0.95) {
+		cylinder(d=diam, h=length, $fn=50); // 5-5 coupler
+	}
+	spin = spinCoupler($t, stuck); // [0..3600]
+	// Screws
+	for (angle = [0, 90]) {
+		for (line = [1, 3]) {
+			rotate([angle + spin, 90, 0]) {
+//			translate([(diam / 2) - 3, 0, line * length / 4]) {
+				translate([(-line * length / 4), 0, (diam / 2) - 3]) {
+					color("black", 1.0) {
+						cylinder(d=3, h=4, $fn=50);
+					}
+				}
+			}
+		}
+	}
+}
+
 difference() {
 	currentHeight = 0;
 	baseRotationAngle = timeToRot($t, stuck); // [0..360]
@@ -233,9 +258,7 @@ difference() {
 					}
 					// Coupler
 					translate([0, 0, 20 + (25 / 2)]) {
-						color("blue", 0.85) {
-							cylinder(d=19, h=25); // 5-5 coupler
-						}
+						coupler();
 					}
 				}
 			}
