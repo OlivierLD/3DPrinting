@@ -69,7 +69,7 @@ After preparing the parts as explained above, you need to 3D-print:
 - 2 x [Ball Bearing Stands](ball.bearing.stand.stl)
 
 ##### _**BOM**_ (in progress, details to come)
-Hardware mechanical parts
+Hardware mechanical parts (may vary, depending on your options)
 - [Bearing balls](https://www.amazon.com/Piece-Assorted-Loose-Bicycle-Bearing/dp/B018B7D05K/ref=pd_rhf_se_p_img_9?_encoding=UTF8&psc=1&refRID=96QW6AH9VWVPRN8HJ1FY) (diam 1/4" in my case)
 - Ball Bearings [5mm](https://www.amazon.com/gp/product/B07DZDZNJM/ref=ppx_yo_dt_b_asin_title_o00_s03?ie=UTF8&psc=1) and [6mm](https://www.amazon.com/gp/product/B07DZKDKSF/ref=ppx_yo_dt_b_asin_title_o00_s03?ie=UTF8&psc=1).
 - [Threaded rods](https://www.amazon.com/gp/product/B078HC51KK/ref=ppx_yo_dt_b_asin_title_o00_s02?ie=UTF8&psc=1), several diameters.
@@ -80,8 +80,8 @@ Hardware mechanical parts
 - [Couplers](https://www.amazon.com/gp/product/B07M5Q7HTV/ref=ppx_yo_dt_b_asin_image_o00_s05?ie=UTF8&psc=1)
 
 And then
-- Stepper motors (2, NEMA-17 in my case)
+- 2 x [Stepper motors](https://www.adafruit.com/product/324) (NEMA-17 in my case, may vary)
 - Raspberry Pi with its SD Card, power supply, etc.
-- Motor Hat
+- [Adafruit Motor Hat](https://www.adafruit.com/product/2348)
 
 ---
