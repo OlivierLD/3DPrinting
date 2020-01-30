@@ -3,10 +3,10 @@
  *
  * All parts for the full stand... Using other scad files.
  * Used by parts.printer.scad,
- * itsef used by printing.v*.scad
+ * itsef used by printing.scad
  *
  * For testing, to set the required option, 
- * see the option variable at the bottom of the script.
+ * see the "option" variable at the bottom of the script.
  */
 use <./mechanical.parts.scad>
 use <./grooved.cylinder.scad>
@@ -291,6 +291,29 @@ module oneDrilledSide(base, height, top, thickness, holeDiam, flapScrewDiam) {
 					metalScrewCS(flapScrewDiam, screwLength);
 					// Use this for hexagonal head (no counteersink).
 					// cylinder(d=flapScrewDiam, h=screwLength, $fn=50);
+				}
+			}
+		}
+	}
+}
+
+/**
+ * 
+ * @param diam
+ * @param thickness
+ * @param homes Array[Array[Number]], [[angle, radius, diameter][
+ */
+module bigWheelStand(diam, axisDiam, thickness, holes) {
+	color("gold") {
+		difference() {
+			cylinder(h=thickness, d=diam, center=true, $fn=100);
+			cylinder(h=thickness * 1.1, d=axisDiam, center=true, $fn=100);
+			for (holeData = holes) {
+				// echo(str("0:", holeData[0], ", 1:", holeData[1], ", 2:", holeData[2])); 
+				rotate([0, 0, holeData[0]]) {
+					translate([holeData[1], 0, 0]) {
+						cylinder(d=holeData[2], h=(thickness * 1.1), center=true, $fn=50);
+					}
 				}
 			}
 		}
@@ -686,10 +709,10 @@ ONE_BRACKET_SIDE = 8;
 FULL_BRACKET = 9;
 BALL_BEARING_STAND = 10;
 FULL_BASE_FEET_INSIDE = 11;
-
 MOTOR_SOCKET_TEST = 12;
+BIG_WHEEL_STAND = 13;
 
-option = MOTOR_SOCKET_TEST;
+option = BIG_WHEEL_STAND;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -830,6 +853,58 @@ if (option == FULL_BASE) {
 	}
 } else if (option == MOTOR_SOCKET_TEST) {
 	motorSocketTest();
+} else if (option == BIG_WHEEL_STAND) {
+	// Each tuple: [angle, radius, diam]
+	// Simple sample:
+	// holes = [ [0, 20, 3], [90, 20, 3], [180, 20, 3], [270, 20, 3] ];
+	// For a real one:
+	diam = 3;
+	// Each tuple [radius, angle]
+	// ActoBotics #615238:
+	fourHoles = [[ 45.7188023, 17.14134429], [35.19371654, 22.51171482], [28.08199751, 28.67456738], [19.04712535, 45.02701357]];
+	holes = [
+	  [0 - fourHoles[0][1], fourHoles[0][0], diam],
+	  [0 - fourHoles[1][1], fourHoles[1][0], diam],
+	  [0 - fourHoles[2][1], fourHoles[2][0], diam],
+	  [0 - fourHoles[3][1], fourHoles[3][0], diam],
+	
+	  [0 + fourHoles[0][1], fourHoles[0][0], diam],
+	  [0 + fourHoles[1][1], fourHoles[1][0], diam],
+	  [0 + fourHoles[2][1], fourHoles[2][0], diam],
+	  [0 + fourHoles[3][1], fourHoles[3][0], diam],
+
+	  [90 - fourHoles[0][1], fourHoles[0][0], diam],
+	  [90 - fourHoles[1][1], fourHoles[1][0], diam],
+	  [90 - fourHoles[2][1], fourHoles[2][0], diam],
+	  [90 - fourHoles[3][1], fourHoles[3][0], diam],
+
+	  [90 + fourHoles[0][1], fourHoles[0][0], diam],
+	  [90 + fourHoles[1][1], fourHoles[1][0], diam],
+	  [90 + fourHoles[2][1], fourHoles[2][0], diam],
+	  [90 + fourHoles[3][1], fourHoles[3][0], diam],
+
+	  [180 - fourHoles[0][1], fourHoles[0][0], diam],
+	  [180 - fourHoles[1][1], fourHoles[1][0], diam],
+	  [180 - fourHoles[2][1], fourHoles[2][0], diam],
+	  [180 - fourHoles[3][1], fourHoles[3][0], diam],
+
+	  [180 + fourHoles[0][1], fourHoles[0][0], diam],
+	  [180 + fourHoles[1][1], fourHoles[1][0], diam],
+	  [180 + fourHoles[2][1], fourHoles[2][0], diam],
+	  [180 + fourHoles[3][1], fourHoles[3][0], diam],
+
+	  [270 - fourHoles[0][1], fourHoles[0][0], diam],
+	  [270 - fourHoles[1][1], fourHoles[1][0], diam],
+	  [270 - fourHoles[2][1], fourHoles[2][0], diam],
+	  [270 - fourHoles[3][1], fourHoles[3][0], diam],
+
+	  [270 + fourHoles[0][1], fourHoles[0][0], diam],
+	  [270 + fourHoles[1][1], fourHoles[1][0], diam],
+	  [270 + fourHoles[2][1], fourHoles[2][0], diam],
+	  [270 + fourHoles[3][1], fourHoles[3][0], diam]
+	];
+	diameter = 80; // 80, 90, 100
+	bigWheelStand(diameter, 6, 10, holes);
 } else {
 	if (option != NONE) {
 		echo(str("Unknown option for now [", option, "]"));

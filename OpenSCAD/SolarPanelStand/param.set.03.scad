@@ -20,7 +20,7 @@ minFootWallThickness = 4;
 
 topBaseFeetInside = true; // For the top base only
 
-wormGearAxisDiam = 10; // Tube diam, not axis.
+wormGearAxisDiam = 5; // Tube will be twice this diam
 wormGearAxisRadiusOffset = 25.5;
 wormGearAxisHeight = 30;
 
@@ -43,6 +43,9 @@ flapScrewDiam = 3;
 wheelThickness = 10;
 bigWheelDiam = 100;
 smallWheelDiam = 12; // 30;
+
+bigWheelStandDiam = 80;
+bigWheelStandThickness = 10;
 // -------------------------
 
 sizeAboveAxis = 70;   // Needs to be bigger than standLength / 2

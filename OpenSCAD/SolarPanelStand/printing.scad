@@ -11,7 +11,7 @@ use <./parts.printer.scad>
 
 // Options, dimensions, parameters
 
-include <./param.set.03.scad>
+include <./param.set.04.scad>
 
 // Execution
 
@@ -22,7 +22,7 @@ echo(">>> ------------------------------------------------------");
 
 // Choose your own below, uncomment the desired one.
 //----------------
-
+/*
 printBracket(horizontalAxisDiam,
 						 sizeAboveAxis,
 						 sizeBelowAxis,
@@ -33,8 +33,8 @@ printBracket(horizontalAxisDiam,
 						 counterweightCylinderDiam,
 						 withMotor=false,
 						 withCylinder=false);
+*/
 
-/*
 printBase1(bottomCylinderHeight, 
 					 extDiam, 
 					 torusDiam, 
@@ -45,10 +45,10 @@ printBase1(bottomCylinderHeight,
 					 fixingFootScrewDiam, 
 					 minFootWallThickness,
 					 verticalAxisDiam,
-					 wormGearAxisDiam,
+					 wormGearAxisDiam * 2,
 					 wormGearAxisRadiusOffset, 
 					 wormGearAxisHeight);
-*/
+
 /*
 printBase2(topCylinderHeight, 
 					 extDiam, 
@@ -80,8 +80,8 @@ printMainStand(standWidth,
 							 topFeetInside=topBaseFeetInside);
 */
 /*
-printBallBearingStand(5,
-										  30,
+printBallBearingStand(wormGearAxisDiam,
+										  wormGearAxisHeight,
 										  fixingFootSize, 
 										  fixingFootWidth, 
 										  fixingFootScrewDiam, 

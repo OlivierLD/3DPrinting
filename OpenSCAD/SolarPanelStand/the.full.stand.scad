@@ -24,7 +24,7 @@ withBase = true;
 withSolarPanel = true && stuck;
 
 // Change at will...
-include <./param.set.03.scad>
+include <./param.set.04.scad>
 
 solarPanelDimensions = [420, 280, 3]; // [width, length, thickness]
 
@@ -66,7 +66,7 @@ difference() {
 									 fixingFootScrewDiam, 
 									 minFootWallThickness, 
 									 verticalAxisDiam,
-									 wormGearAxisDiam, 
+									 wormGearAxisDiam * 2, 
 									 wormGearAxisRadiusOffset, 
 									 wormGearAxisHeight);
 			}
@@ -129,10 +129,22 @@ difference() {
 				slack = 5; // Around the wheels, left and right.
 				// echo("Tilt:", bracketTiltAngle);
 				rotate([90, 0, 0]) {
-					// Big wheel and its axis
+					// Big wheel, wheel stand, and its axis
+					
+					// Big wheel stand
 					translate([standTopWidth / 6, 
 										 standHeight, 
 										 (standWidth / 2) - (wallThickness / 2) - (wheelThickness)]) {
+						color("gold") {
+							cylinder(d=bigWheelStandDiam,
+											 h=bigWheelStandThickness,
+											 $fn=50);
+						}
+					}
+					// Big wheel
+					translate([standTopWidth / 6, 
+										 standHeight, 
+										 (standWidth / 2) - (wallThickness / 2) - (wheelThickness + bigWheelStandThickness)]) {
 						color("orange") {
 							cylinder(d=bigWheelDiam,
 											 h=wheelThickness,
@@ -146,17 +158,17 @@ difference() {
 						}
 					}
 				}
-				bracketWidthOutAll = ((standWidth - (2 * wallThickness)) - slack) - wheelThickness;
+				bracketWidthOutAll = ((standWidth - (2 * wallThickness)) - slack) - wheelThickness - bigWheelStandThickness;
+				echo(str(">> Bracket's width out all set to ", bracketWidthOutAll));
 				bracketHeightOutAll = sizeAboveAxis + sizeBelowAxis;
-				// Temp, force tilt.
-				bracketTiltAngle = -45;
+				// Temp, force tilt. Comment for animations.
+				// bracketTiltAngle = -45;
 				deltaH = ((bracketHeightOutAll / 2) - sizeAboveAxis);
-				// Panel bracket. See sinus and cosinus on the translate.
+				// Panel bracket. See sinus and cosinus on the translate. Specially needed if above and below sizes are different
 				translate([(standTopWidth / 6) + (sin(bracketTiltAngle) * deltaH), // Back and forth
-									 0,                                                      // Along the axis
+									 bigWheelStandThickness,                                 // Along the axis
 									// Up & Down
 									 + (standHeight + (0 * wallThickness / 2))               // Main stand height
-									// Pb on bracketTilt when above and below are different
 						  		 - (cos(bracketTiltAngle) * deltaH)                      // Bracket 
 									 + (stuck ? 0 : (3 * betweenParts))]) {                  // stuck / apart
 					
@@ -177,7 +189,7 @@ difference() {
 						rotate([0, 90, 0]) {
 							translate([betweenAxis - ((sizeBelowAxis - sizeAboveAxis) / 2), 
 							           0, 
-							           (bracketWidthOutAll / 2) + 3 /*slack*/]) {
+							           (bracketWidthOutAll / 2) + 3 + (bigWheelStandThickness / 2) /*slack*/]) {
 								color("orange") {
 									cylinder(d=smallWheelDiam,
 													 h=wheelThickness,
@@ -228,11 +240,11 @@ difference() {
 				}
 			}
 			// Ball bearings stands
-			dims = getBBDims(motorAxisDiam);
+			dims = getBBDims(wormGearAxisDiam);
 			// left
 			translate([wormGearAxisRadiusOffset, 100, 0]) { 
 				rotate([0, 0, -90]) {
-					ballBearingStand(motorAxisDiam,
+					ballBearingStand(wormGearAxisDiam,
 													 wormGearAxisHeight, // motorSide / 2,
 													 fixingFootSize, 
 													 fixingFootWidth, 
@@ -240,7 +252,7 @@ difference() {
 													 minFootWallThickness);
 					translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, wormGearAxisHeight]) {
 						rotate([0, 90, 0]) {
-							ballBearing(motorAxisDiam);
+							ballBearing(wormGearAxisDiam);
 						}
 					}
 				}
@@ -248,7 +260,7 @@ difference() {
 			// right
 			translate([wormGearAxisRadiusOffset, -100, 0]) { 
 				rotate([0, 0, 90]) {
-					ballBearingStand(motorAxisDiam,
+					ballBearingStand(wormGearAxisDiam,
 													 wormGearAxisHeight, // motorSide / 2,
 													 fixingFootSize, 
 													 fixingFootWidth, 
@@ -256,7 +268,7 @@ difference() {
 													 minFootWallThickness);
 					translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, wormGearAxisHeight]) {
 						rotate([0, 90, 0]) {
-							ballBearing(motorAxisDiam);
+							ballBearing(wormGearAxisDiam);
 						}
 					}
 				}

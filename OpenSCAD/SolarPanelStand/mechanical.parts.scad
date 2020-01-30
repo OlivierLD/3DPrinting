@@ -41,6 +41,7 @@ M8_W = [16, 1.8];
 // Warning: do check the data sheet of your ball bearing! Dimensions may vary!
 BB_05 = [5, 16, 5];
 BB_06 = [6, 19, 6];
+BB_08 = [8, 22, 7];
 
 function getBBDims(diam) =  // Ball bearings dims
   (diam == 5) ? BB_05 :
