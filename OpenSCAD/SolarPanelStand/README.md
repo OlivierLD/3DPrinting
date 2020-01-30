@@ -16,19 +16,21 @@ Different parameter sets can drive the printing process as well as the preview p
 - To **_visualize_** the current state of the art, open `the.full.stand.scad` in `OpenSCAD`. This script itself is driven by the same parameter files as above, mentioned in the `include` statement, like `include <./param.set.0*.scad>`. Change the `include` statement in `the.full.stand.scad` to refer to the required set of parameters.
 
 #### Examples
-- To view the full device, with the set of parameters contained in `param.set.03.scad`, modify the `include` statement in the `the.full.stand.scad` so it looks like this:
+##### Preview
+To view the full device, with the set of parameters contained in `param.set.03.scad`, modify the `include` statement in the `the.full.stand.scad` so it looks like this:
 ```
 include <./param.set.03.scad>
 ```
 and then run the script (or use `F5` or `F6`).
 
-- To prepare the bottom base for printing with the parameters of `param.set.03.scad`:
-  - Load `printing.scad` in `OpenSCAD`
-  - Make sure the `include` statement refers to `param.set.03.scad`
+##### Prepare for printing
+To prepare the bottom base (for example) for printing with the parameters of `param.set.03.scad`:
+- Load `printing.scad` in `OpenSCAD`
+- Make sure the `include` statement refers to `param.set.03.scad`
 ```
 include <./param.set.03.scad>
 ```
-  - In the code editor, set the `option` variable you need, to `PRINT_BASE_1` if this is the bottom base you want:
+- In the code editor, set the `option` variable you need, to `PRINT_BASE_1` if this is the bottom base you want:
 ```
 . . . 
 
@@ -45,10 +47,10 @@ option = PRINT_BASE_1;
 
 . . .
 ```
-  - Then render the part (use `F6`)
+- Then render the part (use `F6`)
 ![Rendering](./images/rendering.png)
-  - Finally Export as STL (use `F7`)
-  - Your generated STL file is ready to be used on your 3D printer.
+- Finally Export as STL (use `F7`)
+- Your generated STL file is ready to be used on your 3D printer.
 
 #### First preview
 
