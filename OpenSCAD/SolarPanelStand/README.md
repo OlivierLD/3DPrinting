@@ -70,6 +70,7 @@ After preparing the parts as explained above, you need to 3D-print:
 
 ##### _**BOM**_ (in progress, details to come)
 Hardware mechanical parts
+- BEaring balls (diam 1/4" in my case)
 - Ball Bearings
 - Threaded rods
 - Rods
