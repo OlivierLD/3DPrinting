@@ -28,23 +28,22 @@ To prepare the bottom base for printing with the parameters of `param.set.03.sca
 ```
 include <./param.set.03.scad>
 ```
-- In the code editor, uncomment (remove the `/*` on top and the `*/` below) the call to the `printBase1` module:
+- In the code editor, set the `option` variable you need, to `PRINT_BASE_1` if this is the bottom base you want:
 ```
+. . . 
 
-printBase1(cylHeight, 
-           extDiam, 
-           torusDiam, 
-           intDiam, 
-           ballsDiam, 
-           fixingFootSize, 
-           fixingFootWidth, 
-           fixingFootScrewDiam, 
-           minFootWallThickness,
-           verticalAxisDiam,
-           wormGearAxisDiam,
-           wormGearAxisRadiusOffset, 
-           wormGearAxisHeight);
+PRINT_BRACKET = 1;
+PRINT_BASE_1 = 2;
+PRINT_BASE_2 = 3;
+PRINT_MAIN_STAND = 4;
+PRINT_COUNTERWEIGHT_CYLINDER = 5;
+PRINT_BIG_WHEEL_STAND = 6;
+PRINT_BALL_BEARING_STAND = 7;
 
+// Choose your own here
+option = PRINT_BASE_1;
+
+. . .
 ```
 - Then render the part (use `F6`)
 ![Rendering](./images/rendering.png)

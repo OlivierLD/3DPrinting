@@ -298,6 +298,21 @@ module oneDrilledSide(base, height, top, thickness, holeDiam, flapScrewDiam) {
 }
 
 /**
+ * For drilling the big wheel stand.
+ * Can be reuse when assembling the whole base.
+ */
+module drillBigWheelStand(drillingPattern, thickness) {
+	for (drillingData = drillingPattern) {
+		// echo(str("0:", holeData[0], ", 1:", holeData[1], ", 2:", holeData[2])); 
+		rotate([0, 0, drillingData[0]]) {
+			translate([drillingData[1], 0, 0]) {
+				cylinder(d=drillingData[2], h=(thickness * 1.1), center=true, $fn=50);
+			}
+		}
+	}
+}
+
+/**
  * 
  * @param diam
  * @param thickness
@@ -308,14 +323,7 @@ module bigWheelStand(diam, axisDiam, thickness, holes) {
 		difference() {
 			cylinder(h=thickness, d=diam, center=true, $fn=100);
 			cylinder(h=thickness * 1.1, d=axisDiam, center=true, $fn=100);
-			for (holeData = holes) {
-				// echo(str("0:", holeData[0], ", 1:", holeData[1], ", 2:", holeData[2])); 
-				rotate([0, 0, holeData[0]]) {
-					translate([holeData[1], 0, 0]) {
-						cylinder(d=holeData[2], h=(thickness * 1.1), center=true, $fn=50);
-					}
-				}
-			}
+			drillBigWheelStand(holes, thickness);
 		}
 	}
 }
@@ -696,6 +704,53 @@ _plateWidth = 60;
 _betweenAxis = 60;
 _bottomCylinderDiam = 35;
 
+// For a real one, ActoBotics #615238:
+bigWheelStandDrillingDiam = 3;
+// Each tuple [radius, angle]
+fourHoles = [[ 45.7188023, 17.14134429], [35.19371654, 22.51171482], [28.08199751, 28.67456738], [19.04712535, 45.02701357]];
+// Each tuple [angle, radius, diam]
+actoBotics615238DrillingPattern = [
+	[0 - fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[0 - fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[0 - fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[0 - fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[0 + fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[0 + fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[0 + fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[0 + fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[90 - fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[90 - fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[90 - fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[90 - fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[90 + fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[90 + fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[90 + fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[90 + fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[180 - fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[180 - fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[180 - fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[180 - fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[180 + fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[180 + fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[180 + fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[180 + fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[270 - fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[270 - fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[270 - fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[270 - fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[270 + fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[270 + fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[270 + fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[270 + fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam]
+];
+
 NONE = -1;
 
 FULL_BASE = 1;
@@ -711,8 +766,9 @@ BALL_BEARING_STAND = 10;
 FULL_BASE_FEET_INSIDE = 11;
 MOTOR_SOCKET_TEST = 12;
 BIG_WHEEL_STAND = 13;
+MAIN_STAND_WITH_BIG_WHEEL_STAND = 14;
 
-option = BIG_WHEEL_STAND;
+option = MAIN_STAND_WITH_BIG_WHEEL_STAND;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -857,54 +913,33 @@ if (option == FULL_BASE) {
 	// Each tuple: [angle, radius, diam]
 	// Simple sample:
 	// holes = [ [0, 20, 3], [90, 20, 3], [180, 20, 3], [270, 20, 3] ];
-	// For a real one:
-	diam = 3;
-	// Each tuple [radius, angle]
-	// ActoBotics #615238:
-	fourHoles = [[ 45.7188023, 17.14134429], [35.19371654, 22.51171482], [28.08199751, 28.67456738], [19.04712535, 45.02701357]];
-	holes = [
-	  [0 - fourHoles[0][1], fourHoles[0][0], diam],
-	  [0 - fourHoles[1][1], fourHoles[1][0], diam],
-	  [0 - fourHoles[2][1], fourHoles[2][0], diam],
-	  [0 - fourHoles[3][1], fourHoles[3][0], diam],
-	
-	  [0 + fourHoles[0][1], fourHoles[0][0], diam],
-	  [0 + fourHoles[1][1], fourHoles[1][0], diam],
-	  [0 + fourHoles[2][1], fourHoles[2][0], diam],
-	  [0 + fourHoles[3][1], fourHoles[3][0], diam],
-
-	  [90 - fourHoles[0][1], fourHoles[0][0], diam],
-	  [90 - fourHoles[1][1], fourHoles[1][0], diam],
-	  [90 - fourHoles[2][1], fourHoles[2][0], diam],
-	  [90 - fourHoles[3][1], fourHoles[3][0], diam],
-
-	  [90 + fourHoles[0][1], fourHoles[0][0], diam],
-	  [90 + fourHoles[1][1], fourHoles[1][0], diam],
-	  [90 + fourHoles[2][1], fourHoles[2][0], diam],
-	  [90 + fourHoles[3][1], fourHoles[3][0], diam],
-
-	  [180 - fourHoles[0][1], fourHoles[0][0], diam],
-	  [180 - fourHoles[1][1], fourHoles[1][0], diam],
-	  [180 - fourHoles[2][1], fourHoles[2][0], diam],
-	  [180 - fourHoles[3][1], fourHoles[3][0], diam],
-
-	  [180 + fourHoles[0][1], fourHoles[0][0], diam],
-	  [180 + fourHoles[1][1], fourHoles[1][0], diam],
-	  [180 + fourHoles[2][1], fourHoles[2][0], diam],
-	  [180 + fourHoles[3][1], fourHoles[3][0], diam],
-
-	  [270 - fourHoles[0][1], fourHoles[0][0], diam],
-	  [270 - fourHoles[1][1], fourHoles[1][0], diam],
-	  [270 - fourHoles[2][1], fourHoles[2][0], diam],
-	  [270 - fourHoles[3][1], fourHoles[3][0], diam],
-
-	  [270 + fourHoles[0][1], fourHoles[0][0], diam],
-	  [270 + fourHoles[1][1], fourHoles[1][0], diam],
-	  [270 + fourHoles[2][1], fourHoles[2][0], diam],
-	  [270 + fourHoles[3][1], fourHoles[3][0], diam]
-	];
 	diameter = 80; // 80, 90, 100
-	bigWheelStand(diameter, 6, 10, holes);
+	bigWheelStand(diameter, 6, 10, actoBotics615238DrillingPattern);
+} else if (option == MAIN_STAND_WITH_BIG_WHEEL_STAND) {
+	wheelStandThickness = 10;
+	difference() {
+		union() {
+			mainStand(_totalStandWidth, 
+								_length, 
+								_height, 
+								_topWidth, 
+								_thickness, 
+								_horizontalAxisDiam, 
+								_flapScrewDiam);
+			diameter = 80; // 80, 90, 100
+			translate([(_topWidth / 6), -((_totalStandWidth / 2) - (_thickness)), _height]) {
+				rotate([90, 0, 0]) {
+					bigWheelStand(diameter, _horizontalAxisDiam, wheelStandThickness, actoBotics615238DrillingPattern);
+				}
+			}
+		}
+		// Drill holes for wheel stand
+		translate([(_topWidth / 6), -((_totalStandWidth / 2) - (0 * _thickness)), _height]) {
+			rotate([90, 0, 0]) {
+				drillBigWheelStand(actoBotics615238DrillingPattern, (wheelStandThickness + _thickness) * 1.1);
+			}
+		}
+	}
 } else {
 	if (option != NONE) {
 		echo(str("Unknown option for now [", option, "]"));

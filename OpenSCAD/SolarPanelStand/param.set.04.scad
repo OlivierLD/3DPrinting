@@ -55,3 +55,54 @@ bracketPlateWidth = 60;
 // Must be equal to (bigWheelDiam + smallWheelDiam) / 2
 betweenAxis = 58;        // Between main and motor axis. May be re-calculated
 counterweightCylinderDiam = 35;
+
+// Wheel stand drilling pattern
+//-----------------------------
+// For a real one, ActoBotics #615238:
+bigWheelStandDrillingDiam = 3;
+// Each tuple [radius, angle]
+fourHoles = [[ 45.7188023, 17.14134429], [35.19371654, 22.51171482], [28.08199751, 28.67456738], [19.04712535, 45.02701357]];
+// Each tuple [angle, radius, diam]
+actoBotics615238DrillingPattern = [
+	[0 - fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[0 - fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[0 - fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[0 - fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[0 + fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[0 + fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[0 + fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[0 + fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[90 - fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[90 - fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[90 - fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[90 - fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[90 + fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[90 + fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[90 + fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[90 + fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[180 - fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[180 - fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[180 - fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[180 - fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[180 + fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[180 + fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[180 + fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[180 + fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[270 - fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[270 - fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[270 - fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[270 - fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam],
+
+	[270 + fourHoles[0][1], fourHoles[0][0], bigWheelStandDrillingDiam],
+	[270 + fourHoles[1][1], fourHoles[1][0], bigWheelStandDrillingDiam],
+	[270 + fourHoles[2][1], fourHoles[2][0], bigWheelStandDrillingDiam],
+	[270 + fourHoles[3][1], fourHoles[3][0], bigWheelStandDrillingDiam]
+];
+
+

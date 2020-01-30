@@ -254,6 +254,7 @@ module printBase2(cylHeight,
  * @param fixingFootSize Number. Used to find the fixig foot drilling.
  * @param screwDiam Number. Used to find the fixig foot drilling.
  * @param minWallThickness Number. Used to find the fixig foot drilling.
+ * @param wheelStandDrillingPattern Array. Defvault is defined in all.parts.scad, used to drill the holes for the big wheel stand.
  */
 module printMainStand(totalStandWidth, 
 											length, 
@@ -267,7 +268,9 @@ module printMainStand(totalStandWidth,
 											fixingFootSize, 
 											screwDiam, 
 											minWallThickness,
-											topFeetInside=false) {
+											topFeetInside=false,
+											wheelStandThickness=10,
+											wheelStandDrillingPattern=[]) {
 
 	echo(str("--- Current Settings for Main Stand ---"));
   echo(str("Total width...................: ", totalStandWidth));					
@@ -283,6 +286,7 @@ module printMainStand(totalStandWidth,
   echo(str("Fixing feet screw diam........: ", screwDiam));												
   echo(str("Fixing feet min wall thickness: ", minWallThickness));												
   echo(str("Feet inside...................: ", (topFeetInside ? "yes" : "no")));
+  echo(str("Wheel stand thickness.........: ", wheelStandThickness));												
 												
 	difference() {
 		mainStand(totalStandWidth, 
@@ -311,6 +315,14 @@ module printMainStand(totalStandWidth,
 				metalScrewHB(verticalAxisDiam, len);
 			}
 		}
+		// Drill holes for wheel stand
+		if (len(wheelStandDrillingPattern) > 0) {
+			translate([(topWidth / 6), -((totalStandWidth / 2) - (0 * thickness)), height]) {
+				rotate([90, 0, 0]) {
+					drillBigWheelStand(wheelStandDrillingPattern, (wheelStandThickness + thickness) * 1.1);
+				}
+			}
+		}
 	}
 }
 
@@ -330,8 +342,29 @@ module printCylinder(widthOutAll, thickness, bottomCylinderDiam) {
   echo(str("Cylinder diameter........: ", bottomCylinderDiam));					
 
 	cylinderLength = widthOutAll - (2 * thickness) - (2 * thickness);
-	cylinderThickness = 1;
+	cylinderThickness = 1; // TODO Prm
 	counterweightCylinder(cylinderLength, bottomCylinderDiam, cylinderThickness);	
+}
+
+/**
+ * Print the big wheel stand, drilled.
+ *
+ * @param wheelDiam Number. Wheel diameter
+ * @param centerHoleDiam Number. Axis diameter
+ * @param thickness Number. Wheel thickness
+ * @param drillingPattern Array of [angle, radius, diam]. See code for details.
+ */
+module printBigWheelStand(wheelDiam, 
+													centerHoleDiam, 
+													thickness, 
+													drillingPattern) {
+
+	echo(str("--- Current Settings for Big Wheel Stand ---"));
+  echo(str("Wheel diam........: ", wheelDiam));					
+  echo(str("Axis diam.........: ", centerHoleDiam));					
+  echo(str("Stand thickness...: ", thickness));					
+
+	bigWheelStand(wheelDiam, centerHoleDiam, thickness, drillingPattern);
 }
 
 /**
