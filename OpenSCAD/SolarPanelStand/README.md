@@ -68,7 +68,7 @@ After preparing the parts as explained above, you need to 3D-print:
 - 1 x [Bracket](bracket.stl)
 - 2 x [Ball Bearing Stands](ball.bearing.stand.stl)
 
-_**BOM**_ (in progress, details to come)
+##### _**BOM**_ (in progress, details to come)
 Hardware mechanical parts
 - Ball Bearings
 - Threaded rods
