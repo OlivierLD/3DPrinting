@@ -70,13 +70,14 @@ After preparing the parts as explained above, you need to 3D-print:
 
 ##### _**BOM**_ (in progress, details to come)
 Hardware mechanical parts
-- BEaring balls (diam 1/4" in my case)
-- Ball Bearings
-- Threaded rods
-- Rods
+- [Bearing balls](https://www.amazon.com/Piece-Assorted-Loose-Bicycle-Bearing/dp/B018B7D05K/ref=pd_rhf_se_p_img_9?_encoding=UTF8&psc=1&refRID=96QW6AH9VWVPRN8HJ1FY) (diam 1/4" in my case)
+- Ball Bearings [5mm](https://www.amazon.com/gp/product/B07DZDZNJM/ref=ppx_yo_dt_b_asin_title_o00_s03?ie=UTF8&psc=1) and [6mm](https://www.amazon.com/gp/product/B07DZKDKSF/ref=ppx_yo_dt_b_asin_title_o00_s03?ie=UTF8&psc=1).
+- [Threaded rods](https://www.amazon.com/gp/product/B078HC51KK/ref=ppx_yo_dt_b_asin_title_o00_s02?ie=UTF8&psc=1), several diameters.
+- [Rods](https://www.amazon.com/gp/product/B07KJ8DGF3/ref=ppx_yo_dt_b_asin_title_o00_s01?ie=UTF8&psc=1), 5mm.
 - Nuts, bolts, washers...
-- Pinions and wheels
-- Worm gear set
+- [Pinion](https://www.amazon.com/gp/product/B07RVJCQS5/ref=ppx_yo_dt_b_asin_title_o00_s03?ie=UTF8&psc=1) and [wheel](https://www.amazon.com/gp/product/B00KVN5BKU/ref=ppx_yo_dt_b_asin_image_o01_s00?ie=UTF8&psc=1)
+- [Worm gear set](https://www.amazon.com/gp/product/B07G54YQL4/ref=ppx_yo_dt_b_asin_title_o00_s02?ie=UTF8&psc=1)
+- [Couplers](https://www.amazon.com/gp/product/B07M5Q7HTV/ref=ppx_yo_dt_b_asin_image_o00_s05?ie=UTF8&psc=1)
 
 And then
 - Stepper motors (2, NEMA-17 in my case)
