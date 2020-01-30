@@ -4,7 +4,7 @@
 
 - Here we want to use stepper motors, more powerful. If that works, extending the idea to manipulate bigger panels should not be a problem. Gears and other worm gears provide the possibility to change the power ratio, depending on the weight of the panels to move.
 
-- I started from the hardware of [this instructable](https://www.instructables.com/id/Ammo-Can-Solar-Power-Supply/), and now want to have the solar panel powering the battery facing the sun as long as the sun is in the sky. This is what the device presented her is all about.
+- I started from the hardware of [this instructable](https://www.instructables.com/id/Ammo-Can-Solar-Power-Supply/), and now want to have the solar panel powering the battery facing the sun as long as the sun is in the sky. This is what the device presented here is all about.
 
 ### How-to
 Different parameter sets can drive the printing process as well as the preview process. The same parameter sets (scripts) drive the two processes. Those parameter sets are held in files named like `param.set.**.scad`.
@@ -58,5 +58,17 @@ option = PRINT_BASE_1;
 
 > Note: `github` supports the rendering of `stl` files. Click them above to **see** them.
 
+#### Building
+After preparing the parts as explained above, you need to 3D-print:
+- 1 x [Bottom base](base.one.stl)
+- 1 x [Top base](base.two.stl)
+- 1 x [Main Stand](main.stand.stl)
+- 1 x [Big Wheel Stand](big.wheel.stand.stl)
+- 1 x [Counterweight Cylinder](counter.weight.stl)
+- 1 x [Bracket](bracket.stl)
+- 2 x [Ball Bearing Stands](ball.bearing.stand.stl)
+
+_**BOM**_ (in progress)
+- ...
 
 ---

@@ -10,10 +10,14 @@ use <./all.parts.scad>
 use <./parts.printer.scad>
 
 // Options, dimensions, parameters
-
 include <./param.set.04.scad>
 
 // Execution
+
+echo(">>> ------------------------------------------------------");
+echo(">>> After adjusting the values,");
+echo(">>> Choose the part to design below.");
+echo(">>> ------------------------------------------------------");
 
 PRINT_BRACKET = 1;
 PRINT_BASE_1 = 2;
@@ -23,12 +27,8 @@ PRINT_COUNTERWEIGHT_CYLINDER = 5;
 PRINT_BIG_WHEEL_STAND = 6;
 PRINT_BALL_BEARING_STAND = 7;
 
-echo(">>> ------------------------------------------------------");
-echo(">>> After adjusting the values,");
-echo(">>> Choose the part to design below.");
-echo(">>> ------------------------------------------------------");
 // Choose your own here
-option = PRINT_BALL_BEARING_STAND;
+option = PRINT_MAIN_STAND;
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
