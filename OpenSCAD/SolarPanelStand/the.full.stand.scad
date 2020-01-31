@@ -187,7 +187,7 @@ difference() {
 				echo(str(">> Bracket's width out all set to ", bracketWidthOutAll));
 				bracketHeightOutAll = sizeAboveAxis + sizeBelowAxis;
 				// Temp, force tilt. Comment for animations.
-				// bracketTiltAngle = -45;
+				bracketTiltAngle = -45;
 				deltaH = ((bracketHeightOutAll / 2) - sizeAboveAxis);
 				// Panel bracket. See sinus and cosinus on the translate. Specially needed if above and below sizes are different
 				translate([(standTopWidth / 6) + (sin(bracketTiltAngle) * deltaH), // Back and forth

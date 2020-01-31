@@ -28,7 +28,7 @@ PRINT_BIG_WHEEL_STAND = 6;
 PRINT_BALL_BEARING_STAND = 7;
 
 // Choose your own here
-option = PRINT_MAIN_STAND;
+option = PRINT_BALL_BEARING_STAND;
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,

@@ -24,12 +24,12 @@ module ballBearingStand(diam,
   difference() {														
 		union() {					
       // right			
-			translate([0, (fixingFootSize / 2) + (bbDims[1] * 1.1 / 2), fixingFootSize / 2]) {
+			translate([0, (fixingFootSize / 2) + (bbDims[1] * 0.9 / 2), fixingFootSize / 2]) {
 				fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
 			}
 			// left
 			rotate([0, 0, 180]) {
-				translate([0, (fixingFootSize / 2) + (bbDims[1] * 1.1 / 2), fixingFootSize / 2]) {
+				translate([0, (fixingFootSize / 2) + (bbDims[1] * 0.9 / 2), fixingFootSize / 2]) {
 					fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
 				}
 			}
