@@ -86,6 +86,7 @@ And then
 - 2 x [Stepper motors](https://www.adafruit.com/product/324) (NEMA-17 in my case, may vary)
 - Raspberry Pi with its SD Card, power supply, etc.
 - [Adafruit Motor Hat](https://www.adafruit.com/product/2348)
+- The required software is (or will be) [here](https://github.com/OlivierLD/raspberry-coffee/tree/master/Project.Trunk/SunFlower.v2).
 
 In this configuration:
 - The pinion has 20 teeth
