@@ -87,9 +87,10 @@ And then
 - Raspberry Pi with its SD Card, power supply, etc.
 - [Adafruit Motor Hat](https://www.adafruit.com/product/2348)
 
-I this configuration:
+In this configuration:
 - The pinion has 20 teeth
 - The big wheel has 128 teeth.
+
 => The ratio is 20:128 = 5:32
 
 - The chosen worm gear set has a ratio of 1:40.
