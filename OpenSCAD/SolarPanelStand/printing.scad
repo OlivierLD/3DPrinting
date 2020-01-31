@@ -26,9 +26,10 @@ PRINT_MAIN_STAND = 4;
 PRINT_COUNTERWEIGHT_CYLINDER = 5;
 PRINT_BIG_WHEEL_STAND = 6;
 PRINT_BALL_BEARING_STAND = 7;
+PRINT_PANEL_PLATE = 8;
 
 // Choose your own here
-option = PRINT_BALL_BEARING_STAND;
+option = PRINT_BRACKET;
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
@@ -96,5 +97,7 @@ if (option == PRINT_BRACKET) {
 										 horizontalAxisDiam, 
 										 bigWheelStandThickness, 
 										 actoBotics615238DrillingPattern);
+} else if (option == PRINT_PANEL_PLATE) {
+	panelStandPlate(wallThickness, bracketPlateWidth, bracketWidthOutAll);
 }
 // customPrint();

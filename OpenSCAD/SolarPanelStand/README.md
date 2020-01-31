@@ -69,6 +69,7 @@ After preparing the parts as explained above, you need to 3D-print:
 - 1 x [Counterweight Cylinder](counter.weight.stl)
 - 1 x [Bracket](bracket.stl)
 - 2 x [Ball Bearing Stands](ball.bearing.stand.stl)
+- Optionally, 1 [plate](panel.plate.stl) for the solar panel to fit on top of the bracket.
 
 ##### _**BOM**_ (in progress, details to come)
 Hardware mechanical parts (may vary, depending on your options)

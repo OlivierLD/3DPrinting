@@ -207,7 +207,8 @@ module drillingPattern(extDiam,
 	}
 }
 
-// Same as above, with screws. TODO feet inside option
+// Same as above, with screws. 
+// TODO feet inside option
 module screws(extDiam, fixingFootSize, screwDiam, wallThickness, length=50) {
 	// 0.2 is the drilling offset in the foot. See in grooved.cylinder.scad.
 	radius = (extDiam / 2) + (fixingFootSize / 2) + (fixingFootSize * 0.2) - wallThickness; // + (screwDiam / 2);
@@ -484,14 +485,14 @@ module oneBracketSide(mainAxisDiam,
 		dims = getBBDims(mainAxisDiam);
 		rotate([90, 0, 90]) {
 			translate([0, (heightOutAll / 2) - sizeAboveAxis, -(thickness / 2) + (dims[2] * 0.85 / 2)]) {
-				cylinder(h=dims[2] * 0.9, d=dims[1], center=true, $fn=true);
-				cylinder(thickness * 2, d=dims[0] * 1.1, center=true, $fn=true);
+				cylinder(h=dims[2] * 0.9, d=dims[1], center=true, $fn=50);
+				cylinder(thickness * 2, d=dims[0] * 1.1, center=true, $fn=50);
 			}
 		}
 		// drill for the cylinder threaded rod, at the bottom. HardCoded diam 4 for now.
 		rotate([90, 0, 90]) {
 			translate([0, (- (heightOutAll/2) + (bottomCylinderDiam / 2)), 0]) {
-				cylinder(h=thickness * 3, d=4, center=true, $fn=true); // TODO 4: prm
+				cylinder(h=thickness * 3, d=4, center=true, $fn=50); // TODO 4: prm
 			}
 		}
 	}
@@ -501,6 +502,36 @@ module counterweightCylinder(length, extDiam, thickness) {
 	difference() {
 		cylinder(d=extDiam, h=length, $fn=100, center=true);
 		cylinder(d=extDiam - thickness, h=length * 1.1, $fn=100, center=true);
+	}
+}
+
+// TODO Reuse drilling code
+module panelStandPlate(topThickness, plateWidth, bracketWidth) {
+	// Hard coded values for now
+	plateAxisDiam = 5;
+	pegDiam = 6;
+
+	xPegOffset = bracketWidth / 4;
+	yPegOffset = plateWidth / 4;
+
+	difference() {
+		union() {
+			cube(size=[bracketWidth * 2, plateWidth * 2, topThickness], center=true);
+			translate([0, 0, -(topThickness * 1.8)]) {
+				for (x = [0, 1]) {
+					for (y = [0, 1]) {
+						translate([x == 0 ? -xPegOffset : xPegOffset, y == 0 ? -yPegOffset : yPegOffset, 0]) {
+							cylinder(h=(topThickness * 2), d=pegDiam, $fn=50);
+						}
+					}
+				}
+			}
+		}
+		// headThickNess = getCSScrewDims(plateAxisDiam)[1];
+		screwLen = topThickness * 2;
+		translate([0, 0, -((screwLen / 2) + (topThickness * 0.95 / 2))]) {
+			metalScrewCS(plateAxisDiam, topThickness * 2);
+		}
 	}
 }
 
@@ -566,11 +597,27 @@ module panelBracket(mainAxisDiam,
 				cube(size=[widthOutAll, plateWidth, thickness], center=true);
 			}
 			color("green") {
-				// Write on it
+				// Write on it ?
 				translate([0, 0, (thickness / 2)]) {
 					linear_extrude(1.5, center=true, convexity = 4) {
 						resize([widthOutAll * 0.75, 0], auto=true) {
 							text("Panel stuck here", valign="center", halign="center");
+						}
+					}
+				}
+			}
+			// Drill holes for additional plate?
+			// Hard coded values for now
+			plateAxisDiam = 5;
+			pegDiam = 6.2;
+			xPegOffset = widthOutAll / 4;
+			yPegOffset = plateWidth / 4;
+			translate([0, 0, -(thickness * 1.1 / 2)]) {
+				cylinder(h=(thickness * 1.1), d=plateAxisDiam, $fn=50);
+				for (x = [0, 1]) {
+					for (y = [0, 1]) {
+						translate([x == 0 ? -xPegOffset : xPegOffset, y == 0 ? -yPegOffset : yPegOffset, 0]) {
+							cylinder(h=(thickness * 1.1), d=pegDiam, $fn=50);
 						}
 					}
 				}
@@ -767,8 +814,9 @@ FULL_BASE_FEET_INSIDE = 11;
 MOTOR_SOCKET_TEST = 12;
 BIG_WHEEL_STAND = 13;
 MAIN_STAND_WITH_BIG_WHEEL_STAND = 14;
+PANEL_STAND_PLATE = 15;
 
-option = MAIN_STAND_WITH_BIG_WHEEL_STAND;
+option = PANEL_STAND_PLATE;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -940,6 +988,8 @@ if (option == FULL_BASE) {
 			}
 		}
 	}
+} else if (option == PANEL_STAND_PLATE) {
+	panelStandPlate(_thickness, _plateWidth, _widthOutAll);
 } else {
 	if (option != NONE) {
 		echo(str("Unknown option for now [", option, "]"));
