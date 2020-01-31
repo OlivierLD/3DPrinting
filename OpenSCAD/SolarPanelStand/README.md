@@ -96,7 +96,7 @@ In this configuration:
 - The chosen worm gear set has a ratio of 1:40.
 
 As the `NEMA-17` stepper motor has 200 possible positions:
-- **On the big wheel**: That makes 1,280 possible angles, resulting in a resolution of `16.875` minutes of arc.
+- **On the horizontal axis (big wheel)**: That makes 1,280 possible angles, resulting in a resolution of `16.875` minutes of arc.
 - **On the vertical axis**: We have 8,000 possible angles, resulting in a resolution of `2.7` minutes of arc.
 
 Those resolutions should be good enough!
