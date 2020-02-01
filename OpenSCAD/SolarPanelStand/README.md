@@ -90,10 +90,10 @@ And then
 - The required software is (or will be) [here](https://github.com/OlivierLD/raspberry-coffee/tree/master/Project.Trunk/SunFlower.v2).
 
 In this configuration:
-- The pinion has 20 teeth
+- The pinion has 18 teeth
 - The big wheel has 128 teeth.
 
-=> The ratio is 20:128, which is 1:6.4.
+=> The ratio is 18:128, which is 1:7.1111111.
 
 - The chosen worm gear set has a ratio of 1:40.
 

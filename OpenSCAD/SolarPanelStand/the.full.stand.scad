@@ -187,7 +187,7 @@ difference() {
 				echo(str(">> Bracket's width out all set to ", bracketWidthOutAll));
 				bracketHeightOutAll = sizeAboveAxis + sizeBelowAxis;
 				// Temp, force tilt. Comment for animations.
-				bracketTiltAngle = -45;
+				//bracketTiltAngle = -45;
 				deltaH = ((bracketHeightOutAll / 2) - sizeAboveAxis);
 				// Panel bracket. See sinus and cosinus on the translate. Specially needed if above and below sizes are different
 				translate([(standTopWidth / 6) + (sin(bracketTiltAngle) * deltaH), // Back and forth
@@ -222,11 +222,21 @@ difference() {
 								}
 							}
 						}
+						// Panel plate
+						translate([0, 0, (bracketHeightOutAll / 2) + (wallThickness / 2) + (stuck ? 0 : betweenParts)]) {
+							panelStandPlate(wallThickness, bracketPlateWidth, bracketWidthOutAll);
+							screwLen = 25;
+							translate([0, 0, - screwLen + (wallThickness / 2) + (stuck ? 0 : 10)]) {
+								color("grey") {
+									metalScrewCS(5, screwLen);
+								}
+							}
+						}
 						// Solar panel?
 						if (withSolarPanel) {
 							translate([-solarPanelDimensions[0] / 2, 
 												 -solarPanelDimensions[1] / 2, 
-												 (bracketHeightOutAll / 2) - (solarPanelDimensions[2] / 2)]) {
+												 (bracketHeightOutAll / 2) + (wallThickness) + (solarPanelDimensions[2] / 2)]) {
 								color("black", 0.75) {
 									cube(size=solarPanelDimensions);
 								}
