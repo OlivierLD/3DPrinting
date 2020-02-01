@@ -29,7 +29,7 @@ PRINT_BALL_BEARING_STAND = 7;
 PRINT_PANEL_PLATE = 8;
 
 // Choose your own here
-option = PRINT_BRACKET;
+option = PRINT_PANEL_PLATE;
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,

@@ -508,6 +508,7 @@ module counterweightCylinder(length, extDiam, thickness) {
 // TODO Reuse drilling code
 module panelStandPlate(topThickness, plateWidth, bracketWidth) {
 	// Hard coded values for now
+	plateBracketRatio = 1.5;
 	plateAxisDiam = 5;
 	pegDiam = 6;
 
@@ -516,7 +517,10 @@ module panelStandPlate(topThickness, plateWidth, bracketWidth) {
 
 	difference() {
 		union() {
-			cube(size=[bracketWidth * 2, plateWidth * 2, topThickness], center=true);
+			cube(size=[bracketWidth * plateBracketRatio, 
+								 plateWidth * plateBracketRatio, 
+								 topThickness], 
+					 center=true);
 			translate([0, 0, -(topThickness * 1.8)]) {
 				for (x = [0, 1]) {
 					for (y = [0, 1]) {

@@ -73,7 +73,7 @@ After preparing the parts as explained above, you need to 3D-print:
 
 ##### _**BOM**_ (in progress, details to come)
 Hardware mechanical parts (may vary, depending on your options)
-- [Bearing balls](https://www.amazon.com/Piece-Assorted-Loose-Bicycle-Bearing/dp/B018B7D05K/ref=pd_rhf_se_p_img_9?_encoding=UTF8&psc=1&refRID=96QW6AH9VWVPRN8HJ1FY) (diam 1/4" in my case)
+- [Bearing balls](https://www.amazon.com/Piece-Assorted-Loose-Bicycle-Bearing/dp/B018B7D05K/ref=pd_rhf_se_p_img_9?_encoding=UTF8&psc=1&refRID=96QW6AH9VWVPRN8HJ1FY) (diam 1/4" in my case, 38 pieces)
 - Ball Bearings [5mm](https://www.amazon.com/gp/product/B07DZDZNJM/ref=ppx_yo_dt_b_asin_title_o00_s03?ie=UTF8&psc=1) and [6mm](https://www.amazon.com/gp/product/B07DZKDKSF/ref=ppx_yo_dt_b_asin_title_o00_s03?ie=UTF8&psc=1).
 - [Threaded rods](https://www.amazon.com/gp/product/B078HC51KK/ref=ppx_yo_dt_b_asin_title_o00_s02?ie=UTF8&psc=1), several diameters.
 - [Rods](https://www.amazon.com/gp/product/B07KJ8DGF3/ref=ppx_yo_dt_b_asin_title_o00_s01?ie=UTF8&psc=1), 5mm.
