@@ -47,7 +47,7 @@ option = PRINT_BASE_1;
 
 . . .
 ```
-- Then render the part (use `F6`) (_note_: The screeshot below might not be 100% in sync..., The code is constantly evolving)
+- Then render the part (use `F6`) (_note: The screeshot below might not be 100% in sync..., the code is constantly evolving_)
 ![Rendering](./images/rendering.png)
 - Finally Export as STL (use `F7`)
 - Your generated STL file is ready to be used on your 3D printer.
