@@ -9,6 +9,7 @@ use <./mechanical.parts.scad>
 use <./all.parts.scad>
 use <./parts.printer.scad>
 
+include <./printing.options.scad>
 // Options, dimensions, parameters
 include <./param.set.04.scad>
 
@@ -22,14 +23,18 @@ echo(">>> ------------------------------------------------------");
 PRINT_BRACKET = 1;
 PRINT_BASE_1 = 2;
 PRINT_BASE_2 = 3;
-PRINT_MAIN_STAND = 4;
+PRINT_MAIN_STAND = 4; // In full
 PRINT_COUNTERWEIGHT_CYLINDER = 5;
 PRINT_BIG_WHEEL_STAND = 6;
 PRINT_BALL_BEARING_STAND = 7;
 PRINT_PANEL_PLATE = 8;
 
+PRINT_MAIN_STAND_BASE = 9;   // Base only
+PRINT_MAIN_STAND_LEFT = 10;  // Left side only
+PRINT_MAIN_STAND_RIGHT = 11; // Right side only
+
 // Choose your own here
-option = PRINT_PANEL_PLATE;
+option = PRINT_COUNTERWEIGHT_CYLINDER; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
@@ -84,7 +89,62 @@ if (option == PRINT_BRACKET) {
 								 minFootWallThickness,
 								 topFeetInside=topBaseFeetInside,
 								 wheelStandThickness=bigWheelStandThickness,
-								 wheelStandDrillingPattern=actoBotics615238DrillingPattern);
+								 wheelStandDrillingPattern=actoBotics615238DrillingPattern,
+								 fixingFeetOnBase=false);
+} else if (option == PRINT_MAIN_STAND_BASE) {
+	printMainStand(standWidth, 
+								 standLength, 
+								 standHeight, 
+								 standTopWidth, 
+								 wallThickness, 
+								 verticalAxisDiam,
+								 horizontalAxisDiam, 
+								 flapScrewDiam,
+								 extDiam, 
+								 fixingFootSize, 
+								 fixingFootScrewDiam, 
+								 minFootWallThickness,
+								 topFeetInside=topBaseFeetInside,
+								 wheelStandThickness=bigWheelStandThickness,
+								 wheelStandDrillingPattern=actoBotics615238DrillingPattern,
+								 fixingFeetOnBase=true,
+	               printOption=BASE_ONLY);
+} else if (option == PRINT_MAIN_STAND_LEFT) {
+	printMainStand(standWidth, 
+								 standLength, 
+								 standHeight, 
+								 standTopWidth, 
+								 wallThickness, 
+								 verticalAxisDiam,
+								 horizontalAxisDiam, 
+								 flapScrewDiam,
+								 extDiam, 
+								 fixingFootSize, 
+								 fixingFootScrewDiam, 
+								 minFootWallThickness,
+								 topFeetInside=topBaseFeetInside,
+								 wheelStandThickness=bigWheelStandThickness,
+								 wheelStandDrillingPattern=actoBotics615238DrillingPattern,
+								 fixingFeetOnBase=true,
+	               printOption=LEFT_ONLY);
+} else if (option == PRINT_MAIN_STAND_RIGHT) {
+	printMainStand(standWidth, 
+								 standLength, 
+								 standHeight, 
+								 standTopWidth, 
+								 wallThickness, 
+								 verticalAxisDiam,
+								 horizontalAxisDiam, 
+								 flapScrewDiam,
+								 extDiam, 
+								 fixingFootSize, 
+								 fixingFootScrewDiam, 
+								 minFootWallThickness,
+								 topFeetInside=topBaseFeetInside,
+								 wheelStandThickness=bigWheelStandThickness,
+								 wheelStandDrillingPattern=actoBotics615238DrillingPattern,
+								 fixingFeetOnBase=true,
+	               printOption=RIGHT_ONLY);
 } else if (option == PRINT_BALL_BEARING_STAND) {
 	printBallBearingStand(wormGearAxisDiam,
 												wormGearAxisHeight,

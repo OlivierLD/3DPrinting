@@ -33,7 +33,7 @@ module groovedCylinder(cylinderHeight, extDiam, torusDiam, intDiam, grooveDiam) 
 	}
 }
 
-module fixingFoot(heightAndLength, width, screwDiam, wallMinThickness) {
+module fixingFoot(heightAndLength, width, screwDiam, wallMinThickness, hbScrews=false) {
 	screwLength = 30;
 	screwTop = 20;
 	difference() {
@@ -56,7 +56,11 @@ module fixingFoot(heightAndLength, width, screwDiam, wallMinThickness) {
 		}
 		// 0.2: drilling offset
 		translate([0, heightAndLength * 0.2, -(screwLength + (heightAndLength / 2) - wallMinThickness)]) {
-			metalScrewCS(screwDiam, screwLength, screwTop);
+			if (hbScrews) {
+				metalScrewHB(screwDiam, screwLength, screwTop);
+			} else {
+				metalScrewCS(screwDiam, screwLength, screwTop);
+			}
 		}
 	}
 }
@@ -65,7 +69,7 @@ module fixingFoot(heightAndLength, width, screwDiam, wallMinThickness) {
 echo("For tests only");
 echo("Use all.parts.scad for printing");
 
-if (true) { // Grooved Cylinder
+if (false) { // Grooved Cylinder
 	cylHeight = 50;
 	extDiam = 110;
 	torusDiam = 100;
@@ -75,8 +79,8 @@ if (true) { // Grooved Cylinder
 	groovedCylinder(cylHeight, extDiam, torusDiam, intDiam, ballsDiam);
 }
 
-if (false) { // Fixing foot
-	fixingFoot(30, 30, 5, 5);
+if (true) { // Fixing foot
+	fixingFoot(30, 30, 5, 5, true);
 }
 
 if (false) { // Grooved Cylinder with fixing feet

@@ -56,6 +56,8 @@ bracketPlateWidth = 60;
 betweenAxis = 58;        // Between main and motor axis. May be re-calculated
 counterweightCylinderDiam = 35;
 
+defaultCylinderPlateThickness = 1.5;
+
 // Wheel stand drilling pattern
 //-----------------------------
 // For a real one, ActoBotics #615238:

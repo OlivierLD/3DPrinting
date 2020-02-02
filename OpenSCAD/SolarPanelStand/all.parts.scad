@@ -266,6 +266,14 @@ module flatSide(base, height, top, holeDiam=5) {
 			             flapThickness], 
 						 center=true);
 		}
+		// Big opened zone in the middle
+		translate([0, height / 3]) {
+			circle(d=height/3, $fn=50);
+		}
+		// Smaller opened zone on top
+		translate([0, 2 * height / 3]) {
+			circle(d=height/8, $fn=50);
+		}
 	}
 }
  
@@ -276,7 +284,7 @@ module oneSolidSide(base, height, top, thickness, holeDiam=5) {
 	}
 }
 
-// Main stand
+// For main stand
 module oneDrilledSide(base, height, top, thickness, holeDiam, flapScrewDiam) {
 	screwLength = FLAP_THICKNESS * 3;
 	// bbDiam = getBBDims(holeDiam)[1];
@@ -428,35 +436,98 @@ module motor(motorSide=42.32,
 	}
 }
 
+include <./printing.options.scad>
+
 module mainStand(totalStandWidth, 
 								 length, 
 								 height, 
 								 topWidth, 
 								 thickness, 
 								 mainAxisDiam, 
-								 flapScrewDiam) {
+								 flapScrewDiam,
+								 baseFixingFeet=true,
+								 printOption=ALL_PARTS) {
+	// Variables for fixing feet:
+	footHeightLength = 30;
+	footWidth = 30;
+	screwDiam = 4;
+	wallMinThickness = 5;
+	hexBolts = true;
+	screwLen = 50;
+
+	widthOffset = (totalStandWidth / 2) - (2 * thickness);
+	lengthOffset = (length / 4);
+	axisHeight = (fixingFootSize / 2) + (fixingFootSize * 0.25); // Tweak the 0.25 value.
+
 	// left
-	translate([0, totalStandWidth / 2, 0]) {
-		rotate([90, 0, 0]) {
-			color("red") {
-				oneDrilledSide(length, height, topWidth, thickness, mainAxisDiam, flapScrewDiam);
+  if (printOption == ALL_PARTS || printOption == LEFT_ONLY) { 									 
+		difference() {								 
+			translate([0, totalStandWidth / 2, 0]) {
+				rotate([90, 0, 0]) {
+					color("red") {
+						oneDrilledSide(length, height, topWidth, thickness, mainAxisDiam, flapScrewDiam);
+					}
+				}
+			}
+			if (baseFixingFeet) { // drill holes
+				for (y = [0, 1]) {
+					translate([(y == 0 ? lengthOffset : -lengthOffset), 
+										 (widthOffset + thickness), 
+										 axisHeight]) {
+						rotate([90, 0, 0]) {
+							cylinder(d=screwDiam, h=screwLen, $fn=50, center=true);
+						}
+					}
+				}
 			}
 		}
 	}
 	// right
-	difference() {
-		translate([0, -totalStandWidth / 2, 0]) {
-			rotate([90, 0, 0]) {
-				color("green") {
-					oneDrilledSide(length, height, topWidth, thickness, mainAxisDiam, flapScrewDiam);
+  if (printOption == ALL_PARTS || printOption == RIGHT_ONLY) { 									 
+		difference() {
+			translate([0, -totalStandWidth / 2, 0]) {
+				rotate([90, 0, 0]) {
+					color("green") {
+						oneDrilledSide(length, height, topWidth, thickness, mainAxisDiam, flapScrewDiam);
+					}
+				}
+			}
+			if (baseFixingFeet) { // drill holes
+				for (y = [0, 1]) {
+					translate([(y == 0 ? lengthOffset : -lengthOffset), 
+										 -(widthOffset + thickness), 
+										 axisHeight]) {
+						rotate([90, 0, 0]) {
+							cylinder(d=screwDiam, h=screwLen, $fn=50, center=true);
+						}
+					}
 				}
 			}
 		}
 	}
 	// base
-	translate([0, 0, -thickness / 2]) {
-		color("turquoise") {
-			cube([length, totalStandWidth + thickness, thickness], center=true);
+  if (printOption == ALL_PARTS || printOption == BASE_ONLY) { 									 
+		translate([0, 0, -thickness / 2]) {
+			color("turquoise") {
+				cube([length, totalStandWidth + thickness, thickness], center=true);
+				// With fixing feet on the base?
+				if (baseFixingFeet) {
+					echo("With Fixing feet on the base");
+					for (x = [0, 1]) {
+						for (y = [0, 1]) {
+							translate([(x == 0 ? lengthOffset : -lengthOffset), 
+												 (y == 0 ? widthOffset : -widthOffset), 
+												 (footHeightLength / 2) - 1]) {
+								rotate([90, 0, (y == 0 ? 0 : 180)]) {
+									fixingFoot(footHeightLength, footWidth, screwDiam, wallMinThickness, hexBolts);
+								}
+							}
+						}
+					}
+				} else {
+					echo("NO Fixing feet on the base");
+				}
+			}
 		}
 	}
 }
@@ -481,7 +552,7 @@ module oneBracketSide(mainAxisDiam,
 				}
 			}
 		}
-		// Main axis socket
+		// Main axis socket and its ball breaing socket
 		dims = getBBDims(mainAxisDiam);
 		rotate([90, 0, 90]) {
 			translate([0, (heightOutAll / 2) - sizeAboveAxis, -(thickness / 2) + (dims[2] * 0.85 / 2)]) {
@@ -501,7 +572,7 @@ module oneBracketSide(mainAxisDiam,
 module counterweightCylinder(length, extDiam, thickness) {
 	difference() {
 		cylinder(d=extDiam, h=length, $fn=100, center=true);
-		cylinder(d=extDiam - thickness, h=length * 1.1, $fn=100, center=true);
+		cylinder(d=extDiam - (2 * thickness), h=length * 1.1, $fn=100, center=true);
 	}
 }
 
@@ -549,9 +620,10 @@ module panelBracket(mainAxisDiam,
 										bottomCylinderDiam,
 										motorDepth=39,
 										withMotor=false,
-										withCylinder=false) {
+										withCylinder=false,
+										cylinderThickness=1,
+                    plateThickness=1.5) {
   heightOutAll = sizeAboveAxis + sizeBelowAxis;
-	cylinderThickness = 1;
   // right
 	translate([(widthOutAll / 2) - (thickness / 2), 0, 0]) {
 		color("green") {
@@ -630,7 +702,6 @@ module panelBracket(mainAxisDiam,
 	}
 	
 	// bottom cylinder 
-	plateThickness = 1.5; // TODO Expose this
 	// Plugs on each side
 	difference() {
 		union() {
@@ -820,7 +891,7 @@ BIG_WHEEL_STAND = 13;
 MAIN_STAND_WITH_BIG_WHEEL_STAND = 14;
 PANEL_STAND_PLATE = 15;
 
-option = PANEL_STAND_PLATE;
+option = MAIN_STAND_WITH_BIG_WHEEL_STAND;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -857,7 +928,8 @@ if (option == FULL_BASE) {
 						_topWidth, 
 						_thickness, 
 						_horizontalAxisDiam, 
-						_flapScrewDiam);
+						_flapScrewDiam,
+						true);
 } else if (option == FLAT_SIDE) {
 	flatSide(_length, _height, _topWidth);
 } else if (option == ONE_DRILLED_SIDE) {
@@ -922,7 +994,8 @@ if (option == FULL_BASE) {
 								 withMotor=false,
 								 withCylinder=false);
 	}
-	cylinderLength = _widthOutAll - (2 * _thickness) - (2 * _thickness);
+	plateThickness = 1.5;
+	cylinderLength = _widthOutAll - (2 * _thickness) - (2 * plateThickness);
 	cylinderThickness = 1;
 	color("yellow") {
 		counterweightCylinder(cylinderLength, _bottomCylinderDiam, cylinderThickness);
@@ -977,7 +1050,9 @@ if (option == FULL_BASE) {
 								_topWidth, 
 								_thickness, 
 								_horizontalAxisDiam, 
-								_flapScrewDiam);
+								_flapScrewDiam,
+								true,
+								printOption=ALL_PARTS);
 			diameter = 80; // 80, 90, 100
 			translate([(_topWidth / 6), -((_totalStandWidth / 2) - (_thickness)), _height]) {
 				rotate([90, 0, 0]) {

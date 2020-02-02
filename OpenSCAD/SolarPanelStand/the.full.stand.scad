@@ -155,7 +155,7 @@ difference() {
 				// echo("Tilt:", bracketTiltAngle);
 				rotate([90, 0, 0]) {
 					// Big wheel, wheel stand, and its axis
-					
+					// ------------------------------------
 					// Big wheel stand
 					translate([standTopWidth / 6, 
 										 standHeight, 
