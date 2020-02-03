@@ -7,11 +7,13 @@
 
 ![Animated](./images/sunflower.gif)
 
-> Note: `github` supports the rendering of `stl` files. Click them above to **see** them.
+> Note: `github` supports the rendering of `stl` files. Click them above (in the `stl` folder) to **see** them.
 
 - Here we want to use stepper motors, more powerful. If that works, extending the idea to manipulate bigger panels should not be a problem. Gears and other worm gears provide the possibility to change the power ratio, depending on the weight of the panels to move.
 
 - I started from the hardware of [this instructable](https://www.instructables.com/id/Ammo-Can-Solar-Power-Supply/), and now want to have the solar panel powering the battery facing the sun as long as the sun is in the sky. This is what the device presented here is all about.
+> I used the hardware above (solar panel + battery) to power a Raspberry Pi. The idea is to use the 
+> Raspberry Pi to optimize the orientation of the panel. Win-win 😎.
 
 ### How-to
 Different parameter sets can drive the printing process as well as the preview process. The same parameter sets (scripts) drive the two processes. Those parameter sets are held in files named like `param.set.**.scad`.

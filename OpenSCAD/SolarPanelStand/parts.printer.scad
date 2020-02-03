@@ -4,7 +4,7 @@
  *
  * Uses all.parts.scad
  *
- * Note: Use it from prinitng.v*.scad and similar scripts.
+ * Note: Use it from printing.scad and similar scripts, along with param.set.XX.scad.
  */
 use <./mechanical.parts.scad>
 use <./all.parts.scad>

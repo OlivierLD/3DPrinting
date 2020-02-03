@@ -14,7 +14,7 @@ use <./parts.printer.scad>
 echo(version=version());
 echo(">>>>>> For visualization only, not for print!");
 
-stuck = true; // Components stuck together, or apart.
+stuck = false; // Components stuck together, or apart.
 betweenParts = 20; // When apart 
 
 baseAnimation = true; // Set to true to enable %$t based animations on the base's rotation.
@@ -187,7 +187,10 @@ difference() {
 				echo(str(">> Bracket's width out all set to ", bracketWidthOutAll));
 				bracketHeightOutAll = sizeAboveAxis + sizeBelowAxis;
 				// Temp, force tilt. Comment for animations.
-				//bracketTiltAngle = -45;
+				bracketTiltAngle = (stuck ? -45 : 90);
+				if (stuck) {
+					echo(str(">>>>>>>> Forcing tilt angle to ", bracketTiltAngle));
+				}
 				deltaH = ((bracketHeightOutAll / 2) - sizeAboveAxis);
 				// Panel bracket. See sinus and cosinus on the translate. Specially needed if above and below sizes are different
 				translate([(standTopWidth / 6) + (sin(bracketTiltAngle) * deltaH), // Back and forth

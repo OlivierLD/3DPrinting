@@ -20,26 +20,26 @@ echo(">>> After adjusting the values,");
 echo(">>> Choose the part to design below.");
 echo(">>> ------------------------------------------------------");
 
-PRINT_BRACKET = 1;
+PRINT_BRACKET = 1;             // Full bracket, in one piece
 PRINT_BASE_1 = 2;
 PRINT_BASE_2 = 3;
-PRINT_MAIN_STAND = 4; // In full
+PRINT_MAIN_STAND = 4;          // Full main stand, in one piece
 PRINT_COUNTERWEIGHT_CYLINDER = 5;
 PRINT_BIG_WHEEL_STAND = 6;
 PRINT_BALL_BEARING_STAND = 7;
-PRINT_PANEL_PLATE = 8;
+PRINT_PANEL_PLATE = 8;         // On top of the bracket
 
-PRINT_MAIN_STAND_BASE = 9;   // Base only
-PRINT_MAIN_STAND_LEFT = 10;  // Left side only
-PRINT_MAIN_STAND_RIGHT = 11; // Right side only
+PRINT_MAIN_STAND_BASE = 9;     // Base only
+PRINT_MAIN_STAND_LEFT = 10;    // Left side only
+PRINT_MAIN_STAND_RIGHT = 11;   // Right side only
 
-PRINT_BRACKET_WITH_FEET = 12;
-PRINT_BRACKET_TOP_ONLY = 13;
-PRINT_BRACKET_LEFT_ONLY = 14;
-PRINT_BRACKET_RIGHT_ONLY = 15;
+PRINT_BRACKET_WITH_FEET = 12;  // Full bracket, with feet under the top
+PRINT_BRACKET_TOP_ONLY = 13;   // Bracket top, with feet
+PRINT_BRACKET_LEFT_ONLY = 14;  // Bracket left side
+PRINT_BRACKET_RIGHT_ONLY = 15; // Bracket right side
 
 // Choose your own here
-option = PRINT_BRACKET_RIGHT_ONLY; 
+option = PRINT_BRACKET_TOP_ONLY; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
