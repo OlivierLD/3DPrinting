@@ -71,6 +71,17 @@ After preparing the parts as explained above, you need to 3D-print:
 - 2 x [Ball Bearing Stands](ball.bearing.stand.stl)
 - Optionally, 1 [plate](panel.plate.stl) for the solar panel to fit on top of the bracket.
 
+_If your 3D printer is not big enough for the parts above_:
+- You may print the big ones in several parts, screwed together with M4 bolts
+  - The main stand, in 3 parts:
+    - [Bottom](main.stand.base.stl)
+    - [Left](main.stand.left.stl)
+    - [Right](main.stand.right.stl)
+  - The bracket, in 3 parts:
+    - [Top](bracket.top.stl)    
+    - [Left](bracket.left.stl)    
+    - [Right](bracket.right.stl)    
+
 ##### _**BOM**_ (in progress, details to come)
 Hardware mechanical parts (may vary, depending on your options)
 - [Bearing balls](https://www.amazon.com/Piece-Assorted-Loose-Bicycle-Bearing/dp/B018B7D05K/ref=pd_rhf_se_p_img_9?_encoding=UTF8&psc=1&refRID=96QW6AH9VWVPRN8HJ1FY) (diam 1/4" in my case, 38 pieces)
