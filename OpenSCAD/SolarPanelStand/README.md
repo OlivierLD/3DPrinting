@@ -71,7 +71,7 @@ After preparing the parts as explained above, you need to 3D-print:
 - 2 x [Ball Bearing Stands](ball.bearing.stand.stl)
 - Optionally, 1 [plate](panel.plate.stl) for the solar panel to fit on top of the bracket.
 
-_If your 3D printer is not big enough for the parts above_:
+_Alternatively, if your 3D printer is not big enough for the parts above_:
 - You may print the big ones in several parts, screwed together with M4 bolts
   - The main stand, in 3 parts:
     - [Bottom](main.stand.base.stl)
