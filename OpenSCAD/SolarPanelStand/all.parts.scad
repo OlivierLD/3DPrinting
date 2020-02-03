@@ -457,7 +457,7 @@ module mainStand(totalStandWidth,
 
 	widthOffset = (totalStandWidth / 2) - (2 * thickness);
 	lengthOffset = (length / 4);
-	axisHeight = (fixingFootSize / 2) + (fixingFootSize * 0.25); // Tweak the 0.25 value.
+	axisHeight = (fixingFootSize / 2) + (fixingFootSize / 4); // Tweak the 0.25 value.
 
 	// left
   if (printOption == ALL_PARTS || printOption == LEFT_ONLY) { 									 
@@ -592,11 +592,11 @@ module panelStandPlate(topThickness, plateWidth, bracketWidth) {
 								 plateWidth * plateBracketRatio, 
 								 topThickness], 
 					 center=true);
-			translate([0, 0, -(topThickness * 1.8)]) {
+			translate([0, 0, -(topThickness * 0.9)]) {
 				for (x = [0, 1]) {
 					for (y = [0, 1]) {
 						translate([x == 0 ? -xPegOffset : xPegOffset, y == 0 ? -yPegOffset : yPegOffset, 0]) {
-							cylinder(h=(topThickness * 2), d=pegDiam, $fn=50);
+							cylinder(h=(topThickness * 1.0), d=pegDiam, $fn=50);
 						}
 					}
 				}
@@ -622,79 +622,152 @@ module panelBracket(mainAxisDiam,
 										withMotor=false,
 										withCylinder=false,
 										cylinderThickness=1,
-                    plateThickness=1.5) {
+                    plateThickness=1.5,
+										withFixingFeet=true,
+										printOption=ALL_PARTS) {
   heightOutAll = sizeAboveAxis + sizeBelowAxis;
+
+	// Variables for fixing feet:
+	footHeightLength = 30;
+	footWidth = 30;
+	screwDiam = 4;
+	wallMinThickness = 5;
+	hexBolts = true;
+	screwLen = 50;									
+
+	widthOffset = (widthOutAll / 2) - (1 * thickness) - (footHeightLength / 2); 
+	lengthOffset = (plateWidth / 4);
+	axisHeight = (footHeightLength / 2) - (footHeightLength / 4); // Tweak the 0.25 value.
+  // drillingVerticalOffset = sizeAboveAxis - (footHeightLength / 2); // Works here									
+  drillingVerticalOffset = (heightOutAll / 2) - (footHeightLength / 1);
+  echo(str("H out all:", heightOutAll, ", VertOffset:", drillingVerticalOffset, ", FootDim:", footHeightLength, ", Above Axis:", sizeAboveAxis));
   // right
-	translate([(widthOutAll / 2) - (thickness / 2), 0, 0]) {
-		color("green") {
-			difference() {
-				oneBracketSide(mainAxisDiam,
-											 sizeAboveAxis,
-											 sizeBelowAxis,
-											 thickness,
-											 plateWidth,
-											 bottomCylinderDiam);
-				// Motor socket here
-				rotate([0, 0, -90]) {
-					translate([0, -motorDepth / 2, (heightOutAll / 2) - sizeAboveAxis - betweenAxis]) {
-						motor(withScrews=false, wallThickness=thickness / 2, forSocket=true); // TODO Tweak thickness
+	if (printOption == ALL_PARTS ||	printOption == RIGHT_BRACKET_ONLY) {										
+		translate([(widthOutAll / 2) - (thickness / 2), 0, 0]) {
+			color("green") {
+				difference() {
+					oneBracketSide(mainAxisDiam,
+												 sizeAboveAxis,
+												 sizeBelowAxis,
+												 thickness,
+												 plateWidth,
+												 bottomCylinderDiam);
+					if (withFixingFeet) { // Drill the holes
+						for (y = [0, 1]) {
+							translate([0, // -(widthOffset + thickness), 
+												 (y == 0 ? lengthOffset : -lengthOffset), 
+												 drillingVerticalOffset]) {
+								rotate([90, 0, 90]) {
+									cylinder(d=screwDiam, h=screwLen, $fn=50, center=true);
+								}
+							}
+						}
+					}
+					// Motor socket here
+					rotate([0, 0, -90]) {
+						translate([0, -motorDepth / 2, (heightOutAll / 2) - sizeAboveAxis - betweenAxis]) {
+							motor(withScrews=false, wallThickness=thickness / 2, forSocket=true); // TODO Tweak thickness
+						}
 					}
 				}
 			}
-		}
-		if (withMotor) {
-			rotate([0, 0, -90]) {
-				translate([0, -motorDepth / 2, (heightOutAll / 2) - sizeAboveAxis - betweenAxis]) {
-					motor(withScrews=true, wallThickness=thickness / 2); // TODO Tweak thickness
+			if (withMotor) {
+				rotate([0, 0, -90]) {
+					translate([0, -motorDepth / 2, (heightOutAll / 2) - sizeAboveAxis - betweenAxis]) {
+						motor(withScrews=true, wallThickness=thickness / 2); // TODO Tweak thickness
+					}
 				}
 			}
 		}
 	}
 
   // left
-	translate([- ((widthOutAll / 2) - (thickness / 2)), 0, 0]) {
-		// Flip it, the ball bearing socket faces inside
-		rotate([0, 0, 180]) {
-			color("red") {
-				oneBracketSide(mainAxisDiam,
-											 sizeAboveAxis,
-											 sizeBelowAxis,
-											 thickness,
-											 plateWidth,
-											 bottomCylinderDiam);
+	if (printOption == ALL_PARTS ||	printOption == LEFT_BRACKET_ONLY) {										
+		translate([- ((widthOutAll / 2) - (thickness / 2)), 0, 0]) {
+			// Flip it, the ball bearing socket faces inside
+			rotate([0, 0, 180]) {
+				color("red") {
+					difference() {
+						oneBracketSide(mainAxisDiam,
+													 sizeAboveAxis,
+													 sizeBelowAxis,
+													 thickness,
+													 plateWidth,
+													 bottomCylinderDiam);
+						if (withFixingFeet) { // Drill the holes
+							for (y = [0, 1]) {
+								translate([0, //-(widthOffset + thickness), 
+													 (y == 0 ? lengthOffset : -lengthOffset), 
+													 drillingVerticalOffset]) {
+									rotate([90, 0, 90]) {
+										cylinder(d=screwDiam, h=screwLen, $fn=50, center=true);
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
 	
 	// top
-	translate([0, 0, (heightOutAll / 2) - (thickness/ 2)]) {
-		difference() {
-			color("cyan") {
-				cube(size=[widthOutAll, plateWidth, thickness], center=true);
-			}
-			color("green") {
-				// Write on it ?
-				translate([0, 0, (thickness / 2)]) {
-					linear_extrude(1.5, center=true, convexity = 4) {
-						resize([widthOutAll * 0.75, 0], auto=true) {
-							text("Panel stuck here", valign="center", halign="center");
+	if (printOption == ALL_PARTS ||	printOption == TOP_BRACKET_ONLY) {										
+		translate([0, 0, (heightOutAll / 2) - (thickness/ 2)]) {
+			difference() {
+				color("cyan") {
+					cube(size=[widthOutAll - ((withFixingFeet ? 2 : 0) * thickness), plateWidth, thickness], center=true);
+				}
+				// TODO Make this an option
+				if (false) {
+					color("green") {
+						// Write on it ?
+						translate([0, 0, (thickness / 2)]) {
+							linear_extrude(1.5, center=true, convexity = 4) {
+								resize([widthOutAll * 0.75, 0], auto=true) {
+									text("Panel stuck here", valign="center", halign="center");
+								}
+							}
+						}
+					}
+				}
+				// Drill holes for additional plate?
+				// Hard coded values for now
+				plateAxisDiam = 5;
+				pegDiam = 6.2;
+				xPegOffset = widthOutAll / 4;
+				yPegOffset = plateWidth / 4;
+				translate([0, 0, -(thickness * 1.1 / 2)]) {
+					cylinder(h=(thickness * 1.1), d=plateAxisDiam, $fn=50);
+					for (x = [0, 1]) {
+						for (y = [0, 1]) {
+							translate([x == 0 ? -xPegOffset : xPegOffset, y == 0 ? -yPegOffset : yPegOffset, 0]) {
+								cylinder(h=(thickness * 1.1), d=pegDiam, $fn=50);
+							}
 						}
 					}
 				}
 			}
-			// Drill holes for additional plate?
-			// Hard coded values for now
-			plateAxisDiam = 5;
-			pegDiam = 6.2;
-			xPegOffset = widthOutAll / 4;
-			yPegOffset = plateWidth / 4;
-			translate([0, 0, -(thickness * 1.1 / 2)]) {
-				cylinder(h=(thickness * 1.1), d=plateAxisDiam, $fn=50);
-				for (x = [0, 1]) {
-					for (y = [0, 1]) {
-						translate([x == 0 ? -xPegOffset : xPegOffset, y == 0 ? -yPegOffset : yPegOffset, 0]) {
-							cylinder(h=(thickness * 1.1), d=pegDiam, $fn=50);
+
+			if (withFixingFeet) {
+				difference() {
+					union() {
+						for (x = [0, 1]) {
+							for (y = [0, 1]) {
+								translate([(x == 0 ? -widthOffset : widthOffset), 
+													 (y == 0 ? -lengthOffset : lengthOffset), 
+													 -(((footHeightLength + thickness) / 2) - 1)]) {
+									rotate([90, 180, (x == 0 ? 90 : -90)]) {
+										fixingFoot(footHeightLength, footWidth, screwDiam, wallMinThickness, hexBolts);
+									}
+								}
+							}
 						}
+					}
+					hollowLength = 40;
+					hollowDiam = 20;
+					translate([0, 0, -thickness - 2]) {
+						cylinder(d=hollowDiam, h=hollowLength, center=true, $fn=100);
 					}
 				}
 			}
@@ -706,29 +779,35 @@ module panelBracket(mainAxisDiam,
 	difference() {
 		union() {
 			// right plug
-			translate([(widthOutAll / 2) - thickness, 0, -(heightOutAll / 2) + (bottomCylinderDiam / 2)]) {
-				rotate([0, 90, 0]) {
-					color("orange") {
-						cylinder(h=plateThickness, d=bottomCylinderDiam, center=true);
-						cylinder(h=4, d=bottomCylinderDiam - (2 * cylinderThickness), center=true); 
+			if (printOption == ALL_PARTS ||	printOption == RIGHT_BRACKET_ONLY) {			
+				translate([(widthOutAll / 2) - thickness, 0, -(heightOutAll / 2) + (bottomCylinderDiam / 2)]) {
+					rotate([0, 90, 0]) {
+						color("orange") {
+							cylinder(h=plateThickness, d=bottomCylinderDiam, center=true);
+							cylinder(h=4, d=bottomCylinderDiam - (2 * cylinderThickness), center=true); 
+						}
 					}
 				}
 			}
 			// left plug
-			translate([ - (widthOutAll / 2) + thickness, 0, -(heightOutAll / 2) + (bottomCylinderDiam / 2)]) {
-				rotate([0, -90, 0]) {
-					color("orange") {
-						cylinder(h=plateThickness, d=bottomCylinderDiam, center=true);
-						cylinder(h=4, d=bottomCylinderDiam - (2 * cylinderThickness), center=true);
+			if (printOption == ALL_PARTS ||	printOption == LEFT_BRACKET_ONLY) {			
+				translate([ - (widthOutAll / 2) + thickness, 0, -(heightOutAll / 2) + (bottomCylinderDiam / 2)]) {
+					rotate([0, -90, 0]) {
+						color("orange") {
+							cylinder(h=plateThickness, d=bottomCylinderDiam, center=true);
+							cylinder(h=4, d=bottomCylinderDiam - (2 * cylinderThickness), center=true);
+						}
 					}
 				}
 			}
 		}
 		// Drill cylinder's axis holes
-		translate([0, 0, -(heightOutAll / 2) + (bottomCylinderDiam / 2)]) {
-			rotate([0, 90, 0]) {
-				color("grey") {
-					cylinder(h=(widthOutAll * 1.1), d=4, $fn=100, center=true); // 4: axis diam
+		if (printOption == ALL_PARTS) {			
+			translate([0, 0, -(heightOutAll / 2) + (bottomCylinderDiam / 2)]) {
+				rotate([0, 90, 0]) {
+					color("grey") {
+						cylinder(h=(widthOutAll * 1.1), d=4, $fn=100, center=true); // 4: axis diam
+					}
 				}
 			}
 		}
@@ -891,7 +970,7 @@ BIG_WHEEL_STAND = 13;
 MAIN_STAND_WITH_BIG_WHEEL_STAND = 14;
 PANEL_STAND_PLATE = 15;
 
-option = MAIN_STAND_WITH_BIG_WHEEL_STAND;
+option = PANEL_STAND_PLATE;
 
 if (option == FULL_BASE) {
   footedBase(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -992,7 +1071,9 @@ if (option == FULL_BASE) {
 								 _betweenAxis, // between main axis and motor axis
 								 _bottomCylinderDiam,
 								 withMotor=false,
-								 withCylinder=false);
+								 withCylinder=false,
+								 withFixingFeet=true,
+								 printOption=ALL_PARTS);
 	}
 	plateThickness = 1.5;
 	cylinderLength = _widthOutAll - (2 * _thickness) - (2 * plateThickness);
@@ -1010,7 +1091,9 @@ if (option == FULL_BASE) {
 								_betweenAxis, // between main axis and motor axis
 								_bottomCylinderDiam,
 								withMotor=true,
-								withCylinder=true);
+								withCylinder=true,
+								withFixingFeet=true,
+								printOption=ALL_PARTS);
 	}
 } else if (option == BALL_BEARING_STAND) {
 	// echo("FootSize", fixingFootSize, " width", fixingFootWidth);

@@ -207,7 +207,8 @@ difference() {
 												 betweenAxis, // between main axis and motor axis
 												 counterweightCylinderDiam,
 												 withMotor=true,
-												 withCylinder=true);
+												 withCylinder=true,
+												 withFixingFeet=true);
 						// TODO Main axis ball bearings
 						
 						// Small wheel, attached to the motor axis

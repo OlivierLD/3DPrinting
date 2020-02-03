@@ -27,6 +27,7 @@ include <./printing.options.scad>
  * @param withMotor Boolean, default false.
  * @param withCylinder Boolean, default false.
  *
+ * TODO Other params.
  * TODO Other motor dimensions, width and height (currently defaulted to NEMA-17)
  */
 module printBracket(horizontalAxisDiam,
@@ -39,7 +40,9 @@ module printBracket(horizontalAxisDiam,
 									  bottomCylinderDiam,
 										motorDepth=39,
 									  withMotor=false,
-									  withCylinder=false) {
+									  withCylinder=false,
+										withFixingFeet=false,
+										printOption=ALL_PARTS) {
 	echo(str("--- Current Settings for Bracket ---"));
   echo(str("Horizontal axis diam...........: ", horizontalAxisDiam));												
   echo(str("Above axis.....................: ", sizeAboveAxis));												
@@ -63,7 +66,9 @@ module printBracket(horizontalAxisDiam,
 							 bottomCylinderDiam,
 							 motorDepth,
 							 withMotor,
-							 withCylinder);
+							 withCylinder,
+							 withFixingFeet=withFixingFeet,
+							 printOption=printOption);
 }
 
 /** 
@@ -256,9 +261,7 @@ module printBase2(cylHeight,
  * @param fixingFootSize Number. Used to find the fixig foot drilling.
  * @param screwDiam Number. Used to find the fixig foot drilling.
  * @param minWallThickness Number. Used to find the fixig foot drilling.
- * @param wheelStandDrillingPattern Array. Default is defined in all.parts.scad, used to drill the holes for the big wheel stand.
- * @param fixingFeetOnBase Boolean. Used to print the stand in several parts
- * @param printOption Number. ALL_PARTS (default), RIGHT_ONLY, LEFT_ONLY, BASE_ONLY. (defined in printing.options.scad)
+ * @param wheelStandDrillingPattern Array. Defvault is defined in all.parts.scad, used to drill the holes for the big wheel stand.
  */
 module printMainStand(totalStandWidth, 
 											length, 
@@ -274,9 +277,7 @@ module printMainStand(totalStandWidth,
 											minWallThickness,
 											topFeetInside=false,
 											wheelStandThickness=10,
-											wheelStandDrillingPattern=[],
-											fixingFeetOnBase=true,
-											printOption=ALL_PARTS) {
+											wheelStandDrillingPattern=[]) {
 
 	echo(str("--- Current Settings for Main Stand ---"));
   echo(str("Total width...................: ", totalStandWidth));					
@@ -301,9 +302,7 @@ module printMainStand(totalStandWidth,
 							topWidth, 
 							thickness, 
 							horizontalAxisDiam, 
-							flapScrewDiam,
-							baseFixingFeet=fixingFeetOnBase,
-							printOption=printOption);
+							flapScrewDiam);
 		translate([0, 0, 0]) {
 			drillingPattern(extDiam, 
 											fixingFootSize, 
@@ -341,21 +340,16 @@ module printMainStand(totalStandWidth,
  * @param widthOutAll Number. Bracket's width out all
  * @param thickness Number. Bracket's thickness
  * @param bottomCylinderDiam Number. External cylinder's diameter
- * @param cylinderThickness Number. Cylinder's thickness
- * @param plateThickness Number. Cylinder socket plate thickness
  */
-module printCylinder(widthOutAll, 
-										 thickness, 
-										 bottomCylinderDiam, 
-										 cylinderThickness=1, 
-										 plateThickness=1.5) {
+module printCylinder(widthOutAll, thickness, bottomCylinderDiam) {
 	
 	echo(str("--- Current Settings for Cylinder ---"));
   echo(str("Total bracket width......: ", widthOutAll));					
   echo(str("Bracket walls thickness..: ", thickness));					
   echo(str("Cylinder diameter........: ", bottomCylinderDiam));					
 
-	cylinderLength = widthOutAll - (2 * thickness) - (2 * plateThickness);
+	cylinderLength = widthOutAll - (2 * thickness) - (2 * thickness);
+	cylinderThickness = 1; // TODO Prm
 	counterweightCylinder(cylinderLength, bottomCylinderDiam, cylinderThickness);	
 }
 
@@ -414,14 +408,8 @@ module printBallBearingStand(diam,
 									 minWallThickness);
 }
 
-module customPrint() { // You choose, your playground!
-	// footedBase(40, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
-	
-	// Tube under worm gear pinion
-	difference() {
-		cylinder(d=11, h=14, $fn=50);
-		cylinder(d=9, h=14, $fn=50);		
-	}
+module customPrint() { // You choose!
+	footedBase(40, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
 }
 
 echo("This script will show nothing...");

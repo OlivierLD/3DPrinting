@@ -33,8 +33,13 @@ PRINT_MAIN_STAND_BASE = 9;   // Base only
 PRINT_MAIN_STAND_LEFT = 10;  // Left side only
 PRINT_MAIN_STAND_RIGHT = 11; // Right side only
 
+PRINT_BRACKET_WITH_FEET = 12;
+PRINT_BRACKET_TOP_ONLY = 13;
+PRINT_BRACKET_LEFT_ONLY = 14;
+PRINT_BRACKET_RIGHT_ONLY = 15;
+
 // Choose your own here
-option = PRINT_COUNTERWEIGHT_CYLINDER; 
+option = PRINT_PANEL_PLATE; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
@@ -47,6 +52,57 @@ if (option == PRINT_BRACKET) {
 							 counterweightCylinderDiam,
 							 withMotor=false,
 							 withCylinder=false);
+} else if (option == PRINT_BRACKET_WITH_FEET) {	
+	printBracket(horizontalAxisDiam,
+							 sizeAboveAxis,
+							 sizeBelowAxis,
+							 bracketWidthOutAll,
+							 wallThickness,
+							 bracketPlateWidth,
+							 betweenAxis,
+							 counterweightCylinderDiam,
+							 withMotor=false,
+							 withCylinder=false,
+							 withFixingFeet=true);
+} else if (option == PRINT_BRACKET_TOP_ONLY) {	
+	printBracket(horizontalAxisDiam,
+							 sizeAboveAxis,
+							 sizeBelowAxis,
+							 bracketWidthOutAll,
+							 wallThickness,
+							 bracketPlateWidth,
+							 betweenAxis,
+							 counterweightCylinderDiam,
+							 withMotor=false,
+							 withCylinder=false,
+							 withFixingFeet=true,
+							 printOption=TOP_BRACKET_ONLY);
+} else if (option == PRINT_BRACKET_LEFT_ONLY) {	
+	printBracket(horizontalAxisDiam,
+							 sizeAboveAxis,
+							 sizeBelowAxis,
+							 bracketWidthOutAll,
+							 wallThickness,
+							 bracketPlateWidth,
+							 betweenAxis,
+							 counterweightCylinderDiam,
+							 withMotor=false,
+							 withCylinder=false,
+							 withFixingFeet=true,
+							 printOption=LEFT_BRACKET_ONLY);
+} else if (option == PRINT_BRACKET_RIGHT_ONLY) {	
+	printBracket(horizontalAxisDiam,
+							 sizeAboveAxis,
+							 sizeBelowAxis,
+							 bracketWidthOutAll,
+							 wallThickness,
+							 bracketPlateWidth,
+							 betweenAxis,
+							 counterweightCylinderDiam,
+							 withMotor=false,
+							 withCylinder=false,
+							 withFixingFeet=true,
+							 printOption=RIGHT_BRACKET_ONLY);
 } else if (option == PRINT_BASE_1) {
 	printBase1(bottomCylinderHeight, 
 						 extDiam, 
