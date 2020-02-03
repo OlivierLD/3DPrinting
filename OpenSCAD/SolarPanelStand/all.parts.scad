@@ -731,7 +731,7 @@ module panelBracket(mainAxisDiam,
 						}
 					}
 				}
-				// Drill holes for additional plate?
+				// Drill holes for additional (solar panel) plate?
 				// Hard coded values for now
 				plateAxisDiam = 5;
 				pegDiam = 6.2;
@@ -802,7 +802,9 @@ module panelBracket(mainAxisDiam,
 			}
 		}
 		// Drill cylinder's axis holes
-		if (printOption == ALL_PARTS) {			
+		if (printOption == ALL_PARTS ||	
+				printOption == RIGHT_BRACKET_ONLY ||	
+				printOption == LEFT_BRACKET_ONLY) {			
 			translate([0, 0, -(heightOutAll / 2) + (bottomCylinderDiam / 2)]) {
 				rotate([0, 90, 0]) {
 					color("grey") {

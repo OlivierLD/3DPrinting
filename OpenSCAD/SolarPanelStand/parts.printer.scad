@@ -55,6 +55,7 @@ module printBracket(horizontalAxisDiam,
   echo(str("Motor depth....................: ", motorDepth));												
   echo(str("With motor.....................: ", (withMotor?"yes":"no")));												
   echo(str("With counterweight cylinder....: ", (withCylinder?"yes":"no")));												
+  echo(str("With fixing feet...............: ", (withFixingFeet?"yes":"no")));												
 
 	panelBracket(horizontalAxisDiam,
 							 sizeAboveAxis,

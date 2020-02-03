@@ -39,7 +39,7 @@ PRINT_BRACKET_LEFT_ONLY = 14;
 PRINT_BRACKET_RIGHT_ONLY = 15;
 
 // Choose your own here
-option = PRINT_PANEL_PLATE; 
+option = PRINT_BRACKET_RIGHT_ONLY; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
