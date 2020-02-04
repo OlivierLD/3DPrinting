@@ -278,7 +278,9 @@ module printMainStand(totalStandWidth,
 											minWallThickness,
 											topFeetInside=false,
 											wheelStandThickness=10,
-											wheelStandDrillingPattern=[]) {
+											wheelStandDrillingPattern=[],
+											fixingFeetOnBase=false,
+											printOption=ALL_PARTS) {
 
 	echo(str("--- Current Settings for Main Stand ---"));
   echo(str("Total width...................: ", totalStandWidth));					
@@ -303,7 +305,9 @@ module printMainStand(totalStandWidth,
 							topWidth, 
 							thickness, 
 							horizontalAxisDiam, 
-							flapScrewDiam);
+							flapScrewDiam,
+							baseFixingFeet=fixingFeetOnBase,
+							printOption=printOption);
 		translate([0, 0, 0]) {
 			drillingPattern(extDiam, 
 											fixingFootSize, 

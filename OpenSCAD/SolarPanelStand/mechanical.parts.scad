@@ -20,14 +20,15 @@ M5_CS = [11.20, 3.1];
 M6_CS = [13.44, 3.72];
 M8_CS = [17.92, 4.96];
 
-// Hex Nuts and Bolts [h, f]. h: Head thickness, f: head spanner size (ex: M6, f: 10)
-M2_HB = [1.525, 4];
-M25_HB = [1.825, 5];
-M3_HB = [2.125, 5.5];
-M4_HB = [2.925, 7];
-M5_HB = [3.65, 8];
-M6_HB = [4.15, 10];
-M8_HB = [5.45, 13];
+// Hex Nuts and Bolts [h, f, g]. h: Head thickness, f: head spanner size (ex: M6, f: 10, g: 11.05)
+// Use g for an hexa head in OpenSCAD
+M2_HB = [1.525, 4, 4.32];
+M25_HB = [1.825, 5, 5.45];
+M3_HB = [2.125, 5.5, 6.01];
+M4_HB = [2.925, 7, 7.66];
+M5_HB = [3.65, 8, 8.79];
+M6_HB = [4.15, 10, 11.05];
+M8_HB = [5.45, 13, 14.38];
 
 // Washer, [OD, thickness]
 M3_W = [7, 0.55];
@@ -122,7 +123,7 @@ module metalScrewHB(diam, length, top=0) {
 	//echo (str("Diam:", diam, "mm"));
 	dims = getHBScrewDims(diam);
 	h = dims[0];
-	s = dims[1];
+	s = dims[2]; // Was 1
 
 	union() {
 		if (top > 0) {
@@ -149,7 +150,7 @@ module hexNut(diam, top=0) {
 	//echo (str("Diam:", diam, "mm"));
 	dims = getHBScrewDims(diam);
 	h = dims[0];
-	s = dims[1];
+	s = dims[2]; // Was 1
 
 	length = 0;
 	
@@ -246,7 +247,7 @@ if (false) { // HB Screw test
 	}
 }
 
-if (false) { // Hex Nut test
+if (true) { // Hex Nut test
 	
 	cubeSize = 16;
 	diam = 6;
@@ -328,7 +329,7 @@ if (false) {
 }
 
 // Ball bearing test
-if (true) {
+if (false) {
 	for (i=[5, 6]) {
 		translate([-20 * (i - 5), 0, 0]) {
 			ballBearing(i);
