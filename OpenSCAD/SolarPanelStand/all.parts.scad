@@ -9,7 +9,6 @@
  * see the "option" variable at the bottom of the script.
  */
 use <./mechanical.parts.scad>
-// use <./grooved.cylinder.scad>
 
 echo(version=version());
 
