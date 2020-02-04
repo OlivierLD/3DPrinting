@@ -65,25 +65,25 @@ option = PRINT_BASE_1;
 The following indications may vary, according to your own options.
 
 After preparing the parts as explained above, you need to 3D-print:
-- 1 x [Bottom base](base.one.stl)
-- 1 x [Top base](base.two.stl)
-- 1 x [Main Stand](main.stand.stl)
-- 1 x [Big Wheel Stand](big.wheel.stand.stl)
-- 1 x [Counterweight Cylinder](counter.weight.stl)
-- 1 x [Bracket](bracket.stl)
-- 2 x [Ball Bearing Stands](ball.bearing.stand.stl)
-- Optionally, 1 [plate](panel.plate.stl) for the solar panel to fit on top of the bracket.
+- 1 x [Bottom base](stl/base.one.stl)
+- 1 x [Top base](stl/base.two.stl)
+- 1 x [Main Stand](stl/main.stand.stl)
+- 1 x [Big Wheel Stand](stl/big.wheel.stand.stl)
+- 1 x [Counterweight Cylinder](stl/counter.weight.stl)
+- 1 x [Bracket](stl/bracket.stl)
+- 2 x [Ball Bearing Stands](stl/ball.bearing.stand.stl)
+- Optionally, 1 [plate](stl/panel.plate.stl) for the solar panel to fit on top of the bracket.
 
 _Alternatively, if your 3D printer is not big enough for the parts above_:
 - You may print the big ones in several parts, screwed together with M4 bolts
   - The main stand, in 3 parts:
-    - [Bottom](main.stand.base.stl)
-    - [Left](main.stand.left.stl)
-    - [Right](main.stand.right.stl)
+    - [Bottom](stl/main.stand.base.stl)
+    - [Left](stl/main.stand.left.stl)
+    - [Right](stl/main.stand.right.stl)
   - The bracket, in 3 parts:
-    - [Top](bracket.top.stl)    
-    - [Left](bracket.left.stl)    
-    - [Right](bracket.right.stl)    
+    - [Top](stl/bracket.top.stl)    
+    - [Left](stl/bracket.left.stl)    
+    - [Right](stl/bracket.right.stl)    
 
 ##### _**BOM**_ (in progress, details to come)
 Hardware mechanical parts (may vary, depending on your options)
