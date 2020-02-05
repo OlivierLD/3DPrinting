@@ -31,7 +31,7 @@ include <./param.set.03.scad>
 ```
 and then run the script (or use `F5` or `F6`).
 
-This is what the animation abve has been generated with.
+This is what the animation above has been generated with.
 
 #### Prepare for printing
 To prepare the bottom base (for example) for printing with the parameters of `param.set.04.scad`:
