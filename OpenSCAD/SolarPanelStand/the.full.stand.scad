@@ -187,10 +187,10 @@ difference() {
 				echo(str(">> Bracket's width out all set to ", bracketWidthOutAll));
 				bracketHeightOutAll = sizeAboveAxis + sizeBelowAxis;
 				// Temp, force tilt. Comment for animations.
-				bracketTiltAngle = (stuck ? -45 : 90);
-				if (stuck) {
-					echo(str(">>>>>>>> Forcing tilt angle to ", bracketTiltAngle));
-				}
+//				bracketTiltAngle = (stuck ? -45 : 90);
+//				if (stuck) {
+//					echo(str(">>>>>>>> Forcing tilt angle to ", bracketTiltAngle));
+//				}
 				deltaH = ((bracketHeightOutAll / 2) - sizeAboveAxis);
 				// Panel bracket. See sinus and cosinus on the translate. Specially needed if above and below sizes are different
 				translate([(standTopWidth / 6) + (sin(bracketTiltAngle) * deltaH), // Back and forth
@@ -212,7 +212,39 @@ difference() {
 												 withMotor=true,
 												 withCylinder=true,
 												 withFixingFeet=true);
-						// TODO Main axis ball bearings
+						// Screws for the bottom cylinder, diam 4.
+						color("grey") {
+							// left
+							rotate([0, -90, 0]) {
+								translate([-((bracketHeightOutAll / 2) - (counterweightCylinderDiam / 2)), 
+													 0, 
+													 (bracketWidthOutAll / 2)]) {
+									washer(4);
+									hexNut(4);
+								}
+							}
+							// right
+							rotate([0, 90, 0]) {
+								translate([((bracketHeightOutAll / 2) - (counterweightCylinderDiam / 2)), 
+													 0, 
+													 (bracketWidthOutAll / 2)]) {
+									washer(4);
+									hexNut(4);
+								}
+							}
+						}
+						// Main axis ball bearings
+						bbDim = getBBDims(horizontalAxisDiam);
+						rotate([0, 90, 0]) {
+							// right
+							translate([(sizeAboveAxis - sizeBelowAxis) / 2, 0, (bracketWidthOutAll / 2) - wallThickness]) {
+								ballBearing(horizontalAxisDiam);
+							}
+							// left
+							translate([(sizeAboveAxis - sizeBelowAxis) / 2, 0, -((bracketWidthOutAll / 2) - wallThickness)]) {
+								ballBearing(horizontalAxisDiam);
+							}
+						}
 						
 						// Small wheel, attached to the motor axis
 						rotate([0, 90, 0]) {
