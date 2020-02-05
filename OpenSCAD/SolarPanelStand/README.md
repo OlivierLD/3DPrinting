@@ -31,12 +31,14 @@ include <./param.set.03.scad>
 ```
 and then run the script (or use `F5` or `F6`).
 
+This is what the animation abve has been generated with.
+
 #### Prepare for printing
 To prepare the bottom base (for example) for printing with the parameters of `param.set.03.scad`:
 - Load `printing.scad` in `OpenSCAD`
-- Make sure the `include` statement refers to `param.set.03.scad`, or your specific set of parameters:
+- Make sure the `include` statement refers to `param.set.04.scad`, or your specific set of parameters:
 ```
-include <./param.set.03.scad>
+include <./param.set.04.scad>
 ```
 - In the code editor, set the `option` variable you need, to `PRINT_BASE_1` if this is the bottom base you want:
 ```
