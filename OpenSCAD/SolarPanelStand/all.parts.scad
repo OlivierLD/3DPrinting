@@ -695,7 +695,7 @@ module panelBracket(mainAxisDiam,
 	axisHeight = (footHeightLength / 2) - (footHeightLength / 4); // Tweak the 0.25 value.
   // drillingVerticalOffset = sizeAboveAxis - (footHeightLength / 2); // Works here									
   drillingVerticalOffset = (heightOutAll / 2) - (footHeightLength / 1);
-  echo(str("H out all:", heightOutAll, ", VertOffset:", drillingVerticalOffset, ", FootDim:", footHeightLength, ", Above Axis:", sizeAboveAxis));
+  echo(str("H out all:", heightOutAll, ", VertOffset:", drillingVerticalOffset, ", FootDim:", footHeightLength, ", Above Axis:", sizeAboveAxis, ", width out all:", widthOutAll, ", plate width:", plateWidth, ", thisckness:", thickness));
   // right
 	if (printOption == ALL_PARTS ||	printOption == RIGHT_BRACKET_ONLY) {										
 		translate([(widthOutAll / 2) - (thickness / 2), 0, 0]) {

@@ -148,10 +148,13 @@ difference() {
 											 fixingFootSize, 
 											 fixingFootScrewDiam,
 											 minFootWallThickness,
-											 topFeetInside=topBaseFeetInside);
+											 topFeetInside=topBaseFeetInside,
+											 wheelStandThickness=bigWheelStandThickness,
+											 wheelStandDrillingPattern=actoBotics615238DrillingPattern,
+											 fixingFeetOnBase=true);
 				// The main axis / rod, with the big wheel gear
 				// betweenAxis = (bigWheelDiam + smallWheelDiam) / 2;
-				slack = 5; // Around the wheels, left and right.
+				slack = 10; // Around the wheels, left and right.
 				// echo("Tilt:", bracketTiltAngle);
 				rotate([90, 0, 0]) {
 					// Big wheel, wheel stand, and its axis
@@ -250,7 +253,7 @@ difference() {
 						rotate([0, 90, 0]) {
 							translate([betweenAxis - ((sizeBelowAxis - sizeAboveAxis) / 2), 
 							           0, 
-							           (bracketWidthOutAll / 2) + 3 + (bigWheelStandThickness / 2) /*slack*/]) {
+							           (bracketWidthOutAll / 2) + 5 + (bigWheelStandThickness / 2) /*slack*/]) {
 								color("orange") {
 									cylinder(d=smallWheelDiam,
 													 h=wheelThickness,

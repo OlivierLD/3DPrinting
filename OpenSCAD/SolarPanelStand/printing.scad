@@ -1,6 +1,6 @@
 /**
  * @author OlivierLD
- * 2020-Jan-28
+ * Started 2020-Jan-28
  *
  * Printing with a set of parameters, 
  * included below.
@@ -39,7 +39,7 @@ PRINT_BRACKET_LEFT_ONLY = 14;  // Bracket left side
 PRINT_BRACKET_RIGHT_ONLY = 15; // Bracket right side
 
 // Choose your own here
-option = PRINT_MAIN_STAND_BASE; 
+option = PRINT_BRACKET_WITH_FEET; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
