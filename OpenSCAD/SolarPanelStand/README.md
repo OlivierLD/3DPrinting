@@ -1,5 +1,6 @@
-## README
+## Orientable Solar Panel Stand
 
+- This is the _hardware_ part of the [SunFlower v2 project](https://github.com/OlivierLD/raspberry-coffee/tree/master/Project.Trunk/SunFlower.v2). The goal is to orient a solar panel so it faces the sun, in order to optimize its performance.
 - The idea is to extend the project featured [here](https://github.com/OlivierLD/raspberry-coffee/tree/master/Project.Trunk/SunFlower). In the original project, the panel is moved by some small micro-servos. This was used mostly to validate the software part, the one used to get to the sun's position in the sky.
 - This project contains what's needed to build all the required _hardware_ parts. The `stl` files (to send to the 3D printer) are generated from the provided `OpenSCAD` scripts, as explained below.
 
@@ -18,7 +19,7 @@
 ### How-to
 Different parameter sets can drive the printing process as well as the preview process. The same parameter sets (scripts) drive the two processes. Those parameter sets are held in files named like `param.set.**.scad`.
 
-- To **_print_** the different parts, in `OpenSCAD`, use the script named `printing.scad`, which refers to scripts like `param.set.**.scad`, which hold distinct sets of parameters.
+- To **_print_** the different parts, in `OpenSCAD`, use the script named `printing.scad`, which refers to scripts like `param.set.**.scad`, containing distinct sets of parameters.
 	- Set the `option` variable in the `printing.scad` script so it matches the part to print.
 	- Preview your part.
 	- Generate the `stl` file.
