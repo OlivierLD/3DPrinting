@@ -13,7 +13,7 @@
 - Here we want to use stepper motors, more powerful. If that works, extending the idea to manipulate bigger panels should not be a problem. Gears and other worm gears provide the possibility to change the power ratio, depending on the weight of the panels to move.
 
 - I started from the hardware of [this instructable](https://www.instructables.com/id/Ammo-Can-Solar-Power-Supply/), and now want to have the solar panel powering the battery facing the sun as long as the sun is in the sky. This is what the device presented here is all about.
-> I used the hardware above (solar panel + battery) to power a Raspberry Pi. The idea is to use the 
+> I used the hardware above (solar panel + battery) to power a Raspberry Pi. The idea is to use the
 > Raspberry Pi to optimize the orientation of the panel. Win-win 😎.
 
 ### How-to
@@ -43,7 +43,7 @@ include <./param.set.04.scad>
 ```
 - In the code editor, set the `option` variable you need, to `PRINT_BASE_1` if this is the bottom base you want:
 ```
-. . . 
+. . .
 
 PRINT_BRACKET = 1;
 PRINT_BASE_1 = 2;
@@ -68,13 +68,13 @@ option = PRINT_BASE_1;
 The following indications may vary, according to your own options.
 
 After preparing the parts as explained above, you need to 3D-print:
-- 1 x [Bottom base](stl/base.one.stl)
-- 1 x [Top base](stl/base.two.stl)
-- 1 x [Main Stand](stl/main.stand.stl)
-- 1 x [Big Wheel Stand](stl/big.wheel.stand.stl)
-- 1 x [Counterweight Cylinder](stl/counter.weight.stl)
-- 1 x [Bracket](stl/bracket.stl)
-- 2 x [Ball Bearing Stands](stl/ball.bearing.stand.stl)
+- 1 &times; [Bottom base](stl/base.one.stl)
+- 1 &times; [Top base](stl/base.two.stl)
+- 1 &times; [Main Stand](stl/main.stand.stl)
+- 1 &times; [Big Wheel Stand](stl/big.wheel.stand.stl)
+- 1 &times; [Counterweight Cylinder](stl/counter.weight.stl)
+- 1 &times; [Bracket](stl/bracket.stl)
+- 2 &times; [Ball Bearing Stands](stl/ball.bearing.stand.stl)
 - Optionally, 1 [plate](stl/panel.plate.stl) for the solar panel to fit on top of the bracket.
 
 _Alternatively, if your 3D printer is not big enough for the parts above_:
@@ -101,7 +101,7 @@ Hardware mechanical parts (may vary, depending on your options)
 - [Motor stand](https://www.amazon.com/gp/product/B06XPX7PPB/ref=ppx_od_dt_b_asin_title_s03?ie=UTF8&psc=1).
 
 And then
-- 2 x [Stepper motors](https://www.adafruit.com/product/324) (NEMA-17 in my case, may vary)
+- 2 &times; [Stepper motors](https://www.adafruit.com/product/324) (NEMA-17 in my case, may vary)
 - Raspberry Pi with its SD Card, power supply, etc.
 - [Adafruit Motor Hat](https://www.adafruit.com/product/2348)
 - The required software is (or will be) [here](https://github.com/OlivierLD/raspberry-coffee/tree/master/Project.Trunk/SunFlower.v2).
