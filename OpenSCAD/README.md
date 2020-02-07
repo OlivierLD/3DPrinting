@@ -5,6 +5,6 @@ Each directory contains the code (`.scad`) along with the generated `stl` files 
 > Depending on the kind of material you will use (plastic, resin, metal, ceramic...),
 > you will need to prepare those files for the specificities of your printer.
 > This is where programs like `Cura Ultimaker` come in. This one will for example,
-> tirn the `stl` files into `gcode` ones.
+> turn the `stl` files into `gcode` ones.
 
 > The path becomes in this case `scad` > `stl` > `gcode`.
