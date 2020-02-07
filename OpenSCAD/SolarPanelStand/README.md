@@ -1,4 +1,4 @@
-## Orientable Solar Panel Stand
+## Automated Orientable Solar Panel Stand
 
 - This is the _hardware_ part of the [SunFlower v2 project](https://github.com/OlivierLD/raspberry-coffee/tree/master/Project.Trunk/SunFlower.v2). The goal is to orient _**automatically**_ a solar panel so it faces the sun, in order to optimize its performance.
 - The idea is to extend the project featured [here](https://github.com/OlivierLD/raspberry-coffee/tree/master/Project.Trunk/SunFlower). In the original project, the panel is moved by some small micro-servos. This was used mostly to validate the software part, the one used to get to the sun's position in the sky.
