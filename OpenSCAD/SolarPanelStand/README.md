@@ -92,7 +92,7 @@ _Alternatively, if your 3D printer is not big enough for the parts above_:
 Hardware mechanical parts (may vary, depending on your options)
 - [Bearing balls](https://www.amazon.com/Piece-Assorted-Loose-Bicycle-Bearing/dp/B018B7D05K/ref=pd_rhf_se_p_img_9?_encoding=UTF8&psc=1&refRID=96QW6AH9VWVPRN8HJ1FY) (diam 1/4" in my case, 38 pieces)
 - Ball Bearings [5mm](https://www.amazon.com/gp/product/B07DZDZNJM/ref=ppx_yo_dt_b_asin_title_o00_s03?ie=UTF8&psc=1) and [6mm](https://www.amazon.com/gp/product/B07DZKDKSF/ref=ppx_yo_dt_b_asin_title_o00_s03?ie=UTF8&psc=1).
-- [Threaded rods](https://www.amazon.com/gp/product/B078HC51KK/ref=ppx_yo_dt_b_asin_title_o00_s02?ie=UTF8&psc=1), several diameters.
+- [Threaded rods](https://www.amazon.com/gp/product/B078HC51KK/ref=ppx_yo_dt_b_asin_title_o00_s02?ie=UTF8&psc=1), several diameters (4, 5, and 6mm).
 - [Rods](https://www.amazon.com/gp/product/B07KJ8DGF3/ref=ppx_yo_dt_b_asin_title_o00_s01?ie=UTF8&psc=1), 5mm.
 - Nuts, bolts, washers...
 - [Pinion](https://www.amazon.com/gp/product/B07RVJCQS5/ref=ppx_yo_dt_b_asin_title_o00_s03?ie=UTF8&psc=1) and [wheel](https://www.amazon.com/gp/product/B00KVN5BKU/ref=ppx_yo_dt_b_asin_image_o01_s00?ie=UTF8&psc=1)
