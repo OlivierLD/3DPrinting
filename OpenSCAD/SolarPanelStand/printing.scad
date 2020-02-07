@@ -20,6 +20,10 @@ echo(">>> After adjusting the values,");
 echo(">>> Choose the part to design below.");
 echo(">>> ------------------------------------------------------");
 
+NONE = -1;
+
+CUSTOM_PRINT = 0;
+
 PRINT_BRACKET = 1;             // Full bracket, in one piece
 PRINT_BASE_1 = 2;
 PRINT_BASE_2 = 3;
@@ -215,5 +219,6 @@ if (option == PRINT_BRACKET) {
 										 actoBotics615238DrillingPattern);
 } else if (option == PRINT_PANEL_PLATE) {
 	panelStandPlate(wallThickness, bracketPlateWidth, bracketWidthOutAll);
+} else if (option == CUSTOM_PRINT) {
+	customPrint();
 }
-// customPrint();

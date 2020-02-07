@@ -411,10 +411,16 @@ module printBallBearingStand(diam,
 									 fixingFootWidth, 
 									 screwDiam, 
 									 minWallThickness);
-}
+} 
 
 module customPrint() { // You choose!
-	footedBase(40, extDiam, torusDiam, intDiam, ballsDiam, fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);	
+	
+	// A tube under the pinion of the worm gear.
+	difference() {
+		cylinder(d=10, h=14, $fn=100, center=true);
+		cylinder(d=8, h=16, $fn=100, center=true);
+	}
+	
 }
 
 echo("This script will show nothing...");
