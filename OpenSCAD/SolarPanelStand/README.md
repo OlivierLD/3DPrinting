@@ -128,26 +128,50 @@ Pictures of the whole process.
 
 ![01](./story/01.on.the.printer.jpg)
 
+On the printer.
+
 ![02](./story/02.freshly.printed.jpg)
+
+All parts, printed.
 
 ![03](./story/03.bottom.ball.bearing.jpg)
 
+Ball bearing at the bottom of the base.
+
 ![04](./story/04.all.ball.bearings.jpg)
+
+All ball bearings in place.
 
 ![05](./story/05.bracket.assembled.jpg)
 
+Bracket, assembled, with its motor.
+
 ![06](./story/06.main.stand.assembled.jpg)
+
+Main stand, assembled.
 
 ![07](./story/07.worm.gear.axis.jpg)
 
+Positioning the worm gear axis.
+
 ![08](./story/08.azimuth.motor.jpg)
+
+With azimuth motor.
 
 ![09](./story/09.bearing.balls.jpg)
 
+Bearing balls between bases.
+
 ![10](./story/10.main.stand.and.base.jpg)
+
+Main stand, and base.
 
 ![11](./story/11.assembled.01.jpg)
 
+Assembled.
+
 ![12](./story/12.assembled.02.jpg)
+
+Assembled - 2.
 
 ---
