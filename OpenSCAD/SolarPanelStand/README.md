@@ -35,6 +35,9 @@ and then run the script (or use `F5` or `F6`).
 This is what the animation above has been generated with.
 
 #### Prepare for printing
+> _Important:_ Here I am using metric units. All parameters are gathered in one single place as you will see below. As long as you can translate your dimensions
+> in millimeters, you can use any dimension you want.
+
 To prepare the bottom base (for example) for printing with the parameters of `param.set.04.scad`:
 - Load `printing.scad` in `OpenSCAD`
 - Make sure the `include` statement refers to `param.set.04.scad`, or your specific set of parameters:
@@ -121,6 +124,30 @@ As the `NEMA-17` stepper motor has 200 possible positions:
 Those resolutions should be good enough!
 
 ### Story-board
-. . . To come, pictures of the whole process.
+Pictures of the whole process.
+
+![01](./story/01.on.the.printer.jpg)
+
+![02](./story/02.freshly.printed.jpg)
+
+![03](./story/03.bottom.ball.bearing.jpg)
+
+![04](./story/04.all.ball.bearings.jpg)
+
+![05](./story/05.bracket.assembled.jpg)
+
+![06](./story/06.main.stand.assembled.jpg)
+
+![07](./story/07.worm.gear.axis.jpg)
+
+![08](./story/08.azimuth.motor.jpg)
+
+![09](./story/09.bearing.balls.jpg)
+
+![10](./story/10.main.stand.and.base.jpg)
+
+![11](./story/11.assembled.01.jpg)
+
+![12](./story/12.assembled.02.jpg)
 
 ---

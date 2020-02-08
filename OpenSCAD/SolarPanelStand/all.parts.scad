@@ -568,13 +568,35 @@ module mainStand(totalStandWidth,
 				// With fixing feet on the base?
 				if (baseFixingFeet) {
 					echo("With Fixing feet on the base");
-					for (x = [0, 1]) {
-						for (y = [0, 1]) {
-							translate([(x == 0 ? lengthOffset : -lengthOffset), 
-												 (y == 0 ? widthOffset : -widthOffset), 
-												 (footHeightLength / 2) - 1]) {
-								rotate([90, 0, (y == 0 ? 0 : 180)]) {
-									fixingFoot(footHeightLength, footWidth, screwDiam, wallMinThickness, hexBolts);
+					difference() {	
+						// the feet
+						union() {
+							for (x = [0, 1]) {
+								for (y = [0, 1]) {
+									translate([(x == 0 ? lengthOffset : -lengthOffset), 
+														 (y == 0 ? widthOffset : -widthOffset), 
+														 (footHeightLength / 2) - 1]) {
+										rotate([90, 0, (y == 0 ? 0 : 180)]) {
+											fixingFoot(footHeightLength, footWidth, screwDiam, wallMinThickness, hexBolts);
+										}
+									}
+								}
+							}
+						}
+						// Two hollow cylinders, to make the feet smaller, closer to the walls
+						hollowCyinderDiam = (2 * footHeightLength) * 1;
+						lateralOffset = (((totalStandWidth - (2 * thickness)) / 2) - (hollowCyinderDiam / 2)) * 1.1;
+						union() {
+							rotate([0, 90, 0]) {
+								translate([-(((hollowCyinderDiam / 2) + thickness) * 0.95), // Up and down
+												   lateralOffset,   // Left (-) and right (+).
+													 0]) {
+									cylinder(h=length, d=hollowCyinderDiam, $fn=100, center=true);
+								}
+								translate([-(((hollowCyinderDiam / 2) + thickness) * 0.95), // Up and down
+												   -lateralOffset,   // Left (-) and right (+).
+													 0]) {
+									cylinder(h=length, d=hollowCyinderDiam, $fn=100, center=true);
 								}
 							}
 						}
@@ -582,6 +604,8 @@ module mainStand(totalStandWidth,
 				} else {
 					echo("NO Fixing feet on the base");
 				}
+				
+				
 			}
 		}
 	}
