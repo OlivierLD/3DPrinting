@@ -194,6 +194,6 @@ At work.
 
 ### Next?
 - With a magnetometer for the heading and a GPS for the position
-- Something to look at for 3D pronted gears: <https://github.com/chrisspen/gears>
+- Something to look at for 3D printed gears: <https://github.com/chrisspen/gears>
 
 ---
