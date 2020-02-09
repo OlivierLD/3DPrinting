@@ -13,6 +13,8 @@
  * - Text
  * - Image
  * - etc
+ *
+ * TODO: Header labels?
  */
 echo(version=version());
 

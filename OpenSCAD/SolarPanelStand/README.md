@@ -167,6 +167,7 @@ With azimuth motor.
 ![09](./story/09.bearing.balls.jpg)
 
 Bearing balls between bases.
+> Notice the small tube on vertical axis, very helpfull to set the pinion at the right height.
 
 ![10](./story/10.main.stand.and.base.jpg)
 
