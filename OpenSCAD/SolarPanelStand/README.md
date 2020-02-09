@@ -174,8 +174,19 @@ Assembled.
 
 Assembled - 2.
 
+![13](./story/13.setup.jpg)
+
+Connected to the battery.
+
+![14](./story/14.at.work.jpg)
+
+![15](./story/15.at.work.jpg)
+
+At work.
+
+
 ### Next?
-- With a magnetometer and a GPS
+- With a magnetometer for the heading and a GPS for the position
 - Something to look at for 3D pronted gears: <https://github.com/chrisspen/gears>
 
 ---
