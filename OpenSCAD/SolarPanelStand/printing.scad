@@ -43,7 +43,7 @@ PRINT_BRACKET_LEFT_ONLY = 14;  // Bracket left side
 PRINT_BRACKET_RIGHT_ONLY = 15; // Bracket right side
 
 // Choose your own here
-option = CUSTOM_PRINT; 
+option = PRINT_MAIN_STAND_BASE; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,

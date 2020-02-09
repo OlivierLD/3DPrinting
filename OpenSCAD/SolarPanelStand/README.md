@@ -174,4 +174,8 @@ Assembled.
 
 Assembled - 2.
 
+### Next?
+- With a magnetometer and a GPS
+- Something to look at for 3D pronted gears: <https://github.com/chrisspen/gears>
+
 ---
