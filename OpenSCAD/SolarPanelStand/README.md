@@ -4,11 +4,11 @@
 - The idea is to extend the project featured [here](https://github.com/OlivierLD/raspberry-coffee/tree/master/Project.Trunk/SunFlower). In the original project, the panel is moved by some small micro-servos. This was used mostly to validate the software part, the one used to get to the sun's position in the sky.
 - This project contains what's needed to build all the required _hardware_ parts. The `stl` files (to send to the 3D printer) are generated from the provided `OpenSCAD` scripts, as explained below.
 
-This is _not_ based on a light detector. The technique here is to:
-- Know the geographical position (and orientation)  of the device
-- Know the time
-- Calculate the position of the Sun at that time for this position on Earth
-- Orient the solar panel accordingly.
+> _Note:_ This is _not_ based on a light detector. The technique here is to:
+> - Know the geographical position (and orientation)  of the device
+> - Know the time
+> - Calculate the position of the Sun at that time for this position on Earth
+> - Orient the solar panel accordingly.
 
 #### A first preview
 
