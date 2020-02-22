@@ -41,7 +41,7 @@ Permitted modules according to DIN 780:
 */
 
 
-// General Variables
+// Global Variables
 PI = 3.14159;
 RAD = 57.29578;
 clearance = 0.05;   // clearance between teeth
@@ -1101,7 +1101,7 @@ bevel_gear_pair(
 		gear_bore=5,         // original 4
 		pinion_bore=5,       // original 4
 		pressure_angle = 20, // original 20 
-		helix_angle = 0,       // original 20
+		helix_angle = 0,     // original 20
 		together_built = false);
 
 // bevel_herringbone_gear_pair(modul=1, gear_teeth=30, pinion_teeth=11, axis_angle=100, tooth_width=5, bore=4, pressure_angle = 20, helix_angle=30, together_built=true);

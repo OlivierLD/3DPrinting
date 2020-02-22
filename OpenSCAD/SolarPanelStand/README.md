@@ -189,7 +189,12 @@ Connected to the battery.
 
 ![15](./story/15.at.work.jpg)
 
-At work.
+#### At work
+Here is a animation - stop motion - of the real device (first prototype), on 231 minutes, starting before noon, ending after. Event if the sky was obviously not clear, 
+orienting the panel does make a difference on the load. The first frames are too bright, it **was** sunny... 😎
+
+![Stop motion](https://github.com/OlivierLD/raspberry-coffee/blob/master/Project.Trunk/SunFlower.v2/stop.motion.gif)
+
 
 
 ### Next?
