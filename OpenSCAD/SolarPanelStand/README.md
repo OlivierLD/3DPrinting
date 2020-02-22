@@ -189,7 +189,8 @@ Connected to the battery.
 
 ![15](./story/15.at.work.jpg)
 
-#### At work
+At work
+
 Here is a animation - stop motion - of the real device (first prototype), on 231 minutes, starting before noon, ending after. Event if the sky was obviously not clear, 
 orienting the panel does make a difference on the load. The first frames are too bright, it **was** sunny... 😎
 
@@ -199,6 +200,6 @@ orienting the panel does make a difference on the load. The first frames are too
 
 ### Next?
 - With a magnetometer for the heading and a GPS for the position
-- Something to look at for 3D printed gears: <https://github.com/chrisspen/gears>
+- Something to look at for 3D printed gears: <https://github.com/chrisspen/gears>. This will be for V3.
 
 ---
