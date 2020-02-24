@@ -14,7 +14,7 @@ use <./parts.printer.scad>
 echo(version=version());
 echo(">>>>>> For visualization only, not for print!");
 
-stuck = true; // Components stuck together, or apart.
+stuck = false; // Components stuck together, or apart.
 betweenParts = 20; // When apart 
 
 baseAnimation = true; // Set to true to enable %$t based animations on the base's rotation.

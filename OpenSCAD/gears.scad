@@ -1,6 +1,6 @@
 $fn = 96;
 
-/* 
+/** 
 ****************************************************
 Reshaped from https://github.com/chrisspen/gears.git
 ****************************************************
@@ -46,52 +46,68 @@ PI = 3.14159;
 RAD = 57.29578;
 clearance = 0.05;   // clearance between teeth
 
-/*  Converts Radians to Degrees */
-function grad(pressure_angle) = pressure_angle * RAD;
+/**  
+ * Converts Radians to Degrees 
+ */
+function grad(angle) = angle * RAD;
 
-/*  Converts Degrees to Radians */
-function radian(pressure_angle) = pressure_angle / RAD;
+/**
+ * Converts Degrees to Radians 
+ */
+function radian(angle) = angle / RAD;
 
-/*  Converts 2D Polar Coordinates to Cartesian
-    Format: radius, phi; phi = Angle to x-Axis on xy-Plane */
+/** 
+ * Converts 2D Polar Coordinates to Cartesian
+ * Format: radius, phi; phi = Angle to x-Axis on xy-Plane 
+ */
 function polar_to_cartesian(polvect) = [
     polvect[0]*cos(polvect[1]),  
     polvect[0]*sin(polvect[1])
 ];
 
-/*  Circle Involutes-Function:
-    Returns the Polar Coordinates of an Involute Circle
-    r = Radius of the Base Circle
-    rho = Rolling-angle in Degrees */
-function ev(r,rho) = [
+/** 
+ * Circle Involutes-Function:
+ * Returns the Polar Coordinates of an Involute Circle
+ * r = Radius of the Base Circle
+ * rho = Rolling-angle in Degrees 
+ */
+function ev(r, rho) = [
     r / cos(rho),
     grad(tan(rho) - radian(rho))
 ];
 
-/*  Sphere-Involutes-Function
-    Returns the Azimuth Angle of an Involute Sphere
-    theta0 = Polar Angle of the Cone, where the Cutting Edge of the Large Sphere unrolls the Involute
-    theta = Polar Angle for which the Azimuth Angle of the Involute is to be calculated */
-function sphere_ev(theta0,theta) = 
+/**
+ * Sphere-Involutes-Function
+ * Returns the Azimuth Angle of an Involute Sphere
+ * theta0 = Polar Angle of the Cone, where the Cutting Edge of the Large Sphere unrolls the Involute
+ * theta = Polar Angle for which the Azimuth Angle of the Involute is to be calculated 
+ */
+function sphere_ev(theta0, theta) = 
 	1 / sin(theta0) * acos(cos(theta) / cos(theta0)) - acos(tan(theta0) / tan(theta));
 
-/*  Converts Spherical Coordinates to Cartesian
-    Format: radius, theta, phi; theta = Angle to z-Axis, phi = Angle to x-Axis on xy-Plane */
+/**
+ * Converts Spherical Coordinates to Cartesian
+ * Format: radius, theta, phi; theta = Angle to z-Axis, phi = Angle to x-Axis on xy-Plane 
+ */
 function sphere_to_cartesian(vect) = [
 	vect[0] * sin(vect[1]) * cos(vect[2]),  
 	vect[0] * sin(vect[1]) * sin(vect[2]),
 	vect[0] * cos(vect[1])
 ];
 
-/*  Check if a Number is even
-    = 1, if so
-    = 0, if the Number is not even */
+/** 
+ * Check if a Number is even
+ *  = 1, if so
+ *  = 0, if the Number is not even 
+ */
 function is_even(number) =
 	(number == floor(number / 2) * 2) ? 1 : 0;
 
-/*  greatest common Divisor
-    according to Euclidean Algorithm.
-    Sorting: a must be greater than b */
+/**
+ * greatest common Divisor
+ * according to Euclidean Algorithm.
+ * Sorting: a must be greater than b 
+ */
 function ggt(a, b) = 
 	a % b == 0 ? b : ggt(b, a % b);
 
@@ -99,8 +115,10 @@ function ggt(a, b) =
 function spiral(a, r0, phi) =
 	a*phi + r0; 
 
-/*  Copy and rotate a Body */
-module copier(vect, number, distance, winkel){
+/**
+ * Copy and rotate a Body 
+ */
+module copier(vect, number, distance, winkel) {
 	for (i = [0 : number - 1]) {
 		translate(v = vect * distance * i) {
 			rotate(a = i * winkel, v = [0, 0, 1]) {
@@ -110,13 +128,15 @@ module copier(vect, number, distance, winkel){
 	}
 }
 
-/*  rack
-    modul = Height of the Tooth Tip above the Rolling Line
-    length = Length of the Rack
-    height = Height of the Rack to the Pitch Line
-    width = Width of a Tooth
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle of the Rack Transverse Axis; 0° = Spur Teeth */
+/** 
+ * rack
+ * modul = Height of the Tooth Tip above the Rolling Line
+ * length = Length of the Rack
+ * height = Height of the Rack to the Pitch Line
+ * width = Width of a Tooth
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle of the Rack Transverse Axis; 0° = Spur Teeth 
+ */
 module rack(modul, 
 						length, 
 						height, 
@@ -171,14 +191,16 @@ module rack(modul,
 	}  
 }
 
-/*  Spur gear
-    modul = Height of the Tooth Tip beyond the Pitch Circle
-    tooth_number = Number of Gear Teeth
-    width = tooth_width
-    bore = Diameter of the Center Hole
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle to the Axis of Rotation; 0° = Spur Teeth
-    optimized = Create holes for Material-/Weight-Saving or Surface Enhancements where Geometry allows */
+/** 
+ * Spur gear
+ * modul = Height of the Tooth Tip beyond the Pitch Circle
+ * tooth_number = Number of Gear Teeth
+ * width = tooth_width
+ * bore = Diameter of the Center Hole
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle to the Axis of Rotation; 0° = Spur Teeth
+ * optimized = Create holes for Material-/Weight-Saving or Surface Enhancements where Geometry allows 
+ */
 module spur_gear(modul, 
 								 tooth_number, 
 								 width, 
@@ -275,13 +297,15 @@ module spur_gear(modul,
 	}
 }
 
-/* Herringbone_rack; uses the module "rack"
-    modul = Height of the Tooth Tip above the Rolling LIne
-    length = Length of the Rack
-    height = Height of the Rack to the Pitch Line
-    width = Width of a Tooth
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle of the Rack Transverse Axis; 0° = Spur Teeth */
+/**
+ * Herringbone_rack; uses the module "rack"
+ * modul = Height of the Tooth Tip above the Rolling LIne
+ * length = Length of the Rack
+ * height = Height of the Rack to the Pitch Line
+ * width = Width of a Tooth
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle of the Rack Transverse Axis; 0° = Spur Teeth 
+ */
 module herringbone_rack(modul, 
 												length, 
 												height, 
@@ -299,21 +323,23 @@ module herringbone_rack(modul,
 	}
 }
 
-/* Herringbone_gear; uses the module "spur_gear"
-    modul = Height of the Tooth Tip beyond the Pitch Circle
-    tooth_number = Number of Gear Teeth
-    width = tooth_width
-    bore = Diameter of the Center Hole
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle to the Axis of Rotation, Standard = 0° (Spur Teeth)
-    optimized = Holes for Material-/Weight-Saving */
+/**
+ * Herringbone_gear; uses the module "spur_gear"
+ * modul = Height of the Tooth Tip beyond the Pitch Circle
+ * tooth_number = Number of Gear Teeth
+ * width = tooth_width
+ * bore = Diameter of the Center Hole
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle to the Axis of Rotation, Standard = 0° (Spur Teeth)
+ * optimized = Holes for Material-/Weight-Saving 
+ */
 module herringbone_gear(modul, 
 												tooth_number, 
 												width, 
 												bore, 
 												pressure_angle = 20, 
-												helix_angle=0, 
-												optimized=true) {
+												helix_angle = 0, 
+												optimized = true) {
 	width = width / 2;
 	d = modul * tooth_number;                                       // Pitch Circle Diameter
 	r = d / 2;                                                      // Pitch Circle Radius
@@ -367,25 +393,27 @@ module herringbone_gear(modul,
 	}
 }
 
-/*  Rack and Pinion
-    modul = Height of the Tooth Tip beyond the Pitch Circle
-    rack_length = Length of the Rack
-    gear_teeth = Number of Gear Teeth
-    rack_height = Height of the Rack to the Pitch Line
-    gear_bore = Diameter of the Center Hole of the Spur Gear
-    width = Width of a Tooth
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle to the Axis of Rotation, Standard = 0° (Spur Teeth) */
+/**
+ * Rack and Pinion
+ * modul = Height of the Tooth Tip beyond the Pitch Circle
+ * rack_length = Length of the Rack
+ * gear_teeth = Number of Gear Teeth
+ * rack_height = Height of the Rack to the Pitch Line
+ * gear_bore = Diameter of the Center Hole of the Spur Gear
+ * width = Width of a Tooth
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle to the Axis of Rotation, Standard = 0° (Spur Teeth) 
+ */
 module rack_and_pinion (modul, 
 												rack_length, 
 												gear_teeth, 
 												rack_height, 
 												gear_bore, 
 												width, 
-												pressure_angle=20, 
-												helix_angle=0, 
-												together_built=true, 
-												optimized=true) {
+												pressure_angle = 20, 
+												helix_angle = 0, 
+												together_built = true, 
+												optimized = true) {
 	distance = together_built ? modul * gear_teeth / 2 : modul * gear_teeth;
 
 	rack(modul, rack_length, rack_height, width, pressure_angle, -helix_angle);
@@ -396,14 +424,16 @@ module rack_and_pinion (modul,
 	}
 }
 
-/*  Ring gear
-    modul = Height of the Tooth Tip beyond the Pitch Circle
-    tooth_number = Number of Gear Teeth
-    width = tooth_width
-    rim_width = Width of the Rim from the Root Circle
-    bore = Diameter of the Center Hole
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle to the Axis of Rotation, Standard = 0° (Spur Teeth) */
+/**
+ * Ring gear
+ * modul = Height of the Tooth Tip beyond the Pitch Circle
+ * tooth_number = Number of Gear Teeth
+ * width = tooth_width
+ * rim_width = Width of the Rim from the Root Circle
+ * bore = Diameter of the Center Hole
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle to the Axis of Rotation, Standard = 0° (Spur Teeth) 
+ */
 module ring_gear(modul, 
 								 tooth_number, 
 								 width, 
@@ -462,13 +492,15 @@ module ring_gear(modul,
 	echo("Ring Gear Outer Diamater = ", 2 * (ra + rim_width));
 }
 
-/*  Herringbone Ring Gear; uses the Module "ring_gear"
-    modul = Height of the Tooth Tip over the Partial Cone
-    tooth_number = Number of Gear Teeth
-    width = tooth_width
-    bore = Diameter of the Center Hole
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle to the Axis of Rotation, Standard = 0° (Spur Teeth) */
+/**
+ * Herringbone Ring Gear; uses the Module "ring_gear"
+ * modul = Height of the Tooth Tip over the Partial Cone
+ * tooth_number = Number of Gear Teeth
+ * width = tooth_width
+ * bore = Diameter of the Center Hole
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle to the Axis of Rotation, Standard = 0° (Spur Teeth) 
+ */
 module herringbone_ring_gear(modul, 
 														 tooth_number, 
 														 width, 
@@ -486,19 +518,21 @@ module herringbone_ring_gear(modul,
 	}
 }
 
-/*  Planetary Gear; uses the Modules "herringbone_gear" and "herringbone_ring_gear"
-    modul = Height of the Tooth Tip over the Partial Cone
-    sun_teeth = Number of Teeth of the Sun Gear
-    planet_teeth = Number of Teeth of a Planet Gear
-    number_planets = Number of Planet Gears. If null, the Function will calculate the Minimum Number
-    width = tooth_width
-    rim_width = Width of the Rim from the Root Circle
-    bore = Diameter of the Center Hole
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle to the Axis of Rotation, Standard = 0° (Spur Teeth)
-    together_built = 
-    optimized = Create holes for Material-/Weight-Saving or Surface Enhancements where Geometry allows
-    together_built = Components assembled for Construction or separated for 3D-Printing */
+/**
+ * Planetary Gear; uses the Modules "herringbone_gear" and "herringbone_ring_gear"
+ * modul = Height of the Tooth Tip over the Partial Cone
+ * sun_teeth = Number of Teeth of the Sun Gear
+ * planet_teeth = Number of Teeth of a Planet Gear
+ * number_planets = Number of Planet Gears. If null, the Function will calculate the Minimum Number
+ * width = tooth_width
+ * rim_width = Width of the Rim from the Root Circle
+ * bore = Diameter of the Center Hole
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle to the Axis of Rotation, Standard = 0° (Spur Teeth)
+ * together_built = 
+ * optimized = Create holes for Material-/Weight-Saving or Surface Enhancements where Geometry allows
+ * together_built = Components assembled for Construction or separated for 3D-Printing 
+ */
 module planetary_gear(modul, 
 											sun_teeth, 
 											planet_teeth, 
@@ -561,21 +595,23 @@ module planetary_gear(modul,
 	herringbone_ring_gear (modul, ring_teeth, width, rim_width, pressure_angle, helix_angle); // Ring Gear
 }
 
-/*  Bevel Gear
-    modul = Height of the Tooth Tip over the Partial Cone; Specification for the Outside of the Cone
-    tooth_number = Number of Gear Teeth
-    partial_cone_angle = (Half)angle of the Cone on which the other Ring Gear rolls
-    tooth_width = Width of the Teeth from the Outside toward the apex of the Cone
-    bore = Diameter of the Center Hole
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle, Standard = 0° */
+/**
+ * Bevel Gear
+ * modul = Height of the Tooth Tip over the Partial Cone; Specification for the Outside of the Cone
+ * tooth_number = Number of Gear Teeth
+ * partial_cone_angle = (Half)angle of the Cone on which the other Ring Gear rolls
+ * tooth_width = Width of the Teeth from the Outside toward the apex of the Cone
+ * bore = Diameter of the Center Hole
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle, Standard = 0° 
+ */
 module bevel_gear(modul, 
 									tooth_number, 
 									partial_cone_angle, 
 									tooth_width, 
 									bore, 
 									pressure_angle = 20, 
-									helix_angle=0) {
+									helix_angle = 0) {
 	// Dimension Calculations
 	d_outside = modul * tooth_number;                               // Part Cone Diameter at the Cone Base,
 																																	// corresponds to the Chord in a Spherical Section
@@ -713,13 +749,15 @@ module bevel_gear(modul,
 	}
 }
 
-/*  Bevel Herringbone Gear; uses the Module "bevel_gear"
-    modul = Height of the Tooth Tip beyond the Pitch Circle
-    tooth_number = Number of Gear Teeth
-    partial_cone_angle, tooth_width
-    bore = Diameter of the Center Hole
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle, Standard = 0° */
+/**
+ * Bevel Herringbone Gear; uses the Module "bevel_gear"
+ * modul = Height of the Tooth Tip beyond the Pitch Circle
+ * tooth_number = Number of Gear Teeth
+ * partial_cone_angle, tooth_width
+ * bore = Diameter of the Center Hole
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle, Standard = 0° 
+ */
 module bevel_herringbone_gear(modul, 
 															tooth_number, 
 															partial_cone_angle, 
@@ -765,13 +803,15 @@ module bevel_herringbone_gear(modul,
 	}
 }
 
-/*  Spiral Bevel Gear; uses the Module "bevel_gear"
-    modul = Height of the Tooth Tip beyond the Pitch Circle
-    tooth_number = Number of Gear Teeth
-    height = Height of Gear Teeth
-    bore = Diameter of the Center Hole
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle, Standard = 0° */
+/**
+ * Spiral Bevel Gear; uses the Module "bevel_gear"
+ * modul = Height of the Tooth Tip beyond the Pitch Circle
+ * tooth_number = Number of Gear Teeth
+ * height = Height of Gear Teeth
+ * bore = Diameter of the Center Hole
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle, Standard = 0° 
+ */
 module spiral_bevel_gear(modul, 
 												 tooth_number, 
 												 partial_cone_angle, 
@@ -806,20 +846,22 @@ module spiral_bevel_gear(modul,
 	}
 }
 
-/*  Bevel Gear Pair with any axis_angle; uses the Module "bevel_gear"
-    modul = Height of the Tooth Tip over the Partial Cone; Specification for the Outside of the Cone
-    gear_teeth = Number of Gear Teeth on the Gear
-    pinion_teeth = Number of Gear Teeth on the Pinion
-    axis_angle = Angle between the Axles of the Gear and Pinion
-    tooth_width = Width of the Teeth from the Outside toward the apex of the Cone
-    gear_bore = Diameter of the Center Hole of the Gear
-    pinion_bore = Diameter of the Center Bore of the Gear
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle, Standard = 0°
-    together_built = Components assembled for Construction or separated for 3D-Printing 
-    -- added
-    with_gear = if true, build the gear
-    with_pinion = if true, build the pinion */
+/**
+ * Bevel Gear Pair with any axis_angle; uses the Module "bevel_gear"
+ * modul = Height of the Tooth Tip over the Partial Cone; Specification for the Outside of the Cone
+ * gear_teeth = Number of Gear Teeth on the Gear
+ * pinion_teeth = Number of Gear Teeth on the Pinion
+ * axis_angle = Angle between the Axles of the Gear and Pinion
+ * tooth_width = Width of the Teeth from the Outside toward the apex of the Cone
+ * gear_bore = Diameter of the Center Hole of the Gear
+ * pinion_bore = Diameter of the Center Bore of the Gear
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle, Standard = 0°
+ * together_built = Components assembled for Construction or separated for 3D-Printing 
+ * -- added
+ * with_gear = if true, build the gear
+ * with_pinion = if true, build the pinion 
+ */
 module bevel_gear_pair(modul, 
 											 gear_teeth, 
 											 pinion_teeth, 
@@ -881,17 +923,19 @@ module bevel_gear_pair(modul,
 	}
 }
 
-/*  Herringbone Bevel Gear Pair with arbitrary axis_angle; uses the Module "bevel_herringbone_gear"
-    modul = Height of the Tooth Tip over the Partial Cone; Specification for the Outside of the Cone
-    gear_teeth = Number of Gear Teeth on the Gear
-    pinion_teeth = Number of Gear Teeth on the Pinion
-    axis_angle = Angle between the Axles of the Gear and Pinion
-    tooth_width = Width of the Teeth from the Outside toward the apex of the Cone
-    gear_bore = Diameter of the Center Hole of the Gear
-    pinion_bore = Diameter of the Center Bore of the Gear
-    pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-    helix_angle = Helix Angle, Standard = 0°
-    together_built = Components assembled for Construction or separated for 3D-Printing */
+/**
+ * Herringbone Bevel Gear Pair with arbitrary axis_angle; uses the Module "bevel_herringbone_gear"
+ * modul = Height of the Tooth Tip over the Partial Cone; Specification for the Outside of the Cone
+ * gear_teeth = Number of Gear Teeth on the Gear
+ * pinion_teeth = Number of Gear Teeth on the Pinion
+ * axis_angle = Angle between the Axles of the Gear and Pinion
+ * tooth_width = Width of the Teeth from the Outside toward the apex of the Cone
+ * gear_bore = Diameter of the Center Hole of the Gear
+ * pinion_bore = Diameter of the Center Bore of the Gear
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * helix_angle = Helix Angle, Standard = 0°
+ * together_built = Components assembled for Construction or separated for 3D-Printing 
+ */
 module bevel_herringbone_gear_pair(modul, 
 																	 gear_teeth, 
 																	 pinion_teeth, 
@@ -945,15 +989,16 @@ module bevel_herringbone_gear_pair(modul,
 	}
 }
 
-/*
-Archimedean screw.
-modul = Height of the Screw Head over the Part Cylinder
-thread_starts = Number of Starts (Threads) of the Worm
-length = Length of the Worm
-bore = Diameter of the Center Hole
-pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-lead_angle = Lead Angle of the Worm, corresponds to 90° minus Helix Angle. Positive Lead Angle = clockwise.
-together_built = Components assembled for Construction or separated for 3D-Printing */
+/**
+ * Archimedean screw.
+ * modul = Height of the Screw Head over the Part Cylinder
+ * thread_starts = Number of Starts (Threads) of the Worm
+ * length = Length of the Worm
+ * bore = Diameter of the Center Hole
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * lead_angle = Lead Angle of the Worm, corresponds to 90° minus Helix Angle. Positive Lead Angle = clockwise.
+ * together_built = Components assembled for Construction or separated for 3D-Printing 
+ */
 module worm(modul, 
 						thread_starts, 
 						length, 
@@ -1020,19 +1065,20 @@ module worm(modul,
 	}
 }
 
-/*
-Calculates a worm wheel set. The worm wheel is an ordinary spur gear without globoidgeometry.
-modul = Height of the screw head above the partial cylinder or the tooth head above the pitch circle
-tooth_number = Number of wheel teeth
-thread_starts = Number of gears (teeth) of the screw
-width = tooth_width
-length = Length of the Worm
-worm_bore = Diameter of the Center Hole of the Worm
-gear_bore = Diameter of the Center Hole of the Spur Gear
-pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
-lead_angle = Pitch angle of the worm corresponds to 90 ° bevel angle. Positive slope angle = clockwise.
-optimized = Holes for material / weight savings
-together_built =  Components assembled for construction or apart for 3D printing */
+/**
+ * Calculates a worm wheel set. The worm wheel is an ordinary spur gear without globoidgeometry.
+ * modul = Height of the screw head above the partial cylinder or the tooth head above the pitch circle
+ * tooth_number = Number of wheel teeth
+ * thread_starts = Number of gears (teeth) of the screw
+ * width = tooth_width
+ * length = Length of the Worm
+ * worm_bore = Diameter of the Center Hole of the Worm
+ * gear_bore = Diameter of the Center Hole of the Spur Gear
+ * pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
+ * lead_angle = Pitch angle of the worm corresponds to 90 ° bevel angle. Positive slope angle = clockwise.
+ * optimized = Holes for material / weight savings
+ * together_built =  Components assembled for construction or apart for 3D printing 
+ */
 module worm_gear(modul, 
 								 tooth_number, 
 								 thread_starts, 
@@ -1112,7 +1158,7 @@ bevel_gear_pair(
 		pressure_angle = 20, // original 20 
 		helix_angle = 0,     // original 20
 		together_built = true,
-		with_gear = false,
+		with_gear = true,
 		with_pinion = true);
 
 // bevel_herringbone_gear_pair(modul=1, gear_teeth=30, pinion_teeth=11, axis_angle=100, tooth_width=5, bore=4, pressure_angle = 20, helix_angle=30, together_built=true);
