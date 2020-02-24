@@ -816,7 +816,10 @@ module spiral_bevel_gear(modul,
     pinion_bore = Diameter of the Center Bore of the Gear
     pressure_angle = Pressure Angle, Standard = 20° according to DIN 867. Should not exceed 45°.
     helix_angle = Helix Angle, Standard = 0°
-    together_built = Components assembled for Construction or separated for 3D-Printing */
+    together_built = Components assembled for Construction or separated for 3D-Printing 
+    -- added
+    with_gear = if true, build the gear
+    with_pinion = if true, build the pinion */
 module bevel_gear_pair(modul, 
 											 gear_teeth, 
 											 pinion_teeth, 
@@ -826,7 +829,9 @@ module bevel_gear_pair(modul,
 											 pinion_bore, 
 											 pressure_angle = 20, 
 											 helix_angle = 0, 
-											 together_built = true) { 
+											 together_built = true,
+											 with_gear = true,
+											 with_pinion = true) { 
 	// Dimension Calculations
 	r_gear = modul * gear_teeth / 2;                                                      // Cone Radius of the Gear
 	delta_gear = atan(sin(axis_angle) / (pinion_teeth / gear_teeth + cos(axis_angle)));   // Cone Angle of the Gear
@@ -855,19 +860,23 @@ module bevel_gear_pair(modul,
 	
 	// Drawing
 	// Gear
-	rotate([0, 0, 180 * (1 - clearance) / gear_teeth * rotate]) {
-		bevel_gear(modul, gear_teeth, delta_gear, tooth_width, gear_bore, pressure_angle, helix_angle);
+	if (with_gear) {
+		rotate([0, 0, 180 * (1 - clearance) / gear_teeth * rotate]) {
+			bevel_gear(modul, gear_teeth, delta_gear, tooth_width, gear_bore, pressure_angle, helix_angle);
+		}
 	}
 	// Pinion
-	if (together_built) {
-		translate([-height_f_pinion * cos(90 - axis_angle), 0, height_f_gear - height_f_pinion * sin(90 - axis_angle)]) {
-			rotate([0, axis_angle, 0]) {
-					bevel_gear(modul, pinion_teeth, delta_pinion, tooth_width, pinion_bore, pressure_angle, -helix_angle);
+	if (with_pinion) {
+		if (together_built) {
+			translate([with_gear ? -height_f_pinion * cos(90 - axis_angle) : 0, 0, height_f_gear - height_f_pinion * sin(90 - axis_angle)]) {
+				rotate([0, axis_angle, 0]) {
+						bevel_gear(modul, pinion_teeth, delta_pinion, tooth_width, pinion_bore, pressure_angle, -helix_angle);
+				}
 			}
-		}
-	} else {
-		translate([rkf_pinion * 2 + modul + rkf_gear, 0, 0]) {
-			bevel_gear(modul, pinion_teeth, delta_pinion, tooth_width, pinion_bore, pressure_angle, -helix_angle);
+		} else {
+			translate([with_gear ? rkf_pinion * 2 + modul + rkf_gear : 0, 0, 0]) {
+				bevel_gear(modul, pinion_teeth, delta_pinion, tooth_width, pinion_bore, pressure_angle, -helix_angle);
+			}
 		}
 	}
 }
@@ -1102,7 +1111,9 @@ bevel_gear_pair(
 		pinion_bore=5,       // original 4
 		pressure_angle = 20, // original 20 
 		helix_angle = 0,     // original 20
-		together_built = false);
+		together_built = true,
+		with_gear = false,
+		with_pinion = true);
 
 // bevel_herringbone_gear_pair(modul=1, gear_teeth=30, pinion_teeth=11, axis_angle=100, tooth_width=5, bore=4, pressure_angle = 20, helix_angle=30, together_built=true);
 

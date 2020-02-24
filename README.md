@@ -1,6 +1,8 @@
 # 3DPrinting
 3D printed models elaboration, tools, hints, ideas, and stuff!
 
+- [Hardware doc](http://www.mosaic-industries.com/embedded-systems/microcontroller)
+
 ## [OpenSCAD](https://www.openscad.org/)
 - Free and OpenSource
 - Desktop based
