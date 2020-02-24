@@ -129,6 +129,8 @@ As the `NEMA-17` stepper motor has 200 possible positions:
 
 Those resolutions should be good enough!
 
+![Exploded](./images/apart.png)
+
 ### Story-board
 Pictures of the whole process.
 

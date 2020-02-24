@@ -396,6 +396,8 @@ module bigWheelStand(diam, axisDiam, thickness, holes) {
  * For pre-viewing only, not to print.
  * Can be used with a difference() for a motor socket.
  * Datasheet at http://www.mosaic-industries.com/embedded-systems/microcontroller-projects/stepper-motors/specifications
+ *              https://www.pololu.com/product/1200
+ *              http://www.autoflexible.com/file_upload/product/attach/NEMA%2017.pdf
  * Default values for NEMA-17
  *
  * @param motorSide Number. Edge size of the square face of the motor
