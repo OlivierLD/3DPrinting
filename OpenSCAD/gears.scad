@@ -49,12 +49,12 @@ clearance = 0.05;   // clearance between teeth
 /**  
  * Converts Radians to Degrees 
  */
-function grad(angle) = angle * RAD;
+function toDegrees(angle) = angle * RAD;
 
 /**
  * Converts Degrees to Radians 
  */
-function radian(angle) = angle / RAD;
+function toRadians(angle) = angle / RAD;
 
 /** 
  * Converts 2D Polar Coordinates to Cartesian
@@ -73,7 +73,7 @@ function polar_to_cartesian(polvect) = [
  */
 function ev(r, rho) = [
     r / cos(rho),
-    grad(tan(rho) - radian(rho))
+    toDegrees(tan(rho) - toRadians(rho))
 ];
 
 /**
@@ -223,7 +223,7 @@ module spur_gear(modul,
 																																	// Involute begins on the Base Circle and ends at the Tip Circle
 	rho_r = acos(rb/r);                                             // Rolling Angle at Pitch Circle;
 																																	// Involute begins on the Base Circle and ends at the Tip Circle
-	phi_r = grad(tan(rho_r) - radian(rho_r));                       // Angle to Point of Involute on Pitch Circle
+	phi_r = toDegrees(tan(rho_r) - toRadians(rho_r));                       // Angle to Point of Involute on Pitch Circle
 	gamma = RAD * width / (r * tan(90 - helix_angle));              // Torsion Angle for Extrusion
 	step = rho_ra / 16;                                             // Involute is divided into 16 pieces
 	tau = 360 / tooth_number;                                       // Pitch Angle
@@ -456,7 +456,7 @@ module ring_gear(modul,
 																																	         // Involute begins on the Base Circle and ends at the Tip Circle
 	rho_r = acos(rb/r);                                                      // Involute Angle at Pitch Circle;
 																																	         // Involute begins on the Base Circle and ends at the Tip Circle
-	phi_r = grad(tan(rho_r) - radian(rho_r));                                // Angle to Point of Involute on Pitch Circle
+	phi_r = toDegrees(tan(rho_r) - toRadians(rho_r));                                // Angle to Point of Involute on Pitch Circle
 	gamma = RAD * width / (r * tan(90 - helix_angle));                       // Torsion Angle for Extrusion
 	step = rho_ra / 16;                                                      // Involute is divided into 16 pieces
 	tau = 360 / tooth_number;                                                // Pitch Angle
