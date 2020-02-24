@@ -42,7 +42,7 @@ Permitted modules according to DIN 780:
 
 
 // Global Variables
-PI = 3.14159;
+PI = 3.1415926;
 RAD = 57.29578;
 clearance = 0.05;   // clearance between teeth
 
