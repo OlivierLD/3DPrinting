@@ -158,7 +158,7 @@ module printBase1(cylHeight,
 						}
 					}
 				}
-				// Motor stand, in the South (TODO: Option in North)
+				// Motor stand extrusion, in the South (TODO: Option in North)
 				translate([-extraOffset -((extDiam - socketDepth) / 2), 0, (motorSide + (2 * motorSocketWallThickness)) / 2]) {
 					rotate([0, 90, 180]) {
 						motorSocket(socketDepth = socketDepth,
@@ -180,6 +180,31 @@ module printBase1(cylHeight,
 					motorSocket(socketDepth = socketDepth,
 											wallThickness = motorSocketWallThickness,
 											placeHolder = false);
+				}
+				// A motor
+				translate([-extraOffset - motorSocketWallThickness, 0, 0]) {
+					rotate([0, 0, -90]) {
+						motor(withScrews=true, wallThickness=motorSocketWallThickness);
+					}
+				}
+			}
+			
+			// For test (for now) bevel gears pair
+			motorAxisHeight = (motorSide + (2 * motorSocketWallThickness)) / 2;
+			bevel_gear_height = 11.0997; // Do something smart here. See in bevelGearPair module
+			translate([0, 0, motorAxisHeight + bevel_gear_height]) {
+				rotate([180, 0, 0]) {
+					bevelGearPair(gear_teeth=40,
+												pinion_teeth = 20,
+												base_thickness = 50,
+												pinion_base_thickness = 5,
+												pinion_base_diam = 10,
+												base_diam = 40, // Part Cone Diameter at the Cone Base, seems to be like gear_teeth // was 40
+												big_axis_diam = 5,
+												small_axis_diam = 5,
+												build_together = true,
+												with_gear = true,
+												with_pinion = true);
 				}
 			}
 			
