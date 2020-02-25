@@ -3,7 +3,7 @@
  * Feb 21, 2020.
  */
 use <../gears.scad>
-use <../SolarPanelStand/mechanical.parts.scad>
+use <../mechanical.parts.scad>
 
 // Base diam is given by the number of teeth of the big wheel.
 // Seems to be the same: 40 teeth => diam 40

@@ -1060,7 +1060,7 @@ module bevelGearPair(gear_teeth = 60,
 					}
 				}
 				// Screws
-				screw_length = 50;
+				screw_length = 60;
 				screw_circle_radius = 8;
 				for (angle=[0, 120, 240]) {
 					rotate([0, 0, angle]) {

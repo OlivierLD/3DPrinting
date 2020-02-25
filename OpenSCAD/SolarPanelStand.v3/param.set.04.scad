@@ -4,7 +4,7 @@
  * - the.full.stand.scad
  */
 bottomCylinderHeight = 66;
-topCylinderHeight = 24;
+topCylinderHeight = 20;
 // Warning: intDiam < torusDiam < extDiam
 extDiam = 86;
 torusDiam = 76;

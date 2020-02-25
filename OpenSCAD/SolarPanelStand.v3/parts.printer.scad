@@ -127,7 +127,7 @@ module printBase1(cylHeight,
 			
 	socketDepth = 25;
 	motorSocketWallThickness = 2;
-	motorSide = 42.3; // TODO A parameter
+	motorSide = 42.3; // in the param.set.XX.scad
 	extraOffset = 8;
 
 	difference() {
@@ -196,7 +196,7 @@ module printBase1(cylHeight,
 				rotate([180, 0, 0]) {
 					bevelGearPair(gear_teeth=40,
 												pinion_teeth = 20,
-												base_thickness = 50,
+												base_thickness = 52.5,
 												pinion_base_thickness = 5,
 												pinion_base_diam = 10,
 												base_diam = 40, // Part Cone Diameter at the Cone Base, seems to be like gear_teeth // was 40
