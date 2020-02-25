@@ -1,11 +1,7 @@
 /**
  * @author OlivierLD
  *
- * The full stand... Using other scad files.
- * See "include" statement below.
- *
- * Used to visualize the whole project, not for print.
- * Animation available in stuck mode.
+ * A scratchpad...
  */
 use <../mechanical.parts.scad>
 use <./all.parts.scad>

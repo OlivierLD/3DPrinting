@@ -42,8 +42,10 @@ PRINT_BRACKET_TOP_ONLY = 13;   // Bracket top, with feet
 PRINT_BRACKET_LEFT_ONLY = 14;  // Bracket left side
 PRINT_BRACKET_RIGHT_ONLY = 15; // Bracket right side
 
+MOTOR_BOX = 16;
+
 // Choose your own here
-option = PRINT_BASE_1; 
+option = MOTOR_BOX; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
@@ -219,6 +221,9 @@ if (option == PRINT_BRACKET) {
 										 actoBotics615238DrillingPattern);
 } else if (option == PRINT_PANEL_PLATE) {
 	panelStandPlate(wallThickness, bracketPlateWidth, bracketWidthOutAll);
+} else if (option == MOTOR_BOX) {
+	motorSocket(socketDepth = 25,
+							wallThickness = 2);
 } else if (option == CUSTOM_PRINT) {
 	customPrint();
 }
