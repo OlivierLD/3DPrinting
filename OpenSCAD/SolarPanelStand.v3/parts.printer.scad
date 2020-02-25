@@ -125,6 +125,11 @@ module printBase1(cylHeight,
 	
 	socketTotalHeight = (dims[2] * 1.1) + (boltDims[0]) + bbSocketBaseThickness;
 			
+	socketDepth = 25;
+	motorSocketWallThickness = 2;
+	motorSide = 42.3; // TODO A parameter
+	extraOffset = 8;
+
 	difference() {
 		union() {
 			difference() {
@@ -138,18 +143,30 @@ module printBase1(cylHeight,
 									 screwDiam, 
 									 minWallThickness, 
 									 crosshairThickness=socketTotalHeight);	
-				wormGearAxis(wormGearAxisDiam, workGearOffset, wormGearHeight);	
+				// No worm gear in this version
+				// wormGearAxis(wormGearAxisDiam, workGearOffset, wormGearHeight);	
 				// hole at the back, to access the screw on the axis
-				translate([-torusDiam / 2, 0, cylHeight / 3]) {
-					rotate([0, 90, 0]) {
-						holeDepth = (extDiam - intDiam) * 2;
-						linear_extrude(height=holeDepth, center=true) {		
-							resize([cylHeight / 3, (cylHeight / 3) * 2]) {
-								circle(d=cylHeight / 3, $fn=100);
+				if (false) {
+					translate([-torusDiam / 2, 0, cylHeight / 3]) {
+						rotate([0, 90, 0]) {
+							holeDepth = (extDiam - intDiam) * 2;
+							linear_extrude(height=holeDepth, center=true) {		
+								resize([cylHeight / 3, (cylHeight / 3) * 2]) {
+									circle(d=cylHeight / 3, $fn=100);
+								}
 							}
 						}
 					}
 				}
+				// Motor stand, in the South (TODO: Option in North)
+				translate([-extraOffset -((extDiam - socketDepth) / 2), 0, (motorSide + (2 * motorSocketWallThickness)) / 2]) {
+					rotate([0, 90, 180]) {
+						motorSocket(socketDepth = socketDepth,
+												wallThickness = motorSocketWallThickness,
+												placeHolder = true);
+					}
+				}
+				
 				// E-W holes
 //				translate([0, (extDiam * 1.1) / 2, cylHeight / 3]) {
 //					rotate([90, 0, 0]) {
@@ -157,6 +174,15 @@ module printBase1(cylHeight,
 //					}
 //				}
 			}
+			// Actual motor socket
+			translate([-extraOffset -((extDiam - socketDepth) / 2), 0, (motorSide + (2 * motorSocketWallThickness)) / 2]) {
+				rotate([0, 90, 180]) {
+					motorSocket(socketDepth = socketDepth,
+											wallThickness = motorSocketWallThickness,
+											placeHolder = false);
+				}
+			}
+			
 			// Bottom ball bearing socket, facing down.
 			rotate([180, 0, 0]) {
 				translate([0, 0, -socketTotalHeight]) {

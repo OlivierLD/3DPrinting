@@ -25,8 +25,8 @@ NONE = -1;
 CUSTOM_PRINT = 0;
 
 PRINT_BRACKET = 1;             // Full bracket, in one piece
-PRINT_BASE_1 = 2;
-PRINT_BASE_2 = 3;
+PRINT_BASE_1 = 2;              // Bottom base
+PRINT_BASE_2 = 3;              // Top base
 PRINT_MAIN_STAND = 4;          // Full main stand, in one piece
 PRINT_COUNTERWEIGHT_CYLINDER = 5;
 PRINT_BIG_WHEEL_STAND = 6;
@@ -43,7 +43,7 @@ PRINT_BRACKET_LEFT_ONLY = 14;  // Bracket left side
 PRINT_BRACKET_RIGHT_ONLY = 15; // Bracket right side
 
 // Choose your own here
-option = PRINT_MAIN_STAND_BASE; 
+option = PRINT_BASE_1; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,

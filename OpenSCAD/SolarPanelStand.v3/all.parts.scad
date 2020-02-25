@@ -606,8 +606,6 @@ module mainStand(totalStandWidth,
 				} else {
 					echo("NO Fixing feet on the base");
 				}
-				
-				
 			}
 		}
 	}
@@ -916,6 +914,25 @@ module panelBracket(mainAxisDiam,
 	}
 }
 
+module motorSocket(socketDepth, wallThickness, motorDepth=39, motorSide=_motorSide, placeHolder=false) {
+	
+	socketSide = motorSide + (2 * wallThickness);
+	
+	echo(str("Motor Depth........: ", motorDepth));
+	echo(str("Socket thickness...: ", socketDepth));
+	
+	difference() { 
+		cube(size=[socketSide, socketSide, socketDepth], center=true);
+		if (!placeHolder) {
+			rotate([-90, 0, 0]) {
+				translate([0, -((motorSide - socketDepth) / 2) - (wallThickness), 0]) {
+					motor(withScrews=false, motorDepth=motorDepth, forSocket=true, label=" ");
+				}
+			}
+		}
+	}
+}
+
 module motorSocketTest() {
 	motorDepth = 39;
 	socketThickness = 10;
@@ -1055,9 +1072,9 @@ PANEL_STAND_PLATE = 15;
 GROOVED_CYLINDER = 16;
 FIXING_FOOT = 17;
 FEETED_GROOVED_CYLINDER = 18;
+MOTOR_BOX = 19;
 
-option = FEETED_GROOVED_CYLINDER;
-
+option = MOTOR_BOX;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;
@@ -1239,6 +1256,9 @@ if (option == GROOVED_CYLINDER) {
 			}
 		}
 	}
+} else if (option == MOTOR_BOX) {
+	motorSocket(socketDepth = 25,
+							wallThickness = 2);
 } else if (option == MOTOR_SOCKET_TEST) {
 	motorSocketTest();
 } else if (option == BIG_WHEEL_STAND) {
