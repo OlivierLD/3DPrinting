@@ -184,27 +184,47 @@ module printBase1(cylHeight,
 				// A motor
 				translate([-extraOffset - motorSocketWallThickness, 0, 0]) {
 					rotate([0, 0, -90]) {
-						motor(withScrews=true, wallThickness=motorSocketWallThickness);
+						#motor(withScrews=true, wallThickness=motorSocketWallThickness);
 					}
 				}
 			}
 			
 			// For test (for now) bevel gears pair
-			motorAxisHeight = (motorSide + (2 * motorSocketWallThickness)) / 2;
-			bevel_gear_height = 11.0997; // Do something smart here. See in bevelGearPair module
-			translate([0, 0, motorAxisHeight + bevel_gear_height]) {
-				rotate([180, 0, 0]) {
-					bevelGearPair(gear_teeth=40,
-												pinion_teeth = 20,
-												base_thickness = 52.5,
-												pinion_base_thickness = 5,
-												pinion_base_diam = 10,
-												base_diam = 40, // Part Cone Diameter at the Cone Base, seems to be like gear_teeth // was 40
-												big_axis_diam = 5,
-												small_axis_diam = 5,
-												build_together = true,
-												with_gear = true,
-												with_pinion = true);
+			difference() {
+				motorAxisHeight = (motorSide + (2 * motorSocketWallThickness)) / 2;
+				bevel_gear_height = 11.0997; // Do something smart here. See in bevelGearPair module
+				translate([0, 0, motorAxisHeight + bevel_gear_height]) {
+					rotate([180, 0, 0]) {
+						bevelGearPair(gear_teeth=40,
+													pinion_teeth = 20,
+													base_thickness = 52.5,
+													pinion_base_thickness = 5,
+													pinion_base_diam = 10,
+													base_diam = 40, // Part Cone Diameter at the Cone Base, seems to be like gear_teeth // was 40
+													big_axis_diam = 5,
+													small_axis_diam = 5,
+													build_together = true,
+													with_gear = true,
+													with_pinion = true);
+					}
+				}
+				// To print the toip crosshair on top of the gear base cylinder
+				// TODO Fix the parameters...
+				include <./param.set.04.scad>
+				// inverted one on top, under the rotating stand
+				translate([0, 0, (bottomCylinderHeight + topCylinderHeight + 1)]) {
+					rotate([180, 0, 0]) {
+						printBase2(topCylinderHeight, 
+											 extDiam, 
+											 torusDiam, 
+											 intDiam, 
+											 ballsDiam, 
+											 fixingFootSize, 
+											 fixingFootWidth, 
+											 fixingFootScrewDiam, 
+											 minFootWallThickness, 
+											 feetInside=topBaseFeetInside);
+					}
 				}
 			}
 			
