@@ -992,7 +992,7 @@ module bevelGearPair(gear_teeth = 60,
 	pinion_base_screw_diam = 2;
 
 	pinion_diam = pinion_teeth; // like pinion_teeth... Like above
-  bevel_gear_height = 11.0997; // 7.27206; //  Gear Height
+  bevel_gear_height = 11.0997; // 7.27206; //  Gear Height. TODO See if this can be a parameter
 
 	if (!with_gear && !with_pinion) {
 		echo("---------------------");
@@ -1014,7 +1014,7 @@ module bevelGearPair(gear_teeth = 60,
 						together_built = build_together,
 						with_gear = with_gear,
 						with_pinion = with_pinion);
-					// Base
+					// Gear Base
 				if (with_gear) {
 					translate([0, 0, -(base_thickness / 2)]) {		
 						cylinder(h=base_thickness, d=base_diam, center=true, $fn=100); 
@@ -1026,28 +1026,47 @@ module bevelGearPair(gear_teeth = 60,
 						if (!build_together) {
 							// TODO X-Offset not right...
 							translate([with_gear ? ((base_diam + pinion_base_diam) / 2) + 13.5 : 0, 0, -(pinion_base_thickness / 2)]) {		
-								difference() {
-									cylinder(h=pinion_base_thickness, d=pinion_base_diam, center=true, $fn=100); 
-									// Pinion axis
-									cylinder(d=small_axis_diam, h=pinion_base_thickness * 2, center=true, $fn=50);
-									// Base screw
-									rotate([0, 90, 0]) {
-										translate([0, 0, pinion_base_diam / 2]) {
-											cylinder(d=pinion_base_screw_diam, h=pinion_base_thickness * 1, center=true, $fn=50);
+								union() {
+									difference() {
+										cylinder(h=pinion_base_thickness, d=pinion_base_diam, center=true, $fn=100); 
+										// Pinion axis
+										cylinder(d=small_axis_diam, h=pinion_base_thickness * 2, center=true, $fn=50);
+										// Base screw
+										rotate([0, 90, 0]) {
+											translate([0, 0, pinion_base_diam / 2]) {
+												cylinder(d=pinion_base_screw_diam, h=pinion_base_thickness * 1, center=true, $fn=50);
+											}
 										}
+									}
+									// TODO Add axis shoulder here, find right value (-3)
+									translate([-3, 0, 0]) {
+										cube(size=[(pinion_base_diam - small_axis_diam) / 2, 
+															 small_axis_diam,
+															 pinion_base_thickness], 
+												 center=true);
 									}
 								}
 							}
 						} else {
 							translate([-((base_diam / 2) + (pinion_base_thickness / 2)), 0, bevel_gear_height]) { 
 								rotate([0, 90, 0]) {
-									difference() {
-										cylinder(h=pinion_base_thickness, d=pinion_base_diam, center=true, $fn=100); 
-										// Base screw
-										rotate([0, 90, 0]) {
-											translate([0, 0, pinion_base_diam / 2]) {
-												cylinder(d=pinion_base_screw_diam, h=pinion_base_thickness * 1, center=true, $fn=50);
+									union() {
+										difference() {
+											cylinder(h=pinion_base_thickness, d=pinion_base_diam, center=true, $fn=100); 
+											// Base screw
+											rotate([0, 90, 0]) {
+												translate([0, 0, pinion_base_diam / 2]) {
+													cylinder(d=pinion_base_screw_diam, h=pinion_base_thickness * 1, center=true, $fn=50);
+												}
 											}
+										}
+										// TODO Add axis shoulder here, find right value (-3)
+										// FIXME Erased by the horizontal axis
+										translate([-3, 0, 0]) {
+											cube(size=[(pinion_base_diam - small_axis_diam) / 2, 
+																 small_axis_diam,
+																 pinion_base_thickness], 
+													 center=true);
 										}
 									}
 								}
@@ -1193,7 +1212,11 @@ FIXING_FOOT = 17;
 FEETED_GROOVED_CYLINDER = 18;
 MOTOR_BOX = 19;
 
-option = MOTOR_BOX;
+FULL_BEVEL_GEAR = 20;
+BEVEL_GEAR = 21;
+BEVEL_PINION = 22;
+
+option = FULL_BEVEL_GEAR;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;
@@ -1415,6 +1438,48 @@ if (option == GROOVED_CYLINDER) {
 	}
 } else if (option == PANEL_STAND_PLATE) {
 	panelStandPlate(_thickness, _plateWidth, _widthOutAll);
+} else if (option == FULL_BEVEL_GEAR) {
+	bevelGearPair(gear_teeth = 60,
+							  pinion_teeth = 20,
+							  base_thickness = 10,
+							  pinion_base_thickness = 10,
+							  pinion_base_diam = 10,
+							  base_diam = 60, // Part Cone Diameter at the Cone Base, seems to be like gear_teeth // was 40
+							  big_axis_diam = 5,
+							  small_axis_diam = 5,
+							  build_together = true,
+							  with_gear = true,
+							  with_pinion = true,
+							  screw_circle_radius = 8,
+							  screw_diam = 4);
+} else if (option == BEVEL_GEAR) {
+	bevelGearPair(gear_teeth = 60,
+							  pinion_teeth = 20,
+							  base_thickness = 10,
+							  pinion_base_thickness = 10,
+							  pinion_base_diam = 10,
+							  base_diam = 60, // Part Cone Diameter at the Cone Base, seems to be like gear_teeth // was 40
+							  big_axis_diam = 5,
+							  small_axis_diam = 5,
+							  build_together = false,
+							  with_gear = true,
+							  with_pinion = false,
+							  screw_circle_radius = 8,
+							  screw_diam = 4);
+} else if (option == BEVEL_PINION) {
+	bevelGearPair(gear_teeth = 60,
+							  pinion_teeth = 20,
+							  base_thickness = 10,
+							  pinion_base_thickness = 10,
+							  pinion_base_diam = 10,
+							  base_diam = 60, // Part Cone Diameter at the Cone Base, seems to be like gear_teeth // was 40
+							  big_axis_diam = 5,
+							  small_axis_diam = 5,
+							  build_together = false,
+							  with_gear = false,
+							  with_pinion = true,
+							  screw_circle_radius = 8,
+							  screw_diam = 4);
 } else {
 	if (option != NONE) {
 		echo(str("Unknown option for now [", option, "]"));
