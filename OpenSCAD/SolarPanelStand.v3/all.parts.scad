@@ -1093,9 +1093,9 @@ module bevelGearPair(gear_teeth = 60,
 				// screw_circle_radius = 8;
 				for (angle=[0, 120, 240]) {
 					rotate([0, 0, angle]) {
-						translate([screw_circle_radius, 0, -(screw_length + 5)]) {
+						translate([screw_circle_radius, 0, -(screw_length + base_thickness - 6)]) {
 							// #cylinder(d=screw_diam, h=50, center=true, $fn=40);
-							metalScrewHB(diam=screw_diam, length=screw_length, top=20);
+							metalScrewHB(diam=screw_diam, length=screw_length, top=base_thickness);
 						}
 					}
 				}
@@ -1441,7 +1441,7 @@ if (option == GROOVED_CYLINDER) {
 } else if (option == FULL_BEVEL_GEAR) {
 	bevelGearPair(gear_teeth = 60,
 							  pinion_teeth = 20,
-							  base_thickness = 10,
+							  base_thickness = 30,
 							  pinion_base_thickness = 10,
 							  pinion_base_diam = 10,
 							  base_diam = 60, // Part Cone Diameter at the Cone Base, seems to be like gear_teeth // was 40
