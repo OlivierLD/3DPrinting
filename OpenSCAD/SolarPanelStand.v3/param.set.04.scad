@@ -18,11 +18,13 @@ fixingFootScrewDiam = 4;
 // screwLen = 30;
 minFootWallThickness = 4;
 
+bevelGearBaseScrewCircleRadius = 8;
+
 topBaseFeetInside = true; // For the top base only
 
-wormGearAxisDiam = 5; // Tube  will be twice this diam.
-wormGearAxisRadiusOffset = 15;
-wormGearAxisHeight = 30;
+//wormGearAxisDiam = 5; // Tube  will be twice this diam.
+//wormGearAxisRadiusOffset = 15;
+//wormGearAxisHeight = 30;
 
 standWidth = 130;
 standLength = 100; 

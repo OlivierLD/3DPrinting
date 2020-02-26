@@ -85,9 +85,12 @@ module printBracket(horizontalAxisDiam,
  * @param fixingFootWidth Number. Fixing foot width
  * @param screwDiam Number. Diameter of the screws for the fixing foot
  * @param minWallThickness Number. How far inside the cylinder the fixing foot goes
- * @param wormGearAxisDiam Number. Diameter of the HOLE the worm gear axis spins in
- * @param workGearOffset Number. Distance between the vertical axis and the worm gear axis
- * @param wormGearHeight Number. Heigth of the worm gear axis
+ * @param withCylinder Boolean. Set to false to print the bevel gear only
+ * @param withMotor Boolean. Draws a motor (for display)
+ * @param withBevelGear Boolean. Set to false to print the base only.
+ * @param builtTogether Boolean. If withBevelGear == true, print gear together or not
+ * @param withGear Boolean.  If withBevelGear == true, print gear.
+ * @param withPinion Boolean. If withBevelGear == true, print pinion.
  */
 module printBase1(cylHeight, 
 									extDiam, 
@@ -99,9 +102,15 @@ module printBase1(cylHeight,
 									screwDiam, 
 									minWallThickness,
 									verticalAxisDiam,
-									wormGearAxisDiam,
-									workGearOffset,
-									wormGearHeight) {
+									withCylinder = true,
+									withMotor = true,
+									withBevelGear = true,
+									builtTogether = true,
+									withGear = true,
+									withPinion = true,
+									bevelGearScrewCircleRadius = 8,
+									bevelGearScrewDiam = 4,
+									topCylHeight = 20) {
 
 	echo(str("--- Current Settings for Bottom Base ---"));
   echo(str("Height.......................................................: ", cylHeight));												
@@ -114,9 +123,6 @@ module printBase1(cylHeight,
   echo(str("Fixing feet screw size.......................................: ", screwDiam));												
   echo(str("Fixing feet min wall thnickness..............................: ", minWallThickness));												
   echo(str("Vertical axis diameter.......................................: ", verticalAxisDiam));												
-  echo(str("Worm gear axis (tube) diameter...............................: ", wormGearAxisDiam));												
-  echo(str("Worm gear axis offset (between vertical and worm gear axis)..: ", workGearOffset));												
-  echo(str("Worm gear axis height........................................: ", wormGearHeight));												
 
 	dims = getBBDims(verticalAxisDiam); // [id, od, t]
 	boltDims = getHBScrewDims(verticalAxisDiam);
@@ -132,124 +138,131 @@ module printBase1(cylHeight,
 
 	difference() {
 		union() {
-			difference() {
-				footedBase(cylHeight, 
-									 extDiam, 
-									 torusDiam, 
-									 intDiam, 
-									 ballsDiam, 
-									 fixingFootSize, 
-									 fixingFootWidth, 
-									 screwDiam, 
-									 minWallThickness, 
-									 crosshairThickness=socketTotalHeight);	
-				// No worm gear in this version
-				// wormGearAxis(wormGearAxisDiam, workGearOffset, wormGearHeight);	
-				// hole at the back, to access the screw on the axis
-				if (false) {
-					translate([-torusDiam / 2, 0, cylHeight / 3]) {
-						rotate([0, 90, 0]) {
-							holeDepth = (extDiam - intDiam) * 2;
-							linear_extrude(height=holeDepth, center=true) {		
-								resize([cylHeight / 3, (cylHeight / 3) * 2]) {
-									circle(d=cylHeight / 3, $fn=100);
+			if (withCylinder) {
+				difference() {
+					// Footed Cylinder
+					footedBase(cylHeight, 
+										 extDiam, 
+										 torusDiam, 
+										 intDiam, 
+										 ballsDiam, 
+										 fixingFootSize, 
+										 fixingFootWidth, 
+										 screwDiam, 
+										 minWallThickness, 
+										 crosshairThickness=socketTotalHeight);	
+					// hole at the back, to access the screw on the axis
+					if (false) {
+						translate([-torusDiam / 2, 0, cylHeight / 3]) {
+							rotate([0, 90, 0]) {
+								holeDepth = (extDiam - intDiam) * 2;
+								linear_extrude(height=holeDepth, center=true) {		
+									resize([cylHeight / 3, (cylHeight / 3) * 2]) {
+										circle(d=cylHeight / 3, $fn=100);
+									}
+								}
+							}
+						}
+					}
+					// Motor stand extrusion, in the South (TODO: Option in North)
+					translate([-extraOffset -((extDiam - socketDepth) / 2), 0, (motorSide + (2 * motorSocketWallThickness)) / 2]) {
+						rotate([0, 90, 180]) {
+							motorSocket(socketDepth = socketDepth,
+													wallThickness = motorSocketWallThickness,
+													placeHolder = true);
+						}
+					}
+					
+					// E-W holes
+	//				translate([0, (extDiam * 1.1) / 2, cylHeight / 3]) {
+	//					rotate([90, 0, 0]) {
+	//						cylinder(d=cylHeight / 3, h=extDiam * 1.1, $fn=100);
+	//					}
+	//				}
+				}
+				// Actual motor socket
+				translate([-extraOffset -((extDiam - socketDepth) / 2), 0, (motorSide + (2 * motorSocketWallThickness)) / 2]) {
+					rotate([0, 90, 180]) {
+						motorSocket(socketDepth = socketDepth,
+												wallThickness = motorSocketWallThickness,
+												placeHolder = false);
+					}
+					// A motor
+					if (withMotor) {
+						translate([-extraOffset - motorSocketWallThickness, 0, 0]) {
+							rotate([0, 0, -90]) {
+								#motor(withScrews=true, wallThickness=motorSocketWallThickness);
+							}
+						}
+					}
+				}
+							
+				// Bottom ball bearing socket, facing down.
+				rotate([180, 0, 0]) {
+					translate([0, 0, -socketTotalHeight]) {
+						difference() {
+							translate([0, 0, 0]) {
+								rotate([0, 0, 0]) {
+									cylinder(d=dims[1] + socketWallThickness, h=socketTotalHeight, $fn=50);
+								}
+							}
+							translate([0, 0, bbSocketBaseThickness]) {
+								rotate([0, 0, 0]) {
+									cylinder(d=dims[1], h=((dims[2] * 1.1) + (boltDims[0]) * 1.5), $fn=50);
+								}
+							}
+							translate([0, 0, -1]) { // Drill
+								rotate([0, 0, 0]) {
+									cylinder(d=dims[0], h=dims[2] * 5, $fn=50);
 								}
 							}
 						}
 					}
 				}
-				// Motor stand extrusion, in the South (TODO: Option in North)
-				translate([-extraOffset -((extDiam - socketDepth) / 2), 0, (motorSide + (2 * motorSocketWallThickness)) / 2]) {
-					rotate([0, 90, 180]) {
-						motorSocket(socketDepth = socketDepth,
-												wallThickness = motorSocketWallThickness,
-												placeHolder = true);
-					}
-				}
-				
-				// E-W holes
-//				translate([0, (extDiam * 1.1) / 2, cylHeight / 3]) {
-//					rotate([90, 0, 0]) {
-//						cylinder(d=cylHeight / 3, h=extDiam * 1.1, $fn=100);
-//					}
-//				}
-			}
-			// Actual motor socket
-			translate([-extraOffset -((extDiam - socketDepth) / 2), 0, (motorSide + (2 * motorSocketWallThickness)) / 2]) {
-				rotate([0, 90, 180]) {
-					motorSocket(socketDepth = socketDepth,
-											wallThickness = motorSocketWallThickness,
-											placeHolder = false);
-				}
-				// A motor
-				translate([-extraOffset - motorSocketWallThickness, 0, 0]) {
-					rotate([0, 0, -90]) {
-						#motor(withScrews=true, wallThickness=motorSocketWallThickness);
-					}
-				}
 			}
 			
-			// For test (for now) bevel gears pair
-			difference() {
-				motorAxisHeight = (motorSide + (2 * motorSocketWallThickness)) / 2;
-				bevel_gear_height = 11.0997; // Do something smart here. See in bevelGearPair module
-				translate([0, 0, motorAxisHeight + bevel_gear_height]) {
-					rotate([180, 0, 0]) {
-						bevelGearPair(gear_teeth=40,
-													pinion_teeth = 20,
-													base_thickness = 52.5,
-													pinion_base_thickness = 5,
-													pinion_base_diam = 10,
-													base_diam = 40, // Part Cone Diameter at the Cone Base, seems to be like gear_teeth // was 40
-													big_axis_diam = 5,
-													small_axis_diam = 5,
-													build_together = true,
-													with_gear = true,
-													with_pinion = true);
-					}
-				}
-				// To print the toip crosshair on top of the gear base cylinder
-				// TODO Fix the parameters...
-				include <./param.set.04.scad>
-				// inverted one on top, under the rotating stand
-				translate([0, 0, (bottomCylinderHeight + topCylinderHeight + 1)]) {
-					rotate([180, 0, 0]) {
-						printBase2(topCylinderHeight, 
-											 extDiam, 
-											 torusDiam, 
-											 intDiam, 
-											 ballsDiam, 
-											 fixingFootSize, 
-											 fixingFootWidth, 
-											 fixingFootScrewDiam, 
-											 minFootWallThickness, 
-											 feetInside=topBaseFeetInside);
-					}
-				}
-			}
-			
-			// Bottom ball bearing socket, facing down.
-			rotate([180, 0, 0]) {
-				translate([0, 0, -socketTotalHeight]) {
-					difference() {
-						translate([0, 0, 0]) {
-							rotate([0, 0, 0]) {
-								cylinder(d=dims[1] + socketWallThickness, h=socketTotalHeight, $fn=50);
-							}
+			// For display (for now) bevel gears pair
+			if (withBevelGear) {
+				difference() {
+					motorAxisHeight = (motorSide + (2 * motorSocketWallThickness)) / 2;
+					bevel_gear_height = 11.0997; // Do something smart here. See in bevelGearPair module
+					translate([0, 0, motorAxisHeight + bevel_gear_height]) {
+						rotate([180, 0, 0]) {
+							bevelGearPair(gear_teeth=40,
+														pinion_teeth = 20,
+														base_thickness = 52.5,
+														pinion_base_thickness = 5,
+														pinion_base_diam = 10,
+														base_diam = 40, // Part Cone Diameter at the Cone Base, seems to be like gear_teeth // was 40
+														big_axis_diam = 5,
+														small_axis_diam = 5,
+														build_together = builtTogether,
+														with_gear = withGear,
+														with_pinion = withPinion,
+														screw_circle_radius = bevelGearScrewCircleRadius,
+														screw_diam = bevelGearScrewDiam);
 						}
-						translate([0, 0, bbSocketBaseThickness]) {
-							rotate([0, 0, 0]) {
-								cylinder(d=dims[1], h=((dims[2] * 1.1) + (boltDims[0]) * 1.5), $fn=50);
-							}
-						}
-						translate([0, 0, -1]) { // Drill
-							rotate([0, 0, 0]) {
-								cylinder(d=dims[0], h=dims[2] * 5, $fn=50);
-							}
+					}
+					// To print the top crosshair on top of the gear base cylinder
+					// inverted one on top, under the rotating stand
+					translate([0, 0, (cylHeight + topCylHeight + 1)]) {
+						rotate([180, 0, 0]) {
+							printBase2(10, // topCylinderHeight, 
+												 extDiam, 
+												 torusDiam, 
+												 intDiam, 
+												 ballsDiam, 
+												 fixingFootSize, // 20
+												 fixingFootWidth, // 20
+												 4, // fixingFootScrewDiam, 
+												 minWallThickness, // 4
+												 feetInside=true, // topBaseFeetInside,
+												 bevelGearScrewDiam=bevelGearScrewDiam);
 						}
 					}
 				}
 			}
+
 		}
 		// Drill everything from bottom
 		translate([0, 0, -bbSocketBaseThickness]) {
@@ -284,7 +297,9 @@ module printBase2(cylHeight,
 								  fixingFootWidth, 
 								  screwDiam, 
 								  minWallThickness,
-									feetInside = false) {
+									feetInside = false,
+									bevelGrearScrewCircleRadius = 8,
+									bevelGearScrewDiam = 4) {
 
 	echo(str("--- Current Settings for Top Base ---"));
   echo(str("Height....................: ", cylHeight));												
@@ -296,6 +311,7 @@ module printBase2(cylHeight,
   echo(str("Fixing feet width.........: ", fixingFootWidth));												
   echo(str("Fixing feet screw size....: ", screwDiam));												
   echo(str("Fixing feet inside........: ", (feetInside ? "yes":"no")));												
+  echo(str("Screw Circle Radius.......: ", bevelGrearScrewCircleRadius));												
 
 	difference() {									
 		footedBase(cylHeight, 
@@ -314,6 +330,16 @@ module printBase2(cylHeight,
 										screwDiam, 
 										minWallThickness, 
 										feetInside=feetInside);
+		// Drill bevel base screws
+		screw_length = 60;
+		for (angle=[0, 120, 240]) {
+			rotate([0, 0, angle]) {
+				translate([bevelGrearScrewCircleRadius, 0, 0/*-(screw_length + 5)*/]) {
+					cylinder(d=bevelGearScrewDiam, h=50, center=true, $fn=40);
+					// metalScrewHB(diam=bevelGearScrewDiam, length=screw_length, top=20);
+				}
+			}
+		}
 	}
 }
 

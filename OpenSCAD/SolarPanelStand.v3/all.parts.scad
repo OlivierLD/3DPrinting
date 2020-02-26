@@ -26,14 +26,18 @@ module torus(ringDiam, torusDiam) {
 	}
 } 
  
-module groovedCylinder(cylinderHeight, extDiam, torusDiam, intDiam, grooveDiam) {
+module groovedCylinder(cylinderHeight, extDiam, torusDiam, intDiam, grooveDiam, grooveOnly = false) {
 	difference() {
-		cylinder(h=cylinderHeight, d=extDiam, center=true, $fn=100);
+		if (!grooveOnly) {
+			cylinder(h=cylinderHeight, d=extDiam, center=true, $fn=100);
+		}
 		translate([0, 0, (cylinderHeight / 2) + 0.1]) { // Higher than previously, some slack for ball bearings...
 			torus(torusDiam, grooveDiam);
 		}
 		// Hole in the middle
-		cylinder(h=cylinderHeight * 1.1, d=intDiam, center=true, $fn=100);
+		if (!grooveOnly) {
+			cylinder(h=cylinderHeight * 1.1, d=intDiam, center=true, $fn=100);
+		}
 	}
 }
 
@@ -189,6 +193,11 @@ module footedBase(cylHeight,
 				}
 			}
 		}
+		// Redraw the groove... to override the feet (just in case)
+		translate([0, 0, cylHeight/ 2]) {
+			groovedCylinder(cylHeight, extDiam, torusDiam, intDiam, ballsDiam, grooveOnly=true);
+		}
+
 		// Engraving on cylinder?
 		if (withIndex) {
 			bigIndexHeight   = 8;
@@ -977,8 +986,9 @@ module bevelGearPair(gear_teeth = 60,
 										 small_axis_diam = 5,
 										 build_together = true,
 										 with_gear = true,
-										 with_pinion = true
-                     ) {
+										 with_pinion = true,
+                     screw_circle_radius = 8,
+										 screw_diam = 4) {
 	pinion_base_screw_diam = 2;
 
 	pinion_diam = pinion_teeth; // like pinion_teeth... Like above
@@ -1061,12 +1071,12 @@ module bevelGearPair(gear_teeth = 60,
 				}
 				// Screws
 				screw_length = 60;
-				screw_circle_radius = 8;
+				// screw_circle_radius = 8;
 				for (angle=[0, 120, 240]) {
 					rotate([0, 0, angle]) {
 						translate([screw_circle_radius, 0, -(screw_length + 5)]) {
-							// #cylinder(d=4, h=50, center=true, $fn=40);
-							metalScrewHB(diam=4, length=screw_length, top=20);
+							// #cylinder(d=screw_diam, h=50, center=true, $fn=40);
+							metalScrewHB(diam=screw_diam, length=screw_length, top=20);
 						}
 					}
 				}
