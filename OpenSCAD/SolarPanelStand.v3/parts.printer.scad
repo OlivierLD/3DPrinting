@@ -228,6 +228,7 @@ module printBase1(cylHeight,
 					bevel_gear_height = 11.0997; // Do something smart here. See in bevelGearPair module
 					translate([0, 0, motorAxisHeight + bevel_gear_height]) {
 						rotate([180, 0, 0]) {
+							// TODO Values from parameters
 							bevelGearPair(gear_teeth=40,
 														pinion_teeth = 20,
 														base_thickness = 52.5,

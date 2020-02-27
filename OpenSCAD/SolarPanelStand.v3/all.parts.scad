@@ -999,6 +999,8 @@ module bevelGearPair(gear_teeth = 60,
 		echo("Nothing to display...");
 		echo("---------------------");
 	} else {
+		echo(str("- Gear has ", gear_teeth, " teeth"));
+		echo(str("- Pinion has ", pinion_teeth, " teeth"));
 		difference() {
 			union() {
 				bevel_gear_pair(
@@ -1026,24 +1028,27 @@ module bevelGearPair(gear_teeth = 60,
 						if (!build_together) {
 							// TODO X-Offset not right...
 							translate([with_gear ? ((base_diam + pinion_base_diam) / 2) + 13.5 : 0, 0, -(pinion_base_thickness / 2)]) {		
-								union() {
-									difference() {
-										cylinder(h=pinion_base_thickness, d=pinion_base_diam, center=true, $fn=100); 
-										// Pinion axis
-										cylinder(d=small_axis_diam, h=pinion_base_thickness * 2, center=true, $fn=50);
-										// Base screw
-										rotate([0, 90, 0]) {
-											translate([0, 0, pinion_base_diam / 2]) {
-												cylinder(d=pinion_base_screw_diam, h=pinion_base_thickness * 1, center=true, $fn=50);
-											}
+								difference() {
+									union() {
+										difference() {
+											cylinder(h=pinion_base_thickness, d=pinion_base_diam, center=true, $fn=100); 
+											// Pinion axis
+											cylinder(d=small_axis_diam, h=pinion_base_thickness * 2, center=true, $fn=50);
+										}
+										// For a 5mm axis, shoulder is at 4.52mm
+										shoulderOffset = +((5 / 2) + 0.48);
+										translate([shoulderOffset, 0, 0]) {
+											cube(size=[(pinion_base_diam - small_axis_diam) / 2, 
+																 small_axis_diam,
+																 pinion_base_thickness], 
+													 center=true);
 										}
 									}
-									// TODO Add axis shoulder here, find right value (-3)
-									translate([-3, 0, 0]) {
-										cube(size=[(pinion_base_diam - small_axis_diam) / 2, 
-															 small_axis_diam,
-															 pinion_base_thickness], 
-												 center=true);
+									// Base screw
+									rotate([0, 90, 0]) {
+										translate([0, 0, pinion_base_diam / 2]) {
+											cylinder(d=pinion_base_screw_diam, h=pinion_base_diam * 1, center=true, $fn=50);
+										}
 									}
 								}
 							}
@@ -1060,9 +1065,9 @@ module bevelGearPair(gear_teeth = 60,
 												}
 											}
 										}
-										// TODO Add axis shoulder here, find right value (-3)
 										// FIXME Erased by the horizontal axis
-										translate([-3, 0, 0]) {
+										shoulderOffset = +((5 / 2) + 0.48);
+										translate([shoulderOffset, 0, 0]) {
 											cube(size=[(pinion_base_diam - small_axis_diam) / 2, 
 																 small_axis_diam,
 																 pinion_base_thickness], 
@@ -1216,7 +1221,7 @@ FULL_BEVEL_GEAR = 20;
 BEVEL_GEAR = 21;
 BEVEL_PINION = 22;
 
-option = FULL_BEVEL_GEAR;
+option = BEVEL_PINION;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;
