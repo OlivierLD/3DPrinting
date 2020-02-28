@@ -50,7 +50,7 @@ BEVEL_GEAR_PINION = 18;
 BASE1_AND_ALL_GEARS = 19; // for dev
 
 // Choose your own here
-option = BEVEL_GEAR_PINION; 
+option = PRINT_MAIN_STAND_BASE; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,

@@ -257,7 +257,9 @@ module drillingPattern(extDiam,
 											 screwDiam, 
 											 wallThickness,
 											 length=100, 
-											 feetInside=false) {
+											 feetInside=false,
+											 gearBaseScrewCircleRadius=0,
+											 bevelGearScrewDiam=4) {
 	// 0.2 is the drilling offset in the foot. See in grooved.cylinder.scad.
 	radius = !feetInside ? 
 					 (extDiam / 2) + (fixingFootSize / 2) + (fixingFootSize * 0.2) - wallThickness :
@@ -269,6 +271,19 @@ module drillingPattern(extDiam,
 				cylinder(h=length, d=screwDiam, center=true, $fn=50);
 			}
 		}		
+	}
+	if (gearBaseScrewCircleRadius > 0) {
+		// Drill bevel base screws
+		screw_length = 60;
+		for (angle=[0, 120, 240]) {
+			rotate([0, 0, angle]) {
+				translate([gearBaseScrewCircleRadius, 0, 0/*-(screw_length + 5)*/]) {
+					cylinder(d=bevelGearScrewDiam, h=50, center=true, $fn=40);
+					// metalScrewHB(diam=bevelGearScrewDiam, length=screw_length, top=20);
+				}
+			}
+		}
+
 	}
 }
 
@@ -513,6 +528,7 @@ module mainStand(totalStandWidth,
 								 mainAxisDiam, 
 								 flapScrewDiam,
 								 baseFixingFeet=true,
+								 gearBaseScrewCircleRadius=8,
 								 printOption=ALL_PARTS) {
 	// Variables for fixing feet:
 	footHeightLength = 30;
@@ -1221,7 +1237,7 @@ FULL_BEVEL_GEAR = 20;
 BEVEL_GEAR = 21;
 BEVEL_PINION = 22;
 
-option = BEVEL_PINION;
+option = MAIN_STAND;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;

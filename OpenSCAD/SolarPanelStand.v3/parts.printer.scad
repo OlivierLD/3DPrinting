@@ -378,6 +378,7 @@ module printMainStand(totalStandWidth,
 											wheelStandThickness=10,
 											wheelStandDrillingPattern=[],
 											fixingFeetOnBase=false,
+											gearBaseScrewCircleRadius=8,
 											printOption=ALL_PARTS) {
 
 	echo(str("--- Current Settings for Main Stand ---"));
@@ -405,6 +406,7 @@ module printMainStand(totalStandWidth,
 							horizontalAxisDiam, 
 							flapScrewDiam,
 							baseFixingFeet=fixingFeetOnBase,
+							gearBaseScrewCircleRadius=gearBaseScrewCircleRadius,
 							printOption=printOption);
 		translate([0, 0, 0]) {
 			drillingPattern(extDiam, 
@@ -412,7 +414,8 @@ module printMainStand(totalStandWidth,
 											screwDiam, 
 											minWallThickness, 
 											100, 
-											feetInside=topFeetInside);
+											feetInside=topFeetInside,
+											gearBaseScrewCircleRadius=gearBaseScrewCircleRadius);
 		}
 		// Axis drilling pattern. Same as above.
 		dims = getHBScrewDims(verticalAxisDiam);
@@ -421,8 +424,11 @@ module printMainStand(totalStandWidth,
 		translate([0, 0, 0]) {
 			axisDrillingPattern(length=100, diam=verticalAxisDiam);
 			// Add Hex Head. TODO an option
-			translate([0, 0, -(len + (headThickness * 0.75))]) {
-				metalScrewHB(verticalAxisDiam, len);
+			if (false) {
+				translate([0, 0, -(len + (headThickness * 0.75))]) {
+					// #metalScrewHB(verticalAxisDiam, len);
+					cylinder(h=len * 2, d=verticalAxisDiam, center=false);
+				}
 			}
 		}
 		// Drill holes for wheel stand
