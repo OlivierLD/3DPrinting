@@ -47,10 +47,10 @@ MOTOR_BOX = 16;
 BEVEL_GEAR_AND_BASE = 17;
 BEVEL_GEAR_PINION = 18;
 
-BASE1_AND_ALL_GEARS = 19; // for dev
+BASE1_AND_ALL_GEARS = 19; // for dev or visualization
 
 // Choose your own here
-option = PRINT_MAIN_STAND_BASE; 
+option = BASE1_AND_ALL_GEARS; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
