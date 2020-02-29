@@ -9,6 +9,10 @@ For now, look in the `stl` folder to visualize the part designs.
 
 ![Hierarchy](./scad.relationship.01.png)
 
+### Data
+- Bevel Gear:
+	- Gear: 40 teeth
+	- Pinion: 20 teeth
 
 ### Pictures
 
