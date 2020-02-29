@@ -263,7 +263,17 @@ module printBase1(cylHeight,
 					}
 				}
 			}
-
+		}
+		// Space for screwdiver or allen key, to fix the motor
+		if (!withMotor) {
+			translate([-extraOffset -((extDiam - socketDepth) / 2), 0, (motorSide + (2 * motorSocketWallThickness)) / 2]) {
+				rotate([0, 90, 180]) {
+					motorSocket(socketDepth = socketDepth,
+											wallThickness = motorSocketWallThickness,
+											placeHolder = false,
+											justRedrillScrewHoles = true);
+				}
+			}
 		}
 		// Drill everything from bottom
 		translate([0, 0, -bbSocketBaseThickness]) {

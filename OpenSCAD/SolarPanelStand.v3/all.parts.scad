@@ -451,6 +451,7 @@ module motor(motorSide=42.32,
 						 screwLen=10,
 						 wallThickness=0,
 						 forSocket=false,
+						 justRedrillScrewHoles = false,
 						 label="NEMA-17") {
 	axisHangingFromBox = 	motorAxisLength + axisStageThickness;				 
 	union() {
@@ -495,11 +496,11 @@ module motor(motorSide=42.32,
 			for (i = [0:1]) {
 				for (j = [0:1]) {
 					color("grey") {
-						if (!withScrews) {
+						if (!withScrews || justRedrillScrewHoles) {
 							translate([	-(betweenScrews / 2) + (i * betweenScrews), 
 												-(betweenScrews / 2) + (j * betweenScrews), 
 												-(motorAxisLength)]) {
-								cylinder(h=motorAxisLength * 2.1, d=screwDiam, center=true, $fn=50);
+								cylinder(h=motorAxisLength * (justRedrillScrewHoles ? 6 : 2.1), d=screwDiam, center=true, $fn=50);
 							}
 						} else {
 							headThickness = getHBScrewDims(screwDiam)[0];
@@ -940,20 +941,33 @@ module panelBracket(mainAxisDiam,
 	}
 }
 
-module motorSocket(socketDepth, wallThickness, motorDepth=39, motorSide=_motorSide, placeHolder=false) {
+module motorSocket(socketDepth, 
+									 wallThickness, 
+									 motorDepth=39, 
+									 motorSide=_motorSide, 
+									 placeHolder=false,
+									 justRedrillScrewHoles=false) {
 	
 	socketSide = motorSide + (2 * wallThickness);
 	
 	echo(str("Motor Depth........: ", motorDepth));
 	echo(str("Socket thickness...: ", socketDepth));
 	
-	difference() { 
-		cube(size=[socketSide, socketSide, socketDepth], center=true);
-		if (!placeHolder) {
-			rotate([-90, 0, 0]) {
-				translate([0, -((motorSide - socketDepth) / 2) - (wallThickness), 0]) {
-					motor(withScrews=false, motorDepth=motorDepth, forSocket=true, label=" ");
+	if (!justRedrillScrewHoles) {									 
+		difference() { 
+			cube(size=[socketSide, socketSide, socketDepth], center=true);
+			if (!placeHolder) {
+				rotate([-90, 0, 0]) {
+					translate([0, -((motorSide - socketDepth) / 2) - (wallThickness), 0]) {
+						motor(withScrews=false, motorDepth=motorDepth, forSocket=true, label=" ");
+					}
 				}
+			}
+		}
+	} else {
+		rotate([-90, 0, 0]) {
+			translate([0, -((motorSide - socketDepth) / 2) - (wallThickness), 0]) {
+				motor(withScrews=false, motorDepth=motorDepth, forSocket=true, label=" ", justRedrillScrewHoles=justRedrillScrewHoles);
 			}
 		}
 	}
@@ -1052,7 +1066,7 @@ module bevelGearPair(gear_teeth = 60,
 											cylinder(d=small_axis_diam, h=pinion_base_thickness * 2, center=true, $fn=50);
 										}
 										// For a 5mm axis, shoulder is at 4.52mm
-										shoulderOffset = +((5 / 2) + 0.48);
+										shoulderOffset = +((5 / 2) + 0.6); // was 0.48=(5.00 - 4.52)
 										translate([shoulderOffset, 0, 0]) {
 											cube(size=[(pinion_base_diam - small_axis_diam) / 2, 
 																 small_axis_diam,
@@ -1237,7 +1251,7 @@ FULL_BEVEL_GEAR = 20;
 BEVEL_GEAR = 21;
 BEVEL_PINION = 22;
 
-option = MAIN_STAND;
+option = FULL_BASE_WITH_WORM_GEAR;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;

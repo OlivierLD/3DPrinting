@@ -9,3 +9,20 @@ For now, look in the `stl` folder to visualize the part designs.
 
 ![Hierarchy](./scad.relationship.01.png)
 
+
+### Pictures
+
+![The new parts](./images/01.3.parts.jpg)
+
+New parts:
+- Bevel gear with its base
+- Smaller top base, will hold the base of the bevel gear
+- Bottom base, with a socket for the motor holding the pinion
+
+![Top assembled](./images/02.top.assembled.jpg)
+
+- Bevel gear and top base together
+
+![Ball bearing](./images/03.base.ball.bearing.jpg)
+
+- Bottom ball bearing
