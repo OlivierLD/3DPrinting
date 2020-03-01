@@ -86,10 +86,7 @@ difference() {
 									 fixingFootWidth, 
 									 fixingFootScrewDiam, 
 									 minFootWallThickness, 
-									 verticalAxisDiam,
-									 wormGearAxisDiam * 2, 
-									 wormGearAxisRadiusOffset, 
-									 wormGearAxisHeight);
+									 verticalAxisDiam);
 			}
 			// inverted one on top, under the rotating stand
 			translate([0, 0, (bottomCylinderHeight + topCylinderHeight + 1) + (stuck ? 0 : (1 * betweenParts))]) {
