@@ -242,7 +242,7 @@ apart = false;
 deltaApart = 10;
 
 withColor = false;
-withPCB = true;
+withPCB = false;
 
 swingFirstRing = [-20, 20]; // Degrees
 swingBucket = [-15, 15];    // Degrees
