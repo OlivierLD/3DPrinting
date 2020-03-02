@@ -242,12 +242,12 @@ apart = false;
 deltaApart = 10;
 
 withColor = false;
-withPCB = false;
+withPCB = true;
 
 swingFirstRing = [-20, 20]; // Degrees
 swingBucket = [-15, 15];    // Degrees
 
-animate = true;
+animate = false;
 
 function timeToTilt(t, mini, maxi) =
 	animate ? lookup(t, [
