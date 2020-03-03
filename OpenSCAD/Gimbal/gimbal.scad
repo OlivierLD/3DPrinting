@@ -380,22 +380,32 @@ union() {
 	color(withColor ? "green" : undef) {
 		if (option == ALL_ELEMENTS || option == OUTER_RING_ONLY) {
 			translate([0, 0, secondDeltaZ - (apart ? (2 * deltaApart) : 0)]) {
-				union() {
-					outerRing(outerRingIntDiam, 
-										outerRingExtDiam, 
-										outerRingHeight, 
-										grooveDiam = axisDiam * 1.1);
-					footLen = 14;
-					footWidth = 12;
-					footHeight = 10;
-					footFixingScrewDiam = 4;
-					for (angle=[0, 120, 240]) {
-						rotate([0, 0, angle]) {
-							translate([(outerRingExtDiam / 2) + (footLen / 2) - 2, 0, -17.5]) {
-								rotate([0, 0, 180]) {
-									fixingFeet(footLen, footWidth, footHeight, footFixingScrewDiam);
+				difference() {
+					union() {
+						outerRing(outerRingIntDiam, 
+											outerRingExtDiam, 
+											outerRingHeight, 
+											grooveDiam = axisDiam * 1.1);
+						footLen = 14;
+						footWidth = 12;
+						footHeight = 10;
+						footFixingScrewDiam = 4;
+						for (angle=[0, 120, 240]) {
+							rotate([0, 0, angle]) {
+								translate([(outerRingExtDiam / 2) + (footLen / 2) - 2, 0, -17.5]) {
+									rotate([0, 0, 180]) {
+										fixingFeet(footLen, footWidth, footHeight, footFixingScrewDiam);
+									}
 								}
 							}
+						}
+					}
+					// Hole for the wires
+					// echo("First Delta Z:", firstDeltaZ);
+					// echo("Second Delta Z:", secondDeltaZ);
+					rotate([0, 90, 0]) {
+						translate([secondDeltaZ + (outerRingHeight - firstDeltaZ), 0, -((outerRingIntDiam / 2) + ((outerRingExtDiam - outerRingIntDiam) / 4))]) {
+							cylinder(d=10, h=10, center=true, $fn=50);
 						}
 					}
 				}
