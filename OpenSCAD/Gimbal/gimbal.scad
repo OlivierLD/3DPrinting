@@ -238,16 +238,24 @@ outerRingHeight = 35;
 firstDeltaZ = ((mainBucketHeight / 2) * 0.75) - axisDiam;
 secondDeltaZ = -(outerRingHeight - firstDeltaZ - firstRingThickness) / 2;
 
-apart = false;
 deltaApart = 10;
-
-withColor = false;
-withPCB = true;
 
 swingFirstRing = [-20, 20]; // Degrees
 swingBucket = [-15, 15];    // Degrees
 
 animate = false;
+apart = false;
+withColor = false;
+withPCB = true;
+
+NONE = -1;
+ALL_ELEMENTS = 0;
+
+BUCKET_ONLY = 1;
+FIRST_RING_ONLY = 2;
+OUTER_RING_ONLY = 3;
+
+option = ALL_ELEMENTS;
 
 function timeToTilt(t, mini, maxi) =
 	animate ? lookup(t, [
@@ -262,15 +270,6 @@ function timeToTilt(t, mini, maxi) =
 		[ 1, maxi ]  // max
 	]) : 0;
 
-NONE = -1;
-ALL_ELEMENTS = 0;
-
-BUCKET_ONLY = 1;
-FIRST_RING_ONLY = 2;
-OUTER_RING_ONLY = 3;
-
-option = ALL_ELEMENTS;
-
 union() {
 	firstRingSwing = timeToTilt($t, swingFirstRing[0], swingFirstRing[1]);
 	bucketSwing = timeToTilt($t, swingBucket[0], swingBucket[1]);
@@ -284,35 +283,39 @@ union() {
 				if (option == ALL_ELEMENTS || option == BUCKET_ONLY) {
 					translate([-xOffset, 0, 0]) { // -(mainBucketHeight / 2) * 0.75]) {
 						rotate([0, bucketSwing, 0]) {
-							mainBucket(mainBucketDiam, 
-												 mainBucketHeight, 
-												 mainBucketThickness, 
-												 bottomThickness = 20,
-												 sideAxisLen = 22, 
-												 sideAxisDiam = axisDiam);
-							if (withPCB) {
-								color("DodgerBlue", 0.75) {
-									rotate([0, 0, 0]) {
-										translate([0, 0, 11]) { // TODO Parameterize the 11...
-											// PCB
-											difference() {
-												roundedRect([19.05, 17.78, 1.5], 2.286);
-												// Screws
-												rotate([0, 0, 0]) {
-													translate([(19.05 / 2) - 2.286, (17.78 / 2) - 2.286, 0]) {
-														cylinder(h=2, d=2.54, $fn=50, center=true);
-													}
-													translate([(19.05 / 2) - 2.286, -((17.78 / 2) - 2.286), 0]) {
-														cylinder(h=2, d=2.54, $fn=50, center=true);
-													}
-												}
-												// Write PCB ID on it ?
-												rotate([0, 0, -90]) {
-													color("yellow") {
-														translate([0, 0, (1.5 / 2)]) {
-															linear_extrude(2.0, center=true, convexity = 4) {
-																resize([17.78 * 0.75, 0], auto=true) {
-																	text("HMC5883L", valign="center", halign="center");
+							difference() {
+								union() {
+									mainBucket(mainBucketDiam, 
+														 mainBucketHeight, 
+														 mainBucketThickness, 
+														 bottomThickness = 20,
+														 sideAxisLen = 22, 
+														 sideAxisDiam = axisDiam);
+									if (withPCB) {
+										color("DodgerBlue", 0.75) {
+											rotate([0, 0, 0]) {
+												translate([0, 0, 11]) { // TODO Parameterize the 11...
+													// PCB
+													difference() {
+														roundedRect([19.05, 17.78, 1.5], 2.286);
+														// Screws
+														rotate([0, 0, 0]) {
+															translate([(19.05 / 2) - 2.286, (17.78 / 2) - 2.286, 0]) {
+																cylinder(h=2, d=2.54, $fn=50, center=true);
+															}
+															translate([(19.05 / 2) - 2.286, -((17.78 / 2) - 2.286), 0]) {
+																cylinder(h=2, d=2.54, $fn=50, center=true);
+															}
+														}
+														// Write PCB ID on it ?
+														rotate([0, 0, -90]) {
+															color("yellow") {
+																translate([0, 0, (1.5 / 2)]) {
+																	linear_extrude(2.0, center=true, convexity = 4) {
+																		resize([17.78 * 0.75, 0], auto=true) {
+																			text("HMC5883L", valign="center", halign="center");
+																		}
+																	}
 																}
 															}
 														}
@@ -320,6 +323,12 @@ union() {
 												}
 											}
 										}
+									}
+								}
+								// Hole at the bottom
+								rotate([0, 0, 0]) {
+									translate([0, 0, -19]) { // TODO PRM this 19
+										cylinder(d=8, h=10, center=true, $fn=50);
 									}
 								}
 							}
