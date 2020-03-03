@@ -49,6 +49,7 @@ module bracket(ep = 5, diam = 5, thick = 5) {
 	}
 }
 
+
 HOLLOW_OPTION = 1;
 PILLAR_OPTION = 2;
 
@@ -145,43 +146,43 @@ module firstRing(intDiameter,
 									sideAxisLen = 20,
 									sideAxisDiam = 4,
 									washerThickness = 2) {
-	 grooveLen = 1.1 * (extDiameter - intDiameter) / 2;
-	 union() {
-		 difference() {
-			 cylinder(d=extDiameter, h=thickness, center=true, $fn=100);
-			 cylinder(d=intDiameter, h=thickness * 1.1, center=true, $fn=100);
-			 rotate([90, 0, 0]) {
-				 translate([0, 
-										thickness / 2, // z
-										((extDiameter / 2) - (grooveLen / 2))]) { 
-					 cylinder(d=grooveDiam, h=grooveLen, $fn=50, center=true);
-				 }
-				 translate([0, 
-										thickness / 2, // z
-										-((extDiameter / 2) - (grooveLen / 2))]) { 
-					 cylinder(d=grooveDiam, h=grooveLen, $fn=50, center=true);
-				 }
-			 }
-		 }
-		 // Axis
-		 rotate([90, 0, 90]) {
-			 translate([0, 0, (extDiameter / 2) + (sideAxisLen / 2) - 0]) {
-		 		 cylinder(h=sideAxisLen, d=sideAxisDiam, center=true, $fn=40);
-				 // Washer at the end
-				 translate([0, 0, 1 + (washerThickness / 2)]) {
-					 cylinder(h=washerThickness, d=sideAxisDiam * 2, center=true, $fn=40);
-				 }
-	 		 }
-			 translate([0, 0, -((extDiameter / 2) + (sideAxisLen / 2) - 0)]) {
-				 cylinder(h=sideAxisLen, d=sideAxisDiam, center=true, $fn=40);
-				 // Washer at the end
-				 translate([0, 0, -(1 + (washerThickness / 2))]) {
-					 cylinder(h=washerThickness, d=sideAxisDiam * 2, center=true, $fn=40);
-				 }
-			 }
-		 }
-	 }
- }
+	grooveLen = 1.1 * (extDiameter - intDiameter) / 2;
+	union() {
+		difference() {
+			cylinder(d=extDiameter, h=thickness, center=true, $fn=100);
+			cylinder(d=intDiameter, h=thickness * 1.1, center=true, $fn=100);
+			rotate([90, 0, 0]) {
+				translate([0, 
+									 thickness / 2, // z
+									 ((extDiameter / 2) - (grooveLen / 2))]) { 
+					cylinder(d=grooveDiam, h=grooveLen, $fn=50, center=true);
+				}
+				translate([0, 
+									 thickness / 2, // z
+									 -((extDiameter / 2) - (grooveLen / 2))]) { 
+					cylinder(d=grooveDiam, h=grooveLen, $fn=50, center=true);
+				}
+			}
+		}
+		// Axis
+		rotate([90, 0, 90]) {
+			translate([0, 0, (extDiameter / 2) + (sideAxisLen / 2) - 0]) {
+				cylinder(h=sideAxisLen, d=sideAxisDiam, center=true, $fn=40);
+				// Washer at the end
+				translate([0, 0, 1 + (washerThickness / 2)]) {
+					cylinder(h=washerThickness, d=sideAxisDiam * 2, center=true, $fn=40);
+				}
+			}
+			translate([0, 0, -((extDiameter / 2) + (sideAxisLen / 2) - 0)]) {
+				cylinder(h=sideAxisLen, d=sideAxisDiam, center=true, $fn=40);
+				// Washer at the end
+				translate([0, 0, -(1 + (washerThickness / 2))]) {
+					cylinder(h=washerThickness, d=sideAxisDiam * 2, center=true, $fn=40);
+				}
+			}
+		}
+	}
+}
  
 module outerRing(intDiameter, 
 								  extDiameter, 
@@ -259,17 +260,18 @@ option = ALL_ELEMENTS;
 
 function timeToTilt(t, mini, maxi) =
 	animate ? lookup(t, [
-		[ 0, maxi ], // max
+		[ 0, maxi ],  // max
 		[ 0.125, maxi / 2 ],
-		[ 0.25, 0],  // null
+		[ 0.25, 0],   // null
 		[ 0.375, mini / 2 ],
-		[ 0.5, mini],   // min
+		[ 0.5, mini], // min
 		[ 0.625, mini / 2 ],
-		[ 0.75, 0],  // null
+		[ 0.75, 0],   // null
 		[ 0.875, maxi / 2 ],
-		[ 1, maxi ]  // max
+		[ 1, maxi ]   // max
 	]) : 0;
 
+// The full thing:
 union() {
 	firstRingSwing = timeToTilt($t, swingFirstRing[0], swingFirstRing[1]);
 	bucketSwing = timeToTilt($t, swingBucket[0], swingBucket[1]);
@@ -340,36 +342,35 @@ union() {
 				if (option == ALL_ELEMENTS || option == FIRST_RING_ONLY) {
 					translate([0, 0, firstDeltaZ - (apart ? (1 * deltaApart) : 0)]) { 
 						difference() {
-						firstRing(firstRingIntDiam, 
-											firstRingExtDiam, 
-											firstRingThickness, 
-											grooveDiam = axisDiam * 1.1,
-											sideAxisLen = 20,
-											sideAxisDiam = axisDiam);
-						// Engrave N ad S
-						rotate([0, 0, -90]) {
-							color("yellow") {
-								yOffset = (firstRingIntDiam / 2) + ((firstRingExtDiam - firstRingIntDiam) / 4);
-								zOffset = 4  + (1.5 / 2);
-								translate([0, yOffset, zOffset]) {
-									linear_extrude(2.0, center=true, convexity = 4) {
-										resize([20 * 0.5, 0], auto=true) {
-											text("- N -", valign="center", halign="center");
+							firstRing(firstRingIntDiam, 
+												firstRingExtDiam, 
+												firstRingThickness, 
+												grooveDiam = axisDiam * 1.1,
+												sideAxisLen = 20,
+												sideAxisDiam = axisDiam);
+							// Engrave N ad S
+							rotate([0, 0, -90]) {
+								color("yellow") {
+									yOffset = (firstRingIntDiam / 2) + ((firstRingExtDiam - firstRingIntDiam) / 4);
+									zOffset = 4  + (1.5 / 2);
+									translate([0, yOffset, zOffset]) {
+										linear_extrude(2.0, center=true, convexity = 4) {
+											resize([20 * 0.5, 0], auto=true) {
+												text("- N -", valign="center", halign="center");
+											}
 										}
 									}
-								}
-								translate([0, -yOffset, zOffset]) {
-									linear_extrude(2.0, center=true, convexity = 4) {
-										resize([20 * 0.5, 0], auto=true) {
-											text("- S -", valign="center", halign="center");
+									translate([0, -yOffset, zOffset]) {
+										linear_extrude(2.0, center=true, convexity = 4) {
+											resize([20 * 0.5, 0], auto=true) {
+												text("- S -", valign="center", halign="center");
+											}
 										}
 									}
 								}
 							}
 						}
-					}
-
-						// Brackets
+						// Brackets, option.
 						if (false) {
 							rotate([0, 0, 90]) {
 								bracketEp = 5;
