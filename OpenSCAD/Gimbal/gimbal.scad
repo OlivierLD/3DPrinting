@@ -166,17 +166,18 @@ module firstRing(intDiameter,
 		}
 		// Axis
 		rotate([90, 0, 90]) {
-			translate([0, 0, (extDiameter / 2) + (sideAxisLen / 2) - 0]) {
+			inset = 1;
+			translate([0, 0, (extDiameter / 2) + (sideAxisLen / 2) - inset]) {
 				cylinder(h=sideAxisLen, d=sideAxisDiam, center=true, $fn=40);
 				// Washer at the end
-				translate([0, 0, 1 + (washerThickness / 2)]) {
+				translate([0, 0, 1 + inset + (washerThickness / 2)]) {
 					cylinder(h=washerThickness, d=sideAxisDiam * 2, center=true, $fn=40);
 				}
 			}
-			translate([0, 0, -((extDiameter / 2) + (sideAxisLen / 2) - 0)]) {
+			translate([0, 0, -((extDiameter / 2) + (sideAxisLen / 2) - inset)]) {
 				cylinder(h=sideAxisLen, d=sideAxisDiam, center=true, $fn=40);
 				// Washer at the end
-				translate([0, 0, -(1 + (washerThickness / 2))]) {
+				translate([0, 0, -(1 + inset + (washerThickness / 2))]) {
 					cylinder(h=washerThickness, d=sideAxisDiam * 2, center=true, $fn=40);
 				}
 			}
@@ -247,7 +248,7 @@ swingBucket = [-15, 15];    // Degrees
 animate = false;
 apart = false;
 withColor = false;
-withPCB = true;
+withPCB = false;
 
 NONE = -1;
 ALL_ELEMENTS = 0;
@@ -256,7 +257,7 @@ BUCKET_ONLY = 1;
 FIRST_RING_ONLY = 2;
 OUTER_RING_ONLY = 3;
 
-option = ALL_ELEMENTS;
+option = FIRST_RING_ONLY;
 
 function timeToTilt(t, mini, maxi) =
 	animate ? lookup(t, [
