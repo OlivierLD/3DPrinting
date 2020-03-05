@@ -1131,7 +1131,13 @@ module worm_gear(modul,
 
 // herringbone_rack(modul=1, length=60, height=5, width=10, pressure_angle=20, helix_angle=45);
 
-// spur_gear (modul=1, tooth_number=30, width=5, bore=4, pressure_angle=20, helix_angle=20, optimized=true);
+spur_gear (modul=1, 
+					 tooth_number=128,  // orig 30
+					 width=5,           // Thickness
+					 bore=4,            // Axis diam
+					 pressure_angle=30, // On the teeth. orig 20
+					 helix_angle=0,     // Teeth angle. orig 20
+					 optimized=true);   // true: thinner inside, with hollows.
 
 // herringbone_gear (modul=1, tooth_number=30, width=5, bore=4, pressure_angle=20, helix_angle=30, optimized=true);
 
@@ -1147,19 +1153,19 @@ module worm_gear(modul,
 
 // bevel_herringbone_gear(modul=1, tooth_number=30, partial_cone_angle=45, tooth_width=5, bore=4, pressure_angle=20, helix_angle=30);
 
-bevel_gear_pair(
-		modul=1.0,           // Scale?
-		gear_teeth=40,       // original 40
-		pinion_teeth=12,     // original 11
-		axis_angle=90,       // original 100
-		tooth_width=7.5,     // original 5
-		gear_bore=5,         // original 4
-		pinion_bore=5,       // original 4
-		pressure_angle = 20, // original 20 
-		helix_angle = 0,     // original 20
-		together_built = true,
-		with_gear = true,
-		with_pinion = true);
+//bevel_gear_pair(
+//		modul=1.0,           // Scale?
+//		gear_teeth=40,       // original 40
+//		pinion_teeth=12,     // original 11
+//		axis_angle=90,       // original 100
+//		tooth_width=7.5,     // original 5
+//		gear_bore=5,         // original 4
+//		pinion_bore=5,       // original 4
+//		pressure_angle = 20, // original 20 
+//		helix_angle = 0,     // original 20
+//		together_built = true,
+//		with_gear = true,
+//		with_pinion = true);
 
 // bevel_herringbone_gear_pair(modul=1, gear_teeth=30, pinion_teeth=11, axis_angle=100, tooth_width=5, bore=4, pressure_angle = 20, helix_angle=30, together_built=true);
 

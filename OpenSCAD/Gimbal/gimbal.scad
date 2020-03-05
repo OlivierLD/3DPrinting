@@ -257,7 +257,12 @@ BUCKET_ONLY = 1;
 FIRST_RING_ONLY = 2;
 OUTER_RING_ONLY = 3;
 
-option = FIRST_RING_ONLY;
+/*****************************
+ *
+ * YOUR PARAMETERS GO HERE
+ *
+ *****************************/
+option = BUCKET_ONLY;
 
 function timeToTilt(t, mini, maxi) =
 	animate ? lookup(t, [
