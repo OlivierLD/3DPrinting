@@ -79,11 +79,13 @@ if (false) {
 }
 
 // Prism with a hole in it.
-difference() {
-    prism(w, l, h);
-    translate([w/2, l/2, h/2]) {
-        cylinder(h=2*h, d1=diam, d2=diam, center=true); 
-    }
+if (false) {
+	difference() {
+			prism(w, l, h);
+			translate([w/2, l/2, h/2]) {
+					cylinder(h=2*h, d1=diam, d2=diam, center=true); 
+			}
+	}
 }
 
 // A tube
@@ -107,3 +109,43 @@ module roundedRect(size, radius) {  // more elegant version
 if (false) {
     roundedRect([10, 10, 1], 3);
 }
+
+module ellipse(D, d) {
+	resize([D, d]) {
+		circle(d=(D + d) / 2, $fn=100);
+	}
+}
+
+// Simple ellipse
+if (false) {
+	ellipse(200, 150);
+}
+
+// Elliptic Tube
+if (false) {
+  linear_extrude(height=50, center=true) {
+		difference() {
+			ellipse(200, 150);
+			ellipse(180, 130);
+		}
+	}
+}
+
+// Elliptic half tube
+if (true) {
+	intersection() {
+		linear_extrude(height=50, center=true) {
+			difference() {
+				ellipse(200, 150);
+				ellipse(180, 130);
+			}
+		}
+		translate([0, 150 / 4, 0]) {
+			cube([200, 150 / 2, 50], center=true);
+		}
+	}
+}
+
+
+
+

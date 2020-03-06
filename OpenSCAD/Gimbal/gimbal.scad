@@ -100,10 +100,10 @@ module mainBucket(diameter,
 				translate([0, 0, 0]) {
 					rotate([0, 0, 0]) {
 						translate([(19.05 / 2) - 2.286, (17.78 / 2) - 2.286, 0]) {
-							cylinder(h=bottomThickness, d=5.0, $fn=50, center=true);
+							cylinder(h=bottomThickness, d=10.0, $fn=50, center=true);
 						}
 						translate([(19.05 / 2) - 2.286, -((17.78 / 2) - 2.286), 0]) {
-							cylinder(h=bottomThickness, d=5.0, $fn=50, center=true);
+							cylinder(h=bottomThickness, d=10.0, $fn=50, center=true);
 						}
 					}
 				}
@@ -140,12 +140,12 @@ module mainBucket(diameter,
 }
  
 module firstRing(intDiameter, 
-								  extDiameter, 
-								  thickness, 
-								  grooveDiam = 4,
-									sideAxisLen = 20,
-									sideAxisDiam = 4,
-									washerThickness = 2) {
+								 extDiameter, 
+								 thickness, 
+								 grooveDiam = 4,
+								 sideAxisLen = 20,
+								 sideAxisDiam = 4,
+								 washerThickness = 2) {
 	grooveLen = 1.1 * (extDiameter - intDiameter) / 2;
 	union() {
 		difference() {
@@ -186,9 +186,9 @@ module firstRing(intDiameter,
 }
  
 module outerRing(intDiameter, 
-								  extDiameter, 
-								  height, 
-								  grooveDiam = 4) {
+								 extDiameter, 
+								 height, 
+								 grooveDiam = 4) {
 	 grooveLen = 1.1 * (extDiameter - intDiameter) / 2;
 	 union() {
 		 difference() {
@@ -224,6 +224,27 @@ module fixingFeet(l, w, h, screwDiam) {
 	}
 }
  
+module ellipse(D, d) {
+	resize([D, d]) {
+		circle(d=(D + d) / 2, $fn=100);
+	}
+}
+
+// Elliptic half tube
+module ellipticHalfTube(width, D, d, thickness) {
+	intersection() {
+		linear_extrude(height=width, center=true) {
+			difference() {
+				ellipse(D, d);
+				ellipse(D - (2 * thickness), d - (2 * thickness));
+			}
+		}
+		translate([0, d / 4, 0]) {
+			cube([D, d / 2, width], center=true);
+		}
+	}
+}
+
 mainBucketDiam = 40;
 mainBucketHeight = 40;
 mainBucketThickness = 3;
@@ -257,12 +278,17 @@ BUCKET_ONLY = 1;
 FIRST_RING_ONLY = 2;
 OUTER_RING_ONLY = 3;
 
+CYLINDER_BASE = 0;
+BRACKET_BASE = 1;
+
+baseOption = BRACKET_BASE;
+
 /*****************************
  *
  * YOUR PARAMETERS GO HERE
  *
  *****************************/
-option = BUCKET_ONLY;
+option = OUTER_RING_ONLY;
 
 function timeToTilt(t, mini, maxi) =
 	animate ? lookup(t, [
@@ -376,7 +402,7 @@ union() {
 								}
 							}
 						}
-						// Brackets, option.
+						// Brackets, option, around bucket axis.
 						if (false) {
 							rotate([0, 0, 90]) {
 								bracketEp = 5;
@@ -395,38 +421,85 @@ union() {
 	}
 	color(withColor ? "green" : undef) {
 		if (option == ALL_ELEMENTS || option == OUTER_RING_ONLY) {
-			translate([0, 0, secondDeltaZ - (apart ? (2 * deltaApart) : 0)]) {
-				difference() {
-					union() {
-						outerRing(outerRingIntDiam, 
-											outerRingExtDiam, 
-											outerRingHeight, 
-											grooveDiam = axisDiam * 1.1);
-						footLen = 14;
-						footWidth = 12;
-						footHeight = 10;
-						footFixingScrewDiam = 4;
-						for (angle=[0, 120, 240]) {
-							rotate([0, 0, angle]) {
-								translate([(outerRingExtDiam / 2) + (footLen / 2) - 2, 0, -17.5]) {
-									rotate([0, 0, 180]) {
-										fixingFeet(footLen, footWidth, footHeight, footFixingScrewDiam);
+			if (baseOption == CYLINDER_BASE) {
+				translate([0, 0, secondDeltaZ - (apart ? (2 * deltaApart) : 0)]) {
+					difference() {
+						union() {
+							outerRing(outerRingIntDiam, 
+												outerRingExtDiam, 
+												outerRingHeight, 
+												grooveDiam = axisDiam * 1.1);
+							footLen = 14;
+							footWidth = 12;
+							footHeight = 10;
+							footFixingScrewDiam = 4;
+							for (angle=[0, 120, 240]) {
+								rotate([0, 0, angle]) {
+									translate([(outerRingExtDiam / 2) + (footLen / 2) - 2, 0, -17.5]) {
+										rotate([0, 0, 180]) {
+											fixingFeet(footLen, footWidth, footHeight, footFixingScrewDiam);
+										}
 									}
 								}
 							}
 						}
-					}
-					// Hole for the wires
-					// echo("First Delta Z:", firstDeltaZ);
-					// echo("Second Delta Z:", secondDeltaZ);
-					rotate([0, 90, 0]) {
-						translate([secondDeltaZ + (outerRingHeight - firstDeltaZ), 0, -((outerRingIntDiam / 2) + ((outerRingExtDiam - outerRingIntDiam) / 4))]) {
-							cylinder(d=10, h=10, center=true, $fn=50);
+						// Hole for the wires
+						// echo("First Delta Z:", firstDeltaZ);
+						// echo("Second Delta Z:", secondDeltaZ);
+						rotate([0, 90, 0]) {
+							translate([secondDeltaZ + (outerRingHeight - firstDeltaZ), 0, -((outerRingIntDiam / 2) + ((outerRingExtDiam - outerRingIntDiam) / 4))]) {
+								cylinder(d=10, h=10, center=true, $fn=50);
+							}
 						}
+					}
+				}
+			} else {	// BRACKET_BASE				
+			  bracketThickness = 8;	
+				bracketWidth = 30;
+				difference() {
+					union() {
+						difference() {
+							union() {
+								rotate([-90, 0, 0]) {
+									translate([0, 0, 0]) {
+										ellipticHalfTube(width=bracketWidth, 
+																		 D=outerRingExtDiam, 
+																		 d=outerRingExtDiam /* 2 * outerRingHeight */, 
+																		 thickness=bracketThickness);
+									}
+								}
+								translate([0, 0, firstDeltaZ / 2]) {
+									translate([(outerRingExtDiam / 2) - (bracketThickness / 2), 0, 0]) {
+										cube(size=[bracketThickness, bracketWidth, firstDeltaZ], center=true);
+									}
+									translate([- ((outerRingExtDiam / 2) - (bracketThickness / 2)), 0, 0]) {
+										cube(size=[bracketThickness, bracketWidth, firstDeltaZ], center=true);
+									}
+								}
+							}
+							// The groove
+							rotate([90, 0, 90]) {
+								translate([0, 
+													 firstDeltaZ, // z
+													 0 /*(outerRingExtDiam * 1.1)*/]) { 
+									cylinder(d=axisDiam * 1.1, h=(outerRingExtDiam * 1.1), $fn=50, center=true);
+								}
+							}
+						}
+						// Cylindric base
+						translate([0, 0, - (outerRingExtDiam / 2) /* outerRingHeight */]) {
+							cylinder(d=bracketWidth, h=10, $fn=100, center=true);
+						}
+					}
+					// Axis
+					translate([0, 0, - (outerRingExtDiam / 2) /* outerRingHeight */]) {
+						cylinder(d=5, h=30, $fn=50, center=true);
 					}
 				}
 			}
 		}
 	}
 }
+
+
  
