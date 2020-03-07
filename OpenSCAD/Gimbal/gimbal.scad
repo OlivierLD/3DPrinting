@@ -280,7 +280,6 @@ OUTER_RING_ONLY = 3;
 
 CYLINDER_BASE = 0;
 BRACKET_BASE = 1;
-
 baseOption = BRACKET_BASE;
 
 /*****************************
@@ -288,7 +287,8 @@ baseOption = BRACKET_BASE;
  * YOUR PARAMETERS GO HERE
  *
  *****************************/
-option = OUTER_RING_ONLY;
+ 
+option = BUCKET_ONLY;
 
 function timeToTilt(t, mini, maxi) =
 	animate ? lookup(t, [
