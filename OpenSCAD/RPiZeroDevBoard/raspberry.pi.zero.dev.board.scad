@@ -43,9 +43,18 @@ text1="Oliv did it.";
 text2="2020";
 difference() {  
 	roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius);
-	// Top right (inverted) corner hole
-	translate([- ((plateWidth / 2) - cornerRadius), ((plateLength / 2) - cornerRadius), 0]) {
-		cylinder(h=plateThickNess * 2, d=cornerRadius/2, center=true, $fn=100);
+	// Corners screw holes
+	translate([- ((plateWidth / 2) - (2 * cornerRadius / 3)), ((plateLength / 2) - (2 * cornerRadius / 3)), 0]) {
+		cylinder(h=plateThickNess * 2, d=4 /*cornerRadius/2*/, center=true, $fn=100);
+	}
+	translate([+ ((plateWidth / 2) - (2 * cornerRadius / 3)), ((plateLength / 2) - (2 * cornerRadius / 3)), 0]) {
+		cylinder(h=plateThickNess * 2, d=4 /*cornerRadius/2*/, center=true, $fn=100);
+	}
+	translate([- ((plateWidth / 2) - (2 * cornerRadius / 3)), -((plateLength / 2) - (2 * cornerRadius / 3)), 0]) {
+		cylinder(h=plateThickNess * 2, d=4 /*cornerRadius/2*/, center=true, $fn=100);
+	}
+	translate([+ ((plateWidth / 2) - (2 * cornerRadius / 3)), -((plateLength / 2) - (2 * cornerRadius / 3)), 0]) {
+		cylinder(h=plateThickNess * 2, d=4 /*cornerRadius/2*/, center=true, $fn=100);
 	}
 	rotate([0, 0, -90]) {
 		translate([
@@ -90,37 +99,42 @@ rPiLength = 23;
 // Raspberry Pi pegs
 // -----------------
 // Base Pegs
-basePegDiam = 5;
-basePegHeight = 3;
+basePegDiam = 6;
+basePegScrewDiam = 2;
+basePegHeight = 5;
 offset = 7;
-color("orange") {
-	translate([ ((plateLength/2) - offset), (rPiWidth / 2), plateThickNess]) {
-		cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
+difference() {
+	color("orange") {
+		union() {
+			translate([ ((plateLength/2) - offset), (rPiWidth / 2), plateThickNess]) {
+				cylinder(h=basePegHeight, d=basePegDiam, center=true, $fn=100);
+			}
+			translate([ ((plateLength/2) - offset), -(rPiWidth / 2), plateThickNess]) {
+				cylinder(h=basePegHeight, d=basePegDiam, center=true, $fn=100);
+			}
+			translate([ ((plateLength/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
+				cylinder(h=basePegHeight, d=basePegDiam, center=true, $fn=100);
+			}
+			translate([ ((plateLength/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
+				cylinder(h=basePegHeight, d=basePegDiam, center=true, $fn=100);
+			}
+		}
 	}
-	translate([ ((plateLength/2) - offset), -(rPiWidth / 2), plateThickNess]) {
-		cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
-	}
-	translate([ ((plateLength/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
-		cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
-	}
-	translate([ ((plateLength/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
-		cylinder(h=basePegHeight, d1=basePegDiam, d2=basePegDiam, center=true, $fn=100);
-	}
-}
-topPegDiam = 2;
-topPegHeight = 7;
-color("red") {
-	translate([ ((plateLength/2) - offset), (rPiWidth / 2), plateThickNess]) {
-		cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
-	}
-	translate([ ((plateLength/2) - offset), -(rPiWidth / 2), plateThickNess]) {
-		cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
-	}
-	translate([ ((plateLength/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
-		cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
-	}
-	translate([ ((plateLength/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
-		cylinder(h=topPegHeight, d1=topPegDiam, d2=topPegDiam, center=true, $fn=100);
+	topPegDiam = 2;
+	topPegHeight = 7;
+	color("red") {
+		translate([ ((plateLength/2) - offset), (rPiWidth / 2), plateThickNess]) {
+			cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
+		}
+		translate([ ((plateLength/2) - offset), -(rPiWidth / 2), plateThickNess]) {
+			cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
+		}
+		translate([ ((plateLength/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
+			cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
+		}
+		translate([ ((plateLength/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
+			cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
+		}
 	}
 }
 // Small Breadboard: 35mm x 45.6mm
@@ -172,8 +186,8 @@ color("cyan") {
 	}
 }
 // With a Raspberry Pi Zero. Dimensions 65 x 30 out all.
-if (true) {
-	translate([(1 * plateLength / 2) - (30) - (offset / 2) , -32.5, -16]) {
+if (false) {
+	translate([(1 * plateLength / 2) - (30) - (offset / 2) , -32.5, 0 -14.5]) {
 		rotate([90, 0, 90]) {
 			color("green", 0.75) {
 				import("../../raspberry-pi-zero-2.snapshot.9/RapberryPiZero.STL");

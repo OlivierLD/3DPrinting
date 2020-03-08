@@ -43,8 +43,16 @@ module bracket(ep = 5, diam = 5, thick = 5) {
 						cylinder(d=diam, h=(thick * 1.1), $fn=50, center=true);
 					}
 				}
+				// TODO Drill screw holes...
+				rotate([0, 90, 0]) {
+					translate([0, (4 * ep) / 2, thick / 2]) {
+						cylinder(h=thick * 1.1, d=3, $fn=30, center=true);
+					}
+					translate([0, -(4 * ep) / 2, thick / 2]) {
+						cylinder(h=thick * 1.1, d=3, $fn=30, center=true);
+					}
+				}
 			}
-			// TODO Drill screw holes...
 		}
 	}
 }
@@ -258,9 +266,6 @@ outerRingIntDiam = 85;
 outerRingExtDiam = 95;
 outerRingHeight = 35;
 
-firstDeltaZ = ((mainBucketHeight / 2) * 0.75) - axisDiam;
-secondDeltaZ = -(outerRingHeight - firstDeltaZ - firstRingThickness) / 2;
-
 deltaApart = 10;
 
 swingFirstRing = [-20, 20]; // Degrees
@@ -269,7 +274,7 @@ swingBucket = [-15, 15];    // Degrees
 animate = false;
 apart = false;
 withColor = false;
-withPCB = false;
+withPCB = true;
 
 NONE = -1;
 ALL_ELEMENTS = 0;
@@ -278,9 +283,16 @@ BUCKET_ONLY = 1;
 FIRST_RING_ONLY = 2;
 OUTER_RING_ONLY = 3;
 
+BRACKETS_ONLY = 4;
+
 CYLINDER_BASE = 0;
 BRACKET_BASE = 1;
 baseOption = BRACKET_BASE;
+
+withBracketsOnAxis = true;
+
+firstDeltaZ = ((mainBucketHeight / 2) * 0.75) - axisDiam;
+secondDeltaZ = -(outerRingHeight - firstDeltaZ - firstRingThickness) / 2;
 
 /*****************************
  *
@@ -288,7 +300,7 @@ baseOption = BRACKET_BASE;
  *
  *****************************/
  
-option = BUCKET_ONLY;
+option = ALL_ELEMENTS;
 
 function timeToTilt(t, mini, maxi) =
 	animate ? lookup(t, [
@@ -385,17 +397,17 @@ union() {
 								color("yellow") {
 									yOffset = (firstRingIntDiam / 2) + ((firstRingExtDiam - firstRingIntDiam) / 4);
 									zOffset = 4  + (1.5 / 2);
-									translate([0, yOffset, zOffset]) {
+									translate([0, yOffset - 2, zOffset]) {
 										linear_extrude(2.0, center=true, convexity = 4) {
-											resize([20 * 0.5, 0], auto=true) {
-												text("- N -", valign="center", halign="center");
+											resize([4, 0], auto=true) {
+												text(" ^ ", valign="center", halign="center");
 											}
 										}
 									}
 									translate([0, -yOffset, zOffset]) {
 										linear_extrude(2.0, center=true, convexity = 4) {
-											resize([20 * 0.5, 0], auto=true) {
-												text("- S -", valign="center", halign="center");
+											resize([1, 0], auto=true) {
+												text(" . ", valign="center", halign="center");
 											}
 										}
 									}
@@ -403,7 +415,7 @@ union() {
 							}
 						}
 						// Brackets, option, around bucket axis.
-						if (false) {
+						if (withBracketsOnAxis) {
 							rotate([0, 0, 90]) {
 								bracketEp = 5;
 								translate([((firstRingIntDiam / 2) + ((firstRingExtDiam - firstRingIntDiam) / 4)), 0, bracketEp]) {
@@ -486,7 +498,7 @@ union() {
 								}
 							}
 						}
-						// Cylindric base
+						// Bottom Cylindric base
 						translate([0, 0, - (outerRingExtDiam / 2) /* outerRingHeight */]) {
 							cylinder(d=bracketWidth, h=10, $fn=100, center=true);
 						}
@@ -496,7 +508,25 @@ union() {
 						cylinder(d=5, h=30, $fn=50, center=true);
 					}
 				}
+				// Brackets, option, around bucket axis.
+				if (withBracketsOnAxis) {
+					rotate([0, 0, 0]) {
+						bracketEp = 5;
+						translate([((outerRingExtDiam / 2) - (bracketThickness / 2)), 0, firstDeltaZ]) {
+							bracket(ep = bracketEp, diam = axisDiam * 1.1, thick = bracketEp);
+						}
+						translate([-((outerRingExtDiam / 2) - (bracketThickness / 2)), 0, firstDeltaZ]) {
+							bracket(ep = bracketEp, diam = axisDiam * 1.1, thick = bracketEp);
+						}
+					}
+				}
 			}
+		}
+		if (option == BRACKETS_ONLY) {
+			bracketEp = 5;
+			// translate([((outerRingExtDiam / 2) - (bracketThickness / 2)), 0, firstDeltaZ]) {
+				bracket(ep = bracketEp, diam = axisDiam * 1.1, thick = bracketEp);
+			// }
 		}
 	}
 }
