@@ -274,7 +274,7 @@ swingBucket = [-15, 15];    // Degrees
 animate = false;
 apart = false;
 withColor = false;
-withPCB = true;
+withPCB = false;
 
 NONE = -1;
 ALL_ELEMENTS = 0;

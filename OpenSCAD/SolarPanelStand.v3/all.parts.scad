@@ -1067,10 +1067,11 @@ module bevelGearPair(gear_teeth = 60,
 										}
 										// For a 5mm axis, shoulder is at 4.52mm
 										shoulderOffset = +((5 / 2) + 0.6); // was 0.48=(5.00 - 4.52)
-										translate([shoulderOffset, 0, 0]) {
+										pinionThickness = 6.8; // TODO Get it right
+										translate([shoulderOffset, 0, pinionThickness / 2]) {
 											cube(size=[(pinion_base_diam - small_axis_diam) / 2, 
 																 small_axis_diam,
-																 pinion_base_thickness], 
+																 pinion_base_thickness + pinionThickness], 
 													 center=true);
 										}
 									}
@@ -1251,7 +1252,7 @@ FULL_BEVEL_GEAR = 20;
 BEVEL_GEAR = 21;
 BEVEL_PINION = 22;
 
-option = FULL_BASE_WITH_WORM_GEAR;
+option = BEVEL_PINION; // FULL_BASE_WITH_WORM_GEAR;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;
