@@ -143,6 +143,7 @@ module footedBase(cylHeight,
 									withIndex=true,
 									feetInside=false,
 									fullIndex=true) {
+	//echo("CylHeight:", cylHeight);										
 	difference() {
 		union() {
 			// Grooved Cylinder
@@ -154,9 +155,19 @@ module footedBase(cylHeight,
 			footOffset = !feetInside ?
 									 (extDiam / 2) + ((fixingFootSize / 2) - minWallThickness) :
 									 (extDiam / 2) - ((fixingFootSize / 2) + minWallThickness);
+			// HARD CODED (for now)
+			feetDown = false; // Default true. Feet on the floor. TODO Make it a parameter!!!
+			///////////////////////
+			if (!feetDown) {
+				echo("+------------------------------------------------------------------------");
+				echo(">>> WARNING!!: Hardcoded (module footedBase) feet orientation facing up!!");
+				echo("+------------------------------------------------------------------------");
+			}
+			footUpDownRot = feetDown ? 0 : 180;
+			footUpDownOffset = feetDown ? 0 : -(cylHeight - fixingFootSize);
 			for (foot = [0:2]) {
-				rotate([0, 0, (foot * (360 / 3))]) {
-					translate([footOffset, 0, 0]) {
+				rotate([0, footUpDownRot, (foot * (360 / 3)) + (180 * (feetDown ? 0 : 1))]) {
+					translate([footOffset, 0, footUpDownOffset]) {
 						rotate([0, 0, (feetInside ? 90 : -90)]) {
 							translate([0, 0, fixingFootSize / 2]) {
 								fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
@@ -1053,7 +1064,7 @@ module bevelGearPair(gear_teeth = 60,
 					}
 				}
 				if (with_pinion) {
-					// Pinion base
+					// Pinion base. TODO extr thickness on top (and not below only)
 					if (pinion_base_thickness > 0) {
 						if (!build_together) {
 							// TODO X-Offset not right...
@@ -1252,7 +1263,7 @@ FULL_BEVEL_GEAR = 20;
 BEVEL_GEAR = 21;
 BEVEL_PINION = 22;
 
-option = BEVEL_PINION; // FULL_BASE_WITH_WORM_GEAR;
+option = FULL_BASE; // FULL_BASE_WITH_WORM_GEAR;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;
