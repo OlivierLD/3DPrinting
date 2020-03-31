@@ -24,3 +24,6 @@ Generating `stl` code by hand is just a nonsense, but take a look at the sizes o
 - [AutoCAD](https://www.autodesk.com/products/autocad/overview), a reference, very good. But far from free...
 - [OpenJSCAD](https://openjscad.org/), in JavaScript!
 - More to come...
+
+## Hardware specs
+- [B10K potentiometer](https://components101.com/potentiometer)
