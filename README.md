@@ -8,7 +8,7 @@
 - Desktop based
 - Programmatic approach to shape modeling, _very cool_.
 
-> _Note:_ Re-usablity comes naturally with it, I like that!
+> _Note:_ Re-useablity comes naturally with it, I like that!
 
 You can generate your models with a _**very well documented**_ (proprietary) functional programming language (good paper [here](https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/For_C/Java/Python_Programmers)), and finally turn them into [`stl`](https://en.wikipedia.org/wiki/STL_(file_format)) (short for _stereolithography_, originally) format, which is understood by all 3D printers (among others).
 
@@ -27,3 +27,4 @@ Generating `stl` code by hand is just a nonsense, but take a look at the sizes o
 
 ## Hardware specs
 - [B10K potentiometer](https://components101.com/potentiometer)
+- [Adafruit 5" & 7" HDMI Screen](https://learn.adafruit.com/adafruit-5-800x480-tft-hdmi-monitor-touchscreen-backpack/downloads)
