@@ -252,7 +252,7 @@ module B10K() {
 					}
 				}
 				// Add peg on the left
-				translate([(backCylinderDiam / 2) - leftPegThickness, 0, 0]) {
+				translate([(backCylinderDiam / 2) - leftPegThickness, - (leftPegWidth / 2), 0]) {
 					cube(size=[leftPegThickness, leftPegWidth, leftPegHeight + frontMetalPlateThickness], center=false);
 				}
 			}
