@@ -13,7 +13,7 @@
  */
 
 
-// Countresunk. [dk, k] dk: head diameter, k head thickness.
+// Countersunk. [dk, k] dk: head diameter, k head thickness.
 M3_CS = [6.72, 1.86];
 M4_CS = [8.96, 2.48];
 M5_CS = [11.20, 3.1];
@@ -202,6 +202,85 @@ module washer(diam, top=0) {
 	}
 }
 
+/**
+ * https://www.aliexpress.com/item/1306340715.html
+ */
+module B10K() {
+	
+	backCylinderDiam = 16.9;
+	backCylinderHeight = 8.2;
+	frontPlateThickness = 1.3; // Bakelite
+	frontPlateCenterToBottom = 12;
+	frontMetalPlateHeight = 11.2;
+	frontMetalPlateThickness = 2.2;
+	leftPegWidth = 2.8;
+	leftPegHeight = 3.3;
+	leftPegThickness = 1.2;
+	
+	screwedBaseDiam = 6.75;
+	screwedBaseHeight = 7.4;
+	tinyStuffHeight = 2.1;
+	tinyStuffDiam = 5.1;
+	knobDiam = 6.0;
+	knobHeight = 6.1;
+	
+	rotate([0, 0, 0]) {
+		translate([0, 0, 0]) {
+			color("silver") {
+				// Bottom, back cylinder
+				cylinder(h=backCylinderHeight, d=backCylinderDiam, $fn=50);
+			}
+		}
+		// Bakelite plate
+		color("brown") {
+			union() {
+				translate([0, 0, backCylinderHeight]) {
+					cylinder(h=frontPlateThickness, d=backCylinderDiam, $fn=50);
+					translate([- (backCylinderDiam / 2), 0, 0]) {
+						cube(size=[backCylinderDiam, frontPlateCenterToBottom, frontPlateThickness], center=false);
+					}
+				}
+			}
+		}
+		// First front metal plate
+		translate([0, 0, backCylinderHeight + frontPlateThickness]) {
+			color("gray") {
+				intersection() {
+					cylinder(h=frontMetalPlateThickness, d=backCylinderDiam, $fn=50);
+					translate([- (backCylinderDiam / 2), - (frontMetalPlateHeight / 2), 0]) {
+						cube(size=[backCylinderDiam, frontMetalPlateHeight, frontMetalPlateThickness], center=false);
+					}
+				}
+				// Add peg on the left
+				translate([(backCylinderDiam / 2) - leftPegThickness, 0, 0]) {
+					cube(size=[leftPegThickness, leftPegWidth, leftPegHeight + frontMetalPlateThickness], center=false);
+				}
+			}
+		}
+		// Screwed base
+		translate([0, 0, backCylinderHeight + frontPlateThickness + frontMetalPlateThickness]) {
+			cylinder(h=screwedBaseHeight, d=screwedBaseDiam, $fn=50);
+		}
+		// Tiny stuff
+		color("silver") {
+			translate([0, 0, backCylinderHeight + frontPlateThickness + frontMetalPlateThickness + screwedBaseHeight]) {
+				cylinder(h=tinyStuffHeight, d=tinyStuffDiam, $fn=50);
+			}		
+		}
+		// Knob
+		color("gray") {
+			translate([0, 0, backCylinderHeight + frontPlateThickness + frontMetalPlateThickness + screwedBaseHeight + tinyStuffHeight]) {
+				difference() {
+					cylinder(h=knobHeight, d=knobDiam, $fn=50);
+					translate([-(knobDiam * 1.1 / 2), 0, 0]) {
+						cube(size=[knobDiam * 1.1, 0.5, knobHeight * 1.1], center=false);
+					}
+				}
+			}		
+		}
+	}
+}
+
 // Tests
 echo("For tests only");
 
@@ -247,7 +326,7 @@ if (false) { // HB Screw test
 	}
 }
 
-if (true) { // Hex Nut test
+if (false) { // Hex Nut test
 	
 	cubeSize = 16;
 	diam = 6;
@@ -304,8 +383,8 @@ if (false) { // Washer test
 	}
 }
 
-// Nut bolt washer
-if (false) {
+
+if (false) { // Nut bolt washer
 	diam = 6;
 	screwLen = 30;
 	
@@ -327,12 +406,13 @@ if (false) {
 		}
 	}
 }
-
-// Ball bearing test
-if (false) {
+if (false) { // Ball bearing test
 	for (i=[5, 6]) {
 		translate([-20 * (i - 5), 0, 0]) {
 			ballBearing(i);
 		}
 	}
+}
+if (true) { // B10K
+	B10K();
 }

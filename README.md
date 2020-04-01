@@ -27,4 +27,5 @@ Generating `stl` code by hand is just a nonsense, but take a look at the sizes o
 
 ## Hardware specs
 - [B10K potentiometer](https://components101.com/potentiometer)
+- [B10K potentiometer](https://www.aliexpress.com/item/1306340715.html)
 - [Adafruit 5" & 7" HDMI Screen](https://learn.adafruit.com/adafruit-5-800x480-tft-hdmi-monitor-touchscreen-backpack/downloads)
