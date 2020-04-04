@@ -204,6 +204,7 @@ module washer(diam, top=0) {
 
 /**
  * https://www.aliexpress.com/item/1306340715.html
+ * https://lovemyswitches.com/closeout-16mm-potentiometers-6-0mm-smooth-shaft-right-angle-pcb-mount/
  */
 module B10K() {
 	
@@ -217,7 +218,7 @@ module B10K() {
 	leftPegHeight = 3.3;
 	leftPegThickness = 1.2;
 	
-	screwedBaseDiam = 6.75;
+	screwedBaseDiam = 7.0; // 6.75;
 	screwedBaseHeight = 7.4;
 	tinyStuffHeight = 2.1;
 	tinyStuffDiam = 5.1;

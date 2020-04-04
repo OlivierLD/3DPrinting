@@ -6,11 +6,11 @@
 use <../mechanical.parts.scad>
 
 bottomToFirstPlateTop = 8.2 + 1.3; // + 2.2;
-standThnickness = 6;
+standThickness = 6;
 
 difference() {
-	cube(size=[standThnickness, 40, 40], center=true);
-	translate([- (standThnickness / 2) - bottomToFirstPlateTop, 0, 0]) {
+	cube(size=[standThickness, 40, 40], center=true);
+	translate([- (standThickness / 2) - bottomToFirstPlateTop, 0, 0]) {
 		rotate([0, 90, 0]) {
 			#B10K();
 		}
