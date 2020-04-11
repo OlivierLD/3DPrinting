@@ -229,7 +229,7 @@ module B10K() {
 		translate([0, 0, 0]) {
 			color("silver") {
 				// Bottom, back cylinder
-				cylinder(h=backCylinderHeight, d=backCylinderDiam, $fn=50);
+				cylinder(h=backCylinderHeight, d=backCylinderDiam, $fn=150);
 			}
 		}
 		// Bakelite plate
@@ -282,8 +282,214 @@ module B10K() {
 	}
 }
 
+
+/*
+ * https://www.parallax.com/sites/default/files/downloads/900-00005-Servo-Dimensions.pdf
+ */
+module servoParallax900_00005(drillPattern=false, drillDiam=2, drillLength=10) {
+	boxHeight = 35.6;
+	boxWidth = 20;
+	boxLength = 40.5;
+	topBevelsThickness = 3;
+	mainAxisFromSideOffset = 10.4;
+	
+	/* Main box/container */
+	// One side
+	points = [
+	  [0, 0],
+	  [boxLength, 0],
+	  [boxLength, boxHeight - topBevelsThickness],
+	  [boxLength - 16, boxHeight],
+	  [3, boxHeight],
+	  [0, boxHeight - topBevelsThickness]
+	];
+	paths = [[0, 1, 2, 3, 4, 5]];
+	
+	if (!drillPattern) {
+	
+		translate([-mainAxisFromSideOffset, 0, 0]) {
+			rotate ([90, 0, 0]) {
+				linear_extrude(height=boxWidth, center=true) {
+					polygon(points, paths, convexity=10);
+				}
+			}
+		}
+		
+	}
+
+	/* Box/container top */
+	topPlateThickness = 3;
+	topPlateLength = 36.5;
+	points2 = [
+	  [0, 0],
+	  [2.5, topPlateThickness],
+	  [topPlateLength - 1, topPlateThickness],
+	  [topPlateLength, 0]
+	];
+	paths2 = [[0, 1, 2, 3]];
+	topWidth = 18;
+	betweenTops = 0.5;
+	
+	if (!drillPattern) {
+
+		translate([(topPlateLength / 2) + mainAxisFromSideOffset - 2, 
+							 -(topWidth / 2), 
+							 0 + boxHeight + betweenTops - topPlateThickness]) {
+			rotate([90, 0, 180]) {
+				linear_extrude(height=topWidth, center=false) {
+					polygon(points2, paths2, convexity=10);
+				}
+			}
+		}
+		
+	}
+	
+	/* Screws plate */
+	plateLength = 55.5;
+	plateWidth = 18;
+	plateThickness = 2.5;
+	holeDiam = 4.5;
+	betweenHoleW = 10;
+	betweenHoleL = 50.5;
+	plateHangOut = 7.5;
+	plateBottomHeight = 26.6;
+	
+
+	
+	translate([-(mainAxisFromSideOffset + plateHangOut), -(plateWidth / 2), plateBottomHeight]) {
+		if (!drillPattern) {
+			difference() {
+				union() {
+					cube(size=[plateLength, plateWidth, plateThickness]);
+					/* extra small stuff on top of the plate */
+					width = 2;
+					length = boxLength + (2 * 4);
+					thickness = 1;
+					translate([(width) + ((plateLength - length) / 2), 
+											(plateWidth - width) / 2, 
+											plateThickness]) {
+						linear_extrude(height=thickness, center=false) {
+							union() {
+								square(size=[length - (2 * width), width]);
+								translate([0, width / 2, 0]) {
+									circle(d=width, $fn=50);
+								}
+								translate([length - (2 * width), width / 2, 0]) {
+									circle(d=width, $fn=50);
+								}
+							}
+						}
+					}
+				}
+				// Bottom right
+				translate([(plateLength - betweenHoleL) / 2, (plateWidth - betweenHoleW) / 2, -1]) {
+					cylinder(d=holeDiam, h = 2*plateThickness, $fn=50);
+				}
+				// Bottom Left
+				translate([(plateLength - betweenHoleL) / 2, plateWidth - ((plateWidth - betweenHoleW) / 2), -1]) {
+					cylinder(d=holeDiam, h = 2*plateThickness, $fn=50);
+				}
+				// Top right
+				translate([plateLength - ((plateLength - betweenHoleL) / 2), (plateWidth - betweenHoleW) / 2, -1]) {
+					cylinder(d=holeDiam, h = 2*plateThickness, $fn=50);
+				}
+				// Top Left
+				translate([plateLength - ((plateLength - betweenHoleL) / 2), plateWidth - ((plateWidth - betweenHoleW) / 2), -1]) {
+					cylinder(d=holeDiam, h = 2*plateThickness, $fn=50);
+				}
+			}
+		} else {
+			/* Drill pattern only */
+			// drillDiam, default 2
+			translate([(plateLength - betweenHoleL) / 2, (plateWidth - betweenHoleW) / 2, -1]) {
+				cylinder(d=drillDiam, h=drillLength, $fn=50);
+			}
+			// Bottom Left
+			translate([(plateLength - betweenHoleL) / 2, plateWidth - ((plateWidth - betweenHoleW) / 2), -1]) {
+				cylinder(d=drillDiam, h=drillLength, $fn=50);
+			}
+			// Top right
+			translate([plateLength - ((plateLength - betweenHoleL) / 2), (plateWidth - betweenHoleW) / 2, -1]) {
+				cylinder(d=drillDiam, h=drillLength, $fn=50);
+			}
+			// Top Left
+			translate([plateLength - ((plateLength - betweenHoleL) / 2), plateWidth - ((plateWidth - betweenHoleW) / 2), -1]) {
+				cylinder(d=drillDiam, h=drillLength, $fn=50);
+			}
+		}
+	}
+	
+	if (!drillPattern) {
+
+		/* Axis base */
+		translate([0, 0, boxHeight + betweenTops]) {
+			rotate([0, 0, 0]) {
+				cylinder(d1=15, d2=10.5, h=1.5, $fn=50);
+			}
+		}
+		
+		/* Axis itself */
+		axisLength = 41.1;
+		axisDiam = 6;
+		translate([0, 0, 0]) {
+			rotate([0, 0, 0]) {
+				color("silver") {
+					cylinder(d=axisDiam, h=axisLength, $fn=50);
+				}
+			}
+		}
+		
+		/* Wire socket */
+		socketBaseThickness = 1.5;
+		socketBaseLength = 6;
+		socketBaseHeight = 4;
+		
+		// rubber socket base, like the wire socket
+		rubberSocketLength = 6.5;
+		rubberSocketEndWidth = 3.5;
+		rubberSocketEndThickness = 2;
+		
+		rubberSocketPoints = [
+			[0, 0, 0],
+			[socketBaseHeight, 0, 0],
+			[socketBaseHeight, socketBaseLength, 0],
+			[0, socketBaseLength, 0],
+			[(socketBaseHeight / 2) - (rubberSocketEndThickness / 2), (socketBaseLength / 2) - (rubberSocketEndWidth /2), rubberSocketLength],
+			[(socketBaseHeight / 2) + (rubberSocketEndThickness / 2), (socketBaseLength / 2) - (rubberSocketEndWidth /2), rubberSocketLength],
+			[(socketBaseHeight / 2) + (rubberSocketEndThickness / 2), (socketBaseLength / 2) + (rubberSocketEndWidth /2), rubberSocketLength],
+			[(socketBaseHeight / 2) - (rubberSocketEndThickness / 2), (socketBaseLength / 2) + (rubberSocketEndWidth /2), rubberSocketLength]
+		];
+		rubberSocketFaces = [
+			[0,1,2,3],  // bottom
+			[4,5,1,0],  // front
+			[7,6,5,4],  // top
+			[5,6,2,1],  // right
+			[6,7,3,2],  // back
+			[7,4,0,3]   // left
+		];
+		
+		translate([-mainAxisFromSideOffset - socketBaseThickness, -(socketBaseLength / 2), 0]) {
+			rotate([90, 0, 90]) {
+				union() {
+					cube(size=[socketBaseLength, socketBaseHeight, socketBaseThickness]);
+					rotate([0, 0, 90]) {
+						rotate([0, 180, 0]) {
+							translate([-socketBaseHeight, -socketBaseLength, -socketBaseThickness]) {
+								polyhedron(rubberSocketPoints, rubberSocketFaces);
+							}
+						}
+					}
+				}
+			}
+		}	
+		
+	}
+	
+}
+
 // Tests
 echo("For tests only");
+
 
 if (false) { // CS Screw test
 	screwDiam = 5;
@@ -414,6 +620,10 @@ if (false) { // Ball bearing test
 		}
 	}
 }
-if (true) { // B10K
+if (false) { // B10K
 	B10K();
+}
+
+if (true) {
+	servoParallax900_00005(drillPattern=false);
 }
