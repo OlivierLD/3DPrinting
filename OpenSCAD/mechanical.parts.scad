@@ -354,16 +354,14 @@ module servoParallax900_00005(drillPattern=false, drillDiam=2, drillLength=10) {
 	plateHangOut = 7.5;
 	plateBottomHeight = 26.6;
 	
-
-	
 	translate([-(mainAxisFromSideOffset + plateHangOut), -(plateWidth / 2), plateBottomHeight]) {
 		if (!drillPattern) {
 			difference() {
 				union() {
 					cube(size=[plateLength, plateWidth, plateThickness]);
-					/* extra small stuff on top of the plate */
-					width = 2;
-					length = boxLength + (2 * 4);
+					/* extra, small fingers/stuff on top of the plate */
+					width = 2.25;
+					length = boxLength + (3 * 4);
 					thickness = 1;
 					translate([(width) + ((plateLength - length) / 2), 
 											(plateWidth - width) / 2, 
