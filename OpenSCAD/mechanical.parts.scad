@@ -380,6 +380,8 @@ module servoParallax900_00005(drillPattern=false, drillDiam=2, drillLength=10) {
 					}
 				}
 				// Bottom right
+				drillHoleFactor = 0.95; // TODO Parameter?
+				holeDiam = holeDiam * drillHoleFactor;
 				translate([(plateLength - betweenHoleL) / 2, (plateWidth - betweenHoleW) / 2, -1]) {
 					cylinder(d=holeDiam, h = 2*plateThickness, $fn=50);
 				}
