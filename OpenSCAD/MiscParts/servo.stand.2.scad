@@ -40,8 +40,23 @@ module socketStand() {
 							 -(horizontalStandLength / 2)]) {
 			union() {							 
 				cube(size=[standThickness, verticalBoardWidth, horizontalStandLength]);
-				translate([-standThickness, 0, (verticalBoardWidth / 2) - (3 * standThickness / 2)]) {
-					cube(size=[standThickness, verticalBoardWidth, 3 * standThickness]);
+				difference() {
+					translate([-standThickness, 0, (verticalBoardWidth / 2) - (3 * standThickness / 2)]) {
+						cube(size=[standThickness, verticalBoardWidth, 3 * standThickness]);
+					}
+					rotate([90, 0, 0]) {
+						cylinderDiam = standThickness * 1.5;
+						translate([-standThickness, // Height
+										   (horizontalStandLength / 2) - (3 * standThickness / 2), 
+						           -verticalBoardWidth]) {
+							cylinder(h=verticalBoardWidth, d=cylinderDiam, $fn=50);
+						}
+						translate([-standThickness, // Height
+										   (horizontalStandLength / 2) + (3 * standThickness / 2), 
+						           -verticalBoardWidth]) {
+							cylinder(h=verticalBoardWidth, d=cylinderDiam, $fn=50);
+						}
+					}
 				}
 			}
 		}
@@ -53,7 +68,7 @@ SOCKET_STAND_ONLY = 2;
 BOTH = 3;
 
 // Change at will with the values above
-option = SERVO_SOCKET_ONLY;
+option = BOTH; // SOCKET_STAND_ONLY;
 
 if (option == BOTH) {
   servoSocket();
