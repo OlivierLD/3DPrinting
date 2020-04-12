@@ -401,19 +401,19 @@ module servoParallax900_00005(drillPattern=false, drillDiam=2, drillLength=10) {
 		} else {
 			/* Drill pattern only */
 			// drillDiam, default 2
-			translate([(plateLength - betweenHoleL) / 2, (plateWidth - betweenHoleW) / 2, -1]) {
+			translate([(plateLength - betweenHoleL) / 2, (plateWidth - betweenHoleW) / 2, -(drillLength / 2)]) {
 				cylinder(d=drillDiam, h=drillLength, $fn=50);
 			}
 			// Bottom Left
-			translate([(plateLength - betweenHoleL) / 2, plateWidth - ((plateWidth - betweenHoleW) / 2), -1]) {
+			translate([(plateLength - betweenHoleL) / 2, plateWidth - ((plateWidth - betweenHoleW) / 2), -(drillLength / 2)]) {
 				cylinder(d=drillDiam, h=drillLength, $fn=50);
 			}
 			// Top right
-			translate([plateLength - ((plateLength - betweenHoleL) / 2), (plateWidth - betweenHoleW) / 2, -1]) {
+			translate([plateLength - ((plateLength - betweenHoleL) / 2), (plateWidth - betweenHoleW) / 2, -(drillLength / 2)]) {
 				cylinder(d=drillDiam, h=drillLength, $fn=50);
 			}
 			// Top Left
-			translate([plateLength - ((plateLength - betweenHoleL) / 2), plateWidth - ((plateWidth - betweenHoleW) / 2), -1]) {
+			translate([plateLength - ((plateLength - betweenHoleL) / 2), plateWidth - ((plateWidth - betweenHoleW) / 2), -(drillLength / 2)]) {
 				cylinder(d=drillDiam, h=drillLength, $fn=50);
 			}
 		}
