@@ -89,7 +89,7 @@ module hubLock(hollowDiam=2) {
 			difference() {
 				cylinder(d=throughAxisDiam, h=(BULKHEAD_THISCKNESS + (0 * hubWasherThickness)), center=true, $fn=50);
 				// Hollow part
-				translate([0, 0, -(hubWasherThickness / 2)]) {
+				translate([0, 0, slack * 0.5]) {
 					cylinder(d=hollowDiam, h=(BULKHEAD_THISCKNESS + slack), center=true, $fn=50);
 				}			
 			}
@@ -110,7 +110,7 @@ module hubLock(hollowDiam=2) {
 		}
 		// drilling
 		translate([0, 0, (BULKHEAD_THISCKNESS + hubWasherThickness) / 2]) {
-			translate([0, 0, hubWasherThickness]) {
+			translate([0, 0, hubWasherThickness - 2]) { // -2: Actual depth
 				screwHeadDiam = 5.5; // was drillDiam * 2.5...
 				cylinder(d=screwHeadDiam, h=5, $fn=50, center=true); // Screw head
 			}
