@@ -12,7 +12,7 @@
  
 use <../gears.scad>
 
-BULKHEAD_THISCKNESS = 6; 
+BULKHEAD_THISCKNESS = 6.5; // A bit more than 6
 
 wheelThickness = 5;
 
@@ -40,10 +40,10 @@ secondAxisLength = BULKHEAD_THISCKNESS + slack; // From first axis top
  
 module big_wheel_axis() {
 	union() {
-		cylinder(d=firstAxisDiam, h=distFromBulkhead, $fn=50, center=true);
-		translate([0, 0, (distFromBulkhead + secondAxisLength) / 2]) {
+		cylinder(d=firstAxisDiam, h=distFromBulkhead + (1 * deltaThickness), $fn=50, center=true);
+		translate([0, 0, ((distFromBulkhead + secondAxisLength + deltaThickness + 3) / 2) - (1 * 3)]) {
 			difference() { // Axis is drilled
-				cylinder(d=secondAxisDiam, h=secondAxisLength, $fn=50, center=true);
+				cylinder(d=secondAxisDiam, h=secondAxisLength + (1 * 3), $fn=50, center=true);
 				drillDiam = 2;
 				drillLength = 15;
 				translate([0, 0, ((secondAxisLength - drillLength) / 2) + 1]) { // 1, to see the tip
@@ -89,7 +89,7 @@ module hubLock(hollowDiam=2) {
 			difference() {
 				cylinder(d=throughAxisDiam, h=(BULKHEAD_THISCKNESS + (0 * hubWasherThickness)), center=true, $fn=50);
 				// Hollow part
-				translate([0, 0, slack * 0.5]) {
+				translate([0, 0, (slack * 0.5)]) {
 					cylinder(d=hollowDiam, h=(BULKHEAD_THISCKNESS + slack), center=true, $fn=50);
 				}			
 			}
@@ -120,7 +120,7 @@ module hubLock(hollowDiam=2) {
 }
 
 module smallGear() {
-	axisLength = 10;
+	axisLength = 6; //10;
 	difference() {
 		union() {
 			gear(teeth=30, opt=false);
@@ -141,17 +141,45 @@ module smallGear() {
 	}
 }
 
-ALL_PARTS = 0;
+module allGears(stuck=true) {
+	union() {
+		gear(opt=true);
+		translate([0, 0, (wheelThickness - deltaThickness) + (distFromBulkhead / 2)]) {
+			big_wheel_axis();
+		}
+
+		translate([(96 + 30) / 2, 0, 0]) { // 96: big wheel teeth, 30: small wheel teeth
+			rotate([0, 0, 6]) { // 6 = (360 / 30) * 0.5 - Rotate 1/2 teeth
+				smallGear();
+			}
+		}
+
+		translate([0, 0, stuck ? distFromBulkhead - (0 * deltaThickness) + (1 * slack) + secondAxisLength : 30]) {
+			hubLock(secondAxisDiam);
+		}
+
+		echo("From bulkhead to hub top:", (secondAxisLength + (2 * hubWasherThickness)));
+		translate([0, 0, stuck ? distFromBulkhead - (0 * deltaThickness) + (1 * slack) + secondAxisLength + hubWasherThickness + (BULKHEAD_THISCKNESS + (1.05 * hubWasherThickness)): 55]) {
+			rotate([180, 0, 0]) {
+				// 6: potDiam
+				potAxisDiam = 6;
+				hubLock(potAxisDiam);
+			}
+		}
+	}
+}
+
+
+ALL_PARTS = 10;
 
 BIG_WHEEL_ONLY = 1;
 HUB_LOCK_ONLY = 2;
 POT_SOCKET = 3;
-
 SMALL_WHEEL_ONLY = 4;
 
 option = ALL_PARTS;
 
-stuck = false;
+stuck = true;
  
 union() { 
 	
@@ -171,13 +199,15 @@ union() {
 	}
 
 	if (option == ALL_PARTS || option == HUB_LOCK_ONLY) {
-		translate([0, 0, stuck ? distFromBulkhead - deltaThickness + secondAxisLength : 30]) {
+		translate([0, 0, stuck ? distFromBulkhead + (0 * deltaThickness) + (1 * slack) + secondAxisLength : 30]) {
 			hubLock(secondAxisDiam);
 		}
 	}
 
 	if (option == ALL_PARTS || option == POT_SOCKET) {
-		translate([0, 0, stuck ? distFromBulkhead - deltaThickness + secondAxisLength + hubWasherThickness + (BULKHEAD_THISCKNESS + (2.1 * hubWasherThickness)): 55]) {
+		
+		echo("From bulkhead to hub top:", (secondAxisLength + (2 * hubWasherThickness)));
+		translate([0, 0, stuck ? distFromBulkhead + (0 * deltaThickness) + (1 * slack) + secondAxisLength + hubWasherThickness + (BULKHEAD_THISCKNESS + (1.05 * hubWasherThickness)): 55]) {
 			rotate([180, 0, 0]) {
 				// 6: potDiam
 				potAxisDiam = 6;
