@@ -206,7 +206,7 @@ module washer(diam, top=0) {
  * https://www.aliexpress.com/item/1306340715.html
  * https://lovemyswitches.com/closeout-16mm-potentiometers-6-0mm-smooth-shaft-right-angle-pcb-mount/
  */
-module B10K() {
+module B10K(small=false) {
 	
 	backCylinderDiam = 16.9;
 	backCylinderHeight = 8.2;
@@ -260,17 +260,21 @@ module B10K() {
 		}
 		// Screwed base
 		translate([0, 0, backCylinderHeight + frontPlateThickness + frontMetalPlateThickness]) {
-			cylinder(h=screwedBaseHeight, d=screwedBaseDiam, $fn=50);
+			color("green") {
+				cylinder(h=screwedBaseHeight, d=screwedBaseDiam, $fn=50);
+			}
 		}
-		// Tiny stuff
-		color("silver") {
-			translate([0, 0, backCylinderHeight + frontPlateThickness + frontMetalPlateThickness + screwedBaseHeight]) {
-				cylinder(h=tinyStuffHeight, d=tinyStuffDiam, $fn=50);
-			}		
+		// Tiny stuff (small or not)
+		if (!small) {
+			color("orange") {
+				translate([0, 0, backCylinderHeight + frontPlateThickness + frontMetalPlateThickness + screwedBaseHeight]) {
+					cylinder(h=tinyStuffHeight, d=tinyStuffDiam, $fn=50);
+				}		
+			}
 		}
 		// Knob
 		color("gray") {
-			translate([0, 0, backCylinderHeight + frontPlateThickness + frontMetalPlateThickness + screwedBaseHeight + tinyStuffHeight]) {
+			translate([0, 0, backCylinderHeight + frontPlateThickness + frontMetalPlateThickness + screwedBaseHeight + (small ? 0 : tinyStuffHeight)]) {
 				difference() {
 					cylinder(h=knobHeight, d=knobDiam, $fn=50);
 					translate([-(knobDiam * 1.1 / 2), 0, 0]) {
@@ -620,10 +624,15 @@ if (false) { // Ball bearing test
 		}
 	}
 }
-if (false) { // B10K
-	B10K();
+if (true) { 
+	translate([-10, 0, 0]) {
+		B10K(small=false);
+	}
+	translate([10, 0, 0]) {
+		B10K(small=true);	
+	}
 }
 
-if (true) {
+if (false) {
 	servoParallax900_00005(drillPattern=false);
 }

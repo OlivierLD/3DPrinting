@@ -16,10 +16,10 @@ BULKHEAD_THISCKNESS = 6.5; // A bit more than 6
 
 wheelThickness = 5;
 
-module gear(teeth=96, opt=true) {
+module gear(teeth=96, opt=true, thickness=wheelThickness) {
 	spur_gear(modul=1, 
 						tooth_number=teeth,// orig 30
-						width=wheelThickness,           // Thickness
+						width=thickness,   // Thickness
 						bore=0,            // Axis diam. 0 means no drilling.
 						pressure_angle=30, // On the teeth. orig 20
 						helix_angle=0,     // Teeth angle. orig 20
@@ -73,6 +73,7 @@ module small_wheel_axis(length=10) {
 		}
 	}
 }
+
 /**
  * The one on the other side of the bulkhead, to lock the wheel in place.
  */
@@ -120,12 +121,21 @@ module hubLock(hollowDiam=2) {
 }
 
 module smallGear() {
+	gearThickness = 10;
 	axisLength = 6; //10;
+	v2 = true; // For a servo
 	difference() {
 		union() {
-			gear(teeth=30, opt=false);
-			translate([0, 0, (wheelThickness) + (axisLength / 2)]) {
-				small_wheel_axis(axisLength);
+			gear(teeth=30, opt=false, thickness=gearThickness);
+			if (!v2) {
+				translate([0, 0, (wheelThickness) + (axisLength / 2)]) {
+					small_wheel_axis(axisLength);
+				}
+			}
+		}
+		if (v2) { // Hollow axis
+			translate([0, 0, gearThickness - 5]) {
+				cylinder(d=6, h=gearThickness, $fn=50);
 			}
 		}
 		// Servo axis screw and screw head socket
@@ -177,7 +187,7 @@ HUB_LOCK_ONLY = 2;
 POT_SOCKET = 3;
 SMALL_WHEEL_ONLY = 4;
 
-option = ALL_PARTS;
+option = BIG_WHEEL_ONLY;
 
 stuck = true;
  

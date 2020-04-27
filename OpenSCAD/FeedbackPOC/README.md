@@ -11,5 +11,8 @@ We have
  | ![01](./images/01.png) | ![02](./images/02.png) |
  |:----------------------:|:----------------------:|
 
+## And more
+
+We will try - eventually - to drive such a device from the one presented [here](https://github.com/OlivierLD/raspberry-coffee/blob/master/ADC-benchmark/LINEAR_POTS.md).
 
 ---

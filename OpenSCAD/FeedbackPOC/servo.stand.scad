@@ -31,7 +31,7 @@ module servoSocket() {
 		translate([- (standThickness / 2) - (servoXOffset) + deeper, 0, servoZOffset]) {
 			rotate([0, 90, 0]) {
 				color("darkgrey", 0.95) {
-					servoParallax900_00005();
+					%servoParallax900_00005();
 				}
 				translate([0, 0, 5]) {
 					color("silver") {
@@ -55,29 +55,47 @@ module servoSocket() {
 }
 
 // Horizontal stand
+fixingScrewsDiam = 5;
 module socketStand() {
 	rotate([0, 90, 0]) {
 		translate([(verticalBoardHeight / 2), 
 							 -(verticalBoardWidth / 2), 
 							 -(horizontalStandLength / 2)]) {
-			union() {							 
-				cube(size=[standThickness, verticalBoardWidth, horizontalStandLength]);
-				difference() {
-					translate([-standThickness, 0, (verticalBoardWidth / 2) - (3 * standThickness / 2)]) {
-						cube(size=[standThickness, verticalBoardWidth, 3 * standThickness]);
+			difference() {						
+				union() {							 
+					cube(size=[standThickness, verticalBoardWidth, horizontalStandLength]);
+					difference() {
+						translate([-standThickness, 0, (verticalBoardWidth / 2) - (3 * standThickness / 2)]) {
+							cube(size=[standThickness, verticalBoardWidth, 3 * standThickness]);
+						}
+						rotate([90, 0, 0]) {
+							cylinderDiam = standThickness * 1.5;
+							translate([-standThickness, // Height
+												 (horizontalStandLength / 2) - (3 * standThickness / 2), 
+												 -verticalBoardWidth * 1.05]) {
+								cylinder(h=verticalBoardWidth * 1.1, d=cylinderDiam, $fn=50);
+							}
+							translate([-standThickness, // Height
+												 (horizontalStandLength / 2) + (3 * standThickness / 2), 
+												 -verticalBoardWidth * 1.05]) {
+								cylinder(h=verticalBoardWidth * 1.1, d=cylinderDiam, $fn=50);
+							}
+						}
 					}
-					rotate([90, 0, 0]) {
-						cylinderDiam = standThickness * 1.5;
-						translate([-standThickness, // Height
-										   (horizontalStandLength / 2) - (3 * standThickness / 2), 
-						           -verticalBoardWidth * 1.05]) {
-							cylinder(h=verticalBoardWidth * 1.1, d=cylinderDiam, $fn=50);
-						}
-						translate([-standThickness, // Height
-										   (horizontalStandLength / 2) + (3 * standThickness / 2), 
-						           -verticalBoardWidth * 1.05]) {
-							cylinder(h=verticalBoardWidth * 1.1, d=cylinderDiam, $fn=50);
-						}
+				}
+				// Drill holes
+				rotate([0, 90, 0]) {
+					translate([-fixingScrewsDiam, fixingScrewsDiam, -(standThickness / 2)]) {
+						cylinder(h=(2 * standThickness), d=fixingScrewsDiam, $fn=50);
+					}
+					translate([-fixingScrewsDiam, horizontalStandLength - fixingScrewsDiam, -(standThickness / 2)]) {
+						cylinder(h=(2 * standThickness), d=fixingScrewsDiam, $fn=50);
+					}
+					translate([-(verticalBoardWidth - fixingScrewsDiam), horizontalStandLength - fixingScrewsDiam, -(standThickness / 2)]) {
+						cylinder(h=(2 * standThickness), d=fixingScrewsDiam, $fn=50);
+					}
+					translate([-(verticalBoardWidth - fixingScrewsDiam), fixingScrewsDiam, -(standThickness / 2)]) {
+						cylinder(h=(2 * standThickness), d=fixingScrewsDiam, $fn=50);
 					}
 				}
 			}
@@ -85,7 +103,7 @@ module socketStand() {
 	}
 }
 
-module fullPlate() {
+module fullPlate() { // The vertical one
 	
 	totalHeight = 130;
 	difference() {
@@ -106,7 +124,7 @@ module fullPlate() {
 								 0, 
 								 -(standThickness / 2) - (1 * gearThickness) - (1 * distFromPlate) + (0.6 * slack)]) {
 				color("green") {
-					allGears(stuck = true);
+					#allGears(stuck = true);
 				}
 			}
 		}
@@ -116,7 +134,9 @@ module fullPlate() {
 // Pot bracket, 25mm wide, mini inner width = (2 * washer-thickness) + wallThickness + ~6mm
 // Here (2 * 4) + 6 + 6 = 20mm, + whatever.
 
-minPotPlateHeight = 20 + 3;
+smallB10Kaxis = true; // If true: narrower.
+
+minPotPlateHeight = 20 + (smallB10Kaxis ? 0 : 3); // TODO Tweak that. See tinyStuffHeight in machanical.parts.scad
 
 topPlateWidth = 25;
 topStandThickness = 6;
@@ -137,7 +157,7 @@ module topPlateScrews() {
 	}
 }
 
-module topPlate() {
+module topPlate(smallB10K=false) {
   bottomToFirstPlateTop = 8.2 + 1.3; // + 2.2;
   standThickness = topStandThickness;
 	
@@ -152,7 +172,7 @@ module topPlate() {
 			rotate([0, 90, 0]) {
 				rotate([0, 0, -90]) {
 					color("silver") {
-						B10K();
+						%B10K(small=smallB10K);
 					}
 				}
 			}
@@ -171,7 +191,7 @@ module b10kBracket(option=WITH_TOP_PLATE) {
 		rotate([0, -90, -90]) {
 			translate([-(topStandThickness / 2), (topPlateWidth / 2), -potPlateOffset]) {
 				difference() {
-					topPlate();
+					topPlate(smallB10K=smallB10Kaxis);
 					topPlateScrews();
 				}
 			}
@@ -210,7 +230,7 @@ TOP_POT_PLATE_ONLY = 4;
 ALL_PARTS = 10;
 
 // Change at will with the values above
-option = ALL_PARTS;
+option = SOCKET_STAND_ONLY; // ALL_PARTS;
 
 if (option == ALL_PARTS) {
   fullPlate();
