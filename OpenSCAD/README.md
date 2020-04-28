@@ -8,3 +8,6 @@ Each directory contains the code (`.scad`) along with the generated `stl` files 
 > turn the `stl` files into `gcode` ones.
 
 > The path becomes in this case `scad` > `stl` > `gcode`.
+
+### Stuff to look at
+- Blender to OpenSCAD: <https://mathgrrl.com/hacktastic/2015/10/beefy-trophy-baking-meshes-into-openscad-from-blender/>

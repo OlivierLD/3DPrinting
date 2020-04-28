@@ -29,6 +29,7 @@ notchLen = 5;
 notchThickness = 1;
 
 // Bottom Plate
+fixingScrewsDiam = 5;
 module bottomPlate() {
 	difference() {
 		cube(size=[basePlateWH, basePlateWH, basePlateThickness], center=true);
@@ -40,6 +41,14 @@ module bottomPlate() {
 						cube(size=[1, notchLen, notchHeight]);
 					}
 				}
+			}
+		}
+		rotate([0, 0, 0]) {
+		  translate([(basePlateWH / 2) - fixingScrewsDiam, (basePlateWH / 2) - fixingScrewsDiam, -(basePlateThickness / 10)]) {
+			  cylinder(h=(2 * basePlateThickness), d=fixingScrewsDiam, $fn=50, center=true);
+			}
+		  translate([(basePlateWH / 2) - fixingScrewsDiam, - (basePlateWH / 2) + fixingScrewsDiam, -(basePlateThickness / 10)]) {
+			  cylinder(h=(2 * basePlateThickness), d=fixingScrewsDiam, $fn=50, center=true);
 			}
 		}
 	}

@@ -23,9 +23,13 @@ Generating `stl` code by hand is just a nonsense, but take a look at the sizes o
 - [FreeCAD](https://www.freecadweb.org/), programmable in Python.
 - [AutoCAD](https://www.autodesk.com/products/autocad/overview), a reference, very good. But far from free...
 - [OpenJSCAD](https://openjscad.org/), in JavaScript!
+- [Blender](http://www.blender.org), free and Open Source.
 - More to come...
 
 ## Hardware specs
 - [B10K potentiometer](https://components101.com/potentiometer)
 - [B10K potentiometer](https://www.aliexpress.com/item/1306340715.html)
 - [Adafruit 5" & 7" HDMI Screen](https://learn.adafruit.com/adafruit-5-800x480-tft-hdmi-monitor-touchscreen-backpack/downloads)
+
+### Stuff to look at
+- A bridge between Blender and OpenSCAD: <https://mathgrrl.com/hacktastic/2015/10/beefy-trophy-baking-meshes-into-openscad-from-blender/>
