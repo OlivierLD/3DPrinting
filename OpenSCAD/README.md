@@ -11,3 +11,7 @@ Each directory contains the code (`.scad`) along with the generated `stl` files 
 
 ### Stuff to look at
 - Blender to OpenSCAD: <https://mathgrrl.com/hacktastic/2015/10/beefy-trophy-baking-meshes-into-openscad-from-blender/>
+
+- [Octoprint](https://octoprint.org/)! Works great from a Raspberry Pi, really cool stuff.
+
+- [The 3D print zone](https://the3dprintzone.com/). Articles, videos, tutorials, etc.
