@@ -4,6 +4,8 @@
  * Screws, bolts, nuts, washer, ball bearings, etc...
  * To be used as placeholders.
  *
+ * Also some PCB and other components (servos, pots, etc).
+ *
  * Screws specs: 
  * - metric countersunk: https://us.misumi-ec.com/vona2/detail/221005020316/
  * - metric hex bolts: http://stsindustrial.com/a2-hex-cap-screw-technical-data/
@@ -12,6 +14,19 @@
  * Includes at the bottom many tests and showcases.
  */
 
+inch_to_mm = 25.4;
+
+/**
+ * size is a triplet [x, y, z]
+ * radius is the radius of the rounded corner
+ */
+ module roundedRect(size, radius) {
+	linear_extrude(height=size.z, center=true) {
+		offset(radius) offset(-radius) {
+			square([size.x, size.y], center = true);
+		}
+	}
+}
 
 // Countersunk. [dk, k] dk: head diameter, k head thickness.
 M3_CS = [6.72, 1.86];
@@ -491,9 +506,262 @@ module servoParallax900_00005(drillPattern=false, drillDiam=2, drillLength=10) {
 	
 }
 
-// Tests
-echo("For tests only");
 
+
+/*
+ * http://adafruit.com/product/390
+ * https://learn.adafruit.com/usb-dc-and-solar-lipoly-charger/using-the-charger?view=all#schematic-and-fabrication-print-7-2
+ */
+module MCP73871_USB_Solar(bigHangout=false, withStand=false, standOnly=false, standHeight=4) {
+	
+	name = "MCP73871 USB Solar";
+	
+	width_inch = 1.6;
+	height_inch = 1.305;
+	corner_radius = 0.1; // inches
+	
+	width_mm = width_inch * inch_to_mm;
+	height_mm = 33.15;
+	
+	boardThickness = 1.7; // mm
+	
+	leftTo5Vcenter = 1.18; // inches
+	leftToUSB = 0.68;      // inches
+	
+	cornerRadius = 0.1;    // Inches
+	topFromHoles = 0.2;    // inches
+	bottomFromHoles = 0.1; // inches
+	
+	holeDiam = 2.5; // mm
+	
+	_5VSocketWidth  = 9.5;  // mm
+	_5VSocketHeight = 11.2; // mm
+	_5VSocketDepth = 13.64; // mm
+	_5VSockerHangout = 2.5; // mm
+	
+	usbWidth = 8.3; // mm
+	usbHeight = 5.4; // mm
+	usbDepth = 9.3; // mm
+	usbHangout = 1; // mm
+	
+	fontSize = 2.5;
+	
+	difference() {
+		union() {
+			if (!standOnly) {
+				difference() {
+					roundedRect(size=[height_mm, width_mm, boardThickness], radius=(corner_radius * inch_to_mm));
+					translate([0, 3, 0.5]) {
+						linear_extrude(height=1.5, center=true) {
+							rotate([0, 0, 90]) {
+									translate([-(width_mm / 2), -(fontSize / 2)]) {
+										text(name, fontSize);
+								}
+							}
+						}
+					}
+				}
+				// 5V power supply
+				translate([((_5VSocketDepth - height_mm) / 2) - _5VSockerHangout, 
+									 ((width_inch / 2) - (width_inch - leftTo5Vcenter)) * inch_to_mm, 
+									 (_5VSocketHeight + boardThickness) / 2]) {
+					cube(size=[(bigHangout ? 2 : 1) * _5VSocketDepth, _5VSocketWidth, _5VSocketHeight], center=true);
+				}
+				// USB socket
+				translate([((usbDepth - height_mm) / 2) - usbHangout, 
+									 ((width_inch / 2) - (width_inch - leftToUSB)) * inch_to_mm, 
+									 (usbHeight + boardThickness) / 2]) {
+					cube(size=[(bigHangout ? 2 : 1) * usbDepth, usbWidth, usbHeight], center=true);
+				}
+			}
+			if (withStand || standOnly) { // 4 feet
+				color("green") {
+					difference() {
+						union() {
+							translate([0, 0, -(standHeight + (boardThickness / 2))]) {
+								translate([(height_mm / 2) - (bottomFromHoles * inch_to_mm), (width_mm / 2) - (cornerRadius * inch_to_mm), 0]) {
+									cylinder(d=(2*holeDiam), h=standHeight, $fn=50);
+								}
+								translate([(height_mm / 2) - (bottomFromHoles * inch_to_mm), - (width_mm / 2) + (cornerRadius * inch_to_mm) , 0]) {
+									cylinder(d=(2*holeDiam), h=standHeight, $fn=50);
+								}
+								translate([- (height_mm / 2) + (topFromHoles * inch_to_mm), (width_mm / 2) - (cornerRadius * inch_to_mm), 0]) {
+									cylinder(d=(2*holeDiam), h=standHeight, $fn=50);
+								}
+								translate([- (height_mm / 2) + (topFromHoles * inch_to_mm), - (width_mm / 2) + (cornerRadius * inch_to_mm) , 0]) {
+									cylinder(d=(2*holeDiam), h=standHeight, $fn=50);
+								}
+							}
+						}
+						// Drill screw holes
+						translate([0, 0, -(standHeight + (boardThickness / 2))]) {
+							translate([(height_mm / 2) - (bottomFromHoles * inch_to_mm), (width_mm / 2) - (cornerRadius * inch_to_mm), 0]) {
+								#cylinder(d=(holeDiam / 2), h=standHeight, $fn=50);
+							}
+							translate([(height_mm / 2) - (bottomFromHoles * inch_to_mm), - (width_mm / 2) + (cornerRadius * inch_to_mm) , 0]) {
+								#cylinder(d=(holeDiam / 2), h=standHeight, $fn=50);
+							}
+							translate([- (height_mm / 2) + (topFromHoles * inch_to_mm), (width_mm / 2) - (cornerRadius * inch_to_mm), 0]) {
+								#cylinder(d=(holeDiam / 2), h=standHeight, $fn=50);
+							}
+							translate([- (height_mm / 2) + (topFromHoles * inch_to_mm), - (width_mm / 2) + (cornerRadius * inch_to_mm) , 0]) {
+								#cylinder(d=(holeDiam / 2), h=standHeight, $fn=50);
+							}
+						}
+					}
+				}
+			}
+		}
+		if (!standOnly) {
+			translate([0, 0, -(boardThickness)]) {
+				rotate([0, 0, 0]) {
+					translate([(height_mm / 2) - (bottomFromHoles * inch_to_mm), (width_mm / 2) - (cornerRadius * inch_to_mm), 0]) {
+						cylinder(d=holeDiam, h=2*boardThickness, $fn=50);
+					}
+					translate([(height_mm / 2) - (bottomFromHoles * inch_to_mm), - (width_mm / 2) + (cornerRadius * inch_to_mm) , 0]) {
+						cylinder(d=holeDiam, h=2*boardThickness, $fn=50);
+					}
+					translate([- (height_mm / 2) + (topFromHoles * inch_to_mm), (width_mm / 2) - (cornerRadius * inch_to_mm), 0]) {
+						cylinder(d=holeDiam, h=2*boardThickness, $fn=50);
+					}
+					translate([- (height_mm / 2) + (topFromHoles * inch_to_mm), - (width_mm / 2) + (cornerRadius * inch_to_mm) , 0]) {
+						cylinder(d=holeDiam, h=2*boardThickness, $fn=50);
+					}
+				}
+			}
+		}
+	}
+}
+
+/*
+ * https://learn.adafruit.com/adafruit-powerboost-1000c-load-share-usb-charge-boost/downloads
+ */
+module AdafruitPowerboost1000C(withSwitch=false, withStand=false, standOnly=false, standHeight=4) {
+	name = "PB 1000C";
+	
+	boardThickness = 1.7; // mm
+	boardWidth = 36.2;
+	boardHeight = 22.86;
+	
+	betweenScrews = 17.65;
+	holeDiam = 2.5; // mm
+	cornerRadius = 3; // mm
+	
+	usbSocketDepth = 18; // 14;   // mm
+	usbSocketWidth = 14.5; // mm
+	usbSocketHeight = 8;   // mm
+	usbHangout = 8;        // mm
+	
+	// in mm. There is some slack
+	switchWidth = 12.5; 
+	switchThickness = 5;
+	switchDepth = 6;
+	topFromUSBSide = 10;
+	
+	fontSize = 2;
+	
+	difference() {
+		union() {
+			if (!standOnly) {
+				difference() {
+					roundedRect(size=[boardHeight, boardWidth, boardThickness], radius=cornerRadius);
+					translate([5.5, 2, 0.5]) {
+						linear_extrude(height=1.5, center=true) {
+							rotate([0, 0, 60]) {
+									translate([-(boardWidth / 2), -(fontSize / 2)]) {
+										text(name, fontSize);
+								}
+							}
+						}
+					}
+				}
+				// USB
+				translate([0, ((boardWidth - usbSocketDepth) / 2) + usbHangout, (boardThickness + usbSocketHeight) / 2]) {
+					rotate([0, 0, 90]) {
+						cube(size=[usbSocketDepth, usbSocketWidth, usbSocketHeight], center=true);
+					}
+				}
+				// Side Switch
+				if (withSwitch) {
+					translate([((boardHeight + switchDepth) / 2), 
+					           ((boardWidth - switchWidth) / 2) - (topFromUSBSide), // X pos
+					           (boardThickness + switchThickness) / 2]) {
+						rotate([0, 0, 90]) {
+							cube(size=[switchWidth, switchDepth, switchThickness], center=true);
+						}
+					}
+				}
+			}
+			if (withStand || standOnly) { // 2 feet, 1 stand
+				color("green") {
+					difference() {
+						union() {
+							translate([0, 0, -(standHeight + 0.25)]) {
+								translate([(betweenScrews) / 2, - (boardWidth / 2) + cornerRadius, 0]) {
+									cylinder(d=holeDiam * 2, h=2*boardThickness, $fn=50);
+								}
+								translate([- (betweenScrews) / 2, - (boardWidth / 2) + cornerRadius, 0]) {
+									cylinder(d=holeDiam * 2, h=2*boardThickness, $fn=50);
+								}
+								// Add one right in the middle
+								translate([0, 0, 0]) {
+									cylinder(d=holeDiam * 2, h=2*boardThickness, $fn=50);
+								}
+							}
+						}
+						// Drill screw holes in 2 feet
+						translate([0, 0, -(standHeight)]) {
+								translate([(betweenScrews) / 2, - (boardWidth / 2) + cornerRadius, 0]) {
+									cylinder(d=holeDiam/2, h=2*boardThickness, $fn=50);
+								}
+								translate([- (betweenScrews) / 2, - (boardWidth / 2) + cornerRadius, 0]) {
+									cylinder(d=holeDiam/2, h=2*boardThickness, $fn=50);
+								}
+						}
+					}
+				}
+			}
+		}
+		// Screw holes
+		if (!standOnly) {
+			translate([0, 0, -(boardThickness)]) {
+				rotate([0, 0, 0]) {
+					translate([(betweenScrews) / 2, - (boardWidth / 2) + cornerRadius, 0]) {
+						cylinder(d=holeDiam, h=2*boardThickness, $fn=50);
+					}
+					translate([- (betweenScrews) / 2, - (boardWidth / 2) + cornerRadius, 0]) {
+						cylinder(d=holeDiam, h=2*boardThickness, $fn=50);
+					}
+				}
+			}
+		}
+	}
+}
+
+
+module PkCell(cellNum=1) {
+	oneDiam = 17.44;
+	oneLength = 69.3;
+	
+	rotate([0, 90, 0]) {
+		hull() {
+			cylinder(d=oneDiam, h=oneLength, $fn=50, center=true);
+			if (cellNum > 1) {
+				translate([0, -oneDiam, 0]) {
+					cylinder(d=oneDiam, h=oneLength, $fn=50, center=true);
+				}
+			}
+			if (cellNum > 2) {
+				translate([0, oneDiam, 0]) {
+					cylinder(d=oneDiam, h=oneLength, $fn=50, center=true);
+				}
+			}
+		}
+	}
+}	
+
+// Tests
+echo("For tests and dev only");
 
 if (false) { // CS Screw test
 	screwDiam = 5;
@@ -624,7 +892,7 @@ if (false) { // Ball bearing test
 		}
 	}
 }
-if (true) { 
+if (false) { 
 	translate([-10, 0, 0]) {
 		B10K(small=false);
 	}
@@ -633,6 +901,18 @@ if (true) {
 	}
 }
 
-if (false) {
+if (true) {
 	servoParallax900_00005(drillPattern=false);
+}
+
+if (false) {
+	MCP73871_USB_Solar(bigHangout=false, withStand=true, standOnly=false);
+}
+
+if (false) {
+	AdafruitPowerboost1000C(withSwitch=true, withStand=true, standOnly=false);
+}
+
+if (false) {
+	PkCell(3);
 }

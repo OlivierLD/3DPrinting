@@ -25,7 +25,7 @@ module servoSocket() {
 		translate([- (standThickness / 2) - (servoXOffset) + deeper, 0, servoZOffset]) {
 			rotate([0, 90, 0]) {
 				// Use the # in front of the lines below to see the parts.
-				servoParallax900_00005();
+				#servoParallax900_00005();
 				servoParallax900_00005(drillPattern=true, drillLength=20, drillDiam=2.5);
 			}
 		}
