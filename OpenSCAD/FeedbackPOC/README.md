@@ -15,4 +15,7 @@ We have
 
 We will try - eventually - to drive such a device from the one presented [here](https://github.com/OlivierLD/raspberry-coffee/blob/master/ADC-benchmark/LINEAR_POTS.md).
 
+## At Work
+See it at work, along with the Java code to run it at <https://github.com/OlivierLD/raspberry-coffee/blob/master/Project-Trunk/Servos-and-Co/README.md>
+
 ---
