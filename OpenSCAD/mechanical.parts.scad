@@ -12,6 +12,8 @@
  * - metric washers: https://www.mutualscrew.com/department/metric-flat-washers-din-125-11622.cfm
  *
  * Includes at the bottom many tests and showcases.
+ *
+ * OpenSCAD doc at https://www.openscad.org/documentation.html
  */
 
 inch_to_mm = 25.4;
@@ -512,18 +514,27 @@ module servoParallax900_00005(drillPattern=false, drillDiam=2, drillLength=10) {
  * http://adafruit.com/product/390
  * https://learn.adafruit.com/usb-dc-and-solar-lipoly-charger/using-the-charger?view=all#schematic-and-fabrication-print-7-2
  */
+mcpUsbSolarThickness =  1.7;
+mcpUsbSolarWidth     = (1.6 * inch_to_mm);
+mcpUsbSolarLen       = 33.15;
+//
+function getMcpUsbSolarDims() =  // [x, y, z]
+	[mcpUsbSolarWidth, mcpUsbSolarLen, mcpUsbSolarThickness];
+
 module MCP73871_USB_Solar(bigHangout=false, withStand=false, standOnly=false, standHeight=4) {
 	
 	name = "MCP73871 USB Solar";
 	
-	width_inch = 1.6;
-	height_inch = 1.305;
+	dims = getMcpUsbSolarDims();
+	
+	width_inch = dims[0] / inch_to_mm;
+	// height_inch = 1.305;
 	corner_radius = 0.1; // inches
 	
-	width_mm = width_inch * inch_to_mm;
-	height_mm = 33.15;
+	width_mm = dims[0];
+	height_mm = dims[1];
 	
-	boardThickness = 1.7; // mm
+	boardThickness = dims[2]; // mm
 	
 	leftTo5Vcenter = 1.18; // inches
 	leftToUSB = 0.68;      // inches
@@ -574,22 +585,22 @@ module MCP73871_USB_Solar(bigHangout=false, withStand=false, standOnly=false, st
 					cube(size=[(bigHangout ? 2 : 1) * usbDepth, usbWidth, usbHeight], center=true);
 				}
 			}
-			if (withStand || standOnly) { // 4 feet
+			if (withStand || standOnly) { // 4 feet, cones
 				color("green") {
 					difference() {
 						union() {
 							translate([0, 0, -(standHeight + (boardThickness / 2))]) {
 								translate([(height_mm / 2) - (bottomFromHoles * inch_to_mm), (width_mm / 2) - (cornerRadius * inch_to_mm), 0]) {
-									cylinder(d=(2*holeDiam), h=standHeight, $fn=50);
+									cylinder(r1=(2*holeDiam), r2=(holeDiam), h=standHeight, $fn=50);
 								}
 								translate([(height_mm / 2) - (bottomFromHoles * inch_to_mm), - (width_mm / 2) + (cornerRadius * inch_to_mm) , 0]) {
-									cylinder(d=(2*holeDiam), h=standHeight, $fn=50);
+									cylinder(r1=(2*holeDiam), r2=(holeDiam), h=standHeight, $fn=50);
 								}
 								translate([- (height_mm / 2) + (topFromHoles * inch_to_mm), (width_mm / 2) - (cornerRadius * inch_to_mm), 0]) {
-									cylinder(d=(2*holeDiam), h=standHeight, $fn=50);
+									cylinder(r1=(2*holeDiam), r2=(holeDiam), h=standHeight, $fn=50);
 								}
 								translate([- (height_mm / 2) + (topFromHoles * inch_to_mm), - (width_mm / 2) + (cornerRadius * inch_to_mm) , 0]) {
-									cylinder(d=(2*holeDiam), h=standHeight, $fn=50);
+									cylinder(r1=(2*holeDiam), r2=(holeDiam), h=standHeight, $fn=50);
 								}
 							}
 						}
@@ -636,12 +647,21 @@ module MCP73871_USB_Solar(bigHangout=false, withStand=false, standOnly=false, st
 /*
  * https://learn.adafruit.com/adafruit-powerboost-1000c-load-share-usb-charge-boost/downloads
  */
+pb1000cThickness =  1.7;
+pb1000cWidth     = 36.2;
+pb1000cLen       = 22.86;
+//
+function getPowerBooser1000cDims() =  // [x, y, z]
+	[pb1000cWidth, pb1000cLen, pb1000cThickness];
+
 module AdafruitPowerboost1000C(withSwitch=false, withStand=false, standOnly=false, standHeight=4) {
 	name = "PB 1000C";
 	
-	boardThickness = 1.7; // mm
-	boardWidth = 36.2;
-	boardHeight = 22.86;
+	dims = getPowerBooser1000cDims();
+	
+	boardThickness = dims[2]; // 1.7; // mm
+	boardWidth     = dims[0]; // 36.2;
+	boardHeight    = dims[1]; // 22.86;
 	
 	betweenScrews = 17.65;
 	holeDiam = 2.5; // mm
@@ -692,20 +712,20 @@ module AdafruitPowerboost1000C(withSwitch=false, withStand=false, standOnly=fals
 					}
 				}
 			}
-			if (withStand || standOnly) { // 2 feet, 1 stand
+			if (withStand || standOnly) { // 2 feet, 1 stand, conic
 				color("green") {
 					difference() {
 						union() {
 							translate([0, 0, -(standHeight + 0.25)]) {
 								translate([(betweenScrews) / 2, - (boardWidth / 2) + cornerRadius, 0]) {
-									cylinder(d=holeDiam * 2, h=2*boardThickness, $fn=50);
+									cylinder(r1=holeDiam * 2, r2=holeDiam, h=2*boardThickness, $fn=50);
 								}
 								translate([- (betweenScrews) / 2, - (boardWidth / 2) + cornerRadius, 0]) {
-									cylinder(d=holeDiam * 2, h=2*boardThickness, $fn=50);
+									cylinder(r1=holeDiam * 2, r2=holeDiam, h=2*boardThickness, $fn=50);
 								}
 								// Add one right in the middle
 								translate([0, 0, 0]) {
-									cylinder(d=holeDiam * 2, h=2*boardThickness, $fn=50);
+									cylinder(r1=holeDiam * 2, r2=holeDiam, h=2*boardThickness, $fn=50);
 								}
 							}
 						}
@@ -738,10 +758,17 @@ module AdafruitPowerboost1000C(withSwitch=false, withStand=false, standOnly=fals
 	}
 }
 
+// LiPo cells, 1, 2 or 3 cells (2200 mAh, 4400 mAh, 6600 mAh)
+onePkCellDiam = 17.44;
+onePkCellLength = 69.3;
+//
+function getPkCellDims() =  // [diam, len]
+	[onePkCellDiam, onePkCellLength];
 
 module PkCell(cellNum=1) {
-	oneDiam = 17.44;
-	oneLength = 69.3;
+	dims = getPkCellDims();
+	oneDiam = dims[0];
+	oneLength =dims[1];
 	
 	rotate([0, 90, 0]) {
 		hull() {
@@ -901,7 +928,7 @@ if (false) {
 	}
 }
 
-if (true) {
+if (false) {
 	servoParallax900_00005(drillPattern=false);
 }
 
@@ -909,7 +936,7 @@ if (false) {
 	MCP73871_USB_Solar(bigHangout=false, withStand=true, standOnly=false);
 }
 
-if (false) {
+if (true) {
 	AdafruitPowerboost1000C(withSwitch=true, withStand=true, standOnly=false);
 }
 
