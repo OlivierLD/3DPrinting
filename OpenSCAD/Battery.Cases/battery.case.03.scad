@@ -14,6 +14,7 @@
  * Modify the nbCell variable below to change the size of the box. Use 1, 2, or 3.
  *
  * MetalSheet Screws: M2.6 * 6
+ * For the lid: Flat HEad Screw 4-40 3/8"
  */
  
  
@@ -208,13 +209,14 @@ module batteryHousingLid() {
 		}
 		// Led holes
 		diam = 3;
-		holesCoordinates = [ // From bottom left corner of the lid. TODO Adjust
-			[ 10, 10 ],   // Power, bottom left
-		  [ 55, 25 ],   // Load
-		  [ 67, 12.5 ]  // Power, bottom right
+		holesCoordinates = [ // From bottom left corner of the lid. 
+			[  7, 10 ],  // Power, bottom left
+		  [ 56, 28 ],  // Load
+		  [ 49, 28 ],  // Done
+		  [ 67, 10 ]   // Power, bottom right
 		];
-		nbHoles = 3; // TODO Take array length
-		for (i = [0:2]) {
+		nbHoles = len(holesCoordinates); // Array length
+		for (i = [0 : nbHoles - 1]) {
 			translate([(+ (intDepth + (2 * wallThickness)) / 2) - (holesCoordinates[i][1]), 
 								 (- (intWidth + (2 * wallThickness)) / 2) + (holesCoordinates[i][0]), 
 								 -wallThickness]) {
@@ -239,7 +241,7 @@ module batteryHousingLid() {
 		// Labels
 		label_1 = "PWR";
 		translate([(wallThickness + (intDepth / 2)) - 15, // up-down of its face
-							 -32.5,   // left-right on its face
+							 -35.5,   // left-right on its face
 							 (0.5 * wallThickness)]) { 
 			rotate([0, 0, 0]) {
 				linear_extrude(height=1.5, center=true) {
@@ -252,7 +254,7 @@ module batteryHousingLid() {
 			}
 		}
 		label_2 = "PWR";
-		translate([(wallThickness + (intDepth / 2)) - 18, // up-down of its face
+		translate([(wallThickness + (intDepth / 2)) - 15, // up-down of its face
 							 24,   // left-right on its face
 							 (0.5 * wallThickness)]) { 
 			rotate([0, 0, 0]) {
@@ -265,15 +267,46 @@ module batteryHousingLid() {
 				}
 			}
 		}
-		label_3 = "LOAD";
-		translate([(wallThickness + (intDepth / 2)) - 30, // up-down of its face
-							 12,   // left-right on its face
+		label_3 = "CHRG";
+		translate([(wallThickness + (intDepth / 2)) - 28, // up-down of its face
+							 21,   // left-right on its face
 							 (0.5 * wallThickness)]) { 
 			rotate([0, 0, 0]) {
 				linear_extrude(height=1.5, center=true) {
 					rotate([0, 0, 90]) {
 						translate([0, -(fontSize / 2)]) {
 							text(label_3, fontSize);
+						}
+					}
+				}
+			}
+		}
+		label_4 = "LOAD";
+		translate([(wallThickness + (intDepth / 2)) - 28, // up-down of its face
+							 -3,   // left-right on its face
+							 (0.5 * wallThickness)]) { 
+			rotate([0, 0, 0]) {
+				linear_extrude(height=1.5, center=true) {
+					rotate([0, 0, 90]) {
+						translate([0, -(fontSize / 2)]) {
+							text(label_4, fontSize);
+						}
+					}
+				}
+			}
+		}
+		// Capacity label
+		capacityLabels = [ "2200 mAh", "4400 mAh", "6600 mAh" ];
+		label_5 = capacityLabels[nbCell - 1];
+		capacityFontSize = 10;
+		translate([(wallThickness + (intDepth / 2)) - 54, // up-down of its face
+							 -30,   // left-right on its face
+							 (0.5 * wallThickness)]) { 
+			rotate([0, 0, 0]) {
+				linear_extrude(height=1.5, center=true) {
+					rotate([0, 0, 90]) {
+						translate([0, -(fontSize / 2)]) {
+							text(label_5, capacityFontSize);
 						}
 					}
 				}
@@ -295,8 +328,8 @@ if (option == ALL_PARTS || option == BOX_ONLY) {
 }
 if (option == ALL_PARTS || option == LID_ONLY) {
 	translate([0, 0, (OPEN ? 30 : (0 * 0.5) + wallThickness + (intHeight + wallThickness) / 2)]) {
-		color("green") { 
+		//color("green") { 
 			batteryHousingLid();
-		}
+		//}
 	}
 }
