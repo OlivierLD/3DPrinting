@@ -6,7 +6,7 @@
  * - PowerBooster 1000C (https://www.adafruit.com/product/2465)
  *   - USB Power supply
  *   - Slide switch 
- * - 6600 mAh LiPo battery
+ * - 6600 mAh LiPo battery (https://www.adafruit.com/product/353)
  *
  * MetalSheet Screws: M2.6 * 6
  *

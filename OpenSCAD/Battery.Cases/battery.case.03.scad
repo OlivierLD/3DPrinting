@@ -1,4 +1,6 @@
 /**
+ * ONE SIZE FITS ALL !
+ *
  * Housing for 
  * - MCP73871_USB_Solar (https://www.adafruit.com/product/390)
  *   - 5V power supply (from solar panel or wall charger)
@@ -6,43 +8,43 @@
  * - PowerBooster 1000C (https://www.adafruit.com/product/2465)
  *   - USB Power supply
  *   - Slide switch 
+ * - 2200 mAh LiPo battery (https://www.adafruit.com/product/1781)
+ * - 4400 mAh LiPo battery (https://www.adafruit.com/product/354)
  * - 6600 mAh LiPo battery (https://www.adafruit.com/product/353)
+ * Modify the nbCell variable below to change the size of the box. Use 1, 2, or 3.
  *
  * MetalSheet Screws: M2.6 * 6
  */
  
  
 use <../mechanical.parts.scad> 
+
+nbCell = 3;
  
 // internal box dimensions, mm
 intWidth = 73;
 intHeight = 20; 
-intDepth = 100;
+intDepth = 101 - ((3 - nbCell) * getPkCellDims()[0]);
 wallThickness = 2.5;
 
-nbCell = 3;
+// Get PowerBoost dimensions from the code. See the functions in mechanical.parts.scad
+pbDims = getPowerBooser1000cDims();
+pbWidth          = pbDims[0]; // 36.2;
+pbHeight         = pbDims[1]; // 22.86;	
+pbBoardThickness = pbDims[2]; // 1.7;
+feetHeight = 4;
 
-centerPoleXOffset = 9;
- 
+// Get MCP dimensions from the code. See the functions in mechanical.parts.scad
+mcpDims = getMcpUsbSolarDims();
+mcpWidth          = mcpDims[0]; // 40.64;
+mcpHeight         = mcpDims[1]; // 33.1447;	
+mcpBoardThickness = mcpDims[2]; // 1.7;
+
+// Booster Offsets !!
+switchOffset = -2;
+usbOffset = -5;
+
 module batteryHousingBox() {
-
-	// Get PoweBoost dimensions from the code. See the functions in mechanical.parts.scad
-	pbDims = getPowerBooser1000cDims();
-	pbWidth          = pbDims[0]; // 36.2;
-	pbHeight         = pbDims[1]; // 22.86;	
-	pbBoardThickness = pbDims[2]; // 1.7;
-	feetHeight = 4;
-
-	// Get MCP dimensions from the code. See the functions in mechanical.parts.scad
-	mcpDims = getMcpUsbSolarDims();
-	mcpWidth          = mcpDims[0]; // 40.64;
-	mcpHeight         = mcpDims[1]; // 33.1447;	
-	mcpBoardThickness = mcpDims[2]; // 1.7;
-	//feetHeight = 4;
-
-	// Booster Offsets !!
-	switchOffset = -2;
-	usbOffset = -5;
 
   fontSize = 2.5;
 	
@@ -116,14 +118,44 @@ module batteryHousingBox() {
 				}
 				
 			}
-			// Small bulkhead next to the battery
+			// Small bulkhead next to the battery, and main screw axis
 			if (true) {
+				bulkHeadOffset = ((pbWidth - usbOffset + wallThickness) / 1) - (intDepth / 2) + 1; // 1: Slack
+				// echo("Half ", (intDepth / 2), "PBWidth ", (pbWidth), "Bulkhead offset ", bulkHeadOffset);
 				rotate([0, 0, 90]) {
-					translate([0, -5.5, 0]) { // TODO Calculate Y offset
-						cube(size=[intWidth - 20, wallThickness, intHeight], center=true);
+					translate([0, bulkHeadOffset, 0]) { 
+						cube(size=[intWidth - 20, 
+						           wallThickness, 
+						           intHeight], center=true);
+
+						// "Center" pole, to screw the lid.
+						translate([0, -3, -(intHeight/ 2) - wallThickness]) {
+							screwLength = 10;
+							difference() {
+								cylinder(d=8, h=intHeight + (2 * wallThickness), $fn=6);
+								translate([0, 0, intHeight - (screwLength / 2) + 1]) {
+									cylinder(d=2.5, h=screwLength, $fn=50);
+								}
+							}
+						}
 					}
 				}
+				// "Center" pole, to screw the lid
+//				screwLength = 10;
+//				rotate([0, 0, 0]) {
+//					translate([bulkHeadOffset - (1 * 2.5), 
+//					           0, 
+//					           -(intHeight / 2) - wallThickness]) {
+//						difference() {
+//							cylinder(d=10, h=intHeight + (2 * wallThickness), $fn=75);
+//							translate([0, 0, intHeight - (screwLength / 2) + 1]) {
+//								cylinder(d=2.5, h=screwLength, $fn=50);
+//							}
+//						}
+//					}
+//				}
 			}
+
 			// Board stands. Rotation and Translation code is duplicated from below...		
 			// PowerBooset 1000C
 			rotate([0, 0, -90]) {
@@ -135,26 +167,10 @@ module batteryHousingBox() {
 			}
 			// MCP73871_USB_Solar
 			rotate([0, 0, 180]) {
-				translate([ -1 * (intDepth - mcpHeight) / 2, 
-//								 ((intDepth - pbWidth) / 2) - (mcpWidth + 5), // 5: Slack
-				  								 (((intWidth / 2) - (pbHeight - (1 * switchOffset)) - (1 * mcpWidth / 2)) - 5), // 5: Slack & offset
-
+				translate([ (-1 * (intDepth - mcpHeight) / 2), 
+  								 (((intWidth / 2) - (pbHeight - (1 * switchOffset)) - (1 * mcpWidth / 2)) - 5), // 5: Slack & offset
 									 -((intHeight - mcpBoardThickness) / 2) + feetHeight + 1.8]) {
 					MCP73871_USB_Solar(bigHangout=true, withStand=false, standOnly=true);
-				}
-			}
-			// "Center" pole, to screw the lid.
-			if (true) {
-				screwLength = 10;
-				rotate([0, 0, 0]) {
-					translate([centerPoleXOffset, 0, -(intHeight / 2) - wallThickness]) {
-						difference() {
-							cylinder(d=10, h=intHeight + (2 * wallThickness), $fn=75);
-							translate([0, 0, intHeight - (screwLength / 2) + 1]) {
-								cylinder(d=2.5, h=screwLength, $fn=50);
-							}
-						}
-					}
 				}
 			}
 		}
@@ -165,8 +181,8 @@ module batteryHousingBox() {
 		pkcellDiam = pkCellDims[0]; 
 		pkcellWidth = nbCell * pkcellDiam;
 		pkCellLen = pkCellDims[1];
-		translate([-(intDepth - pkcellWidth) / 2, 
-						   ((intWidth - pkCellLen) / 2) - 2, // -2: slack
+		translate([- (1 * ((intDepth - pkcellWidth) / 2)) - (nbCell == 2 ? (pkcellDiam / 2) : 0), 
+						   ((intWidth - pkCellLen) / 2) - 2, // -2: slack, left-right
 			         (20 - pkcellDiam) / 2]) { // Height
 			rotate([0, 0, 90]) {
 				#PkCell(nbCell);
@@ -183,8 +199,8 @@ module batteryHousingBox() {
 		// MCP73871_USB_Solar
 		rotate([0, 0, -180]) {
 			translate([ -1 * (intDepth - mcpHeight) / 2, 
-			           ((intDepth - pbWidth) / 2) - (mcpWidth + 5), // 5: Slack
-			           -((intHeight - mcpBoardThickness) / 2) + feetHeight + 1.8]) {
+  								(((intWidth / 2) - (pbHeight - (1 * switchOffset)) - (1 * mcpWidth / 2)) - 5), // 5: Slack & offset
+			            -((intHeight - mcpBoardThickness) / 2) + feetHeight + 1.8]) {
 				#MCP73871_USB_Solar(bigHangout=true, withStand=false, standOnly=false);
 			}
 		}
@@ -206,7 +222,7 @@ module batteryHousingLid() {
 		}
 		// Led holes
 		diam = 3;
-		holesCoordinates = [ // From bottom left corner of the lid.
+		holesCoordinates = [ // From bottom left corner of the lid. TODO Adjust
 			[ 10, 10 ],   // Power, bottom left
 		  [ 55, 25 ],   // Load
 		  [ 67, 12.5 ]  // Power, bottom right
@@ -222,10 +238,21 @@ module batteryHousingLid() {
 
 		// Fixing "center" holes
 		centerDiam = 3;
-		length = 10;
-		translate([centerPoleXOffset, 0, -(1.5 * wallThickness) - (length / 2)]) {
-			metalScrewCS(diam=3, length=10);
-		}
+		screwLength = 10;
+//		translate([centerPoleXOffset, 0, -(1.5 * wallThickness) - (length / 2)]) {
+//			#metalScrewCS(diam=3, length=10);
+//		}
+		if (true) {
+				bulkHeadOffset = ((pbWidth - usbOffset + wallThickness) / 1) - (intDepth / 2) + 1; // 1: Slack
+				// echo("Half ", (intDepth / 2), "PBWidth ", (pbWidth), "Bulkhead offset ", bulkHeadOffset);
+				rotate([0, 0, 90]) {
+					translate([0, bulkHeadOffset, (3.5 * wallThickness) - (screwLength / 2)]) { 
+						translate([0, -3, -(intHeight/ 2) - wallThickness]) {
+							#metalScrewCS(diam=centerDiam, length=screwLength);
+						}
+					}
+				}
+			}
 		// Labels
 		label_1 = "PWR";
 		translate([(wallThickness + (intDepth / 2)) - 15, // up-down of its face
@@ -277,7 +304,7 @@ ALL_PARTS = 1;
 BOX_ONLY = 2;
 LID_ONLY = 3;
 
-option = BOX_ONLY; // ALL_PARTS;
+option = ALL_PARTS;
 
 OPEN = true;
 
@@ -285,7 +312,7 @@ if (option == ALL_PARTS || option == BOX_ONLY) {
 	batteryHousingBox();
 }
 if (option == ALL_PARTS || option == LID_ONLY) {
-	translate([0, 0, (OPEN ? 20 : (0 * 0.5) + wallThickness + (intHeight + wallThickness) / 2)]) {
+	translate([0, 0, (OPEN ? 30 : (0 * 0.5) + wallThickness + (intHeight + wallThickness) / 2)]) {
 		color("green") { 
 			batteryHousingLid();
 		}
