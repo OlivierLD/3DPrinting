@@ -140,20 +140,6 @@ module batteryHousingBox() {
 						}
 					}
 				}
-				// "Center" pole, to screw the lid
-//				screwLength = 10;
-//				rotate([0, 0, 0]) {
-//					translate([bulkHeadOffset - (1 * 2.5), 
-//					           0, 
-//					           -(intHeight / 2) - wallThickness]) {
-//						difference() {
-//							cylinder(d=10, h=intHeight + (2 * wallThickness), $fn=75);
-//							translate([0, 0, intHeight - (screwLength / 2) + 1]) {
-//								cylinder(d=2.5, h=screwLength, $fn=50);
-//							}
-//						}
-//					}
-//				}
 			}
 
 			// Board stands. Rotation and Translation code is duplicated from below...		
@@ -239,9 +225,6 @@ module batteryHousingLid() {
 		// Fixing "center" holes
 		centerDiam = 3;
 		screwLength = 10;
-//		translate([centerPoleXOffset, 0, -(1.5 * wallThickness) - (length / 2)]) {
-//			#metalScrewCS(diam=3, length=10);
-//		}
 		if (true) {
 				bulkHeadOffset = ((pbWidth - usbOffset + wallThickness) / 1) - (intDepth / 2) + 1; // 1: Slack
 				// echo("Half ", (intDepth / 2), "PBWidth ", (pbWidth), "Bulkhead offset ", bulkHeadOffset);
@@ -296,7 +279,6 @@ module batteryHousingLid() {
 				}
 			}
 		}
-		
 	}
 }
 
