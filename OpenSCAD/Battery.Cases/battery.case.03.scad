@@ -28,7 +28,7 @@ intDepth = 101 - ((3 - nbCell) * getPkCellDims()[0]);
 wallThickness = 2.5;
 
 // Get PowerBoost dimensions from the code. See the functions in mechanical.parts.scad
-pbDims = getPowerBooser1000cDims();
+pbDims = getPowerBooster1000cDims();
 pbWidth          = pbDims[0]; // 36.2;
 pbHeight         = pbDims[1]; // 22.86;	
 pbBoardThickness = pbDims[2]; // 1.7;
@@ -143,7 +143,7 @@ module batteryHousingBox() {
 			}
 
 			// Board stands. Rotation and Translation code is duplicated from below...		
-			// PowerBooset 1000C
+			// PowerBooster 1000C
 			rotate([0, 0, -90]) {
 				translate([switchOffset + ((intWidth - pbHeight) / 2), 
 									 usbOffset + ((intDepth - pbWidth) / 2), 
@@ -174,7 +174,7 @@ module batteryHousingBox() {
 				#PkCell(nbCell);
 			}
 		}
-		// PowerBooset 1000C
+		// PowerBooster 1000C
 		rotate([0, 0, -90]) {
 			translate([switchOffset + ((intWidth - pbHeight) / 2), 
 								 usbOffset + ((intDepth - pbWidth) / 2), 

@@ -1,4 +1,6 @@
 /**
+ * @Deprecated. Use battery.case.03.scad instead
+ *
  * Housing for 
  * - MCP73871_USB_Solar (https://www.adafruit.com/product/390)
  *   - 5V power supply (from solar panel or wall charger)
@@ -28,7 +30,7 @@ centerPoleXOffset = -10;
 module batteryHousingBox() {
 
 	// Get PoweBoost dimensions from the code. See the functions in mechanical.parts.scad
-	pbDims = getPowerBooser1000cDims();
+	pbDims = getPowerBooster1000cDims();
 	pbWidth          = pbDims[0]; // 36.2;
 	pbHeight         = pbDims[1]; // 22.86;	
 	pbBoardThickness = pbDims[2]; // 1.7;

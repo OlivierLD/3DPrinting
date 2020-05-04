@@ -651,13 +651,13 @@ pb1000cThickness =  1.7;
 pb1000cWidth     = 36.2;
 pb1000cLen       = 22.86;
 //
-function getPowerBooser1000cDims() =  // [x, y, z]
+function getPowerBooster1000cDims() =  // [x, y, z]
 	[pb1000cWidth, pb1000cLen, pb1000cThickness];
 
 module AdafruitPowerboost1000C(withSwitch=false, withStand=false, standOnly=false, standHeight=4) {
 	name = "PB 1000C";
 	
-	dims = getPowerBooser1000cDims();
+	dims = getPowerBooster1000cDims();
 	
 	boardThickness = dims[2]; // 1.7; // mm
 	boardWidth     = dims[0]; // 36.2;
