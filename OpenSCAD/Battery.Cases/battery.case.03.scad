@@ -57,7 +57,7 @@ module batteryHousingBox() {
 				translate([0, 0, wallThickness + 0.5]) {
 					cube(size=[intDepth, intWidth, intHeight + 1], center=true);
 				}
-				// Labels
+				// Labels, on the box
 				label_1 = "5V OUT";
 				translate([(wallThickness + (intDepth / 2)) - 0, 
 				           -29,   // left-right on its face
@@ -213,7 +213,8 @@ module batteryHousingLid() {
 			[  7, 10 ],  // Power, bottom left
 		  [ 56, 28 ],  // Load
 		  [ 49, 28 ],  // Done
-		  [ 67, 10 ]   // Power, bottom right
+		  [ 67, 10 ],  // Power, bottom right
+		  [ 28, 37 ]   // Low power indicator (booster)
 		];
 		nbHoles = len(holesCoordinates); // Array length
 		for (i = [0 : nbHoles - 1]) {
@@ -238,7 +239,21 @@ module batteryHousingLid() {
 					}
 				}
 			}
-		// Labels
+		// Labels, on the lid
+		label_0 = "LOW";
+		translate([(wallThickness + (intDepth / 2)) - 32, // up-down of its face
+							 -14.5,   // left-right on its face
+							 (0.5 * wallThickness)]) { 
+			rotate([0, 0, 0]) {
+				linear_extrude(height=1.5, center=true) {
+					rotate([0, 0, 90]) {
+						translate([0, -(fontSize / 2)]) {
+							text(label_0, fontSize);
+						}
+					}
+				}
+			}
+		}
 		label_1 = "PWR";
 		translate([(wallThickness + (intDepth / 2)) - 15, // up-down of its face
 							 -35.5,   // left-right on its face
