@@ -25,4 +25,5 @@ For example, you can display a servo, or the socket that will hold it.
 - servoParallax900_00005
 - MCP73871_USB_Solar
 - AdafruitPowerboost1000C
-- PkCell
+- PkCell (LiPo battery, 1 to 3 cells)
+- Slide Switch

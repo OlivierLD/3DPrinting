@@ -787,6 +787,55 @@ module PkCell(cellNum=1) {
 	}
 }	
 
+/**
+ * Adafruit http://adafru.it/805
+ */
+// l=12 x w=4.2 x h=6
+spdtSlideL = 12;
+spdtSlideW =  4.2;
+spdtSlideH =  6;
+//
+function getSpdtSlideDims() =  // [x, y, z]
+	[spdtSlideL, spdtSlideW, spdtSlideH];
+
+module spdtSlideSwitch() {
+	dims = getSpdtSlideDims();
+	union() {
+		// Main box
+		rotate([0, 0, 0]) {
+			translate([0, 0, 0]) {
+				union() {
+					color("silver") {
+						difference() {
+							cube(size=[dims[0], dims[1], dims[2]], center=true);
+							// recess
+							translate([0, 0, (dims[2] / 2) - (0.25 / 2) + 0.001]) { 
+								cube(size=[6, 2.1, 0.25], center=true);
+							}
+						}
+					}
+					// switch
+					color("black") {
+						translate([3 - (2.1 / 2), 0, (6 / 2) - (0.25 / 2) + 0.001]) { 
+							cube(size=[2.1, 2.1, 2.1], center=true);
+						}
+					}
+					// pins
+					pinLen = 5.8;
+					pinSide = 0.5;
+					for (i = [-3, 0, 3]) {
+						translate([i, 0, -((dims[2] / 2) + (pinLen / 2) - 0.001)]) {
+							color("grey") {
+								cube([pinSide, pinSide, pinLen], center=true);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 // Tests
 echo("For tests and dev only");
 
@@ -936,10 +985,14 @@ if (false) {
 	MCP73871_USB_Solar(bigHangout=false, withStand=true, standOnly=false);
 }
 
-if (true) {
+if (false) {
 	AdafruitPowerboost1000C(withSwitch=true, withStand=true, standOnly=false);
 }
 
 if (false) {
 	PkCell(3);
+}
+
+if (true) {
+	spdtSlideSwitch();
 }
