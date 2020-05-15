@@ -503,7 +503,6 @@ module servoParallax900_00005(drillPattern=false, drillDiam=2, drillLength=10) {
 				}
 			}
 		}	
-		
 	}
 	
 }
@@ -799,6 +798,9 @@ function getSpdtSlideDims() =  // [x, y, z]
 	[spdtSlideL, spdtSlideW, spdtSlideH];
 
 module spdtSlideSwitch() {
+
+	recessLength = 6.0;
+
 	dims = getSpdtSlideDims();
 	union() {
 		// Main box
@@ -810,13 +812,13 @@ module spdtSlideSwitch() {
 							cube(size=[dims[0], dims[1], dims[2]], center=true);
 							// recess
 							translate([0, 0, (dims[2] / 2) - (0.25 / 2) + 0.001]) { 
-								cube(size=[6, 2.1, 0.25], center=true);
+								cube(size=[recessLength, 2.1, 0.25], center=true);
 							}
 						}
 					}
 					// switch
 					color("black") {
-						translate([3 - (2.1 / 2), 0, (6 / 2) - (0.25 / 2) + 0.001]) { 
+						translate([(recessLength / 2) - (2.1 / 2), 0, (recessLength / 2) - (0.25 / 2) + 0.001]) { 
 							cube(size=[2.1, 2.1, 2.1], center=true);
 						}
 					}
@@ -836,6 +838,54 @@ module spdtSlideSwitch() {
 	}
 }
 
+// l=8.74 x w=4.0 x h=3.65
+smallSlideL = 8.74;
+smallSlideW =  4.0;
+smallSlideH =  3.65;
+//
+function getSmallSlideDims() =  // [x, y, z]
+	[smallSlideL, smallSlideW, smallSlideH];
+
+module smallSlideSwitch() {
+	
+	recessLength = 3.5;
+	
+	dims = getSmallSlideDims();
+	union() {
+		// Main box
+		rotate([0, 0, 0]) {
+			translate([0, 0, 0]) {
+				union() {
+					color("silver") {
+						difference() {
+							cube(size=[dims[0], dims[1], dims[2]], center=true);
+							// recess
+							translate([0, 0, (dims[2] / 2) - (0.25 / 2) + 0.001]) { 
+								cube(size=[recessLength, 1.68, 0.25], center=true);
+							}
+						}
+					}
+					// switch
+					color("black") {
+						translate([(recessLength / 2) - (1.68 / 2), 0, (recessLength / 2) - (0.25 / 2) + 0.001]) { 
+							cube(size=[1.68, 1.68, 1.68], center=true);
+						}
+					}
+					// pins
+					pinLen = 5.8;
+					pinSide = 0.5;
+					for (i = [-3, 0, 3]) {
+						translate([i, 0, -((dims[2] / 2) + (pinLen / 2) - 0.001)]) {
+							color("grey") {
+								cube([pinSide, pinSide, pinLen], center=true);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
 // Tests
 echo("For tests and dev only");
 
@@ -993,6 +1043,19 @@ if (false) {
 	PkCell(3);
 }
 
-if (true) {
+if (false) {
 	spdtSlideSwitch();
+}
+
+if (false) {
+	smallSlideSwitch();
+}
+
+if (true) {
+	translate([0, -5, 0]) {
+	  spdtSlideSwitch();
+	}
+	translate([0, 5, 0]) {
+		smallSlideSwitch();
+	}
 }
