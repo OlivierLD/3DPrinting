@@ -8,5 +8,10 @@
 
 # Small Development Setup for a Raspberry Pi B
 
+## WiP
+All is is constantly evolving.
+
+There is also a version with Lego &reg; feet.
+Check out the `stl` files.
 
 ---
