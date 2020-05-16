@@ -11,7 +11,7 @@ SMALL = 2;
 
 OPTION = SMALL;
 
-standThickness = (OPTION == SPDT ? 4 : 3);
+standThickness = (OPTION == SPDT ? 4 : 3);   // Important!
 
 dims = (OPTION == SPDT ? getSpdtSlideDims() : getSmallSlideDims());
 
