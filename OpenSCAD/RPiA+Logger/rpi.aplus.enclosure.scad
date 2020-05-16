@@ -162,6 +162,29 @@ module SDCard() {
 	cube(size=[12.5, 4, 10], center=true);
 }
 
+module oneHeaderPin() {
+	union() {
+		color("black") {
+			cube(size=[2.5, 2.5, 2.5], center=true);
+		}
+		translate([0, 0, 3.24 - (11.46 / 2)]) {
+			color("silver") {
+				cube(size=[0.5, 0.5, 11.46], center=true);
+			}
+		}
+	}
+}
+
+module pinHeader(nbPins) {
+	translate([-(nbPins * 2.5) / 2, 0, 0]) {
+		for (i = [1:nbPins]) {
+			translate([(2.5 / 2) + ((i-1) * 2.5), 0, 0]) {
+				oneHeaderPin();
+			}
+		}
+	}
+}
+
 // RPi A+, with room for the connectors
 module rpiAPlusWithConnectors() {
 	union() {
@@ -219,9 +242,10 @@ module ssd1306_128x64() {
 		// connector
 		translate([0, -((35.5 - 2.5) - 2.5) / 2, -(1.7 + 2.5) / 2]) {
 			rotate([0, 0, 0]) {
-				color("black") {
-					cube(size=[20, 2.5, 2.5], center=true);
-				}
+				pinHeader(8);
+//				color("black") {
+//					cube(size=[20, 2.5, 2.5], center=true);
+//				}
 			}
 		}
 		// screen
@@ -265,9 +289,7 @@ module BME280() {
 		// connector
 		translate([0, -((19.1 - 2.5) - 2.5) / 2, -(1.7 + 2.5) / 2]) {
 			rotate([0, 0, 0]) {
-				color("black") {
-					cube(size=[17, 2.5, 2.5], center=true);
-				}
+				pinHeader(7);
 			}
 		}
 	}
@@ -361,6 +383,8 @@ difference() {
 	}
 }
 
+//oneHeaderPin();
+//pinHeader(5);
 //ssd1306_128x64();
 //protoPiHat();
 //BME280();
