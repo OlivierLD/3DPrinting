@@ -198,6 +198,86 @@ module rpiAPlusWithConnectors() {
 	}
 }
 
+module ssd1306_128x64() {
+	union() {
+		// plate
+		color("orange") {
+			roundedRect([35.11,
+									 35.5,
+									 1.7 ],
+									4.8, $fn=100);
+		}
+		// connector
+		translate([0, -((35.5 - 2.5) - 2.5) / 2, -(1.7 + 2.5) / 2]) {
+			rotate([0, 0, 0]) {
+				color("black") {
+					cube(size=[20, 2.5, 2.5], center=true);
+				}
+			}
+		}
+		// screen
+		translate([0, 0, 1.7]) {
+			rotate([0, 0, 0]) {
+				color("black") {
+					cube(size=[35.5, 19, 1.7], center=true);
+				}
+			}
+		}
+	}
+}
+
+module BME280() {
+	union() {
+		// plate
+		color("magenta") {
+			roundedRect([19.1,
+									 17.9,
+									 1.7 ],
+									4.0, $fn=100);
+		}
+		// connector
+		translate([0, -((19.1 - 2.5) - 2.5) / 2, -(1.7 + 2.5) / 2]) {
+			rotate([0, 0, 0]) {
+				color("black") {
+					cube(size=[17, 2.5, 2.5], center=true);
+				}
+			}
+		}
+	}
+}
+
+module pushButton() {
+	union() {
+		color("silver") {
+			// Body
+			cube(size=[6.2, 6.2, 4.0], center=true);
+		}
+		translate([0, 0, 0.75]) {
+			rotate([0, 0, 0]) {
+				color("black") {
+					// button
+					cylinder(d=3.5, h=5.5, $fn=30, center=true);
+				}
+			}
+		}
+		// Screws
+		color("black") {
+			translate([2.1, 2.1, 2]) {
+				cylinder(d=1.0, h=0.2, $fn=30, center=true);
+			}
+			translate([-2.1, 2.1, 2]) {
+				cylinder(d=1.0, h=0.2, $fn=30, center=true);
+			}
+			translate([-2.1, -2.1, 2]) {
+				cylinder(d=1.0, h=0.2, $fn=30, center=true);
+			}
+			translate([2.1, -2.1, 2]) {
+				cylinder(d=1.0, h=0.2, $fn=30, center=true);
+			}
+		}
+	}
+}
+
 module protoPiHat() {
 	union() {
 		// The plate
@@ -213,13 +293,35 @@ module protoPiHat() {
 				}
 			}
 		}
+		/*
+	   * Extra Components
+		 */
+		// 1 - Oled screen, 128 x 64
+		translate([-14.0, -6.5, 1.7 + 2.5]) {
+			rotate([0, 0, 180]) {
+				ssd1306_128x64();
+			}
+		}
+		// 2 - BME280
+		translate([13.45, 2.0, 1.7 + 2.5]) {
+			rotate([0, 0, 180]) {
+				BME280();
+			}
+		}
+		// 2 Push Buttons
+		translate([28, 5.5, (1.7 + 4.0) / 2]) {
+			pushButton();
+		}
+		translate([28, -15.5, (1.7 + 4.0) / 2]) {
+			pushButton();
+		}
 	}
 }
 
 difference() {
 	boxPegsAndScrews();
 	translate([0, 0, (30 - outerHeight) / 2]) {
-		#union() {
+		%union() {
 			rpiAPlusWithConnectors();
 			translate([0, 0, 5.35]) {
 				rotate([0, 0, 0]) {
@@ -229,3 +331,8 @@ difference() {
 		}
 	}
 }
+
+//protoPiHat();
+//BME280();
+//pushButton();
+
