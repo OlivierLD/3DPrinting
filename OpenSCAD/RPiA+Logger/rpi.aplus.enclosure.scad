@@ -369,10 +369,11 @@ module protoPiHat() {
 
 // TODO A lid.
 
+
 difference() {
 	boxPegsAndScrews();
 	translate([0, 0, (30 - outerHeight) / 2]) {
-		%union() {
+		union() { // Add a '%' in front to see the box's content, remove it to print.
 			rpiAPlusWithConnectors();
 			translate([0, 0, 5.35]) {
 				rotate([0, 0, 0]) {
