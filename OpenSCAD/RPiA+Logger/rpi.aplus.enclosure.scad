@@ -202,10 +202,19 @@ module ssd1306_128x64() {
 	union() {
 		// plate
 		color("orange") {
-			roundedRect([35.11,
-									 35.5,
-									 1.7 ],
-									4.8, $fn=100);
+			difference() {
+				roundedRect([35.11,
+										 35.5,
+										 1.7 ],
+										4.8, $fn=100);
+				rotate([0, 0, 180]) {
+					translate([-9, 12, 0.75]) {
+						linear_extrude(height=0.5, center=true) {
+							text("SSD1306", 3);
+						}
+					}
+				}
+			}
 		}
 		// connector
 		translate([0, -((35.5 - 2.5) - 2.5) / 2, -(1.7 + 2.5) / 2]) {
@@ -218,8 +227,19 @@ module ssd1306_128x64() {
 		// screen
 		translate([0, 0, 1.7]) {
 			rotate([0, 0, 0]) {
-				color("black") {
-					cube(size=[35.5, 19, 1.7], center=true);
+				union() {
+					color("black") {
+						cube(size=[35.5, 19, 1.7], center=true);
+					}
+					rotate([0, 0, 180]) {
+						translate([-9, 0, 0.65]) {
+							color("white") {
+								linear_extrude(height=0.5, center=true) {
+									text("128x64", 4);
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -230,10 +250,17 @@ module BME280() {
 	union() {
 		// plate
 		color("magenta") {
-			roundedRect([19.1,
-									 17.9,
-									 1.7 ],
-									4.0, $fn=100);
+			difference() {
+				roundedRect([19.1,
+										 17.9,
+										 1.7 ],
+										4.0, $fn=100);
+				translate([-8, 0, 0.75]) {
+					linear_extrude(height=0.5, center=true) {
+						text("BME280", 3);
+					}
+				}
+			}
 		}
 		// connector
 		translate([0, -((19.1 - 2.5) - 2.5) / 2, -(1.7 + 2.5) / 2]) {
@@ -318,6 +345,8 @@ module protoPiHat() {
 	}
 }
 
+// TODO A lid.
+
 difference() {
 	boxPegsAndScrews();
 	translate([0, 0, (30 - outerHeight) / 2]) {
@@ -332,6 +361,7 @@ difference() {
 	}
 }
 
+//ssd1306_128x64();
 //protoPiHat();
 //BME280();
 //pushButton();
