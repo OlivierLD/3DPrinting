@@ -10,9 +10,10 @@ echo(version=version());
 // RPI A+ Dimensions 65.18 x 56.10
 
 // Box dimensions
-outerWidth = 70;
-outerLength = 61;
-outerHeight = 25;
+slack = 2; // Slack required, to be able to stick the raspberry in its box.
+outerWidth = 72.5 + slack; // 72.5, + 2mm slack
+outerLength = 62.5 + slack; // 62.5, + 2mm slack
+outerHeight = 25.5;
 outerRadius = 6;
 boxThickness = 2.5;
 
@@ -28,9 +29,9 @@ module box() {
 								outerRadius, $fn=100);
 
 		translate([0, 0, boxThickness]) {
-			roundedRect([outerWidth - boxThickness,
-									 outerLength - boxThickness,
-									 outerHeight - boxThickness ],
+			roundedRect([outerWidth - (boxThickness * 2),
+									 outerLength - (boxThickness * 2),
+									 (1.01 * outerHeight) - (boxThickness * 1) ],
 									outerRadius - boxThickness, $fn=100);
 		}
 	}
@@ -38,29 +39,29 @@ module box() {
 
 // Pegs
 widthBetweenPegs = 49.0;
-lengthBetweenPegs = 57.7;
+lengthBetweenPegs = 58.1; // 57.7
 
 module pegs() {
 	color("green") {
-		translate([ lengthBetweenPegs / 2,
-						    widthBetweenPegs / 2,
-						    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-			cylinder(h=basePegHeight, d1=basePegDiam * 1.5, d2=basePegDiam, center=true, $fn=100);
+		translate([ (lengthBetweenPegs / 2) + slack,
+						    (widthBetweenPegs / 2) - slack,
+						    - 1 - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight + 1, d1=basePegDiam * 1.5, d2=basePegDiam, center=true, $fn=100);
 		}
-		translate([ lengthBetweenPegs / 2,
-						    - widthBetweenPegs / 2,
-						    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-			cylinder(h=basePegHeight, d1=basePegDiam * 1.5, d2=basePegDiam, center=true, $fn=100);
+		translate([ (lengthBetweenPegs / 2) + slack,
+						    - (widthBetweenPegs / 2) - slack,
+						   - 1 - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight + 1, d1=basePegDiam * 1.5, d2=basePegDiam, center=true, $fn=100);
 		}
-		translate([ - lengthBetweenPegs / 2,
-						    widthBetweenPegs / 2,
-						    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-			cylinder(h=basePegHeight, d1=basePegDiam * 1.5, d2=basePegDiam, center=true, $fn=100);
+		translate([ - (lengthBetweenPegs / 2) + slack,
+						    (widthBetweenPegs / 2) - slack,
+						    - 1 - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight + 1, d1=basePegDiam * 1.5, d2=basePegDiam, center=true, $fn=100);
 		}
-		translate([ - lengthBetweenPegs / 2,
-						    - widthBetweenPegs / 2,
-						    - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
-			cylinder(h=basePegHeight, d1=basePegDiam * 1.5, d2=basePegDiam, center=true, $fn=100);
+		translate([ - (lengthBetweenPegs / 2) + slack,
+						    - (widthBetweenPegs / 2) - slack,
+						    - 1 - (outerHeight / 2) + (boxThickness + basePegHeight)]) {
+			cylinder(h=basePegHeight + 1, d1=basePegDiam * 1.5, d2=basePegDiam, center=true, $fn=100);
 		}
 	}
 }         
@@ -68,23 +69,23 @@ module pegs() {
 module drillPegs() {
 	drillLength = basePegHeight * 1.1;
 	color("red") {
-		translate([ lengthBetweenPegs / 2,
-								widthBetweenPegs / 2,
+		translate([ (lengthBetweenPegs / 2) + slack,
+								(widthBetweenPegs / 2) - slack,
 								- (outerHeight / 2) + (boxThickness + basePegHeight)]) {
 			cylinder(h=drillLength, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
 		}
-		translate([ lengthBetweenPegs / 2,
-								- widthBetweenPegs / 2,
+		translate([ (lengthBetweenPegs / 2) + slack,
+								- (widthBetweenPegs / 2) - slack,
 								- (outerHeight / 2) + (boxThickness + basePegHeight)]) {
 			cylinder(h=drillLength, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
 		}
-		translate([ - lengthBetweenPegs / 2,
-								widthBetweenPegs / 2,
+		translate([ - (lengthBetweenPegs / 2) + slack,
+								(widthBetweenPegs / 2) - slack,
 								- (outerHeight / 2) + (boxThickness + basePegHeight)]) {
 			cylinder(h=drillLength, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
 		}
-		translate([ - lengthBetweenPegs / 2,
-								- widthBetweenPegs / 2,
+		translate([ - (lengthBetweenPegs / 2) + slack,
+								- (widthBetweenPegs / 2) - slack,
 								- (outerHeight / 2) + (boxThickness + basePegHeight)]) {
 			cylinder(h=drillLength, d1=basePegInnerDiam, d2=basePegInnerDiam, center=true, $fn=100);
 		}
@@ -103,7 +104,7 @@ module boxPegsAndScrews() {
 
 // To drill USB socket through the blukhead (bigger than USB itself)
 module USB() {
-	cube(size=[15, 7.5, 7], center=true);
+	cube(size=[17, 7.5, 7], center=true);
 	//         |   |    |
 	//         |   |    h
 	//         |   depth
@@ -138,7 +139,7 @@ module HDMI() {
 
 // To drill Mini-USB socket through the blukhead (bigger than mini-USB itself)
 module powerSupply() {
-	usbHeight = 3.5;
+	usbHeight = 3.9;
 	usbWidth = 8.5;
 	hCorner = 2.0;
 	vCorner = 2.5;
@@ -159,7 +160,13 @@ module powerSupply() {
 
 // To drill SDCard socket through the blukhead (bigger than SDCard itself)
 module SDCard() {
-	cube(size=[12.5, 4, 10], center=true);
+	cube(size=[15, 4, 12.5], center=true);
+	/*         |   |  |
+	 *         |   |  card slot witdh
+	 *         |   card slot thickness
+	 *         fake card length 
+	 *         
+	 */
 }
 
 module oneHeaderPin() {
@@ -188,34 +195,36 @@ module pinHeader(nbPins) {
 // RPi A+, with room for the connectors
 module rpiAPlusWithConnectors() {
 	union() {
-		translate([665, -524.3, 2.75]) {
-			color("green") {
-				import("/Users/olediour/repos/3DPrinting/Raspberry_Pi_A+_board/A+_Board.stl");
+		translate([slack, -slack, 0]) {
+			translate([665, -524.3, 2.75]) {
+				color("green") {
+					import("/Users/olediour/repos/3DPrinting/Raspberry_Pi_A+_board/A+_Board.stl");
+				}
 			}
-		}
-		translate([35, 2.5, -2.4]) {
-			rotate([0, 0, 90]) {
-				USB();
+			translate([35, 3.5, -2.4]) {
+				rotate([0, 0, 90]) {
+					USB();
+				}
+			} 
+			translate([20.7, -30, -3.0]) {
+				rotate([0, 90, 90]) {
+					RCA();
+				}
 			}
-		}
-		translate([21, -30, -3.9]) {
-			rotate([0, 90, 90]) {
-				RCA();
+			translate([-9, -30, -6.25]) {
+				rotate([90, 0, 0]) {
+					HDMI();
+				}
 			}
-		}
-		translate([-9, -30, -6.25]) {
-			rotate([90, 0, 0]) {
-				HDMI();
+			translate([-26.65, -30, -7.4]) {
+				rotate([90, 0, 0]) {
+					powerSupply();
+				}
 			}
-		}
-		translate([-26.65, -30, -7.4]) {
-			rotate([90, 0, 0]) {
-				powerSupply();
-			}
-		}
-		translate([-33, -1.5, -8.5]) {
-			rotate([90, 0, 0]) {
-				SDCard();
+			translate([-33, -0.5, -8.5]) {
+				rotate([90, 0, 0]) {
+					SDCard();
+				}
 			}
 		}
 	}
@@ -330,10 +339,12 @@ module pushButton() {
 module protoPiHat() {
 	union() {
 		// The plate
-		roundedRect([65,
-								 56.38,
-								 1.7 ],
-								4.8, $fn=100);
+		color("white") {
+			roundedRect([65,
+									 56.38,
+									 1.7 ],
+									4.8, $fn=100);
+		}
 		// The connector
 		translate([-0.2, 24.3, -(8 + 1.7) / 2]) {
 			rotate([0, 0, 0]) {
@@ -361,21 +372,80 @@ module protoPiHat() {
 		translate([28, 5.5, (1.7 + 4.0) / 2]) {
 			pushButton();
 		}
-		translate([28, -15.5, (1.7 + 4.0) / 2]) {
+		translate([28, -10.5, (1.7 + 4.0) / 2]) {
 			pushButton();
 		}
 	}
 }
 
-// TODO A lid.
+// A lid.
+lidThickness = 2.5;
+module lid() {
+	difference() {
+		union() {
+			roundedRect([outerWidth,
+									 outerLength,
+									 lidThickness ],
+									outerRadius, $fn=100);
 
+			translate([0, 0, -boxThickness]) {
+				difference() {
+					roundedRect([outerWidth - (boxThickness * 2),
+											 outerLength - (boxThickness * 2),
+											 lidThickness ],
+											outerRadius - boxThickness, $fn=100);
+					roundedRect([outerWidth - (boxThickness * 4),
+											 outerLength - (boxThickness * 4),
+											 lidThickness ],
+											outerRadius - boxThickness, $fn=100);
+				}
+			}
+		}
+		translate([slack, -slack, 0]) {
+			// Hollow for buttons and breakout boards
+			// 1 - SSD1306
+			translate([-14, -6.5, 0]) {
+				cube(size=[37, 37, 10], center=true);
+			}
+			// 2 - BME280
+			translate([13.5, 2, 0]) {
+				cube(size=[20, 20, 10], center=true);
+			}
+			// 3 - PushButtons
+			translate([28, 5.5, 0]) {
+				cylinder(d=11, h=10, $fn=30, center=true);
+			}
+			translate([28, -10.5, 0]) {
+				cylinder(d=11, h=10, $fn=30, center=true);
+			}
+		}
+	}
+}
+
+ALL_PARTS = 0;
+
+BOX_ONLY = 1;
+LID_ONLY = 2;
+
+option = ALL_PARTS;
+
+appart = 5.0; //
 
 difference() {
-	boxPegsAndScrews();
+	union() {
+		if (option == ALL_PARTS || option == BOX_ONLY) {
+			boxPegsAndScrews();
+		}
+		if (option == ALL_PARTS || option == LID_ONLY) {
+			translate([0, 0, appart + ((boxThickness + outerHeight) / 2)]) {
+				lid();
+			}
+		}
+	}
 	translate([0, 0, (30 - outerHeight) / 2]) {
-		union() { // Add a '%' in front to see the box's content, remove it to print.
-			rpiAPlusWithConnectors();
-			translate([0, 0, 5.35]) {
+		%union() { // Add a '%' in front to see the box's content, remove it to print.
+			rpiAPlusWithConnectors(); // Add % to see just the rPi
+			translate([slack, -slack, 5.35]) {
 				rotate([0, 0, 0]) {
 					protoPiHat();
 				}
@@ -384,6 +454,7 @@ difference() {
 	}
 }
 
+//rpiAPlusWithConnectors();
 //oneHeaderPin();
 //pinHeader(5);
 //ssd1306_128x64();
