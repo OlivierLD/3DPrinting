@@ -38,7 +38,7 @@ module box() {
 }
 
 // Pegs
-widthBetweenPegs = 49.0;
+widthBetweenPegs = 49.3;
 lengthBetweenPegs = 58.1; // 57.7
 
 module pegs() {
@@ -201,7 +201,7 @@ module rpiAPlusWithConnectors() {
 					import("/Users/olediour/repos/3DPrinting/Raspberry_Pi_A+_board/A+_Board.stl");
 				}
 			}
-			translate([35, 3.5, -2.4]) {
+			translate([35, 4.5, -2.4]) {
 				rotate([0, 0, 90]) {
 					USB();
 				}
@@ -221,7 +221,7 @@ module rpiAPlusWithConnectors() {
 					powerSupply();
 				}
 			}
-			translate([-33, -0.5, -8.5]) {
+			translate([-33, 0.5, -8.5]) {
 				rotate([90, 0, 0]) {
 					SDCard();
 				}
@@ -413,10 +413,10 @@ module lid() {
 			}
 			// 3 - PushButtons
 			translate([28, 5.5, 0]) {
-				cylinder(d=11, h=10, $fn=30, center=true);
+				cylinder(d=10.0, h=10, $fn=30, center=true); // d was 11
 			}
 			translate([28, -10.5, 0]) {
-				cylinder(d=11, h=10, $fn=30, center=true);
+				cylinder(d=10.0, h=10, $fn=30, center=true); // d was 11
 			}
 		}
 	}
@@ -443,7 +443,7 @@ difference() {
 		}
 	}
 	translate([0, 0, (30 - outerHeight) / 2]) {
-		%union() { // Add a '%' in front to see the box's content, remove it to print.
+		union() { // Add a '%' in front to see the box's content, remove it to print.
 			rpiAPlusWithConnectors(); // Add % to see just the rPi
 			translate([slack, -slack, 5.35]) {
 				rotate([0, 0, 0]) {

@@ -42,7 +42,18 @@ cornerRadius = 10;
 text1="Oliv did it.";
 text2="2020";
 difference() {  
-	roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius);
+	union() {
+		roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius);
+		translate([25, 0, 2]) {
+			scale([.2 * plateWidth / logox, .2 * plateWidth / logoy, .02]) {
+				color("red") {
+					rotate([0, 0, -90]) {
+						surface(file=logo, invert=true, center=true);
+					}
+				}
+			}
+		}
+	}
 	// Corners screw holes
 	translate([- ((plateWidth / 2) - (2 * cornerRadius / 3)), ((plateLength / 2) - (2 * cornerRadius / 3)), 0]) {
 		cylinder(h=plateThickNess * 2, d=4 /*cornerRadius/2*/, center=true, $fn=100);
@@ -80,15 +91,15 @@ difference() {
 			}
 		}
 	}
-	translate([25, 0, 3]) {
-		scale([.1 * plateWidth / logox, .1 * plateWidth / logoy, .02]) {
-			color("lime") {
-				rotate([0, 0, -90]) {
-					surface(file=logo, invert=true, center=true);
-				}
-			}
-		}
-	}
+//	translate([25, 0, 3]) {
+//		scale([.1 * plateWidth / logox, .1 * plateWidth / logoy, .02]) {
+//			color("lime") {
+//				rotate([0, 0, -90]) {
+//					surface(file=logo, invert=true, center=true);
+//				}
+//			}
+//		}
+//	}
 }
 
 // Raspberry Pi holes: diameter: 2.5mm
