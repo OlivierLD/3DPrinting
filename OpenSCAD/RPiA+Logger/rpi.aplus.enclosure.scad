@@ -408,15 +408,15 @@ module lid() {
 				cube(size=[37, 37, 10], center=true);
 			}
 			// 2 - BME280
-			translate([12.0, 3, 0]) {
+			translate([11.0, 3, 0]) {
 				cube(size=[20, 20, 10], center=true);
 			}
 			// 3 - PushButtons
-			translate([26, 5.0, 0]) {
-				cylinder(d=8.0, h=10, $fn=30, center=true); // d was 11
+			translate([26.8, 6.0, 0]) {
+				cylinder(d=9.5, h=10, $fn=30, center=true); // d was 11
 			}
-			translate([26, -13.0, 0]) {
-				cylinder(d=8.0, h=10, $fn=30, center=true); // d was 11
+			translate([26.8, -13.0, 0]) {
+				cylinder(d=9.5, h=10, $fn=30, center=true); // d was 11
 			}
 		}
 		// space for a nut, bottom right corner
