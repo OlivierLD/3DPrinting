@@ -404,21 +404,28 @@ module lid() {
 		translate([slack, -slack, 0]) {
 			// Hollow for buttons and breakout boards
 			// 1 - SSD1306
-			translate([-14, -6.5, 0]) {
+			translate([-15.5, -5.5, 0]) {
 				cube(size=[37, 37, 10], center=true);
 			}
 			// 2 - BME280
-			translate([13.5, 2, 0]) {
+			translate([12.0, 3, 0]) {
 				cube(size=[20, 20, 10], center=true);
 			}
 			// 3 - PushButtons
-			translate([28, 5.5, 0]) {
-				cylinder(d=10.0, h=10, $fn=30, center=true); // d was 11
+			translate([26, 5.0, 0]) {
+				cylinder(d=8.0, h=10, $fn=30, center=true); // d was 11
 			}
-			translate([28, -10.5, 0]) {
-				cylinder(d=10.0, h=10, $fn=30, center=true); // d was 11
+			translate([26, -13.0, 0]) {
+				cylinder(d=8.0, h=10, $fn=30, center=true); // d was 11
 			}
 		}
+		// space for a nut, bottom right corner
+		translate([(outerWidth / 2) - (boxThickness * 2.5), 
+		           -((outerLength / 2) - (boxThickness * 2.5)), 
+		            -boxThickness]) {
+			cylinder(d=10, h=boxThickness, $fn=30, center=true);
+		}
+		
 	}
 }
 
