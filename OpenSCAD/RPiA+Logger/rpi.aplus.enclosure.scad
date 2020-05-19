@@ -400,6 +400,15 @@ module lid() {
 											outerRadius - boxThickness, $fn=100);
 				}
 			}
+			// Key ring
+			translate([(outerWidth / 2) + 0, (outerLength / 2), 0]) {
+				rotate([0, 0, 0]) {
+					difference() {
+						cylinder(d=10, h=boxThickness, $fn=50, center=true);
+						cylinder(d=4, h=boxThickness * 1.1, $fn=50, center=true);
+					}
+				}
+			}
 		}
 		translate([slack, -slack, 0]) {
 			// Hollow for buttons and breakout boards
