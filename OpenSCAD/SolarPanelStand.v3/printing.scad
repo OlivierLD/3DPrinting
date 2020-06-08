@@ -18,6 +18,7 @@ include <./param.set.04.scad>
 echo(">>> ------------------------------------------------------");
 echo(">>> After adjusting the values,");
 echo(">>> Choose the part to design below.");
+echo(">>> Set the 'option' variable value.");
 echo(">>> ------------------------------------------------------");
 
 NONE = -1;

@@ -2,7 +2,7 @@
  * To print all parts 
  * for the solar panel stand
  *
- * Uses all.parts.scad
+ * Uses all.parts.scad (in the 'use' statement below)
  *
  * Note: Use it from printing.scad and similar scripts, along with param.set.XX.scad.
  */
@@ -125,6 +125,13 @@ module printBase1(cylHeight,
   echo(str("Vertical axis diameter.......................................: ", verticalAxisDiam));												
 
 	dims = getBBDims(verticalAxisDiam); // [id, od, t]
+										
+	if (true) {
+		echo(str(">> Ball Bearing, ID :", dims[0]));
+		echo(str(">> Ball Bearing, OD :", dims[1]));
+		echo(str(">> Ball Bearing, Th :", dims[2]));
+	}		
+										
 	boltDims = getHBScrewDims(verticalAxisDiam);
 	bbSocketBaseThickness = 3; // Bottom ball bearing in its socket, facing down.
 	socketWallThickness = 3;
@@ -201,19 +208,30 @@ module printBase1(cylHeight,
 				rotate([180, 0, 0]) {
 					translate([0, 0, -socketTotalHeight]) {
 						difference() {
+							// Ball bearing enclosure
 							translate([0, 0, 0]) {
 								rotate([0, 0, 0]) {
 									cylinder(d=dims[1] + socketWallThickness, h=socketTotalHeight, $fn=50);
 								}
 							}
+							// This is "repeated" at the end of the module.
+							// Ball bearing socket
 							translate([0, 0, bbSocketBaseThickness]) {
 								rotate([0, 0, 0]) {
 									cylinder(d=dims[1], h=((dims[2] * 1.1) + (boltDims[0]) * 1.5), $fn=50);
 								}
 							}
-							translate([0, 0, -1]) { // Drill
+							// Axis
+							translate([0, 0, -5]) { 
 								rotate([0, 0, 0]) {
-									cylinder(d=dims[0], h=dims[2] * 5, $fn=50);
+									// Drill. Axis (for debug visualization)
+									cylinder(d=(1 * dims[0]), h=dims[2] * 5, $fn=50);
+								}
+							}
+							translate([0, 0, -1]) {
+								rotate([0, 0, 0]) {
+									// Drill. Axis. Big enough for the washer (or just nut).
+									cylinder(d=(dims[0] * 2), h=dims[2] * 5, $fn=50);
 								}
 							}
 						}
@@ -279,6 +297,19 @@ module printBase1(cylHeight,
 		translate([0, 0, -bbSocketBaseThickness]) {
 			rotate([0, 0, 0]) {
 				cylinder(d=dims[1], h=((dims[2] * 1.1) + (boltDims[0]) * 1.5), $fn=50);
+			}
+		}
+		// Axis
+		translate([0, 0, -5]) { 
+			rotate([0, 0, 0]) {
+				// Drill. Axis (for debug visualization)
+				#cylinder(d=(1 * dims[0]), h=dims[2] * 5, $fn=50);
+			}
+		}
+		translate([0, 0, -1]) {
+			rotate([0, 0, 0]) {
+				// Drill. Axis. Big enough for the washer (or just nut).
+				cylinder(d=(dims[0] * 2), h=dims[2] * 5, $fn=50);
 			}
 		}
 	}
@@ -537,4 +568,6 @@ module customPrint() { // You choose!
 	
 }
 
-echo("This script will show nothing...");
+echo("+---------------------------------");
+echo("| This script will show nothing...");
+echo("+---------------------------------");
