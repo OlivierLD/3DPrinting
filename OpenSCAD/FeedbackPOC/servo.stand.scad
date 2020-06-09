@@ -230,7 +230,7 @@ TOP_POT_PLATE_ONLY = 4;
 ALL_PARTS = 10;
 
 // Change at will with the values above
-option = SOCKET_STAND_ONLY; // ALL_PARTS;
+option = ALL_PARTS; // ALL_PARTS;
 
 if (option == ALL_PARTS) {
   fullPlate();

@@ -886,8 +886,144 @@ module smallSlideSwitch() {
 		}
 	}
 }
-// Tests
+
+
+
+
+/**
+ * Actobotics 615464, 27 Tooth Work Spur Gear
+ * https://www.servocity.com/27-1-worm-gear-set-6mm-to-1-4-bore-worm-hub-mount-worm-gear
+ */
+spurGearOD = inch_to_mm * 1.176;
+spurGearID = inch_to_mm * 0.850;
+spurGearThickness = inch_to_mm * 0.30;
+spurGearBottomThickness = inch_to_mm * 0.125;
+spurGearMainAxisDiam = inch_to_mm * 0.315;
+spurGearScrewDiam = inch_to_mm * 0.140;
+spurGearScrewFromCenter = inch_to_mm * 0.575 / 2;
+
+function getSpurGearThickness() =
+  spurGearThickness;
+
+module actobotics615464(justDrillHoles=false, holeDepth=20) {
+  
+	if (!justDrillHoles) {
+		difference() {
+			// Main gear
+			translate([0, 0, 0]) {
+				rotate([0, 0, 0]) {
+					cylinder(d=spurGearOD, h=spurGearThickness, $fn=27);
+				}
+			}
+			// Recess
+			translate([0, 0, spurGearBottomThickness]) {
+				rotate([0, 0, 0]) {
+					cylinder(d=spurGearID, h=spurGearThickness, $fn=100);
+				}
+			}
+			// Main axis
+			translate([0, 0, -1]) {
+				rotate([0, 0, 0]) {
+					cylinder(d=spurGearMainAxisDiam, h=spurGearThickness, $fn=50);
+				}
+			}
+
+			// Screw holes
+			for (i=[0, 90, 180, 270]) {
+				rotate([0, 0, i]) {
+					translate([spurGearScrewFromCenter, 0, -1]) {
+						cylinder(d=spurGearScrewDiam, h=spurGearThickness, $fn=50);
+					}
+				}
+			}
+		}	
+	} else {
+		for (i=[0, 90, 180, 270]) {
+			rotate([0, 0, i]) {
+				translate([spurGearScrewFromCenter, 0, - holeDepth]) {
+					cylinder(d=spurGearScrewDiam, h=(spurGearBottomThickness + holeDepth), $fn=50);
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Actobotics 615462
+ * 1/4" D-Bore Worm Gear
+ */
+module actobotics615462(axisOnly=false, axisLength=100) {
+	totalLength = inch_to_mm * 1.15;
+	extDiam = inch_to_mm * 0.5;
+	
+	// Axis
+	axisDiam1 = 6;
+	axisDiam2 = inch_to_mm * 0.25;
+
+	gearThickness = getSpurGearThickness();
+	
+	if (!axisOnly) {
+		difference() {
+			// Worm Gear
+			translate([0, totalLength / 2, gearThickness / 2]) {
+				rotate([90, 0, 0]) {
+					cylinder(d=extDiam, h=totalLength, $fn=100);
+				}
+			}
+			// Axis
+			// 6mm, left
+			translate([0, 0, gearThickness / 2]) {
+				rotate([90, 0, 0]) {
+					cylinder(d=axisDiam1, h=axisLength / 2, $fn=100);
+				}
+			}
+			// 1/4", right	
+			translate([0, axisLength / 2, gearThickness / 2]) {
+				rotate([90, 0, 0]) {
+					cylinder(d=axisDiam2, h=axisLength / 2, $fn=100);
+				}
+			}
+		}
+	}
+	if (axisOnly) {
+		// 6mm, left
+		translate([0, 0, gearThickness / 2]) {
+			rotate([90, 0, 0]) {
+				cylinder(d=axisDiam1, h=axisLength / 2, $fn=100);
+			}
+		}
+		// 1/4", right	
+		translate([0, axisLength / 2, gearThickness / 2]) {
+			rotate([90, 0, 0]) {
+				cylinder(d=axisDiam2, h=axisLength / 2, $fn=100);
+			}
+		}
+	}
+}
+
+/*
+ * Tests
+ */
 echo("For tests and dev only");
+echo("------------------------------");
+echo("Contains the following modules:");
+echo("- roundedRect");
+echo("- ballBearing");
+echo("- metalScrewCS");
+echo("- metalScrewHB");
+echo("- hexNut");
+echo("- washer");
+echo("- B10K (linear potentiometer)");
+echo("- servoParallax900_00005");
+echo("- MCP73871_USB_Solar");
+echo("- AdafruitPowerboost1000C");
+echo("- PkCell (batteries)");
+echo("- spdtSlideSwitch");
+echo("- smallSlideSwitch");
+echo("- actobotics615464");
+echo("------------------------------");
+echo("When appropriate, components dimensions are externalized, and accessible through functions, from other modules");
+echo("------------------------------");
 
 if (false) { // CS Screw test
 	screwDiam = 5;
@@ -1018,7 +1154,7 @@ if (false) { // Ball bearing test
 		}
 	}
 }
-if (false) { 
+if (false) { // B10K test
 	translate([-10, 0, 0]) {
 		B10K(small=false);
 	}
@@ -1027,35 +1163,46 @@ if (false) {
 	}
 }
 
-if (false) {
+if (false) { // servoParallax900_00005 test
 	servoParallax900_00005(drillPattern=false);
 }
 
-if (false) {
+if (false) { // MCP73871_USB_Solar test
 	MCP73871_USB_Solar(bigHangout=false, withStand=true, standOnly=false);
 }
 
-if (false) {
+if (false) { // AdafruitPowerboost1000C test
 	AdafruitPowerboost1000C(withSwitch=true, withStand=true, standOnly=false);
 }
 
-if (false) {
+if (false) { // PkCell test
 	PkCell(3);
 }
 
-if (false) {
+if (false) { // spdtSlideSwitch test
 	spdtSlideSwitch();
 }
 
-if (false) {
+if (false) { // smallSlideSwitch test
 	smallSlideSwitch();
 }
 
-if (true) {
+if (false) { // Small SLide Switch test	
 	translate([0, -5, 0]) {
 	  spdtSlideSwitch();
 	}
 	translate([0, 5, 0]) {
 		smallSlideSwitch();
+	}
+}
+if (true) { // actobotics615464 + actobotics615462 test
+	difference() {
+		actobotics615464(); // The gear
+		#actobotics615464(justDrillHoles=true, holeDepth=20); // Drilling
+	}
+	BETWEEN_AXIS = 19; // mm
+	translate([BETWEEN_AXIS, 0, 0]) {
+		actobotics615462();
+		%actobotics615462(axisOnly=true);
 	}
 }
