@@ -7,11 +7,38 @@
  *
  * For testing, to set the required option, 
  * see the "option" variable at the bottom of the script.
+ * Look for "NONE = -1;"
  */
 use <../mechanical.parts.scad>
 use <../gears.scad>
 
 echo(version=version());
+
+echo("--- Available Modules ---");
+echo("- torus");
+echo("- groovedCylinder");
+echo("- fixingFoot");
+echo("- ballBearingStand");
+echo("- wormGearAxis");
+echo("- footedBase");
+echo("- drillingPattern");
+echo("- screws");
+echo("- axisDrillingPattern");
+echo("- flatSide");
+echo("- oneSolidSide");
+echo("- oneDrilledSide");
+echo("- drillBigWheelStand");
+echo("- bigWheelStand");
+echo("- motor");
+echo("- mainStand");
+echo("- oneBracketSide");
+echo("- counterweightCylinder");
+echo("- panelStandPlate");
+echo("- panelBracket");
+echo("- motorSocket");
+echo("- motorSocketTest");
+echo("- bevelGearPair");
+echo("-------------------------");
 
 /**
  * ringDiam: the ring diameter at its thickest
@@ -450,7 +477,7 @@ module bigWheelStand(diam, axisDiam, thickness, holes) {
  * @param forSocket Boolean. If true, this would be for a difference(). Circular base diameter, thickness and axis diameter will be multiplied by 1.1
  * @param label String. Label to display on the motor, if the motor is displayed.
  */
-module motor(motorSide=42.32, 
+module motor(motorSide=42.5, // 42.32, 
 						 motorDepth=39, 
 						 motorAxisDiam=5,      // Increase that one when in difference
 						 axisStageThickness=2,
@@ -529,6 +556,7 @@ module motor(motorSide=42.32,
 		}
 	}
 }
+
 
 include <./printing.options.scad>
 
@@ -984,9 +1012,9 @@ module motorSocket(socketDepth,
 	}
 }
 
-module motorSocketTest() {
+module motorSocketTest(height=10, baseThickness=5) {
 	motorDepth = 39;
-	socketThickness = 10;
+	socketThickness = height;
 	
 	echo(str("Motor Depth........: ", motorDepth));
 	echo(str("Socket thickness...: ", socketThickness));
@@ -994,8 +1022,8 @@ module motorSocketTest() {
 	difference() {
 		cube(size=[60, 60, socketThickness], center=true);
 		rotate([-90, 0, 0]) {
-			translate([0, -(motorDepth / 2), 0]) {
-				motor(withScrews=false, motorDepth=motorDepth, forSocket=true, label=" ");
+			translate([0, - (motorDepth / 2) + ((height / 2) - baseThickness), 0]) {
+				#motor(withScrews=false, motorDepth=motorDepth, forSocket=true, label=" ");
 			}
 		}
 		translate([0, -26, (socketThickness / 2) - 0]) {
@@ -1263,7 +1291,7 @@ FULL_BEVEL_GEAR = 20;
 BEVEL_GEAR = 21;
 BEVEL_PINION = 22;
 
-option = FULL_BASE; // FULL_BASE_WITH_WORM_GEAR;
+option = MOTOR_SOCKET_TEST; // FULL_BASE_WITH_WORM_GEAR;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;
@@ -1449,7 +1477,8 @@ if (option == GROOVED_CYLINDER) {
 	motorSocket(socketDepth = 25,
 							wallThickness = 2);
 } else if (option == MOTOR_SOCKET_TEST) {
-	motorSocketTest();
+	// motorSocketTest();
+	motorSocketTest(height=30, baseThickness=5);
 } else if (option == BIG_WHEEL_STAND) {
 	// Each tuple: [angle, radius, diam]
 	// Simple sample:
