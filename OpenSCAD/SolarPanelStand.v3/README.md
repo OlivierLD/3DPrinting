@@ -32,3 +32,9 @@ New parts:
 ![Ball bearing](./images/03.base.ball.bearing.jpg)
 
 - Bottom ball bearing
+
+### Lessons learned
+The 3D printed gears (specially the pinion) are difficult to lock in place. The PLA seems not to be strong enough to hold the screws and bolts...
+Metallic gears would not have this problem.
+
+Something to keep in mind for V4.
