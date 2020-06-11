@@ -105,24 +105,29 @@ module ballBearingStand(diam,
 												fixingFootSize, 
 												fixingFootWidth, 
 												screwDiam, 
-												minWallThickness) {
+												minWallThickness,
+												justBBSocket=false) {
   bbDims = getBBDims(diam); // [ID, OD, Thickness]		
 	bottomToAxis = max(axisHeight, fixingFootSize);									
   difference() {														
 		union() {					
-      // right			
-			translate([0, (fixingFootSize / 2) + (bbDims[1] * 0.9 / 2), fixingFootSize / 2]) {
-				fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
-			}
-			// left
-			rotate([0, 0, 180]) {
+			if (!justBBSocket) {
+				// right			
 				translate([0, (fixingFootSize / 2) + (bbDims[1] * 0.9 / 2), fixingFootSize / 2]) {
 					fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
 				}
+				// left
+				rotate([0, 0, 180]) {
+					translate([0, (fixingFootSize / 2) + (bbDims[1] * 0.9 / 2), fixingFootSize / 2]) {
+						fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+					}
+				}
+				// Between feet
+				translate([0, 0, bottomToAxis / 2]) {
+					cube(size=[fixingFootWidth, bbDims[1] * 1.1, bottomToAxis], center=true);
+				}
 			}
-			translate([0, 0, bottomToAxis / 2]) {
-				cube(size=[fixingFootWidth, bbDims[1] * 1.1, bottomToAxis], center=true);
-			}
+			// Containing cylinder
 			translate([0, 0, bottomToAxis]) {
 				rotate([0, 90, 0]) {
 					cylinder(h=fixingFootWidth, d=(bbDims[1] * 1.1), $fn=50, center=true);
@@ -135,10 +140,12 @@ module ballBearingStand(diam,
 				cylinder(h=bbDims[2], d=(bbDims[1]), $fn=50, center=true);		
 			}
 		}
-		// Drill
-		rotate([0, 90, 0]) {
-			translate([-bottomToAxis, 0, 0]) {
-				cylinder(h=fixingFootWidth * 1.1, d=diam * 1.1, $fn=50, center=true);		
+		if (!justBBSocket) {
+			// Drill
+			rotate([0, 90, 0]) {
+				translate([-bottomToAxis, 0, 0]) {
+					cylinder(h=fixingFootWidth * 1.1, d=diam * 1.1, $fn=50, center=true);		
+				}
 			}
 		}
 	}										
@@ -998,7 +1005,7 @@ module motorSocket(socketDepth,
 			if (!placeHolder) {
 				rotate([-90, 0, 0]) {
 					translate([0, -((motorSide - socketDepth) / 2) - (wallThickness), 0]) {
-						motor(withScrews=false, motorDepth=motorDepth, forSocket=true, label=" ");
+						#motor(withScrews=false, motorDepth=motorDepth, forSocket=true, label=" ");
 					}
 				}
 			}
@@ -1012,7 +1019,7 @@ module motorSocket(socketDepth,
 	}
 }
 
-module motorSocketTest(height=10, baseThickness=5) {
+module motorSocketTest(height=10, baseThickness=5, extSize=[60, 60]) {
 	motorDepth = 39;
 	socketThickness = height;
 	
@@ -1020,12 +1027,15 @@ module motorSocketTest(height=10, baseThickness=5) {
 	echo(str("Socket thickness...: ", socketThickness));
 	
 	difference() {
-		cube(size=[60, 60, socketThickness], center=true);
+		// Containing box
+		cube(size=[extSize.x, extSize.y, socketThickness], center=true);
+		// Motor
 		rotate([-90, 0, 0]) {
 			translate([0, - (motorDepth / 2) + ((height / 2) - baseThickness), 0]) {
 				#motor(withScrews=false, motorDepth=motorDepth, forSocket=true, label=" ");
 			}
 		}
+		// Labels (optional)
 		translate([0, -26, (socketThickness / 2) - 0]) {
 			linear_extrude(1.5, center=true, convexity=4) {
 				resize([20, 0], auto=true) {
@@ -1033,7 +1043,7 @@ module motorSocketTest(height=10, baseThickness=5) {
 				}
 			}
 		}
-		translate([0, -30, 0]) {
+		translate([0, -extSize.y / 2, 0]) {
 			rotate([90, 0, 0]) {
 				linear_extrude(1.5, center=true, convexity=4) {
 					resize([50, 0], auto=true) {
@@ -1202,7 +1212,7 @@ _height = 150;
 _topWidth = 35;
 _thickness = 10;
 _horizontalAxisDiam = 6;
-_motorSide = 42.3;
+_motorSide = 42.5; // 3;
 _motorDepth = 39;
 _betweenScrews = 31;
 _motorAxisDiam = 5;
@@ -1291,7 +1301,9 @@ FULL_BEVEL_GEAR = 20;
 BEVEL_GEAR = 21;
 BEVEL_PINION = 22;
 
-option = MOTOR_SOCKET_TEST; // FULL_BASE_WITH_WORM_GEAR;
+MOTOR_BOX_WORM_GEAR_BB = 23;
+
+option = MOTOR_BOX_WORM_GEAR_BB; // FULL_BASE_WITH_WORM_GEAR;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;
@@ -1479,6 +1491,51 @@ if (option == GROOVED_CYLINDER) {
 } else if (option == MOTOR_SOCKET_TEST) {
 	// motorSocketTest();
 	motorSocketTest(height=30, baseThickness=5);
+} else if (option == MOTOR_BOX_WORM_GEAR_BB) {
+	boxWallThickness = 2;
+	// Motor box (and maybe motor)
+	translate([-55, 0, (_motorSide / 2) + boxWallThickness]) {
+		rotate([0, 90, 180]) {
+			motorSocket(socketDepth = 25,
+									wallThickness = boxWallThickness);
+		}
+	}
+	AXIS_HEIGHT = (_motorSide / 2) + boxWallThickness;
+	// Worm Gear
+	BETWEEN_AXIS = 19; // mm
+	WG_Z_POS = AXIS_HEIGHT + (getSpurGearThickness() / 2);
+	translate([0, BETWEEN_AXIS, WG_Z_POS]) {
+		rotate([0, 180, 90]) {
+			difference() {
+				actobotics615464(); // The gear
+				#actobotics615464(justDrillHoles=true, holeDepth=20); // Drilling
+			}
+			translate([BETWEEN_AXIS, 0, 0]) {
+				actobotics615462();
+				%actobotics615462(axisOnly=true);
+			}
+		}
+	}
+	// Coupler 
+	translate([-30, 0, AXIS_HEIGHT]) {
+		rotate([0, 90, 0]) {
+			color("silver") {
+				cylinder(d=10.6, h=19, $fn=50, center=true);
+			}
+		}
+	}	
+	// Ball Bearing stand
+	translate([30, 0, 0]) {
+		rotate([0, 0, 180]) {
+			ballBearingStand(0.25, //  * 25.4,
+											 AXIS_HEIGHT, // 30,
+											 fixingFootSize, 
+											 fixingFootWidth, 
+											 screwDiam, 
+											 minWallThickness,
+											 justBBSocket=true);
+		}
+	}	
 } else if (option == BIG_WHEEL_STAND) {
 	// Each tuple: [angle, radius, diam]
 	// Simple sample:

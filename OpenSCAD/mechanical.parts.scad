@@ -24,8 +24,10 @@ inch_to_mm = 25.4;
  */
  module roundedRect(size, radius) {
 	linear_extrude(height=size.z, center=true) {
-		offset(radius) offset(-radius) {
-			square([size.x, size.y], center = true);
+		offset(radius) {
+			offset(-radius) {
+				square([size.x, size.y], center=true);
+			}
 		}
 	}
 }
