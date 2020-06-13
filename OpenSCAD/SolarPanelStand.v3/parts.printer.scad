@@ -121,7 +121,7 @@ module printBase1(cylHeight,
   echo(str("Fixing feet size (H & L).....................................: ", fixingFootSize));												
   echo(str("Fixing feet width............................................: ", fixingFootWidth));												
   echo(str("Fixing feet screw size.......................................: ", screwDiam));												
-  echo(str("Fixing feet min wall thnickness..............................: ", minWallThickness));												
+  echo(str("Fixing feet min wall thickness...............................: ", minWallThickness));												
   echo(str("Vertical axis diameter.......................................: ", verticalAxisDiam));												
 
 	dims = getBBDims(verticalAxisDiam); // [id, od, t]

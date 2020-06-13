@@ -910,7 +910,7 @@ spurGearScrewFromCenter = inch_to_mm * 0.575 / 2;
 function getSpurGearThickness() =
   spurGearThickness;
 
-module actobotics615464(justDrillHoles=false, holeDepth=20) {
+module actobotics615464(justDrillHoles=false, holeDepth=20, holeDiam=spurGearScrewDiam) {
   
 	if (!justDrillHoles) {
 		difference() {
@@ -937,16 +937,17 @@ module actobotics615464(justDrillHoles=false, holeDepth=20) {
 			for (i=[0, 90, 180, 270]) {
 				rotate([0, 0, i]) {
 					translate([spurGearScrewFromCenter, 0, -1]) {
-						cylinder(d=spurGearScrewDiam, h=spurGearThickness, $fn=50);
+						cylinder(d=holeDiam, h=spurGearThickness, $fn=50);
 					}
 				}
 			}
 		}	
 	} else {
+		echo(str("Drilling at ", holeDiam, "mm"));
 		for (i=[0, 90, 180, 270]) {
 			rotate([0, 0, i]) {
 				translate([spurGearScrewFromCenter, 0, - holeDepth]) {
-					cylinder(d=spurGearScrewDiam, h=(spurGearBottomThickness + holeDepth), $fn=50);
+					cylinder(d=holeDiam, h=(spurGearBottomThickness + holeDepth), $fn=50);
 				}
 			}
 		}
@@ -1203,10 +1204,12 @@ if (false) { // Small SLide Switch test
 if (true) { // actobotics615464 + actobotics615462 test
 	difference() {
 		actobotics615464(); // The gear
-		#actobotics615464(justDrillHoles=true, holeDepth=20); // Drilling
+		#actobotics615464(justDrillHoles=true, // Drilling
+											holeDepth=20,
+											holeDiam=3); // spurGearScrewDiam); 
 	}
 	BETWEEN_AXIS = 19; // mm
-	translate([BETWEEN_AXIS, 0, 0]) {
+	translate([BETWEEN_AXIS, 0, 0]) { // Worm gear
 		actobotics615462();
 		%actobotics615462(axisOnly=true);
 	}
