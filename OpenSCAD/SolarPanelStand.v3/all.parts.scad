@@ -106,8 +106,11 @@ module ballBearingStand(diam,
 												fixingFootWidth, 
 												screwDiam, 
 												minWallThickness,
-												justBBSocket=false) {
+												justBBSocket=false,
+												drillBottom=false,
+                        socketThickness=-1) {
   bbDims = getBBDims(diam); // [ID, OD, Thickness]		
+  containerThickness = (socketThickness == -1) ? (bbDims[1] * 1.1) : (bbDims[1] + (2 * socketThickness));
 	bottomToAxis = max(axisHeight, fixingFootSize);									
   difference() {														
 		union() {					
@@ -124,13 +127,13 @@ module ballBearingStand(diam,
 				}
 				// Between feet
 				translate([0, 0, bottomToAxis / 2]) {
-					cube(size=[fixingFootWidth, bbDims[1] * 1.1, bottomToAxis], center=true);
+					cube(size=[fixingFootWidth, containerThickness, bottomToAxis], center=true);
 				}
 			}
 			// Containing cylinder
 			translate([0, 0, bottomToAxis]) {
 				rotate([0, 90, 0]) {
-					cylinder(h=fixingFootWidth, d=(bbDims[1] * 1.1), $fn=50, center=true);
+					cylinder(h=fixingFootWidth, d=containerThickness, $fn=50, center=true);
 				}
 			}
 		}
@@ -140,7 +143,7 @@ module ballBearingStand(diam,
 				cylinder(h=bbDims[2], d=(bbDims[1]), $fn=50, center=true);		
 			}
 		}
-		if (!justBBSocket) {
+		if (!justBBSocket || drillBottom) {
 			// Drill
 			rotate([0, 90, 0]) {
 				translate([-bottomToAxis, 0, 0]) {
@@ -1359,7 +1362,7 @@ BEVEL_PINION = 22;
 MOTOR_BOX_WORM_GEAR_BB = 23;
 CONIC_GEAR_SPUR_SUPPORT = 24;
 
-option = CONIC_GEAR_SPUR_SUPPORT; // FULL_BASE_WITH_WORM_GEAR;
+option = BALL_BEARING_STAND; // CONIC_GEAR_SPUR_SUPPORT; // FULL_BASE_WITH_WORM_GEAR;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;
@@ -1529,14 +1532,19 @@ if (option == GROOVED_CYLINDER) {
 									 fixingFootSize, 
 									 fixingFootWidth, 
 									 screwDiam, 
-									 minWallThickness);
-	translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, 30]) {
-		rotate([0, 90, 0]) {
-			ballBearing(_motorAxisDiam);
-			// An axis
-			translate([0, 0, -60]) {
-				color("black", 0.8) {
-					cylinder(h=100, d=_motorAxisDiam, $fn=50);
+									 minWallThickness,
+									 justBBSocket=false,
+									 drillBottom=true,
+                   socketThickness=3);
+	if (false) { // Axis
+		translate([(fixingFootWidth / 2) - (dims[2] * 0.9 / 2), 0, 30]) {
+			rotate([0, 90, 0]) {
+				ballBearing(_motorAxisDiam);
+				// An axis
+				translate([0, 0, -60]) {
+					color("silver", 0.8) {
+						cylinder(h=100, d=_motorAxisDiam, $fn=50);
+					}
 				}
 			}
 		}

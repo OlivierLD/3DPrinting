@@ -62,7 +62,7 @@ M8_W = [16, 1.8];
 BB_05 = [5, 16, 5];
 BB_06 = [6, 19, 6];
 BB_08 = [8, 22, 7];
-BB_025_IN = [0.25 * inch_to_mm, 15.9, 5];
+BB_025_IN = [(1 / 4) * inch_to_mm, (5 / 8) * inch_to_mm, 0.196 * inch_to_mm];
 
 function getBBDims(diam) =  // Ball bearings dims
   (diam == 5) ? BB_05 :

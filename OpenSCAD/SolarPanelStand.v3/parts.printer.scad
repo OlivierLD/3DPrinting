@@ -362,6 +362,10 @@ module printBase1_v2(bottomCylinderHeight, // see below how it is used
 	// Needed because the feet are oriented upward.										 
   adjustedBaseHeight = bottomCylinderHeight + 17 + wormGearSystemHeightFromBottom;											 
 
+	motorOffset = -65;
+	morotSocketDepth = 25;
+	tunnelLength = 30;
+
   if (!forConePrinting) {
 		difference() {
 			// The base cylinder?
@@ -417,25 +421,25 @@ module printBase1_v2(bottomCylinderHeight, // see below how it is used
 						}
 					}
 					// 2 holes, to see the gears through the cylinder
+					holeDiam = 35;
 					translate([25 * sin(20), -25 * cos(20), WG_Z_POS + wormGearSystemHeightFromBottom]) {
 						rotate([90, 0, 20]) {
-							cylinder(d=40, h=50, $fn=100);
+							cylinder(d=holeDiam, h=50, $fn=100);
 						}
 					}
 					translate([25 * sin(180-20), -25 * cos(180-20), WG_Z_POS + wormGearSystemHeightFromBottom]) {
 						rotate([90, 0, 180-20]) {
-							cylinder(d=40, h=50, $fn=100);
+							cylinder(d=holeDiam, h=50, $fn=100);
 						}
 					}
 					// Space for screwdiver or allen key, to fix the motor
-					if (true) {
+					if (false) {
 						extraOffset = 8;
-						socketDepth = 25;
-						translate([-extraOffset -((extDiam - socketDepth) / 2), 
+						translate([-extraOffset -((extDiam - morotSocketDepth) / 2), 
 											 -BETWEEN_AXIS, 
 											 ((_motorSide + (2 * boxWallThickness)) / 2)  + wormGearSystemHeightFromBottom]) {
 							rotate([0, 90, 180]) {
-								motorSocket(socketDepth = socketDepth,
+								motorSocket(socketDepth = morotSocketDepth,
 														wallThickness = boxWallThickness,
 														placeHolder = false,
 														justRedrillScrewHoles = true);
@@ -464,33 +468,37 @@ module printBase1_v2(bottomCylinderHeight, // see below how it is used
 				}
 			}
 			
-			// Motor box (and maybe motor, comment in the code)
-			translate([-50, 0, (_motorSide / 2) + boxWallThickness + wormGearSystemHeightFromBottom]) {
+			// Motor box (and maybe motor, comment it in the code)
+			translate([motorOffset, 0, (_motorSide / 2) + boxWallThickness + wormGearSystemHeightFromBottom]) {
 				rotate([0, 90, 180]) {
-					motorSocket(socketDepth = 25,
+					motorSocket(socketDepth = morotSocketDepth,
 											wallThickness = boxWallThickness,
 											placeHolder=true);
 				}
 			}
-			// Filler, to expose the face of the motorSocket above
-			translate([-25, 0, (_motorSide / 2) + boxWallThickness + wormGearSystemHeightFromBottom]) {
+			// Filler, to expose the face of the motorSocket above // TODO Do the tunnel here?
+			translate([motorOffset + (tunnelLength / 2) + (morotSocketDepth / 2), 
+			           0, 
+			           (_motorSide / 2) + boxWallThickness + wormGearSystemHeightFromBottom]) {
 				rotate([0, 90, 180]) {
-					#motorSocket(socketDepth = 25,
-											wallThickness = boxWallThickness,
+					motorSocket(socketDepth = tunnelLength,
+											wallThickness = 0, // boxWallThickness,
 											placeHolder=true);
 				}
 			}
 			
-			// Ball Bearing stand
+			// Ball Bearing stand, aligned with the motor axis.
 			translate([41, 0, wormGearSystemHeightFromBottom]) {
 				rotate([0, 0, 180]) {
-					ballBearingStand(0.25, //  * 25.4,
+					ballBearingStand(0.25, // * 25.4,   // TODO, some slack in the OD..
 													 AXIS_HEIGHT, // 30,
 													 fixingFootSize, 
 													 fixingFootWidth, 
 													 screwDiam, 
 													 minFootWallThickness,
-													 justBBSocket=true);
+													 justBBSocket=true,
+													 drillBottom=true,
+													 socketThickness=3);
 				}
 			}	
 			// Redrill axis
@@ -504,18 +512,39 @@ module printBase1_v2(bottomCylinderHeight, // see below how it is used
 		}
 
 		// Motor box (and maybe motor, comment in the code)
-		translate([-50, 0, (_motorSide / 2) + boxWallThickness + wormGearSystemHeightFromBottom]) {
+		translate([motorOffset, 0, (_motorSide / 2) + boxWallThickness + wormGearSystemHeightFromBottom]) {
 			rotate([0, 90, 180]) {
-				motorSocket(socketDepth = 25,
+				motorSocket(socketDepth = morotSocketDepth,
 										wallThickness = boxWallThickness,
 										placeHolder=false);
 			}
 			// And a "cheek" on the external side
-			translate([10 + boxWallThickness, 
+//			translate([10 + boxWallThickness, 
+//								 - (_motorSide / 2) - boxWallThickness, 
+//								 - (_motorSide / 2) - boxWallThickness]) {
+//				color("green") {
+//					cube(size=[10, 2, _motorSide + (2 * boxWallThickness)]);
+//				}
+//			}
+			// The tunnel
+			translate([tunnelLength + boxWallThickness - morotSocketDepth, 
 								 - (_motorSide / 2) - boxWallThickness, 
 								 - (_motorSide / 2) - boxWallThickness]) {
-				color("green") {
-					cube(size=[10, 2, _motorSide + (2 * boxWallThickness)]);
+				difference() {
+					cube(size=[tunnelLength, 
+					           _motorSide + (2 * boxWallThickness), 
+					           _motorSide + (2 * boxWallThickness)], center=false);
+					translate([0, boxWallThickness, boxWallThickness]) {
+						cube(size=[tunnelLength + 1, 
+											 _motorSide + (0 * boxWallThickness), 
+											 _motorSide + (0 * boxWallThickness)], center=false);
+					}
+					// Remove what's inside the cylinder
+					translate([(tunnelLength + boxWallThickness - morotSocketDepth) + (intDiam / 2), 
+										 ((_motorSide + (2 * boxWallThickness)) / 2) + BETWEEN_AXIS, 
+										 WG_Z_POS - (2 * boxWallThickness)]) {
+						cylinder(d=intDiam, h=(_motorSide + (2 * boxWallThickness)) * 1.1, center=true, $fn=100);
+					}
 				}
 			}
 		}
@@ -563,7 +592,9 @@ module printBase1_v2(bottomCylinderHeight, // see below how it is used
 													 fixingFootWidth, 
 													 screwDiam, 
 													 minFootWallThickness,
-													 justBBSocket=true);
+													 justBBSocket=true,
+													 drillBottom=true,
+													 socketThickness=3);
 				}
 			}	
 			// Re drill worm gear axis

@@ -161,21 +161,25 @@ if (option == PRINT_BRACKET) {
 	// WIP
 	cylHeight = 50;
 	cylHeight2 = 20; // 35;
+
+  // Overridden:	
+	bottomCylinderHeight = cylHeight;
+  topCylinderHeight = cylHeight2;	
 	extDiam = 110;
 	torusDiam = 100;
 	intDiam = 90;
 	
 	//ballsDiam = 5;  // Change to 1/4"
 	//verticalAxisDiam = 5;
-
 	//fixingFootSize = 20;
 	//fixingFootWidth = 20;
 	//screwDiam = 4;
 	//screwLen = 30;
 	//minWallThickness = 5;
+	
 
-	printBase1_v2(cylHeight, 
-	              cylHeight2,
+	printBase1_v2(bottomCylinderHeight, 
+	              topCylinderHeight,
 							  extDiam, 
 							  torusDiam, 
 							  intDiam, 
@@ -187,7 +191,7 @@ if (option == PRINT_BRACKET) {
 								screwDiam = 4,
 	              motorSide=motorSide,
 							  withGearsAndCoupler=true,
-							  forBasePrinting=false,
+							  forBasePrinting=true,
 							  forConePrinting=false); 
 
 	
