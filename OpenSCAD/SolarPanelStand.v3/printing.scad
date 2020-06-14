@@ -50,8 +50,10 @@ BEVEL_GEAR_PINION = 18;
 
 BASE1_AND_ALL_GEARS = 19; // for dev or visualization
 
+PRINT_BASE_1_V2 = 20;
+
 // Choose your own here
-option = PRINT_BASE_1; 
+option = PRINT_BASE_1_V2; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
@@ -155,6 +157,52 @@ if (option == PRINT_BRACKET) {
 						 bevelGearScrewCircleRadius = bevelGearBaseScrewCircleRadius,
 						 bevelGearScrewDiam = 4,
 						 topCylHeight = topCylinderHeight);
+} else if (option == PRINT_BASE_1_V2) {
+	// WIP
+	cylHeight = 50;
+	cylHeight2 = 20; // 35;
+	extDiam = 110;
+	torusDiam = 100;
+	intDiam = 90;
+	
+	//ballsDiam = 5;  // Change to 1/4"
+	//verticalAxisDiam = 5;
+
+	//fixingFootSize = 20;
+	//fixingFootWidth = 20;
+	//screwDiam = 4;
+	//screwLen = 30;
+	//minWallThickness = 5;
+
+	printBase1_v2(cylHeight, 
+	              cylHeight2,
+							  extDiam, 
+							  torusDiam, 
+							  intDiam, 
+							  ballsDiam, 
+							  fixingFootSize, 
+							  fixingFootWidth, 
+							  fixingFootScrewDiam, 
+							  minFootWallThickness,
+								screwDiam = 4,
+	              motorSide=motorSide,
+							  withGearsAndCoupler=true,
+							  forBasePrinting=false,
+							  forConePrinting=false); 
+
+	
+//	printBase1_v2(bottomCylinderHeight, 
+//                topCylinderHeight,
+//							  extDiam, 
+//							  torusDiam, 
+//							  intDiam, 
+//							  ballsDiam, 
+//							  fixingFootSize, 
+//							  fixingFootWidth, 
+//							  fixingFootScrewDiam, 
+//							  minFootWallThickness,
+//								screwDiam = 4,
+//	              motorSide=motorSide); 
 } else if (option == BEVEL_GEAR_AND_BASE) {
 	printBase1(bottomCylinderHeight, 
 						 extDiam, 

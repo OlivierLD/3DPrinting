@@ -177,7 +177,8 @@ module footedBase(cylHeight,
 									withIndex=true,
 									withCardPoints=true,
 									feetInside=false,
-									fullIndex=true) {
+									fullIndex=true,
+                  feetFacingUp=false) {
 	//echo("CylHeight:", cylHeight);										
 	difference() {
 		union() {
@@ -191,11 +192,11 @@ module footedBase(cylHeight,
 									 (extDiam / 2) + ((fixingFootSize / 2) - minWallThickness) :
 									 (extDiam / 2) - ((fixingFootSize / 2) + minWallThickness);
 			// HARD CODED (for now)
-			feetDown = false; // Default true. Feet on the floor. TODO Make it a parameter!!!
+			feetDown = !feetFacingUp; // false; // Default true. Feet on the floor. TODO Make it a parameter!!!
 			///////////////////////
 			if (!feetDown) {
 				echo("+------------------------------------------------------------------------");
-				echo(">>> WARNING!!: Hardcoded (module footedBase) feet orientation facing up!!");
+				echo(">>> WARNING!!: module footedBase => feet orientation facing up!!");
 				echo("+------------------------------------------------------------------------");
 			}
 			footUpDownRot = feetDown ? 0 : 180;
@@ -1197,6 +1198,52 @@ module bevelGearPair(gear_teeth = 60,
 	}
 }
 
+
+module wormGearWheelSupport(support_height = 100,
+													  big_base_diam = 60, 
+														small_base_diam = 40,
+													  vert_axis_diam = 5,
+													  screw_circle_radius = 8,
+													  screw_diam = 4) {
+
+	difference() {
+		// Gear Base. a Cone
+		translate([0, 0, -(support_height / 2)]) {		
+			cylinder(h=support_height, d1=big_base_diam, d2=small_base_diam, center=true, $fn=100); 
+		}
+
+		// Drill vertical axis
+		cylinder(h=support_height * 2.1, d=vert_axis_diam, center=true, $fn=50);
+
+		// Access to the nuts
+		squareSide = 8;
+		holeLength = 80;
+		fromTop = 12;
+		screwHead = 2.5; // TODO Get this from the dims
+		translate([0, 0, -(support_height - fromTop)]) {
+			for (angle=[0, 120, 240]) {
+				rotate([0, 0, angle]) {
+					translate([vert_axis_diam - screwHead + (holeLength / 2), 0, 0]) {
+					  cube(size=[holeLength, squareSide, squareSide], center=true);
+					}
+				}
+			}
+		}
+
+		// Screws, attaching the support to the top.
+		screw_length = 20;
+		// screw_circle_radius = 8;
+		for (angle=[0, 120, 240]) {
+			rotate([0, 0, angle]) {
+				translate([screw_circle_radius, 0, -(screw_length + support_height - 6)]) {
+					// #cylinder(d=screw_diam, h=50, center=true, $fn=40);
+					metalScrewHB(diam=screw_diam, length=screw_length, top=8);
+				}
+			}
+		}
+	}
+}
+
 // Options, for local tests
 cylHeight = 50;
 cylHeight2 = 35;
@@ -1310,8 +1357,9 @@ BEVEL_GEAR = 21;
 BEVEL_PINION = 22;
 
 MOTOR_BOX_WORM_GEAR_BB = 23;
+CONIC_GEAR_SPUR_SUPPORT = 24;
 
-option = MOTOR_BOX_WORM_GEAR_BB; // FULL_BASE_WITH_WORM_GEAR;
+option = CONIC_GEAR_SPUR_SUPPORT; // FULL_BASE_WITH_WORM_GEAR;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;
@@ -1505,236 +1553,18 @@ if (option == GROOVED_CYLINDER) {
 	 * More like a scratchpad, playground
 	 */
 	
-	WITH_GEARS_AND_COUPLER = false; // Set to false for printing, true to visualize
-	
-	boxWallThickness = 2;
-	wormGearSystemHeightFromBottom = 10; // Bottom of the motor socket
-	AXIS_HEIGHT = (_motorSide / 2) + boxWallThickness;
-	WG_Z_POS = AXIS_HEIGHT + (getSpurGearThickness() / 2);
-		
-	verticalAxisDiam = 5;
-	dims = getBBDims(verticalAxisDiam); // [id, od, t]
-	boltDims = getHBScrewDims(verticalAxisDiam);
-										
-	bbSocketBaseThickness = 3; // Bottom ball bearing in its socket, facing down.
-	socketWallThickness = 3;
-	
-	socketTotalHeight = (dims[2] * 1.1) + (boltDims[0]) + bbSocketBaseThickness;
+	echo("Empty!");
+	echo(str("Cyl Height:", cylHeight));
+	echo(str("Motor side:", _motorSide));
 
-	difference() {
-		// The base cylinder?
-		translate([0, BETWEEN_AXIS, 0]) {
-			difference() {
-				union() {
-					rotate([0, 0, 0]) {
-						footedBase(cylHeight + 17 + wormGearSystemHeightFromBottom, 
-											 extDiam, 
-											 torusDiam, 
-											 intDiam, 
-											 ballsDiam, 
-											 fixingFootSize, 
-											 fixingFootWidth, 
-											 screwDiam, 
-											 minWallThickness,
-											 crosshairThickness=socketTotalHeight,
-											 withCardPoints=false);
-					}
-					// Bottom ball bearing socket, facing down.
-					rotate([180, 0, 0]) {
-						translate([0, 0, -socketTotalHeight]) {
-							difference() {
-								// Ball bearing enclosure
-								translate([0, 0, 0]) {
-									rotate([0, 0, 0]) {
-										cylinder(d=dims[1] + socketWallThickness, h=socketTotalHeight, $fn=50);
-									}
-								}
-								// This is "repeated" at the end of the module.
-								// Ball bearing socket
-								translate([0, 0, bbSocketBaseThickness]) {
-									rotate([0, 0, 0]) {
-										cylinder(d=dims[1], h=((dims[2] * 1.1) + (boltDims[0]) * 1.5), $fn=50);
-									}
-								}
-								// Axis
-								translate([0, 0, -5]) { 
-									rotate([0, 0, 0]) {
-										// Drill. Axis (for debug visualization)
-										cylinder(d=(1 * dims[0]), h=dims[2] * 5, $fn=50);
-									}
-								}
-								translate([0, 0, -1]) {
-									rotate([0, 0, 0]) {
-										// Drill. Axis. Big enough for the washer (or just nut).
-										cylinder(d=(dims[0] * 2), h=dims[2] * 5, $fn=50);
-									}
-								}
-							}
-						}
-					}
-				}
-				// 2 holes, to see the gears through the cylinder
-				translate([25 * sin(20), -25 * cos(20), WG_Z_POS + wormGearSystemHeightFromBottom]) {
-					rotate([90, 0, 20]) {
-						cylinder(d=40, h=50, $fn=100);
-					}
-				}
-				translate([25 * sin(180-20), -25 * cos(180-20), WG_Z_POS + wormGearSystemHeightFromBottom]) {
-					rotate([90, 0, 180-20]) {
-						cylinder(d=40, h=50, $fn=100);
-					}
-				}
-				// Space for screwdiver or allen key, to fix the motor
-				if (true) {
-					extraOffset = 8;
-					socketDepth = 25;
-					translate([-extraOffset -((extDiam - socketDepth) / 2), 
-										 -BETWEEN_AXIS, 
-										 ((_motorSide + (2 * boxWallThickness)) / 2)  + wormGearSystemHeightFromBottom]) {
-						rotate([0, 90, 180]) {
-							motorSocket(socketDepth = socketDepth,
-													wallThickness = boxWallThickness,
-													placeHolder = false,
-													justRedrillScrewHoles = true);
-						}
-					}
-				}
-				// Repeat: Drill everything from bottom
-				translate([0, 0, -bbSocketBaseThickness]) {
-					rotate([0, 0, 0]) {
-						cylinder(d=dims[1], h=((dims[2] * 1.1) + (boltDims[0]) * 1.5), $fn=50);
-					}
-				}
-				// Axis
-				translate([0, 0, -5]) { 
-					rotate([0, 0, 0]) {
-						// Drill. Axis (for debug visualization)
-						cylinder(d=(1 * dims[0]), h=dims[2] * 5, $fn=50);
-					}
-				}
-				translate([0, 0, -1]) {
-					rotate([0, 0, 0]) {
-						// Drill. Axis. Big enough for the washer (or just nut).
-						cylinder(d=(dims[0] * 2), h=dims[2] * 5, $fn=50);
-					}
-				}
-			}
-		}
-		
-		// Motor box (and maybe motor, comment in the code)
-		translate([-50, 0, (_motorSide / 2) + boxWallThickness + wormGearSystemHeightFromBottom]) {
-			rotate([0, 90, 180]) {
-				motorSocket(socketDepth = 25,
-										wallThickness = boxWallThickness,
-										placeHolder=true);
-			}
-		}
-		// Filler, to expose the face of the motorSocket above
-		translate([-25, 0, (_motorSide / 2) + boxWallThickness + wormGearSystemHeightFromBottom]) {
-			rotate([0, 90, 180]) {
-				#motorSocket(socketDepth = 25,
-										wallThickness = boxWallThickness,
-										placeHolder=true);
-			}
-		}
-		
-		// Ball Bearing stand
-		translate([41, 0, wormGearSystemHeightFromBottom]) {
-			rotate([0, 0, 180]) {
-				ballBearingStand(0.25, //  * 25.4,
-												 AXIS_HEIGHT, // 30,
-												 fixingFootSize, 
-												 fixingFootWidth, 
-												 screwDiam, 
-												 minWallThickness,
-												 justBBSocket=true);
-			}
-		}	
-		// Redrill axis
-		translate([0, BETWEEN_AXIS, WG_Z_POS + wormGearSystemHeightFromBottom]) {
-			rotate([0, 180, 90]) {
-				translate([BETWEEN_AXIS, 0, 0]) {
-					#actobotics615462(axisOnly=true, axisLength=150);
-				}
-			}
-		}
-	}
-
-	// Motor box (and maybe motor, comment in the code)
-	translate([-50, 0, (_motorSide / 2) + boxWallThickness + wormGearSystemHeightFromBottom]) {
-		rotate([0, 90, 180]) {
-			motorSocket(socketDepth = 25,
-									wallThickness = boxWallThickness,
-									placeHolder=false);
-		}
-		// And a "cheek" on the external side
-		translate([10 + boxWallThickness, 
-		           - (_motorSide / 2) - boxWallThickness, 
-							 - (_motorSide / 2) - boxWallThickness]) {
-			color("green") {
-				cube(size=[10, 2, _motorSide + (2 * boxWallThickness)]);
-			}
-		}
-	}
-
-	// Worm Gear
-	BETWEEN_AXIS = 19; // mm
-	if (WITH_GEARS_AND_COUPLER) {
-		translate([0, BETWEEN_AXIS, WG_Z_POS + wormGearSystemHeightFromBottom]) {
-			rotate([0, 180, 90]) {
-				difference() {
-					actobotics615464(); // The gear
-					// #actobotics615464(justDrillHoles=true, holeDepth=20); // Drilling
-				}
-				translate([BETWEEN_AXIS, 0, 0]) {
-					actobotics615462();
-					%actobotics615462(axisOnly=true, axisLength=150);
-				}
-			}
-		}
-		difference() {
-			// Coupler 
-			translate([-25, 0, AXIS_HEIGHT + wormGearSystemHeightFromBottom]) {
-				rotate([0, 90, 0]) {
-					color("silver") {
-						cylinder(d=10.6, h=19, $fn=50, center=true);
-					}
-				}
-			}	
-			// Redrill axis
-			translate([0, BETWEEN_AXIS, WG_Z_POS + wormGearSystemHeightFromBottom]) {
-				rotate([0, 180, 90]) {
-					translate([BETWEEN_AXIS, 0, 0]) {
-						actobotics615462(axisOnly=true, axisLength=150);
-					}
-				}
-			}
-		}
-	}
-	// Ball Bearing stand
-	difference() {
-		translate([41, 0, wormGearSystemHeightFromBottom]) {
-			rotate([0, 0, 180]) {
-				ballBearingStand(0.25, //  * 25.4,
-												 AXIS_HEIGHT, // 30,
-												 fixingFootSize, 
-												 fixingFootWidth, 
-												 screwDiam, 
-												 minWallThickness,
-												 justBBSocket=true);
-			}
-		}	
-		// Re drill worm gear axis
-		translate([0, BETWEEN_AXIS, WG_Z_POS + wormGearSystemHeightFromBottom]) {
-			rotate([0, 180, 90]) {
-				translate([BETWEEN_AXIS, 0, 0]) {
-					#actobotics615462(axisOnly=true, axisLength=150);
-				}
-			}
-		}
-	}
 	// End of the playground!
-	
+} else if (option == CONIC_GEAR_SPUR_SUPPORT) {
+	wormGearWheelSupport(support_height = 60,
+											 big_base_diam = 40, 
+											 small_base_diam = 30,
+											 vert_axis_diam = 5,
+											 screw_circle_radius = 8,
+											 screw_diam = 5);
 } else if (option == BIG_WHEEL_STAND) {
 	// Each tuple: [angle, radius, diam]
 	// Simple sample:

@@ -910,6 +910,9 @@ spurGearScrewFromCenter = inch_to_mm * 0.575 / 2;
 function getSpurGearThickness() =
   spurGearThickness;
 
+function getSpurGearOD() =
+  spurGearOD;
+
 module actobotics615464(justDrillHoles=false, holeDepth=20, holeDiam=spurGearScrewDiam) {
   
 	if (!justDrillHoles) {
