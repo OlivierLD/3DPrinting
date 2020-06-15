@@ -1,4 +1,4 @@
-### SunFlower, V3 <img src="../../cone.png" alt="WiP" width="48" height="48" align="middle">
+### SunFlower, V3 <img src="../../../cone.png" alt="WiP" width="48" height="48" align="middle">
 This is a work in progress...
 
 To discover - or learn - what this does, start with `printing.scad`.
