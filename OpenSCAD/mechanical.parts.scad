@@ -22,7 +22,7 @@ inch_to_mm = 25.4;
  * size is a triplet [x, y, z]
  * radius is the radius of the rounded corner
  */
- module roundedRect(size, radius) {
+module roundedRect(size, radius) {
 	linear_extrude(height=size.z, center=true) {
 		offset(radius) {
 			offset(-radius) {
@@ -912,6 +912,9 @@ function getSpurGearThickness() =
 
 function getSpurGearOD() =
   spurGearOD;
+	
+function getSpurGearScrewDiam() = 
+  spurGearScrewDiam;
 
 module actobotics615464(justDrillHoles=false, holeDepth=20, holeDiam=spurGearScrewDiam) {
   

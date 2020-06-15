@@ -629,8 +629,10 @@ module printBase1_v2(bottomCylinderHeight, // see below how it is used
 				// Drill holes for the worm gear spur
 				translate([0, 0, WG_Z_POS + wormGearSystemHeightFromBottom]) {
 					rotate([0, 180, 0]) {
-						// #actobotics615464(); // The gear
-						#actobotics615464(justDrillHoles=true, holeDepth=20, holeDiam=2.5); // Drilling
+						// #actobotics615464(); // The gear 
+						ratio = 0.5;
+						echo(str("Drilling for spur gear at ", getSpurGearScrewDiam() * ratio));
+						actobotics615464(justDrillHoles=true, holeDepth=20, holeDiam=getSpurGearScrewDiam() * ratio); // Drilling
 					}
 				}
 				

@@ -2,7 +2,7 @@
  * @author OlivierLD
  * Started 2020-Jun-14
  *
- * V4. The worm gear is all in side the base cylinder.
+ * V4. The worm gear is all inside the base cylinder.
  *
  * Printing with a set of parameters, 
  * included below.

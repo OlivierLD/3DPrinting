@@ -1222,7 +1222,7 @@ module wormGearWheelSupport(support_height = 100,
 		squareSide = 8;
 		holeLength = 80;
 		fromTop = 12;
-		screwHead = 2.5; // TODO Get this from the dims
+		screwHead = 2.5;
 		translate([0, 0, -(support_height - fromTop)]) {
 			for (angle=[0, 120, 240]) {
 				rotate([0, 0, angle]) {
