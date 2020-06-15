@@ -25,13 +25,13 @@ NONE = -1;
 
 CUSTOM_PRINT = 0;
 
-PRINT_BRACKET = 1;             // Full bracket, in one piece
+PRINT_BRACKET = 1;             // Full bracket, in one piece (holding the solar panel)
 PRINT_BASE_1 = 2;              // Bottom base
 PRINT_BASE_2 = 3;              // Top base
-PRINT_MAIN_STAND = 4;          // Full main stand, in one piece
+PRINT_MAIN_STAND = 4;          // Full main stand, in one piece, the one holding the bracket
 PRINT_COUNTERWEIGHT_CYLINDER = 5;
 PRINT_BIG_WHEEL_STAND = 6;
-PRINT_BALL_BEARING_STAND = 7;
+
 PRINT_PANEL_PLATE = 8;         // On top of the bracket
 
 PRINT_MAIN_STAND_BASE = 9;     // Base only
@@ -50,10 +50,8 @@ BEVEL_GEAR_PINION = 18;
 
 BASE1_AND_ALL_GEARS = 19; // for dev or visualization
 
-PRINT_BASE_1_V2 = 20;
-
 // Choose your own here
-option = PRINT_BASE_1_V2; 
+option = PRINT_MAIN_STAND; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
@@ -157,56 +155,6 @@ if (option == PRINT_BRACKET) {
 						 bevelGearScrewCircleRadius = bevelGearBaseScrewCircleRadius,
 						 bevelGearScrewDiam = 4,
 						 topCylHeight = topCylinderHeight);
-} else if (option == PRINT_BASE_1_V2) {
-	// WIP
-	cylHeight = 50;
-	cylHeight2 = 20; // 35;
-
-  // Overridden:	
-	bottomCylinderHeight = cylHeight;
-  topCylinderHeight = cylHeight2;	
-	extDiam = 110;
-	torusDiam = 100;
-	intDiam = 90;
-	
-	//ballsDiam = 5;  // Change to 1/4"
-	//verticalAxisDiam = 5;
-	//fixingFootSize = 20;
-	//fixingFootWidth = 20;
-	//screwDiam = 4;
-	//screwLen = 30;
-	//minWallThickness = 5;
-	
-
-	printBase1_v2(bottomCylinderHeight, 
-	              topCylinderHeight,
-							  extDiam, 
-							  torusDiam, 
-							  intDiam, 
-							  ballsDiam, 
-							  fixingFootSize, 
-							  fixingFootWidth, 
-							  fixingFootScrewDiam, 
-							  minFootWallThickness,
-								screwDiam = 4,
-	              motorSide=motorSide,
-							  withGearsAndCoupler=true,
-							  forBasePrinting=true,
-							  forConePrinting=false); 
-
-	
-//	printBase1_v2(bottomCylinderHeight, 
-//                topCylinderHeight,
-//							  extDiam, 
-//							  torusDiam, 
-//							  intDiam, 
-//							  ballsDiam, 
-//							  fixingFootSize, 
-//							  fixingFootWidth, 
-//							  fixingFootScrewDiam, 
-//							  minFootWallThickness,
-//								screwDiam = 4,
-//	              motorSide=motorSide); 
 } else if (option == BEVEL_GEAR_AND_BASE) {
 	printBase1(bottomCylinderHeight, 
 						 extDiam, 
@@ -332,13 +280,6 @@ if (option == PRINT_BRACKET) {
 								 wheelStandDrillingPattern=actoBotics615238DrillingPattern,
 								 fixingFeetOnBase=true,
 	               printOption=RIGHT_ONLY);
-} else if (option == PRINT_BALL_BEARING_STAND) {
-	printBallBearingStand(wormGearAxisDiam,
-												wormGearAxisHeight,
-												fixingFootSize, 
-												fixingFootWidth, 
-												fixingFootScrewDiam, 
-												minFootWallThickness);
 } else if (option == PRINT_BIG_WHEEL_STAND) {
 	printBigWheelStand(bigWheelStandDiam, 
 										 horizontalAxisDiam, 
