@@ -3,9 +3,9 @@
  *
  * A scratchpad...
  */
-use <../mechanical.parts.scad>
-use <./all.parts.scad>
-use <./parts.printer.scad>
+use <../../mechanical.parts.scad>
+use <../all.parts.scad>
+use <../parts.printer.scad>
 
 echo(version=version());
 echo(">>>>>> For visualization only, not for print!");

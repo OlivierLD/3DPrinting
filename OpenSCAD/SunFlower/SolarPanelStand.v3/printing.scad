@@ -1,19 +1,17 @@
 /**
  * @author OlivierLD
- * Started 2020-Jun-14
- *
- * V4. The worm gear is all inside the base cylinder.
+ * Started 2020-Jan-28
  *
  * Printing with a set of parameters, 
  * included below.
  */
-use <../mechanical.parts.scad> 
-use <../SolarPanelStand.v3/all.parts.scad>
-use <../SolarPanelStand.v3/parts.printer.scad>
+use <../../mechanical.parts.scad> 
+use <../all.parts.scad>
+use <../parts.printer.scad>
 
-include <../SolarPanelStand.v3/printing.options.scad>
+include <../printing.options.scad>
 // Options, dimensions, parameters
-include <./param.set.01.scad>
+include <./param.set.04.scad>
 
 // Execution
 
@@ -30,7 +28,7 @@ CUSTOM_PRINT = 0;
 PRINT_BRACKET = 1;             // Full bracket, in one piece (holding the solar panel)
 PRINT_BASE_1 = 2;              // Bottom base
 PRINT_BASE_2 = 3;              // Top base
-PRINT_MAIN_STAND = 4;          // Full main stand, in one piece, holding the bracket
+PRINT_MAIN_STAND = 4;          // Full main stand, in one piece, the one holding the bracket
 PRINT_COUNTERWEIGHT_CYLINDER = 5;
 PRINT_BIG_WHEEL_STAND = 6;
 
@@ -47,13 +45,13 @@ PRINT_BRACKET_RIGHT_ONLY = 15; // Bracket right side
 
 MOTOR_BOX = 16;
 
-SPUR_GEAR_BASE = 17;
+BEVEL_GEAR_AND_BASE = 17;
+BEVEL_GEAR_PINION = 18;
 
-BASE1_AND_ALL_GEARS = 18; // for dev or visualization
+BASE1_AND_ALL_GEARS = 19; // for dev or visualization
 
 // Choose your own here
-inDev = false; // Set to true to show the worm gear
-option = PRINT_BASE_1; 
+option = BASE1_AND_ALL_GEARS; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
@@ -118,53 +116,85 @@ if (option == PRINT_BRACKET) {
 							 withFixingFeet=true,
 							 printOption=RIGHT_BRACKET_ONLY);
 } else if (option == BASE1_AND_ALL_GEARS) {
-	printBase1_v2(bottomCylinderHeight, 
-	              topCylinderHeight,
-							  extDiam, 
-							  torusDiam, 
-							  intDiam, 
-							  ballsDiam, 
-							  fixingFootSize, 
-							  fixingFootWidth, 
-							  fixingFootScrewDiam, 
-							  minFootWallThickness,
-								screwDiam = 4,
-	              motorSide=motorSide,
-							  withGearsAndCoupler=true,
-							  forBasePrinting=false,
-							  forConePrinting=false); 
+	printBase1(bottomCylinderHeight, 
+						 extDiam, 
+						 torusDiam, 
+						 intDiam, 
+						 ballsDiam, 
+						 fixingFootSize, 
+						 fixingFootWidth, 
+						 fixingFootScrewDiam, 
+						 minFootWallThickness,
+						 verticalAxisDiam,,
+						 withCylinder = true,
+						 withMotor = true,
+						 withBevelGear = true,
+						 builtTogether = true,
+						 withGear = true,
+						 withPinion = true,
+						 bevelGearScrewCircleRadius = bevelGearBaseScrewCircleRadius,
+						 bevelGearScrewDiam = 4,
+						 topCylHeight = topCylinderHeight);
 } else if (option == PRINT_BASE_1) {
-	printBase1_v2(bottomCylinderHeight, 
-	              topCylinderHeight,
-							  extDiam, 
-							  torusDiam, 
-							  intDiam, 
-							  ballsDiam, 
-							  fixingFootSize, 
-							  fixingFootWidth, 
-							  fixingFootScrewDiam, 
-							  minFootWallThickness,
-								screwDiam = 4,
-	              motorSide=motorSide,
-							  withGearsAndCoupler=inDev, // Set to true to visualize the worm gear
-							  forBasePrinting=true,
-							  forConePrinting=false); 
-} else if (option == SPUR_GEAR_BASE) {
-	printBase1_v2(bottomCylinderHeight, 
-	              topCylinderHeight,
-							  extDiam, 
-							  torusDiam, 
-							  intDiam, 
-							  ballsDiam, 
-							  fixingFootSize, 
-							  fixingFootWidth, 
-							  fixingFootScrewDiam, 
-							  minFootWallThickness,
-								screwDiam = 4,
-	              motorSide=motorSide,
-							  withGearsAndCoupler=false,
-							  forBasePrinting=false,
-							  forConePrinting=true); 
+	printBase1(bottomCylinderHeight, 
+						 extDiam, 
+						 torusDiam, 
+						 intDiam, 
+						 ballsDiam, 
+						 fixingFootSize, 
+						 fixingFootWidth, 
+						 fixingFootScrewDiam, 
+						 minFootWallThickness,
+						 verticalAxisDiam,,
+						 withCylinder = true,
+						 withMotor = false,
+						 withBevelGear = false,
+						 builtTogether = false,
+						 withGear = false,
+						 withPinion = true,
+						 bevelGearScrewCircleRadius = bevelGearBaseScrewCircleRadius,
+						 bevelGearScrewDiam = 4,
+						 topCylHeight = topCylinderHeight);
+} else if (option == BEVEL_GEAR_AND_BASE) {
+	printBase1(bottomCylinderHeight, 
+						 extDiam, 
+						 torusDiam, 
+						 intDiam, 
+						 ballsDiam, 
+						 fixingFootSize, 
+						 fixingFootWidth, 
+						 fixingFootScrewDiam, 
+						 minFootWallThickness,
+						 verticalAxisDiam,,
+						 withCylinder = false,
+						 withMotor = false,
+						 withBevelGear = true,
+						 builtTogether = false,
+						 withGear = true,
+						 withPinion = false,
+						 bevelGearScrewCircleRadius = bevelGearBaseScrewCircleRadius,
+						 bevelGearScrewDiam = 4,
+						 topCylHeight = topCylinderHeight);
+} else if (option == BEVEL_GEAR_PINION) {
+	printBase1(bottomCylinderHeight, 
+						 extDiam, 
+						 torusDiam, 
+						 intDiam, 
+						 ballsDiam, 
+						 fixingFootSize, 
+						 fixingFootWidth, 
+						 fixingFootScrewDiam, 
+						 minFootWallThickness,
+						 verticalAxisDiam,,
+						 withCylinder = false,
+						 withMotor = false,
+						 withBevelGear = true,
+						 builtTogether = false,
+						 withGear = false,
+						 withPinion = true,
+						 bevelGearScrewCircleRadius = bevelGearBaseScrewCircleRadius,
+						 bevelGearScrewDiam = 4,
+						 topCylHeight = topCylinderHeight);
 } else if (option == PRINT_BASE_2) {
 	printBase2(topCylinderHeight, 
 						 extDiam, 
