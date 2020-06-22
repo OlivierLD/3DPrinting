@@ -35,6 +35,9 @@ if (option == CUSTOM_PRINT) {
 	customPrint();
 } else if (option == BASE_V5_PRINT) {
 	printBase1_v5(bottomCylinderHeight,
+								bottomPlateLength,
+								bottomPlateWidth,
+								bottomPlateThickness,
 							  extDiam, 
 							  torusDiam, 
 							  intDiam, 

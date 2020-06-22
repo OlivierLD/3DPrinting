@@ -892,9 +892,6 @@ module smallSlideSwitch() {
 	}
 }
 
-
-
-
 /**
  * Actobotics 615464, 27 Tooth Work Spur Gear
  * https://www.servocity.com/27-1-worm-gear-set-6mm-to-1-4-bore-worm-hub-mount-worm-gear
@@ -1013,6 +1010,80 @@ module actobotics615462(axisOnly=false, axisLength=100) {
 	}
 }
 
+module pinion32P16T() {
+	baseDiam = 12;
+	pinionDiam = 14.2;
+	screwDiam = 4;
+	screwLen = 4;
+	axisDiam = 5; // Axis 5mm
+	difference() {
+		union() {
+			rotate([0, 0, 0]) {
+				translate([0, 0, 0]) {
+					// Base
+					cylinder(d=baseDiam, h=14, $fn=16, center=false);
+				}
+				translate([0, 0, 0]) {
+					// Top
+					cylinder(d=pinionDiam, h=7.5, $fn=16, center=false);
+				}
+			}
+			rotate([0, 90, 0]) {
+				translate([-11, 0, (baseDiam - screwLen) / 2]) {
+					// Screw
+					color("black") {
+						cylinder(d=screwDiam, h=screwLen, $fn=20, center=false);
+					}
+				}
+			}
+		}
+		rotate([0, 0, 0]) {
+			translate([0, 0, -0.5]) {
+				cylinder(d=axisDiam, h=15, $fn=50);
+			}
+		}
+	}
+}
+
+/**
+ * ActoBotics 615222
+ * 32 pitch, 76 teeth, 1.00" bore.
+ */
+module actoBotics615222() {
+	od = 2.437 * inch_to_mm;
+	thickness = (1 / 4) * inch_to_mm;
+	boreDiam = 1 * inch_to_mm;
+	innerRecessDiam = 55.8;
+	innerThicknsess = (1 / 8) * inch_to_mm;
+	screwCircleDiam = 1.5 * inch_to_mm;
+	screwDiam = 0.140 * inch_to_mm;
+	nbScrews = 16;
+	
+	difference() {
+		translate([0, 0, 0]) {
+			cylinder(d=od, h=thickness, $fn=76);
+		}
+		// Inner milling
+		translate([0, 0, innerThicknsess]) {
+			cylinder(d=innerRecessDiam, h=thickness, $fn=100);
+		}
+		// Bore
+		translate([0, 0, -0.5]) {
+			cylinder(d=boreDiam, h=thickness, $fn=100);
+		}
+		// Screws
+		for (i = [0 : 15]) {
+			angle = i * (360 / 16);
+			rotate([0, 0, angle]) {
+				translate([-(screwCircleDiam / 2), 0, -0.5]) {
+					cylinder(d=screwDiam, h=thickness, $fn=20);
+				}
+			}
+		}
+		
+	}
+}
+
 /*
  * Tests
  */
@@ -1033,6 +1104,8 @@ echo("- PkCell (batteries)");
 echo("- spdtSlideSwitch");
 echo("- smallSlideSwitch");
 echo("- actobotics615464");
+echo("- pinion32P16T");
+echo("- actoBotics615222");
 echo("------------------------------");
 echo("When appropriate, components dimensions are externalized, and accessible through functions, from other modules");
 echo("------------------------------");
@@ -1207,7 +1280,7 @@ if (false) { // Small SLide Switch test
 		smallSlideSwitch();
 	}
 }
-if (true) { // actobotics615464 + actobotics615462 test
+if (false) { // actobotics615464 + actobotics615462 test
 	difference() {
 		actobotics615464(); // The gear
 		#actobotics615464(justDrillHoles=true, // Drilling
@@ -1219,4 +1292,11 @@ if (true) { // actobotics615464 + actobotics615462 test
 		actobotics615462();
 		%actobotics615462(axisOnly=true);
 	}
+}
+if (false) {
+	pinion32P16T();
+}	
+
+if (true) {
+	actoBotics615222();
 }

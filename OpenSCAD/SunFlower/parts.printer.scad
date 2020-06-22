@@ -675,6 +675,9 @@ module printBase1_v5(bottomCylinderHeight,
 										 baseFixingScrewsDiam=3) {
 
   cornerRadius = 10;
+	motorDepth= 39 ;
+	motorTopWallThickness = 3;
+											 
 	difference() {
 		roundedRect([bottomPlateLength, 
 								 bottomPlateWidth, 
@@ -723,12 +726,10 @@ module printBase1_v5(bottomCylinderHeight,
 		topThickness = 3;
 		translate([0, 0, -(bottomPlateThickness) + topThickness]) {
 			rotate([0, 0, 0]) {
-		    #ballBearing(verticalAxisDiam);
+		    %ballBearing(verticalAxisDiam);
 			}
 		}
 		
-		motorDepth= 39 ;
-		motorTopWallThickness = 3;
 		// Motor socket
 		translate([0, -betweenVertAxis, -((motorDepth - bottomPlateThickness)/ 2) - motorTopWallThickness]) {
 			rotate([90, 0, 0]) {
@@ -744,6 +745,21 @@ module printBase1_v5(bottomCylinderHeight,
 	}
 	// Options:
 	// Motor axis, and small pinion (16 teeth)
+	translate([0, -betweenVertAxis, -((motorDepth - bottomPlateThickness)/ 2) - motorTopWallThickness]) {
+		// Pinion?
+		rotate([0, 180, 0]) {
+			// Motor axis length motorAxisLength=24
+			translate([0, 0, -(motorSide / 2) - 24 + 1]) { // +1: slack
+				%pinion32P16T();
+			}
+		}
+	}
+	// Big wheel?
+	rotate([0, 180, 0]) {
+		translate([0, 0, -25]) {
+			%actoBotics615222();
+		}
+	}
 	
 	// Make it ANOTHER Part, attached to the plate above, with feet.
 	// => Possibly preserve some space for the motor screw heads.

@@ -4,7 +4,7 @@
  */
 ballsDiam = 6.35; // 1/4" -> Make the wall 20mm thick.
 // Warning: intDiam < torusDiam < extDiam
-intDiam   = 100;
+intDiam   = 100; // Minimum for 16 + 76 teeth
 torusDiam = 110;
 extDiam   = 120;
 
