@@ -660,6 +660,101 @@ module printBase1_v2(bottomCylinderHeight, // see below how it is used
 	}
 }
 
+
+module printBase1_v5(bottomCylinderHeight,
+										 bottomPlateLength,    // x
+										 bottomPlateWidth,     // y
+										 bottomPlateThickness, // z
+										 extDiam, 
+										 torusDiam, 
+										 intDiam, 
+										 ballsDiam,
+     	               betweenVertAxis=37.5,
+                     motorSide=42.5,
+										 verticalAxisDiam=5,
+										 baseFixingScrewsDiam=3) {
+
+  cornerRadius = 10;
+	difference() {
+		roundedRect([bottomPlateLength, 
+								 bottomPlateWidth, 
+								 bottomPlateThickness], 
+								cornerRadius);
+		// Drill screw holes	
+		rotate([0, 0, 0]) {	
+      translate([(bottomPlateLength / 2) - cornerRadius, 
+			           (bottomPlateWidth / 2) - cornerRadius, 
+			           0]) {
+				cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
+		  }		
+      translate([-((bottomPlateLength / 2) - cornerRadius), 
+			           (bottomPlateWidth / 2) - cornerRadius, 
+			           0]) {
+				cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
+		  }		
+      translate([(bottomPlateLength / 2) - cornerRadius, 
+			           -((bottomPlateWidth / 2) - cornerRadius), 
+			           0]) {
+				cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
+		  }		
+      translate([-((bottomPlateLength / 2) - cornerRadius), 
+			           -((bottomPlateWidth / 2) - cornerRadius), 
+			           0]) {
+				cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
+		  }		
+	  }
+		
+		// Axis, ball bearing, verticalAxisDiam
+		// A - Axis
+    translate([0, 0, 0]) {
+			rotate([0, 0, 0]) {
+				#cylinder(d=verticalAxisDiam, h=100, $fn=50, center=true);
+			}
+		}		
+		// B - Ball Bearing socket
+		// top hole, for a screw
+    translate([0, 0, 0]) {
+			rotate([0, 0, 0]) {
+				cylinder(d=verticalAxisDiam * 2, h=(bottomPlateThickness * 2), $fn=50, center=true);
+			}
+		}				
+		// Ball bearing (socket) itself
+		dims = getBBDims(verticalAxisDiam); // [id, od, t]. My be unused
+		topThickness = 3;
+		translate([0, 0, -(bottomPlateThickness) + topThickness]) {
+			rotate([0, 0, 0]) {
+		    #ballBearing(verticalAxisDiam);
+			}
+		}
+		
+		motorDepth= 39 ;
+		motorTopWallThickness = 3;
+		// Motor socket
+		translate([0, -betweenVertAxis, -((motorDepth - bottomPlateThickness)/ 2) - motorTopWallThickness]) {
+			rotate([90, 0, 0]) {
+				#motor(motorSide=motorSide, // 42.32, 
+				      motorDepth=39, 
+						  withScrews=false, 
+						  screwLen=10,
+						  forSocket=false,
+						  justRedrillScrewHoles = false,
+						  label="NEMA-17");
+			}
+		}
+	}
+	// Options:
+	// Motor axis, and small pinion (16 teeth)
+	
+	// Make it ANOTHER Part, attached to the plate above, with feet.
+	// => Possibly preserve some space for the motor screw heads.
+  translate([0, 0, bottomCylinderHeight / 2]) {
+		rotate([0, 0, 0]) {
+	    groovedCylinder(bottomCylinderHeight, extDiam, torusDiam, intDiam, ballsDiam);
+		}
+	}
+
+}
+
 /**
  * Top base, the one upside down
  * All dimensions in millimeters.
