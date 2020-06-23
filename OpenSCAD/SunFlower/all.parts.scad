@@ -194,7 +194,7 @@ module footedBase(cylHeight,
 			footOffset = !feetInside ?
 									 (extDiam / 2) + ((fixingFootSize / 2) - minWallThickness) :
 									 (extDiam / 2) - ((fixingFootSize / 2) + minWallThickness);
-			// HARD CODED (for now)
+
 			feetDown = !feetFacingUp; // false; // Default true. Feet on the floor. TODO Make it a parameter!!!
 			///////////////////////
 			if (!feetDown) {
@@ -455,7 +455,7 @@ module drillBigWheelStand(drillingPattern, thickness) {
  * 
  * @param diam
  * @param thickness
- * @param homes Array[Array[Number]], [[angle, radius, diameter][
+ * @param holes Array[Array[Number]], [[angle, radius, diameter][
  */
 module bigWheelStand(diam, axisDiam, thickness, holes) {
 	color("gold") {

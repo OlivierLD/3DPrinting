@@ -660,6 +660,9 @@ module printBase1_v2(bottomCylinderHeight, // see below how it is used
 	}
 }
 
+V5_BASE_BASE_ONLY = 1;
+V5_BASE_TOP_ONLY = 2;
+V5_BASE_ALL_ELEMENTS = 3;
 
 module printBase1_v5(bottomCylinderHeight,
 										 bottomPlateLength,    // x
@@ -669,6 +672,12 @@ module printBase1_v5(bottomCylinderHeight,
 										 torusDiam, 
 										 intDiam, 
 										 ballsDiam,
+										 option = V5_BASE_ALL_ELEMENTS,
+										 withGear = true,
+										 fixingFootSize = 20, 
+									   fixingFootWidth = 20, 
+										 minWallThickness = 10,
+									   screwDiam = 4, 
      	               betweenVertAxis=37.5,
                      motorSide=42.5,
 										 verticalAxisDiam=5,
@@ -678,97 +687,146 @@ module printBase1_v5(bottomCylinderHeight,
 	motorDepth= 39 ;
 	motorTopWallThickness = 3;
 											 
-	difference() {
-		roundedRect([bottomPlateLength, 
-								 bottomPlateWidth, 
-								 bottomPlateThickness], 
-								cornerRadius);
-		// Drill screw holes	
-		rotate([0, 0, 0]) {	
-      translate([(bottomPlateLength / 2) - cornerRadius, 
-			           (bottomPlateWidth / 2) - cornerRadius, 
-			           0]) {
-				cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
-		  }		
-      translate([-((bottomPlateLength / 2) - cornerRadius), 
-			           (bottomPlateWidth / 2) - cornerRadius, 
-			           0]) {
-				cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
-		  }		
-      translate([(bottomPlateLength / 2) - cornerRadius, 
-			           -((bottomPlateWidth / 2) - cornerRadius), 
-			           0]) {
-				cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
-		  }		
-      translate([-((bottomPlateLength / 2) - cornerRadius), 
-			           -((bottomPlateWidth / 2) - cornerRadius), 
-			           0]) {
-				cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
-		  }		
-	  }
-		
-		// Axis, ball bearing, verticalAxisDiam
-		// A - Axis
-    translate([0, 0, 0]) {
-			rotate([0, 0, 0]) {
-				#cylinder(d=verticalAxisDiam, h=100, $fn=50, center=true);
+	footAngleOffset = 90;										 
+						
+	if (option == V5_BASE_ALL_ELEMENTS || option == V5_BASE_BASE_ONLY) {						
+												 
+		difference() {
+			roundedRect([bottomPlateLength, 
+									 bottomPlateWidth, 
+									 bottomPlateThickness], 
+									cornerRadius);
+			// Drill screw holes	
+			rotate([0, 0, 0]) {	
+				translate([(bottomPlateLength / 2) - cornerRadius, 
+									 (bottomPlateWidth / 2) - cornerRadius, 
+									 0]) {
+					cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
+				}		
+				translate([-((bottomPlateLength / 2) - cornerRadius), 
+									 (bottomPlateWidth / 2) - cornerRadius, 
+									 0]) {
+					cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
+				}		
+				translate([(bottomPlateLength / 2) - cornerRadius, 
+									 -((bottomPlateWidth / 2) - cornerRadius), 
+									 0]) {
+					cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
+				}		
+				translate([-((bottomPlateLength / 2) - cornerRadius), 
+									 -((bottomPlateWidth / 2) - cornerRadius), 
+									 0]) {
+					cylinder(d=baseFixingScrewsDiam, h=2*bottomPlateThickness, $fn=30, center=true);
+				}		
 			}
-		}		
-		// B - Ball Bearing socket
-		// top hole, for a screw
-    translate([0, 0, 0]) {
-			rotate([0, 0, 0]) {
-				cylinder(d=verticalAxisDiam * 2, h=(bottomPlateThickness * 2), $fn=50, center=true);
+			
+			// Axis, ball bearing, verticalAxisDiam
+			// A - Axis
+			translate([0, 0, 0]) {
+				rotate([0, 0, 0]) {
+					#cylinder(d=verticalAxisDiam, h=100, $fn=50, center=true);
+				}
+			}		
+			// B - Ball Bearing socket container
+			// top hole, for a screw
+			translate([0, 0, 0]) {
+				rotate([0, 0, 0]) {
+					cylinder(d=verticalAxisDiam * 2, h=(bottomPlateThickness * 2), $fn=50, center=true);
+				}
+			}				
+			// Ball bearing (socket) itself
+			dims = getBBDims(verticalAxisDiam); // [id, od, t]. My be unused
+			topThickness = 3;
+			translate([0, 0, -(bottomPlateThickness) + topThickness]) {
+				rotate([0, 0, 0]) {
+					#ballBearing(verticalAxisDiam);
+				}
 			}
-		}				
-		// Ball bearing (socket) itself
-		dims = getBBDims(verticalAxisDiam); // [id, od, t]. My be unused
-		topThickness = 3;
-		translate([0, 0, -(bottomPlateThickness) + topThickness]) {
-			rotate([0, 0, 0]) {
-		    %ballBearing(verticalAxisDiam);
+			// Motor socket
+			translate([0, -betweenVertAxis, -((motorDepth - bottomPlateThickness)/ 2) - motorTopWallThickness]) {
+				rotate([90, 0, 0]) {
+					#motor(motorSide=motorSide, // 42.32, 
+								motorDepth=39, 
+								withScrews=false, 
+								screwLen=10,
+								forSocket=false,
+								justRedrillScrewHoles = false,
+								label="NEMA-17");
+				}
+			}
+			// Some light ;)
+			translate([22, 18, 0]) {
+				#cylinder(d=30, h=(bottomPlateThickness * 2), $fn=100, center=true);
+			}
+			translate([-22, 18, 0]) {
+				#cylinder(d=30, h=(bottomPlateThickness * 2), $fn=100, center=true);
+			}
+			
+			// Top element drilling pattern
+			rotate([0, 0, footAngleOffset]) {
+				drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness, feetInside=true);
 			}
 		}
 		
-		// Motor socket
-		translate([0, -betweenVertAxis, -((motorDepth - bottomPlateThickness)/ 2) - motorTopWallThickness]) {
-			rotate([90, 0, 0]) {
-				#motor(motorSide=motorSide, // 42.32, 
-				      motorDepth=39, 
-						  withScrews=false, 
-						  screwLen=10,
-						  forSocket=false,
-						  justRedrillScrewHoles = false,
-						  label="NEMA-17");
-			}
-		}
-	}
-	// Options:
-	// Motor axis, and small pinion (16 teeth)
-	translate([0, -betweenVertAxis, -((motorDepth - bottomPlateThickness)/ 2) - motorTopWallThickness]) {
-		// Pinion?
-		rotate([0, 180, 0]) {
-			// Motor axis length motorAxisLength=24
-			translate([0, 0, -(motorSide / 2) - 24 + 1]) { // +1: slack
-				%pinion32P16T();
-			}
-		}
-	}
-	// Big wheel?
-	rotate([0, 180, 0]) {
-		translate([0, 0, -25]) {
-			%actoBotics615222();
-		}
 	}
 	
-	// Make it ANOTHER Part, attached to the plate above, with feet.
-	// => Possibly preserve some space for the motor screw heads.
-  translate([0, 0, bottomCylinderHeight / 2]) {
-		rotate([0, 0, 0]) {
-	    groovedCylinder(bottomCylinderHeight, extDiam, torusDiam, intDiam, ballsDiam);
+	if (withGear) {
+		// Options:
+		// Motor axis, and small pinion (16 teeth)
+		translate([0, -betweenVertAxis, -((motorDepth - bottomPlateThickness)/ 2) - motorTopWallThickness]) {
+			// Pinion?
+			rotate([0, 180, 0]) {
+				// Motor axis length motorAxisLength=24
+				translate([0, 0, -(motorSide / 2) - 24 + 1]) { // +1: slack
+					pinion32P16T();
+				}
+			}
+		}
+		// Big wheel?
+		rotate([0, 180, 0]) {
+			translate([0, 0, -25]) {
+				actoBotics615222();
+			}
+		}
+		// Big wheel base?
+		translate([0, 0, 25]) {
+			actoBotics615222(stand=true,
+											 standThickness=10);
+		}
+
+	}
+	
+	// Make it ANOTHER (detachable) Part, attached to the plate above, with feet.
+	// => Possibly preserve some space for the motor screw heads. Or use countersink heads?
+	if (option == V5_BASE_ALL_ELEMENTS || option == V5_BASE_TOP_ONLY) {						
+	
+		translate([0, 0, bottomCylinderHeight / 2]) {
+			rotate([0, 0, 0]) {
+				groovedCylinder(bottomCylinderHeight, extDiam, torusDiam, intDiam, ballsDiam);
+			}
+		}
+		// The feet
+		feetDown = true;
+		footUpDownRot = feetDown ? 0 : 180;
+		footUpDownOffset = feetDown ? 0 : -(cylHeight - fixingFootSize);
+
+		feetInside = true;
+		footOffset = !feetInside ?
+								 (extDiam / 2) + ((fixingFootSize / 2) - minWallThickness) :
+								 (extDiam / 2) - ((fixingFootSize / 2) + minWallThickness);
+
+		for (foot = [0 : 2]) {
+			rotate([0, footUpDownRot, footAngleOffset + (foot * (360 / 3)) + (180 * (feetDown ? 0 : 1))]) {
+				translate([footOffset, 0, footUpDownOffset]) {
+					rotate([0, 0, (feetInside ? 90 : -90)]) {
+						translate([0, 0, fixingFootSize / 2]) {
+							fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+						}
+					}
+				}
+			}
 		}
 	}
-
 }
 
 /**

@@ -34,6 +34,17 @@ option = BASE_V5_PRINT;
 if (option == CUSTOM_PRINT) {
 	customPrint();
 } else if (option == BASE_V5_PRINT) {
+	
+	V5_BASE_BASE_ONLY = 1;
+  V5_BASE_TOP_ONLY = 2;
+  V5_BASE_ALL_ELEMENTS = 3;
+
+//	designOption = V5_BASE_BASE_ONLY;
+//	designOption = V5_BASE_TOP_ONLY;
+	designOption = V5_BASE_ALL_ELEMENTS;
+	
+	withGear = true; // Set to false for printing
+	
 	printBase1_v5(bottomCylinderHeight,
 								bottomPlateLength,
 								bottomPlateWidth,
@@ -42,6 +53,8 @@ if (option == CUSTOM_PRINT) {
 							  torusDiam, 
 							  intDiam, 
 							  ballsDiam,
+								option = designOption,
+								withGear = withGear,
      	          betweenVertAxis=betweenVertAxis);
 } else {
 	echo(str("Nothing to do yet..."));

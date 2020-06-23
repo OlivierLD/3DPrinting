@@ -1029,7 +1029,7 @@ module pinion32P16T() {
 				}
 			}
 			rotate([0, 90, 0]) {
-				translate([-11, 0, (baseDiam - screwLen) / 2]) {
+				translate([-10.5, 0, ((baseDiam - screwLen) / 2)]) {
 					// Screw
 					color("black") {
 						cylinder(d=screwDiam, h=screwLen, $fn=20, center=false);
@@ -1049,7 +1049,8 @@ module pinion32P16T() {
  * ActoBotics 615222
  * 32 pitch, 76 teeth, 1.00" bore.
  */
-module actoBotics615222() {
+module actoBotics615222(stand=false,
+                        standThickness=10) {
 	od = 2.437 * inch_to_mm;
 	thickness = (1 / 4) * inch_to_mm;
 	boreDiam = 1 * inch_to_mm;
@@ -1059,29 +1060,45 @@ module actoBotics615222() {
 	screwDiam = 0.140 * inch_to_mm;
 	nbScrews = 16;
 	
-	difference() {
-		translate([0, 0, 0]) {
-			cylinder(d=od, h=thickness, $fn=76);
-		}
-		// Inner milling
-		translate([0, 0, innerThicknsess]) {
-			cylinder(d=innerRecessDiam, h=thickness, $fn=100);
-		}
-		// Bore
-		translate([0, 0, -0.5]) {
-			cylinder(d=boreDiam, h=thickness, $fn=100);
-		}
-		// Screws
-		for (i = [0 : 15]) {
-			angle = i * (360 / 16);
-			rotate([0, 0, angle]) {
-				translate([-(screwCircleDiam / 2), 0, -0.5]) {
-					cylinder(d=screwDiam, h=thickness, $fn=20);
+	if (!stand) {
+		difference() {
+			translate([0, 0, 0]) {
+				cylinder(d=od, h=thickness, $fn=76);
+			}
+			// Inner milling
+			translate([0, 0, innerThicknsess]) {
+				cylinder(d=innerRecessDiam, h=thickness, $fn=100);
+			}
+			// Bore
+			translate([0, 0, -0.5]) {
+				cylinder(d=boreDiam, h=thickness, $fn=100);
+			}
+			// Screws
+			for (i = [0 : 15]) { // 16 screws
+				angle = i * (360 / 16);
+				rotate([0, 0, angle]) {
+					translate([-(screwCircleDiam / 2), 0, -0.5]) {
+						cylinder(d=screwDiam, h=thickness, $fn=20);
+					}
 				}
 			}
 		}
-		
-	}
+	} else {
+		difference() {
+			translate([0, 0, 0]) {
+				cylinder(d=od * 0.8, h=standThickness, $fn=200);
+			}			
+			// Screws
+			for (i = [0 : 15]) { // 16 screws
+				angle = i * (360 / 16);
+				rotate([0, 0, angle]) {
+					translate([-(screwCircleDiam / 2), 0, -0.5]) {
+						cylinder(d=screwDiam, h=standThickness * 1.1, $fn=20);
+					}
+				}
+			}
+		}
+	}	
 }
 
 /*
@@ -1297,6 +1314,17 @@ if (false) {
 	pinion32P16T();
 }	
 
+if (false) {
+	actoBotics615222();
+}
+
 if (true) {
 	actoBotics615222();
+	translate([37.5, 0, 0]) {
+	  pinion32P16T();
+	}
+	translate([0, 0, -15]) {
+		actoBotics615222(stand=true,
+                     standThickness=10);
+	}
 }
