@@ -49,15 +49,15 @@ if (option == CUSTOM_PRINT) {
 	withGear = false; // Set to false for printing
 	
 	printBase1_v5(bottomCylinderHeight,
-				  bottomPlateLength,
-				  bottomPlateWidth,
-				  bottomPlateThickness,
-				  extDiam, 
-				  torusDiam, 
-				  intDiam, 
-				  ballsDiam,
-				  option = designOption,
-				  withGear = withGear,
+                bottomPlateLength,
+                bottomPlateWidth,
+                bottomPlateThickness,
+                extDiam, 
+                torusDiam, 
+                intDiam, 
+                ballsDiam,
+                option = designOption,
+                withGear = withGear,
      	          betweenVertAxis = betweenVertAxis);
 } else {
 	echo(str("Nothing to do yet..."));

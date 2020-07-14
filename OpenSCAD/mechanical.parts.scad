@@ -1090,7 +1090,7 @@ module actoBotics615222(stand = false,
 			}
 		}
 	}
-    if (stand) { // Only the stand
+  if (stand) { // Only the stand
 		difference() {
 			translate([0, 0, 0]) {
 				cylinder(d=od * 0.8, h=standThickness, $fn=200);
@@ -1106,7 +1106,7 @@ module actoBotics615222(stand = false,
 			}
 		}
 	}
-    if (redrillHoles) {
+  if (redrillHoles) {
         holeLength = drillLength == -1 ? standThickness * 1.1: drillLength;
         for (i = [0 : 15]) { // 16 screws
             angle = i * (360 / 16);
@@ -1341,18 +1341,18 @@ if (true) {
 	difference() {
 		// Wheel stand
 		actoBotics615222(stand=true,
-                         gear=true,
-                         redrillHoles=false,
-						 standThickness=10);
+                     gear=true,
+                     redrillHoles=false,
+                     standThickness=10);
 		// With an axis, drilled
 		translate([0, 0, -2]) {
 			cylinder(d=5, h=20, $fn=50);
 		}
-        // Redrill screw holes
-        actoBotics615222(stand=false,
-                 gear=false,
-                 redrillHoles=true,
-                 drillLength=40);
+    // Redrill screw holes
+    actoBotics615222(stand=false,
+             gear=false,
+             redrillHoles=true,
+             drillLength=40);
 
 	}
 }

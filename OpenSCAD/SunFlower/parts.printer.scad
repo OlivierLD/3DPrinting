@@ -774,17 +774,17 @@ module printBase1_v5(bottomCylinderHeight,
 	if (withGear || option == V5_BASE_UPPER_TOP_ONLY || option == V5_BASE_ALL_ELEMENTS) { 
 		// Options:
 		// Motor axis, and small pinion (16 teeth)
-        if (withGear) {
-            translate([0, -betweenVertAxis, -((motorDepth - bottomPlateThickness)/ 2) - motorTopWallThickness]) {
-                // Pinion?
-                rotate([0, 180, 0]) {
-                    // Motor axis length motorAxisLength=24
-                    translate([0, 0, -(motorSide / 2) - 24 + 1]) { // +1: slack
-                        color("black") {
-                            pinion32P16T();
-                        }
+    if (withGear) {
+        translate([0, -betweenVertAxis, -((motorDepth - bottomPlateThickness)/ 2) - motorTopWallThickness]) {
+            // Pinion?
+            rotate([0, 180, 0]) {
+                // Motor axis length motorAxisLength=24
+                translate([0, 0, -(motorSide / 2) - 24 + 1]) { // +1: slack
+                    color("black") {
+                        pinion32P16T();
                     }
                 }
+            }
 			}
 		}
 		// Big wheel?
@@ -795,12 +795,12 @@ module printBase1_v5(bottomCylinderHeight,
                 }
             }
 		}
-		// Big wheel base?
-		translate([0, 0, 25]) {
-			actoBotics615222(stand=true,
-                             gear=false,
-							 standThickness=16.0);
-		}
+//		// Big wheel base?
+//		translate([0, 0, 25]) {
+//			actoBotics615222(stand=true,
+//                       gear=false,
+//							         standThickness=16.0);
+//		}
 
 	}
 	
@@ -837,34 +837,50 @@ module printBase1_v5(bottomCylinderHeight,
 	}
     
     // The top part, upside down
-    if (option == V5_BASE_ALL_ELEMENTS || option == V5_BASE_UPPER_TOP_ONLY) {						
-		translate([0, 0, 1 + (3 * (bottomCylinderHeight / 2))]) {
-			rotate([180, 0, 0]) {
-				groovedCylinder(bottomCylinderHeight, extDiam, torusDiam, intDiam, ballsDiam);
-                lidThickness = 5;
-                translate([0, 0, -(bottomCylinderHeight - (2 * lidThickness))]) {
-                    difference() {
-                        // top 
-                        cylinder(d=extDiam, h=lidThickness, $fn=100);
-                        // Re-drill the lid
-                        translate([0, 0, -20]) { // Wheel screws
-                            #actoBotics615222(stand=false,
-                                             gear=false,
-                                             redrillHoles=true,
-                                             drillLength=60);
-                        }
-                        // Axis
-                        translate([0, 0, 0]) {
-                            rotate([0, 0, 0]) {
-                                #cylinder(d=verticalAxisDiam, h=(10 * bottomPlateThickness * 2), $fn=50, center=true);
-                            }
-                        }				
-                        // Done with the lid
-                     }
-                 }
-			}
-		}
-    }
+  if (option == V5_BASE_ALL_ELEMENTS || option == V5_BASE_UPPER_TOP_ONLY) {						
+    
+    difference() {
+      union() {
+        // Big wheel base
+        translate([0, 0, 25]) {
+          actoBotics615222(stand=true,
+                           gear=false,
+                           standThickness=16.0);
+        }
+        translate([0, 0, 1 + (3 * (bottomCylinderHeight / 2))]) {
+          rotate([180, 0, 0]) {
+            union() {
+              groovedCylinder(bottomCylinderHeight, extDiam, torusDiam, intDiam, ballsDiam);
+              lidThickness = 5;
+              translate([0, 0, -(bottomCylinderHeight - (2 * lidThickness))]) {
+                difference() {
+                  // top 
+                  cylinder(d=extDiam, h=lidThickness, $fn=100);
+                  // Re-drill the lid
+                  translate([0, 0, -20]) { // Wheel screws
+                    actoBotics615222(stand=false,
+                                     gear=false,
+                                     redrillHoles=true,
+                                     drillLength=60);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      // Main Axis.
+      translate([0, 0, 0]) {
+        rotate([0, 0, 0]) {
+          cylinder(d=verticalAxisDiam, 
+                   h=(100), 
+                   $fn=50, 
+                   center=true);
+        }
+      }
+      // Done with the lid
+    } 
+  }
 }
 
 /**
