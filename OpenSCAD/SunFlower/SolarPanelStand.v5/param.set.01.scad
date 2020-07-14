@@ -11,7 +11,7 @@ extDiam   = 120;
 verticalAxisDiam = 5;
 
 // Between vertical axis and motor axis
-betweenVertAxis = 37.5;
+betweenVertAxis = 36.5; // 37.5; // Might need adjustments...
 
 bottomCylinderHeight = 20;
 
@@ -26,8 +26,6 @@ motorAxisDiam = 5;
 motorAxisLength = 24;
 motorFixingFootScrewDiam = 3; // Might be unsed
 flapScrewDiam = 3;
-
-
 
 // -- See what this becomes... 
 wheelThickness = 10;

@@ -35,27 +35,30 @@ if (option == CUSTOM_PRINT) {
 	customPrint();
 } else if (option == BASE_V5_PRINT) {
 	
-	V5_BASE_BASE_ONLY = 1;
+  V5_BASE_BASE_ONLY = 1;
   V5_BASE_TOP_ONLY = 2;
   V5_BASE_ALL_ELEMENTS = 3;
+  V5_BASE_UPPER_TOP_ONLY = 4;  
 
-//	designOption = V5_BASE_BASE_ONLY;
+//  designOption = V5_BASE_BASE_ONLY;
 //	designOption = V5_BASE_TOP_ONLY;
-	designOption = V5_BASE_ALL_ELEMENTS;
+    designOption = V5_BASE_UPPER_TOP_ONLY;
+//  designOption = V5_BASE_ALL_ELEMENTS;
+//  designOption = 0;
 	
-	withGear = true; // Set to false for printing
+	withGear = false; // Set to false for printing
 	
 	printBase1_v5(bottomCylinderHeight,
-								bottomPlateLength,
-								bottomPlateWidth,
-								bottomPlateThickness,
-							  extDiam, 
-							  torusDiam, 
-							  intDiam, 
-							  ballsDiam,
-								option = designOption,
-								withGear = withGear,
-     	          betweenVertAxis=betweenVertAxis);
+				  bottomPlateLength,
+				  bottomPlateWidth,
+				  bottomPlateThickness,
+				  extDiam, 
+				  torusDiam, 
+				  intDiam, 
+				  ballsDiam,
+				  option = designOption,
+				  withGear = withGear,
+     	          betweenVertAxis = betweenVertAxis);
 } else {
 	echo(str("Nothing to do yet..."));
 }

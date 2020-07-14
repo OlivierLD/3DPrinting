@@ -1049,8 +1049,11 @@ module pinion32P16T() {
  * ActoBotics 615222
  * 32 pitch, 76 teeth, 1.00" bore.
  */
-module actoBotics615222(stand=false,
-                        standThickness=10) {
+module actoBotics615222(stand = false,
+                        gear = true,
+                        standThickness=10,
+                        redrillHoles = false,
+                        drillLength=-1) {
 	od = 2.437 * inch_to_mm;
 	thickness = (1 / 4) * inch_to_mm;
 	boreDiam = 1 * inch_to_mm;
@@ -1060,10 +1063,13 @@ module actoBotics615222(stand=false,
 	screwDiam = 0.140 * inch_to_mm;
 	nbScrews = 16;
 	
-	if (!stand) {
+	if (gear) {
+        // Ony the gear
 		difference() {
 			translate([0, 0, 0]) {
-				cylinder(d=od, h=thickness, $fn=76);
+                color("silver") {
+                    cylinder(d=od, h=thickness, $fn=76);
+                }
 			}
 			// Inner milling
 			translate([0, 0, innerThicknsess]) {
@@ -1083,7 +1089,8 @@ module actoBotics615222(stand=false,
 				}
 			}
 		}
-	} else {
+	}
+    if (stand) { // Only the stand
 		difference() {
 			translate([0, 0, 0]) {
 				cylinder(d=od * 0.8, h=standThickness, $fn=200);
@@ -1098,7 +1105,18 @@ module actoBotics615222(stand=false,
 				}
 			}
 		}
-	}	
+	}
+    if (redrillHoles) {
+        holeLength = drillLength == -1 ? standThickness * 1.1: drillLength;
+        for (i = [0 : 15]) { // 16 screws
+            angle = i * (360 / 16);
+            rotate([0, 0, angle]) {
+                translate([-(screwCircleDiam / 2), 0, -0.5]) {
+                    cylinder(d=screwDiam, h=holeLength, $fn=20);
+                }
+            }
+        }
+    }
 }
 
 /*
@@ -1319,12 +1337,42 @@ if (false) {
 }
 
 if (true) {
-	actoBotics615222();
+	// Just a wheel stand, for print test
+	difference() {
+		// Wheel stand
+		actoBotics615222(stand=true,
+                         gear=true,
+                         redrillHoles=false,
+						 standThickness=10);
+		// With an axis, drilled
+		translate([0, 0, -2]) {
+			cylinder(d=5, h=20, $fn=50);
+		}
+        // Redrill screw holes
+        actoBotics615222(stand=false,
+                 gear=false,
+                 redrillHoles=true,
+                 drillLength=40);
+
+	}
+}
+
+if (false) {
+	// A wheel
+	actoBotics615222();       
 	translate([37.5, 0, 0]) {
+		// A pinion
 	  pinion32P16T();
 	}
 	translate([0, 0, -15]) {
-		actoBotics615222(stand=true,
-                     standThickness=10);
+		difference() {
+			// Wheel stand
+			actoBotics615222(stand=true,
+											 standThickness=10);
+			// With an axis, drilled
+			translate([0, 0, -2]) {
+				cylinder(d=5, h=20, $fn=50);
+			}
+		}
 	}
 }
