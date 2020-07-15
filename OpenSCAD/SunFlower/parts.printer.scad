@@ -665,6 +665,10 @@ V5_BASE_TOP_ONLY = 2;
 V5_BASE_ALL_ELEMENTS = 3;
 V5_BASE_UPPER_TOP_ONLY = 4;
 
+module oval(w, h, height, center = false) {
+  scale([1, h/w, 1]) cylinder(h=height, r=w, center=center);
+}
+
 module printBase1_v5(bottomCylinderHeight,
                      bottomPlateLength,    // x
                      bottomPlateWidth,     // y
@@ -679,7 +683,7 @@ module printBase1_v5(bottomCylinderHeight,
                      fixingFootWidth = 20, 
                      minWallThickness = 10,
                      screwDiam = 4, 
-     	             betweenVertAxis=37.5, // TODO Tweak this
+                     betweenVertAxis=37.5, // TODO Tweak this
                      motorSide=42.5,
                      verticalAxisDiam=5,
                      baseFixingScrewsDiam=3) {
@@ -804,39 +808,57 @@ module printBase1_v5(bottomCylinderHeight,
 
 	}
 	
-	// Make it ANOTHER (detachable) Part, attached to the plate above, with feet.
-	// => Possibly preserve some space for the motor screw heads. Or use countersink heads?
+	// Make it ANOTHER (detachable) Part, attached to the plate above.
 	if (option == V5_BASE_ALL_ELEMENTS || option == V5_BASE_TOP_ONLY) {						
 	
-		translate([0, 0, bottomCylinderHeight / 2]) {
-			rotate([0, 0, 0]) {
-				groovedCylinder(bottomCylinderHeight, extDiam, torusDiam, intDiam, ballsDiam);
-			}
-		}
-		// The feet
-		feetDown = true;
-		footUpDownRot = feetDown ? 0 : 180;
-		footUpDownOffset = feetDown ? 0 : -(cylHeight - fixingFootSize);
+    difference() {
+      union() {
+        
+        //oval(10, bottomCylinderHeight, 30, center = false);
+        
+        translate([0, 0, bottomCylinderHeight / 2]) {
+          rotate([0, 0, 0]) {
+            groovedCylinder(bottomCylinderHeight, extDiam, torusDiam, intDiam, ballsDiam);
+          }
+        }
+        // The feet
+        feetDown = true;
+        footUpDownRot = feetDown ? 0 : 180;
+        footUpDownOffset = feetDown ? 0 : -(cylHeight - fixingFootSize);
 
-		feetInside = true;
-		footOffset = !feetInside ?
-								 (extDiam / 2) + ((fixingFootSize / 2) - minWallThickness) :
-								 (extDiam / 2) - ((fixingFootSize / 2) + minWallThickness);
+        feetInside = true;
+        footOffset = !feetInside ?
+                     (extDiam / 2) + ((fixingFootSize / 2) - minWallThickness) :
+                     (extDiam / 2) - ((fixingFootSize / 2) + minWallThickness);
 
-		for (foot = [0 : 2]) {
-			rotate([0, footUpDownRot, footAngleOffset + (foot * (360 / 3)) + (180 * (feetDown ? 0 : 1))]) {
-				translate([footOffset, 0, footUpDownOffset]) {
-					rotate([0, 0, (feetInside ? 90 : -90)]) {
-						translate([0, 0, fixingFootSize / 2]) {
-							fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
-						}
-					}
-				}
-			}
-		}
+        for (foot = [0 : 2]) {
+          rotate([0, footUpDownRot, footAngleOffset + (foot * (360 / 3)) + (180 * (feetDown ? 0 : 1))]) {
+            translate([footOffset, 0, footUpDownOffset]) {
+              rotate([0, 0, (feetInside ? 90 : -90)]) {
+                translate([0, 0, fixingFootSize / 2]) {
+                  fixingFoot(fixingFootSize, fixingFootWidth, screwDiam, minWallThickness);
+                }
+              }
+            }
+          }
+        }
+      }
+      rodLength = 40;
+      holeHalfThickness = 10;
+      holeHalfWidth = 30;
+      for (angle = [0 : 120 : 240]) {
+        rotate([0, 0, angle]) {
+          rotate([90, 0, 0]) {
+            translate([0, 0,  ((extDiam - rodLength) / 2)]) {
+              oval(holeHalfWidth, holeHalfThickness, rodLength, center = false);
+            }
+          }
+        }
+      }
+    }
 	}
     
-    // The top part, upside down
+  // The top part, upside down, facing down
   if (option == V5_BASE_ALL_ELEMENTS || option == V5_BASE_UPPER_TOP_ONLY) {						
     
     difference() {
@@ -850,24 +872,55 @@ module printBase1_v5(bottomCylinderHeight,
         translate([0, 0, 1 + (3 * (bottomCylinderHeight / 2))]) {
           rotate([180, 0, 0]) {
             union() {
-              groovedCylinder(bottomCylinderHeight, extDiam, torusDiam, intDiam, ballsDiam);
+              difference() {
+                groovedCylinder(bottomCylinderHeight, extDiam, torusDiam, intDiam, ballsDiam);
+                rodLength = 30;
+                // Some light
+                for (i = [0 : 15]) {  
+                  rot = i * (360 / 16);
+                  rotate([0, 0, rot]) {
+                    translate([0, (extDiam + rodLength) / 2, 0]) {
+                      rotate([90, 0, 0]) {
+                        cylinder(h=rodLength, d=10, $fn=50);
+                      }
+                    }
+                  }
+                }
+              }
               lidThickness = 5;
-              translate([0, 0, -(bottomCylinderHeight - (2 * lidThickness))]) {
+              translate([0, 0, -(bottomCylinderHeight - (2 * lidThickness))]) {                         
                 difference() {
                   // top 
                   cylinder(d=extDiam, h=lidThickness, $fn=100);
-                  // Re-drill the lid
-                  translate([0, 0, -20]) { // Wheel screws
+                  // Re-drill the lid for the wheel gear
+                  translate([0, 0, -20]) { // Wheel screws, drilled.
                     actoBotics615222(stand=false,
                                      gear=false,
                                      redrillHoles=true,
                                      drillLength=60);
+                  }
+                  // some light
+                  holeDiam = 15;
+                  for (angle = [0, 90, 180, 270]) {
+                    rotate([0, 0, angle]) {
+                      translate([((intDiam / 2) - holeDiam), 0, 0]) {
+                        cylinder(d=holeDiam, h=200, $fn=100, center=true);
+                      }
+                    }
                   }
                 }
               }
             }
           }
         }
+      }
+      // Top screw heads recess
+      translate([0, 0, 39]) { // Wheel screws, drilled.
+        actoBotics615222(stand=false,
+                         gear=false,
+                         redrillHoles=true,
+                         drillLength=10,
+                         redrillDiam = 7);
       }
       // Main Axis.
       translate([0, 0, 0]) {

@@ -1051,9 +1051,10 @@ module pinion32P16T() {
  */
 module actoBotics615222(stand = false,
                         gear = true,
-                        standThickness=10,
+                        standThickness = 10,
                         redrillHoles = false,
-                        drillLength=-1) {
+                        drillLength = -1,
+                        redrillDiam = -1) {
 	od = 2.437 * inch_to_mm;
 	thickness = (1 / 4) * inch_to_mm;
 	boreDiam = 1 * inch_to_mm;
@@ -1108,11 +1109,12 @@ module actoBotics615222(stand = false,
 	}
   if (redrillHoles) {
         holeLength = drillLength == -1 ? standThickness * 1.1: drillLength;
+        drillDiam = redrillDiam == -1 ? screwDiam : redrillDiam;
         for (i = [0 : 15]) { // 16 screws
             angle = i * (360 / 16);
             rotate([0, 0, angle]) {
                 translate([-(screwCircleDiam / 2), 0, -0.5]) {
-                    cylinder(d=screwDiam, h=holeLength, $fn=20);
+                    cylinder(d=drillDiam, h=holeLength, $fn=20);
                 }
             }
         }
@@ -1352,7 +1354,8 @@ if (true) {
     actoBotics615222(stand=false,
              gear=false,
              redrillHoles=true,
-             drillLength=40);
+             drillLength=40 /*,
+             redrillDiam = 6 */);
 
 	}
 }

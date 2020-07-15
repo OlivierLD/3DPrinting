@@ -41,13 +41,15 @@ if (option == CUSTOM_PRINT) {
   V5_BASE_UPPER_TOP_ONLY = 4;  
 
 //  designOption = V5_BASE_BASE_ONLY;
-//	designOption = V5_BASE_TOP_ONLY;
-    designOption = V5_BASE_UPPER_TOP_ONLY;
+  	designOption = V5_BASE_TOP_ONLY;
+//  designOption = V5_BASE_UPPER_TOP_ONLY;
 //  designOption = V5_BASE_ALL_ELEMENTS;
 //  designOption = 0;
 	
 	withGear = false; // Set to false for printing
 	
+  echo(str("Between Axis (motor):", betweenVertAxis));
+  
 	printBase1_v5(bottomCylinderHeight,
                 bottomPlateLength,
                 bottomPlateWidth,
