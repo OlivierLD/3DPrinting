@@ -27,6 +27,15 @@ motorAxisLength = 24;
 motorFixingFootScrewDiam = 3; // Might be unsed
 flapScrewDiam = 3;
 
+standWidth = 130;
+standLength = 100; 
+standHeight = 130;
+wallThickness = 10;
+
+fixingFootSize = 20;
+fixingFootWidth = 20;
+fixingFootScrewDiam = 4;
+
 // -- See what this becomes... 
 wheelThickness = 10;
 bigWheelDiam = 103;

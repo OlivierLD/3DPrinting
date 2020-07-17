@@ -1071,13 +1071,16 @@ module printMainStand(totalStandWidth,
 							gearBaseScrewCircleRadius=gearBaseScrewCircleRadius,
 							printOption=printOption);
 		translate([0, 0, 0]) {
-			drillingPattern(extDiam, 
+      // For bevel gear cone
+      if (gearBaseScrewCircleRadius != -1) {
+			#drillingPattern(extDiam, 
 											fixingFootSize, 
 											screwDiam, 
 											minWallThickness, 
 											100, 
 											feetInside=topFeetInside,
 											gearBaseScrewCircleRadius=gearBaseScrewCircleRadius);
+      }
 		}
 		// Axis drilling pattern. Same as above.
 		dims = getHBScrewDims(verticalAxisDiam);

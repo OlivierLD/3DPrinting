@@ -39,28 +39,68 @@ if (option == CUSTOM_PRINT) {
   V5_BASE_TOP_ONLY = 2;
   V5_BASE_ALL_ELEMENTS = 3;
   V5_BASE_UPPER_TOP_ONLY = 4;  
+  V5_BRACKET_BASE_ONLY = 5;  
 
 //  designOption = V5_BASE_BASE_ONLY;
-  	designOption = V5_BASE_TOP_ONLY;
+//	designOption = V5_BASE_TOP_ONLY;
 //  designOption = V5_BASE_UPPER_TOP_ONLY;
 //  designOption = V5_BASE_ALL_ELEMENTS;
+    designOption = V5_BRACKET_BASE_ONLY;
 //  designOption = 0;
 	
 	withGear = false; // Set to false for printing
 	
   echo(str("Between Axis (motor):", betweenVertAxis));
   
-	printBase1_v5(bottomCylinderHeight,
-                bottomPlateLength,
-                bottomPlateWidth,
-                bottomPlateThickness,
-                extDiam, 
-                torusDiam, 
-                intDiam, 
-                ballsDiam,
-                option = designOption,
-                withGear = withGear,
-     	          betweenVertAxis = betweenVertAxis);
+  difference() {
+    union() {
+      if (designOption != V5_BRACKET_BASE_ONLY) {
+        printBase1_v5(bottomCylinderHeight,
+                      bottomPlateLength,
+                      bottomPlateWidth,
+                      bottomPlateThickness,
+                      extDiam, 
+                      torusDiam, 
+                      intDiam, 
+                      ballsDiam,
+                      option = designOption,
+                      withGear = withGear,
+                      betweenVertAxis = betweenVertAxis);
+      }
+      if (designOption == V5_BRACKET_BASE_ONLY || designOption == V5_BASE_ALL_ELEMENTS) {
+        rotate([0, 0, 45]) {               
+          translate([0, 0, 51]) {  // z=51: stuck
+            printMainStand(standWidth, 
+                           standLength, 
+                           standHeight, 
+                           0, // standTopWidth, 
+                           wallThickness, 
+                           verticalAxisDiam,
+                           0, // horizontalAxisDiam, 
+                           flapScrewDiam,
+                           extDiam, 
+                           fixingFootSize, 
+                           fixingFootScrewDiam, 
+                           // minFootWallThickness,
+                           // topFeetInside=topBaseFeetInside,
+                           // wheelStandThickness=bigWheelStandThickness,
+                           // wheelStandDrillingPattern=actoBotics615238DrillingPattern,
+                           fixingFeetOnBase=true,
+                           gearBaseScrewCircleRadius=-1,
+                           printOption=BASE_ONLY);
+          }
+        }
+      }
+    }
+    // TODO drill screws ...
+    for (angle = [0, 90, 180, 270]){
+      rotate([0, 0, angle + 45]) {
+        translate([30, 0, 0]) {
+          cylinder(d=4, h=100, $fn=50);
+        }
+      }
+    }
+  }                      
 } else {
 	echo(str("Nothing to do yet..."));
 }
