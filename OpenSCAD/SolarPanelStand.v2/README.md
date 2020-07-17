@@ -193,14 +193,13 @@ Connected to the battery.
 
 At work
 
-Here is a animation - stop motion - of the real device (first prototype), on 231 minutes, starting before noon, ending after. Event if the sky was obviously not clear, 
+Here is a animation - stop motion - of the real device (first prototype), on 231 minutes, starting before noon, ending after. Event if the sky was obviously not clear,
 orienting the panel does make a difference on the load. The first frames are too bright, it **was** sunny... 😎
 
-![Stop motion](https://github.com/OlivierLD/raspberry-coffee/blob/master/Project.Trunk/SunFlower.v2/stop.motion.gif)
+![Stop motion](https://github.com/OlivierLD/raspberry-coffee/blob/master/Project-Trunk/SunFlower-v2/stopmotion/stop.motion.gif)
 
 ### Next?
 - With a magnetometer for the heading and a GPS for the position
 - Something to look at for 3D printed gears: <https://github.com/chrisspen/gears>. This will be for V3.
 
 ---
-
