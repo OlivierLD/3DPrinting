@@ -99,23 +99,25 @@ rPiLength = 49;
 // -----------------
 // Base Pegs
 basePegDiam = 6;
+basePegBottomDiam = 10;
 basePegScrewDiam = 2;
 basePegHeight = 5;
+
 offset = 7;
 difference() {
 	color("orange") {
 		union() {
 			translate([ ((plateLength/2) - offset), (rPiWidth / 2), plateThickNess]) {
-				cylinder(h=basePegHeight, d=basePegDiam, center=true, $fn=100);
+        cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
 			}
 			translate([ ((plateLength/2) - offset), -(rPiWidth / 2), plateThickNess]) {
-				cylinder(h=basePegHeight, d=basePegDiam, center=true, $fn=100);
+        cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
 			}
 			translate([ ((plateLength/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
-				cylinder(h=basePegHeight, d=basePegDiam, center=true, $fn=100);
+        cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
 			}
 			translate([ ((plateLength/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
-				cylinder(h=basePegHeight, d=basePegDiam, center=true, $fn=100);
+        cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
 			}
 		}
 	}
