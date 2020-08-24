@@ -3,6 +3,13 @@
  */
 echo(version=version());
 
+// Base plate
+// ----------
+plateWidth = 75;    // 50
+plateLength = 75;   // 50
+plateThickNess = 3;
+cornerRadius = 10;
+
 logo = "./images/chloe.04.small.png"; 
 imgRatio = 1.5;
 logox = 500 * imgRatio; 
@@ -15,13 +22,6 @@ module roundedRect(size, radius) {
 		}
 	}
 }
-
-// Base plate
-// ----------
-plateWidth = 50;
-plateLength = 50;
-plateThickNess = 3;
-cornerRadius = 10;
 
 difference() {  
 	union() {
