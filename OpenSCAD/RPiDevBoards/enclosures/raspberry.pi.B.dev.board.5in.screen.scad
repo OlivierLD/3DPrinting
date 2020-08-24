@@ -92,35 +92,38 @@ module raspberryBStandOnly(drillHoles=true) {
         cylinder(h=plateThickNess * 2, d=4 /*cornerRadius/2*/, center=true, $fn=100);
       }
     }
-    rotate([0, 0, -90]) {
-      translate([
-       -18, // left - right (Y)
-       -15, // Top - bottom (X)
-       1.5    // Up - down    (Z)
-      ]) {
-        color("lime") {
-          linear_extrude(height=plateThickNess - 1, center=true) {
-            text(text1, 6);
+    if (false) {
+      rotate([0, 0, -90]) {
+        translate([
+         -18, // left - right (Y)
+         -15, // Top - bottom (X)
+         1.5    // Up - down    (Z)
+        ]) {
+          color("lime") {
+            linear_extrude(height=plateThickNess - 1, center=true) {
+              text(text1, 6);
+            }
+          }
+        }
+        translate([
+         -9,  // left - right (Y)
+         -25, // Top - bottom (X)
+         1.5    // Up - down    (Z)
+        ]) {
+          color("lime") {
+            linear_extrude(height=plateThickNess - 1, center=true) {
+              text(text2, 6);
+            }
           }
         }
       }
-      translate([
-       -9,  // left - right (Y)
-       -25, // Top - bottom (X)
-       1.5    // Up - down    (Z)
-      ]) {
-        color("lime") {
-          linear_extrude(height=plateThickNess - 1, center=true) {
-            text(text2, 6);
-          }
-        }
-      }
-    }
-    translate([25, 0, 3]) {
-      scale([.1 * plateWidth / logox, .1 * plateWidth / logoy, .02]) {
-        color("lime") {
-          rotate([0, 0, -90]) {
-            surface(file=logo, invert=true, center=true);
+      // Logo
+      translate([25, 0, 3]) {
+        scale([.1 * plateWidth / logox, .1 * plateWidth / logoy, .02]) {
+          color("lime") {
+            rotate([0, 0, -90]) {
+              surface(file=logo, invert=true, center=true);
+            }
           }
         }
       }
@@ -272,6 +275,33 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
             cylinder(d=3, h=plateThickNess * 1.1, center=true, $fn=100);
           }
         }
+        // Labels
+        translate([
+         55,  // left - right (X)
+         -55, // Top - bottom (Y)
+         1.5  // Up - down    (Z)
+        ]) {
+          rotate([0, 0, 90]) {
+            color("lime") {
+              linear_extrude(height=plateThickNess - 1, center=true) {
+                text("power HDMI audio", 6);
+              }
+            }
+          }
+        }
+        translate([
+         7.5,  // left - right (X)
+         -62, // Top - bottom (Y)
+         1.5  // Up - down    (Z)
+        ]) {
+          rotate([0, 0, 0]) {
+            color("lime") {
+              linear_extrude(height=plateThickNess - 1, center=true) {
+                text("SD", 6);
+              }
+            }
+          }
+        }
       }
     }
     
@@ -361,7 +391,7 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
   }
 }
 
-screenAngle = 0; // 100; // When closed: 0
+screenAngle = 100; // 100; // When closed: 0
 bottomOnly = false;
 topOnly = false;
 
