@@ -35,6 +35,37 @@ module roundedRect(size, radius) {
 	}
 }
 
+module prism(l, w, h){
+   polyhedron(points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
+              faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]);
+}
+
+module bottomFoot(footWidth, footHeight, baseWidth, topWidth) {
+  prismBase = (baseWidth - topWidth) / 2;
+  
+  union() {
+    rotate([0, 0, 90]) {
+      // right 
+      translate([0, -(prismBase + ((0 * footWidth) / 2)), 0]) {
+        rotate([0, 0, 0]) {
+          prism(prismBase, footWidth, footHeight);
+        }
+      }
+    }
+    translate([-topWidth / 2, footWidth / 2, footHeight / 2]) {
+      cube(size=[topWidth, footWidth, footHeight], center=true);
+    }
+    rotate([0, 0, -90]) {
+      // left 
+      translate([-footWidth, -(prismBase + (topWidth / 1)), 0]) {
+        rotate([0, 0, 0]) {
+          prism(prismBase, footWidth, footHeight);
+        }
+      }
+    }
+  }
+}
+
 module hingeStand(axisHeight, baseLength=10, baseThickness=5, axisDiam=4) {
   difference() {
     union() {
@@ -60,7 +91,7 @@ module hingeStand(axisHeight, baseLength=10, baseThickness=5, axisDiam=4) {
 plateWidth = 90;
 plateLength = 90;
 plateThickNess = 3;
-cornerRadius = 10;
+cornerRadius = 5;
 offset = 7;
 
 hingeBaseLength = 10;
@@ -210,30 +241,52 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
                 }
               }
             }
-            // Hinges. Axis height: 25mm (baseHingesAxisHeight)
-            // Left, external one
+            // Bottom Hinges. Axis height: 25mm (baseHingesAxisHeight)
+            // Right, external one
             translate([(mainPlateWidth/2) - hingeBaseThickness - (1 * hingeOffset), (mainPlateLength/2) - (hingeBaseLength/2), (baseHingesAxisHeight / 2) + (plateThickNess / 2)]) {
               rotate([0, 0, 90]) {
                 hingeStand(baseHingesAxisHeight, baseLength=hingeBaseLength, baseThickness=hingeBaseThickness, axisDiam=hingeAxisDiam);
               }
             }
-            // Left, internal one
+            // Right, internal one
             translate([(mainPlateWidth/2) - (3 * hingeBaseThickness) - (1 * hingeOffset), (mainPlateLength/2) - (hingeBaseLength/2), (baseHingesAxisHeight / 2) + (plateThickNess / 2)]) {
               rotate([0, 0, 90]) {
                 hingeStand(baseHingesAxisHeight, baseLength=hingeBaseLength, baseThickness=hingeBaseThickness, axisDiam=hingeAxisDiam);
               }
             }
-            // Right, external one
+            // Right foot
+            prismBase = 10;
+            footHeight = 20;
+            footBaseLength = (2 * prismBase) + (3 * hingeBaseThickness);
+            translate([(mainPlateWidth/2) - (hingeBaseThickness / 2) - (1 * hingeOffset), 
+                       (mainPlateLength / 2) - hingeBaseLength, 
+                       0]) {
+              bottomFoot(hingeBaseLength, 
+                         footHeight, 
+                         (2 * prismBase) + (3 * hingeBaseThickness), 
+                         (3 * hingeBaseThickness));
+            }
+            
+            // Left, external one
             translate([- (mainPlateWidth/2) + hingeBaseThickness + (1 * hingeOffset), (mainPlateLength/2) - (hingeBaseLength/2), (baseHingesAxisHeight / 2) + (plateThickNess / 2)]) {
               rotate([0, 0, 90]) {
                 hingeStand(baseHingesAxisHeight, baseLength=hingeBaseLength, baseThickness=hingeBaseThickness, axisDiam=hingeAxisDiam);
               }
             }
-            // Right, internal one
+            // Left, internal one
             translate([- (mainPlateWidth/2) + (3 * hingeBaseThickness) + (1 * hingeOffset), (mainPlateLength/2) - (hingeBaseLength/2), (baseHingesAxisHeight / 2) + (plateThickNess / 2)]) {
               rotate([0, 0, 90]) {
                 hingeStand(baseHingesAxisHeight, baseLength=hingeBaseLength, baseThickness=hingeBaseThickness, axisDiam=hingeAxisDiam);
               }
+            }
+            // Left foot
+            translate([-(mainPlateWidth/2) + (1 * footBaseLength / 2) + hingeOffset, 
+                       (mainPlateLength / 2) - hingeBaseLength, 
+                       0]) {
+              bottomFoot(hingeBaseLength, 
+                         footHeight, 
+                         (2 * prismBase) + (3 * hingeBaseThickness), 
+                         (3 * hingeBaseThickness));
             }
           }
           // Lid stand
@@ -314,7 +367,6 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
       }
     }
     
-    
     // Screen stand
     if (!bottomOnly) {
       rotAngle = 180; // topOnly ? 0 : 180;
@@ -342,10 +394,35 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
                       hingeStand(screenHingesAxisHeight, baseLength=hingeBaseLength, baseThickness=hingeBaseThickness, axisDiam=hingeAxisDiam);
                     }
                   }
+                  // Top Right foot
+                  prismBase = 10;
+                  footHeight = 10;
+                  footBaseLength = (2 * prismBase) + (1 * hingeBaseThickness);
+                  translate([(mainPlateWidth/2) - (3 * hingeBaseThickness / 2) - (1 * hingeOffset), 
+                             (mainPlateLength / 2) - (0 * hingeBaseLength), 
+                             0]) {
+                    rotate([180, 0, 0]) {           
+                      bottomFoot(hingeBaseLength, 
+                                 footHeight, 
+                                 (2 * prismBase) + (1 * hingeBaseThickness), 
+                                 (1 * hingeBaseThickness));
+                    }
+                  }
                   // Right one
                   translate([- (mainPlateWidth/2) + (2 * hingeBaseThickness) + (1 * hingeOffset), (mainPlateLength/2) - (hingeBaseLength/2), -((screenHingesAxisHeight / 2) - (plateThickNess / 2))]) {
                     rotate([0, rotAngle, 90]) {
                       hingeStand(screenHingesAxisHeight, baseLength=hingeBaseLength, baseThickness=hingeBaseThickness, axisDiam=hingeAxisDiam);
+                    }
+                  }
+                  // Top Left foot
+                  translate([-(mainPlateWidth/2) + (3 * hingeBaseThickness / 2) + hingeBaseThickness + (1 * hingeOffset), 
+                             (mainPlateLength / 2) - (0 * hingeBaseLength), 
+                             0]) {
+                    rotate([180, 0, 0]) {           
+                      bottomFoot(hingeBaseLength, 
+                                 footHeight, 
+                                 (2 * prismBase) + (1 * hingeBaseThickness), 
+                                 (1 * hingeBaseThickness));
                     }
                   }
                   
@@ -391,9 +468,9 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
   }
 }
 
-screenAngle = 100; // 100; // When closed: 0
+screenAngle = 0; // 100; // When closed: 0
 bottomOnly = false;
-topOnly = false;
+topOnly = true;
 
 rpiEnclosure(screenAngle=screenAngle, bottomOnly=bottomOnly, topOnly=topOnly);
 // That's it!
