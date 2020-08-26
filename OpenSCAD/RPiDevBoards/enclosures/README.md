@@ -1,4 +1,4 @@
-# Raspberry Pi based small laptop
+# Raspberry Pi based fully featured small laptop
 You will need:
 - A Raspberry Pi B* or A*
 - A [5" HDMI Screen](https://www.adafruit.com/product/2232)
@@ -15,7 +15,7 @@ You will need:
 	- <https://www.adafruit.com/product/2876>
 	- <https://www.adafruit.com/product/1738>
 
-- Compatible with addons:
+- Compatible with addons like:
 	- Camera
 	- Loud speakers
 	- USB Ports (accessible), wireless keyboards, BlueTooth dongles, USB Drives, etc
