@@ -6,7 +6,11 @@ You will need:
 - [HDMI-to-HDMI cable](https://www.adafruit.com/product/2197), or [this one](https://www.adafruit.com/product/2420)
 
 ### Basic setting
+Open:
+
 ![Open](./images/01.jpg)
+
+Closed:
 
 ![Closed](./images/02.jpg)
 
