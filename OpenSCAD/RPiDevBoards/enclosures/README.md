@@ -6,11 +6,11 @@ An enclosure for:
 
 ![Closed](./images/02.jpg)
 
-- TODO Camera Stand
+- TODO Wireless keyboards comparison
 
 - Compatible with addons:
 	- Camera
 	- Loud speakers
-	- USB Pports (accessible), wireless keyboards
-	- Battery power supply (from anther project)
+	- USB Pports (accessible), wireless keyboards, BlueTooth dongles, USB Drives, etc
+	- Battery power supply (from another project, solar etc)
 	- etc

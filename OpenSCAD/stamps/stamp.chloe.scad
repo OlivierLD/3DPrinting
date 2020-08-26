@@ -5,13 +5,13 @@ echo(version=version());
 
 // Base plate
 // ----------
-plateWidth = 75;    // 50
-plateLength = 75;   // 50
+plateWidth = 65;    // 50
+plateLength = 65;   // 50
 plateThickNess = 3;
 cornerRadius = 10;
 
 logo = "./images/chloe.04.small.png"; 
-imgRatio = 1.5;
+imgRatio = 1.1;
 logox = 500 * imgRatio; 
 logoy = 493 * imgRatio; 
 

@@ -49,6 +49,8 @@ M5_HB = [3.65, 8, 8.79];
 M6_HB = [4.15, 10, 11.05];
 M8_HB = [5.45, 13, 14.38];
 
+M_1_4_HB = [4.62, 11, 12.6];
+
 // Washer, [OD, thickness]
 M3_W = [7, 0.55];
 M35_W = [8, 0.55];
@@ -87,6 +89,8 @@ function getHBScrewDims(diam) =  // Hex Bolts and Nuts dims
 	(diam == 5) ? M5_HB :
 	(diam == 6) ? M6_HB :
 	(diam == 8) ? M8_HB :
+  // 1/4"
+  (diam == (0.25 * inch_to_mm)) ? M_1_4_HB :
   [0, 0];
 
 function getWasherDims(diam) =  // Washer dims

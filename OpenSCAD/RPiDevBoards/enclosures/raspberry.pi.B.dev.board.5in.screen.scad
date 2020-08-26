@@ -20,6 +20,7 @@
  
  
 use <../HDMI.5.inches.stand.scad>
+use <./cameraStand.scad>
  
 echo(version=version());
 
@@ -40,7 +41,7 @@ module prism(l, w, h){
               faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]);
 }
 
-module bottomFoot(footWidth, footHeight, baseWidth, topWidth) {
+module bottomFoot(footWidth, footHeight, baseWidth, topWidth, thirdFoot = false) {
   prismBase = (baseWidth - topWidth) / 2;
   
   union() {
@@ -60,6 +61,18 @@ module bottomFoot(footWidth, footHeight, baseWidth, topWidth) {
       translate([-footWidth, -(prismBase + (topWidth / 1)), 0]) {
         rotate([0, 0, 0]) {
           prism(prismBase, footWidth, footHeight);
+        }
+      }
+    }
+    if (thirdFoot) {
+      rotate([0, 0, 0]) {
+        // left 
+        translate([-((baseWidth - footWidth) / 2), 
+                   -(prismBase + (0 * topWidth / 1)), 
+                   0]) {
+          rotate([0, 0, 0]) {
+            prism(prismBase, footWidth, footHeight);
+          }
         }
       }
     }
@@ -97,7 +110,7 @@ offset = 7;
 hingeBaseLength = 10;
 hingeBaseThickness = 5;
 hingeOffset = 10;
-hingeAxisDiam = 4;
+hingeAxisDiam = 3.3; // Screw 3mm
 
 
 module raspberryBStandOnly(drillHoles=true) {
@@ -264,7 +277,8 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
               bottomFoot(hingeBaseLength, 
                          footHeight, 
                          (2 * prismBase) + (3 * hingeBaseThickness), 
-                         (3 * hingeBaseThickness));
+                         (3 * hingeBaseThickness),
+                         thirdFoot = true);
             }
             
             // Left, external one
@@ -286,7 +300,8 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
               bottomFoot(hingeBaseLength, 
                          footHeight, 
                          (2 * prismBase) + (3 * hingeBaseThickness), 
-                         (3 * hingeBaseThickness));
+                         (3 * hingeBaseThickness),
+                         thirdFoot = true);
             }
           }
           // Lid stand
@@ -462,6 +477,14 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
               }
             }
           }
+          // With camera stand?
+          if (screenAngle != 0) {
+            rotate([-(screenAngle - 90), 0, 0]) {
+              translate([0, 0, mainPlateLength / 2]) {
+                cameraStand();
+              }
+            }
+          }
         }
       }
     }
@@ -469,8 +492,8 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
 }
 
 screenAngle = 0; // 100; // When closed: 0
-bottomOnly = false;
-topOnly = true;
+bottomOnly = true;
+topOnly = false;
 
 rpiEnclosure(screenAngle=screenAngle, bottomOnly=bottomOnly, topOnly=topOnly);
 // That's it!
