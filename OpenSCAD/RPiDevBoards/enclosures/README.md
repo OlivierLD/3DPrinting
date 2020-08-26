@@ -1,4 +1,17 @@
 # Raspberry Pi based fully featured small laptop
+Motivation:
+- I want a laptop
+- Possibly with a Desktop GUI
+- A camera (webcam)
+- Loud-speakers
+- I want to do some coding
+- I want to access the Internet
+- I want to play music
+- I want to play movies
+- ... I want everything.
+
+---
+
 You will need:
 - A Raspberry Pi B* or A*
 - A [5" HDMI Screen](https://www.adafruit.com/product/2232)
