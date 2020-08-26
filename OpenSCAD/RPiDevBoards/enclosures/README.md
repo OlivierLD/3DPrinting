@@ -1,6 +1,9 @@
-An enclosure for:
+# Raspberry Pi based small laptop
+You will need:
 - A Raspberry Pi B* or A*
-- A 5" HDMI Screen
+- A [5" HDMI Screen](https://www.adafruit.com/product/2232)
+- [USB Power splitter cable](https://www.adafruit.com/product/3030)
+- [HDMI-to-HDMI cable](https://www.adafruit.com/product/2197), or [this one]https://www.adafruit.com/product/2420)
 
 ![Open](./images/01.jpg)
 
@@ -28,3 +31,10 @@ VLC:
 $ sudo apt-get update
 $ sudo apt-get install vlc
 ```
+
+Camera Stand:
+- <https://www.adafruit.com/product/1434>
+- <https://www.amazon.com/gp/product/B000CNPK3M/ref=oh_aui_search_detailpage?ie=UTF8&psc=1>
+
+Loud Speakers
+- <https://www.adafruit.com/product/1363>
