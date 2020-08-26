@@ -19,7 +19,7 @@ You will need:
 	- Camera
 	- Loud speakers
 	- USB Ports (accessible), wireless keyboards, BlueTooth dongles, USB Drives, etc
-	- Battery power supply (from another project, solar etc)
+	- Battery power supply (from [another project](https://github.com/OlivierLD/3DPrinting/tree/master/OpenSCAD/Battery.Cases), solar etc)
 	- etc
 
 Sound and video on the Raspberry Pi:
