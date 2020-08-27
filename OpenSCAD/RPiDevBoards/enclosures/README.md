@@ -61,8 +61,8 @@ Camera Stand:
 Loud Speakers
 - <https://www.adafruit.com/product/1363>
 
-| With Camera and loud speakers | Playing movie          |
-|:-----------------------------:|:----------------------:|
-| ![03](./images/03.jpg)        | ![04](./images/04.jpg) |
-| Playing movie                 | Taking snapshot        |
-| ![05](./images/05.jpg)        | ![06](./images/06.jpg) |
+| With Camera and loud speakers | Playing movie           |
+|:-----------------------------:|:-----------------------:|
+| ![03](./images/03.jpg)        | ![04](./images/04.jpg)b |
+| Playing movie                 | Webcam, taking snapshot |
+| ![05](./images/05.jpg)        | ![06](./images/06.jpg)  |
