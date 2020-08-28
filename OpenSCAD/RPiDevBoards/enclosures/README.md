@@ -63,6 +63,14 @@ Loud Speakers
 
 | With Camera and loud speakers | Playing movie           |
 |:-----------------------------:|:-----------------------:|
-| ![03](./images/03.jpg)        | ![04](./images/04.jpg)b |
+| ![03](./images/03.jpg)        | ![04](./images/04.jpg)  |
 | Playing movie                 | Webcam, taking snapshot |
 | ![05](./images/05.jpg)        | ![06](./images/06.jpg)  |
+
+Screen Saver:
+```
+$ sudo apt install xscreensaver
+```
+
+
+
