@@ -72,5 +72,5 @@ Screen Saver:
 $ sudo apt install xscreensaver
 ```
 
-
-
+Autonomous:
+![07](./images/07.jpg)
