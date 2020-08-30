@@ -2,7 +2,6 @@
 Motivation:
 - I want a laptop
 - I need to bring it with me, _anywhere_
-
 - Possibly with a Desktop GUI
 - A camera (webcam)
 - Loud-speakers
