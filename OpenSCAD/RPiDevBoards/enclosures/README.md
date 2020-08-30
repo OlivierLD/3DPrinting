@@ -5,7 +5,7 @@ Motivation:
 - Possibly with a Desktop GUI
 - A camera (webcam)
 - Loud-speakers
-- I want to do some coding
+- I want to do some coding (Java, Python, Arduino, etc...)
 - I want to access the Internet
 - I want to play music
 - I want to play movies
