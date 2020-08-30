@@ -15,7 +15,7 @@ Motivation:
 ---
 
 You will need:
-- A Raspberry Pi B* or A*
+- A Raspberry Pi B* or A* (to play movies, RPi 4 Model B is recommended)
 - A [5" HDMI Screen](https://www.adafruit.com/product/2232)
 - [USB Power splitter cable](https://www.adafruit.com/product/3030)
 - [HDMI-to-HDMI cable](https://www.adafruit.com/product/2197), or [this one](https://www.adafruit.com/product/2420)
