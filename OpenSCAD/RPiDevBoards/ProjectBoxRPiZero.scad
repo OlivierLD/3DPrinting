@@ -21,12 +21,25 @@ difference() {
     translate([0, 
                (projectPlateLength / 2) - ((projectPlateLength - rpiPlateLenght) / 4), 
                0]) {
-        cube(size=[ projectPlateWidth,
-                    (projectPlateLength / 2) - (rpiPlateLenght / 2),
-                    thickness ], 
-             center=true);
-        rotate([90, 0, 0]) {  
-          translate([0, -raspiLower / 2, 6]) {
+        // Horizontal side  
+        difference() {         
+          cube(size=[ projectPlateWidth,
+                      (projectPlateLength / 2) - (rpiPlateLenght / 2),
+                      thickness ], 
+               center=true);
+          difference() {
+            cube(size=[ projectPlateWidth * 2,
+                        (projectPlateLength / 2) - (rpiPlateLenght / 2),
+                        thickness * 2 ], 
+                 center=true);
+            translate([0, 0, 0]) {
+              cylinder(h=(2 * thickness), d=((projectPlateLength - rpiPlateLenght) / 2), $fn=50, center=true); 
+            }
+          }
+        }
+        // vertical (16 degrees)        
+        rotate([74, 0, 0]) {  
+          translate([0, -(thickness / 2) - (raspiLower / 2), 6]) {
             cube(size=[projectPlateWidth, (raspiLower + thickness), thickness], center=true);
           }
         }
@@ -35,13 +48,34 @@ difference() {
     translate([0, 
                - ((projectPlateLength / 2) - ((projectPlateLength - rpiPlateLenght) / 4)), 
                0]) {
-        cube(size=[ projectPlateWidth,
-                    (projectPlateLength / 2) - (rpiPlateLenght / 2),
-                    thickness ], 
-             center=true);
-        rotate([90, 0, 0]) {  
-          translate([0, -raspiLower / 2, -6]) {
-            cube(size=[projectPlateWidth, (raspiLower + thickness), thickness], center=true);
+        difference() {         
+          union() {         
+            // Horizontal side       
+            difference() {  
+              cube(size=[ projectPlateWidth,
+                          (projectPlateLength / 2) - (rpiPlateLenght / 2),
+                          thickness ], 
+                   center=true);
+              difference() {
+                cube(size=[ projectPlateWidth * 2,
+                            (projectPlateLength / 2) - (rpiPlateLenght / 2),
+                            thickness * 2 ], 
+                     center=true);
+                translate([0, 0, 0]) {
+                  cylinder(h=(2 * thickness), d=((projectPlateLength - rpiPlateLenght) / 2), $fn=50, center=true); 
+                }
+              }
+            }
+            // vertical (16 degrees)        
+            rotate([106, 0, 0]) {  
+              translate([0, -(thickness / 2) - (raspiLower / 2), -6]) {
+                cube(size=[projectPlateWidth, (raspiLower + thickness), thickness], center=true);
+              }
+            }
+          }
+          // Space for SD card
+          translate([-9, 9, 0]) {
+            cube(size=[10, 10, 10], center=true);
           }
         }
     }
@@ -56,11 +90,22 @@ difference() {
     }
   }  
   // Screw holes
+  screwBaseDiam = 8.75;
   translate([0, (betweenHole / 2), - thickness]) {
-    cylinder(d=projectPlateHoleDiam, h=2 * thickness, $fn=50);
+    union() {
+      cylinder(d=projectPlateHoleDiam, h=2 * thickness, $fn=50);
+      translate([0, 0, -(thickness + 0.5)]) {
+        cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
+      }
+    }
   }
   translate([0, -(betweenHole / 2), - thickness]) {
-    cylinder(d=projectPlateHoleDiam, h=2 * thickness, $fn=50);
+    union() {
+      cylinder(d=projectPlateHoleDiam, h=2 * thickness, $fn=50);
+      translate([0, 0, -(thickness + 0.5)]) {
+        cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
+      }
+    }
   }
   // Corners
 //  cornerInsetRadius = 15;
