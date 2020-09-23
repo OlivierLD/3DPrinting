@@ -11,6 +11,7 @@ use <../../mechanical.parts.scad>
 baseScrewDiam = .25 * 25.4; // 6;
 standThickness = 12;
 standHeight = 20;
+standWidth = 40;
 
 cameraPlateWidth = 25;
 cameraPlateHeight = 24;
@@ -20,6 +21,7 @@ betweenHorizHoles = 21;
 cameraScrewHoleDiam = 2;
 holesFromTopAndSides = 2;
 
+screenPlateThickness = 3;
 plateThickness = 2;
 plateWidth = 30;
 plateHeight = 25;
@@ -39,11 +41,11 @@ module prism(l, w, h) {
          // Stand and Slot 
          difference() {
            union() {
-             cube(size=[40, standThickness, standHeight], center=true);
+             cube(size=[standWidth, standThickness, standHeight], center=true);
              // cylinder(d=20, h=standHeight, center=true, $fn=100);
            }
            translate([0, 0, -6]) {
-             cube(size=[50, plateThickness, 12], center=true);
+             cube(size=[standWidth + 10, screenPlateThickness, 12], center=true);
            }
          }
        }
@@ -119,18 +121,18 @@ module prism(l, w, h) {
          }
          // Sides corners
          footHeight = 10;
-         footWIdth = 12;
+         footWidth = 15;
          footThickness = 2.5;
          // right 
-         translate([-((plateWidth / 2) - footThickness), -1, footHeight]) {
+         translate([-((plateWidth / 2) - footThickness), 2, footHeight]) {
            rotate([0, 0, 180]) {
-             prism(footThickness, footWIdth, footHeight);
+             prism(footThickness, footWidth, footHeight);
            }
          }
          // left 
-         translate([((plateWidth / 2) - (0 * footThickness)), -1, footHeight]) {
+         translate([((plateWidth / 2) - (0 * footThickness)), 2, footHeight]) {
            rotate([0, 0, 180]) {
-             prism(footThickness, footWIdth, footHeight);
+             prism(footThickness, footWidth, footHeight);
            }
          }
           
@@ -212,8 +214,12 @@ module prism(l, w, h) {
          cube(size=[cableWidth, plateHeight, cableThickness], center=true);
        }
      }
+     // Trim the back
+     translate([0, (standThickness + 10) / 2, 10]) {
+       cube(size=[plateWidth * 1.1, 10, 10], center=true);
+     }
    }     
  }
  
- cameraStand(withCamera=false, withBottom=true);
+ cameraStand(withCamera=true, withBottom=true);
  
