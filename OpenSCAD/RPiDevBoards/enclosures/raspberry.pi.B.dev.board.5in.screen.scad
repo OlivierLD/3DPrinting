@@ -20,7 +20,8 @@
  
  
 use <../HDMI.5.inches.stand.scad>
-use <./cameraStand.scad>
+// use <./cameraStand.scad>
+use <./cameraStand.v2.scad>
  
 echo(version=version());
 
@@ -229,7 +230,10 @@ mainPlateLength = 130;
 baseHingesAxisHeight = 25;
 screenHingesAxisHeight = 20;
 
-module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
+module rpiEnclosure(screenAngle=0, 
+                    bottomOnly=false, 
+                    topOnly=false, 
+                    holeForTheHook=true) {
 
   union() {
     // RPi Stand
@@ -314,6 +318,32 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
               cylinder(d=standDiam, h=standHeight, center=true, $fn=50);
             }
           }
+          // Hook
+          if (!holeForTheHook) {
+            cubeHeight = 6;
+            cubeWidth  =  10;
+            cubeThickness = 6;
+            translate([- (mainPlateWidth / 2) + 10, -(mainPlateLength / 2) + 10, cubeHeight]) {
+              rotate([0, 180, 0]) {
+                difference() {
+                  union() {
+                    cube(size=[cubeThickness, cubeWidth, cubeHeight]);
+                    translate([0, cubeWidth / 2, 0]) {
+                      rotate([0, 90, 0]) {
+                        cylinder(h=cubeThickness, d=cubeWidth, $fn=50, center=false);
+                      }
+                    }
+                  }
+                  // Hole
+                  rotate([0, 90, 0]) {
+                    translate([0, cubeWidth / 2, -cubeThickness / 2]) {
+                      cylinder(h=2 * cubeThickness, d=4, $fn=50);
+                    }
+                  }
+                }
+              }
+            }               
+          }
         }
         
         // Drill holes (less material)
@@ -338,9 +368,11 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
           }
         }
         // Hole for the hook
-        translate([- (mainPlateWidth / 2) + 10, -(mainPlateLength / 2) + 10, 0]) {
-          rotate([0, 0, 0]) {
-            cylinder(d=3, h=plateThickNess * 1.1, center=true, $fn=100);
+        if (holeForTheHook) {
+          translate([- (mainPlateWidth / 2) + 10, -(mainPlateLength / 2) + 10, 0]) {
+            rotate([0, 0, 0]) {
+              cylinder(d=3, h=plateThickNess * 1.1, center=true, $fn=100);
+            }
           }
         }
         // Labels
@@ -446,6 +478,30 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
                       HDMI5inchesStand(option=1); // 1: 5", 2: 7"
                     }
                   }
+                  
+                  if (!holeForTheHook) { // Something nicer than just a hole
+                    cubeHeight = 6;
+                    cubeWidth  =  10;
+                    cubeThickness = 6;
+                    translate([- (mainPlateWidth / 2) + 5, -(mainPlateLength / 2) + 20, -cubeHeight]) {
+                      difference() {
+                        union() {
+                          cube(size=[cubeThickness, cubeWidth, cubeHeight]);
+                          translate([0, cubeWidth / 2, 0]) {
+                            rotate([0, 90, 0]) {
+                              cylinder(h=cubeThickness, d=cubeWidth, $fn=50, center=false);
+                            }
+                          }
+                        }
+                        // Hole
+                        rotate([0, 90, 0]) {
+                          translate([0, cubeWidth / 2, -cubeThickness / 2]) {
+                            cylinder(h=2 * cubeThickness, d=4, $fn=50);
+                          }
+                        }
+                      }
+                    }               
+                  }  
                 }
                 // Drill holes, less material
                 translate([25, -25, 0]) {
@@ -471,7 +527,9 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
                 // Hole for the hook
                 translate([- (mainPlateWidth / 2) + 5, -(mainPlateLength / 2) + 20, 0]) {
                   rotate([0, 0, 0]) {
-                    cylinder(d=3, h=plateThickNess * 1.1, center=true, $fn=100);
+                    if (holeForTheHook) { // Hole?
+                      cylinder(d=3, h=plateThickNess * 1.1, center=true, $fn=100);
+                    }
                   }
                 }
               }
@@ -481,7 +539,7 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
           if (screenAngle != 0) {
             rotate([-(screenAngle - 90), 0, 0]) {
               translate([0, 0, mainPlateLength / 2]) {
-                cameraStand();
+                cameraStand(withCamera=true);
               }
             }
           }
@@ -491,9 +549,13 @@ module rpiEnclosure(screenAngle=0, bottomOnly=false, topOnly=false) {
   }
 }
 
-screenAngle = 0; // 100; // When closed: 0
-bottomOnly = true;
+screenAngle = 100; // When closed: 0
+bottomOnly = false;
 topOnly = false;
+holeForTheHook = false;
 
-rpiEnclosure(screenAngle=screenAngle, bottomOnly=bottomOnly, topOnly=topOnly);
+rpiEnclosure(screenAngle=screenAngle, 
+             bottomOnly=bottomOnly, 
+             topOnly=topOnly, 
+             holeForTheHook=holeForTheHook);
 // That's it!
