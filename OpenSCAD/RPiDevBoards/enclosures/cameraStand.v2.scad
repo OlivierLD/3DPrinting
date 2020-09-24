@@ -1,5 +1,6 @@
 /**
  * Custom Camera Stand
+ * Camera dimesions:
  * See https://www.raspberrypi-spy.co.uk/wp-content/uploads/2013/05/Raspberry-Pi-Camera-Module-Diagram.png
  *
  * Interesting ones at https://all3dp.com/raspberry-pi-camera-cases-mounts/
@@ -170,17 +171,42 @@ module prism(l, w, h) {
                  }
                }
                // Lens
-               color("black") {
-                 cameraLensWidth = 8;
-                 cameraLensHeight = 8;
-                 cameraLensThickness = 5;
-                 cameraLensFromBottom = 5.5;
-                 translate([0, 
-                            cameraLensFromBottom - ((cameraPlateHeight - cameraLensHeight) / 2), 
-                            (cameraPlateThickness / 2) + (cameraLensThickness / 2)]) {
-                   cube(size=[cameraLensWidth, cameraLensHeight, cameraLensThickness], center=true);
+               cameraLensWidth = 8;
+               cameraLensHeight = 8;
+               cameraLensThickness = 5;
+               cameraLensFromBottom = 5.5;
+               cylinderDiam = 7.5;
+               translate([0, 
+                          cameraLensFromBottom - ((cameraPlateHeight - cameraLensHeight) / 2), 
+                          (cameraPlateThickness / 2) + (cameraLensThickness / 2)]) {
+                 difference() {
+                   union() {
+                     color("Gray") {
+                       cube(size=[cameraLensWidth, cameraLensHeight, cameraLensThickness], center=true);
+                     }
+                     translate([0, 0, 1]) { 
+                       color("Gray") {
+                         cylinder(d=cylinderDiam, h=4, center=true, $fn=100);
+                       }
+                     }
+                     translate([0, 0, 1.25]) { 
+                       color("Gray") {
+                         cylinder(d=6.5, h=4, center=true, $fn=100);
+                       }
+                     }
+                   }
+                   translate([0, 0, 1.25]) { 
+                     cylinder(d=2, h=5, center=true, $fn=100);
+                   }
+                 }
+                 translate([0, 0, 1]) { 
+                   color("Silver") {
+                     cylinder(d=2, h=4, center=true, $fn=100);
+                   }
                  }
                }
+                 
+
                // Connector
                color("brown") {
                  connectorWidth = 20.8;
@@ -211,7 +237,7 @@ module prism(l, w, h) {
      // Slot for the camera cable
      translate([0, -(plateHeight - plateThickness) / 2, 0]) {
        rotate([75, 0, 0]) {
-         cube(size=[cableWidth, plateHeight, cableThickness], center=true);
+         cube(size=[cableWidth, plateHeight * 0.90, cableThickness], center=true);
        }
      }
      // Trim the back

@@ -1,5 +1,5 @@
 /*
- * Raspberry Pi A+ Enclosure.
+ * Raspberry Pi A+ Enclosure, with a dAISy HAT on it.
  * Check https://www.raspberrypi.org/documentation/hardware/raspberrypi/mechanical/rpi_MECH_3aplus_case.pdf
  * and https://www.raspberrypi.org/documentation/hardware/raspberrypi/mechanical/rpi_MECH_3aplus.pdf
  */
@@ -13,7 +13,7 @@ echo(version=version());
 slack = 2; // Slack required, to be able to stick the raspberry in its box.
 outerWidth = 72.5 + slack; // 72.5, + 2mm slack
 outerLength = 62.5 + slack; // 62.5, + 2mm slack
-outerHeight = 25.5;
+outerHeight = 30; // 25.5;
 outerRadius = 6;
 boxThickness = 2.5;
 
@@ -34,6 +34,21 @@ module box() {
 									 (1.01 * outerHeight) - (boxThickness * 1) ],
 									outerRadius - boxThickness, $fn=100);
 		}
+    // Drill holes, to cool the RPi.
+    translate([0, 0, -(outerHeight + 10) / 2]) {
+      translate([10, 10, 0]) {
+        cylinder(d=10, h=10, $fn=40);
+      }
+      translate([-10, 10, 0]) {
+        cylinder(d=10, h=10, $fn=40);
+      }
+      translate([10, -10, 0]) {
+        cylinder(d=10, h=10, $fn=40);
+      }
+      translate([-10, -10, 0]) {
+        cylinder(d=10, h=10, $fn=40);
+      }
+    }
 	}
 }
 
@@ -199,7 +214,7 @@ module rpiAPlusWithConnectors() {
 			translate([665, -524.3, 2.75]) {
 				color("green") {
 //				import("/Users/olivierlediouris/repos/3DPrinting/Raspberry_Pi_A+_board/A+_Board.stl");
-  				%import("../../Raspberry_Pi_A+_board/A+_Board.stl");
+  				import("../../Raspberry_Pi_A+_board/A+_Board.stl");
 				}
 			}
 			translate([35, 4.5, -2.4]) {
@@ -231,119 +246,19 @@ module rpiAPlusWithConnectors() {
 	}
 }
 
-module ssd1306_128x64() {
+/**
+ * Customized for the dAISy HAT, Antenna connector
+ */
+module protoPiHat(slack=1) {
 	union() {
-		// plate
-		color("orange") {
-			difference() {
-				roundedRect([35.11,
-										 35.5,
-										 1.7 ],
-										4.8, $fn=100);
-				rotate([0, 0, 180]) {
-					translate([-9, 12, 0.75]) {
-						linear_extrude(height=0.5, center=true) {
-							text("SSD1306", 3);
-						}
-					}
-				}
-			}
-		}
-		// connector
-		translate([0, -((35.5 - 2.5) - 2.5) / 2, -(1.7 + 2.5) / 2]) {
-			rotate([0, 0, 0]) {
-				pinHeader(8);
-//				color("black") {
-//					cube(size=[20, 2.5, 2.5], center=true);
-//				}
-			}
-		}
-		// screen
-		translate([0, 0, 1.7]) {
-			rotate([0, 0, 0]) {
-				union() {
-					color("black") {
-						cube(size=[35.5, 19, 1.7], center=true);
-					}
-					rotate([0, 0, 180]) {
-						translate([-9, 0, 0.65]) {
-							color("white") {
-								linear_extrude(height=0.5, center=true) {
-									text("128x64", 4);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-module BME280() {
-	union() {
-		// plate
-		color("magenta") {
-			difference() {
-				roundedRect([19.1,
-										 17.9,
-										 1.7 ],
-										4.0, $fn=100);
-				translate([-8, 0, 0.75]) {
-					linear_extrude(height=0.5, center=true) {
-						text("BME280", 3);
-					}
-				}
-			}
-		}
-		// connector
-		translate([0, -((19.1 - 2.5) - 2.5) / 2, -(1.7 + 2.5) / 2]) {
-			rotate([0, 0, 0]) {
-				pinHeader(7);
-			}
-		}
-	}
-}
-
-module pushButton() {
-	union() {
-		color("silver") {
-			// Body
-			cube(size=[6.2, 6.2, 4.0], center=true);
-		}
-		translate([0, 0, 0.75]) {
-			rotate([0, 0, 0]) {
-				color("black") {
-					// button
-					cylinder(d=3.5, h=5.5, $fn=30, center=true);
-				}
-			}
-		}
-		// Screws
-		color("black") {
-			translate([2.1, 2.1, 2]) {
-				cylinder(d=1.0, h=0.2, $fn=30, center=true);
-			}
-			translate([-2.1, 2.1, 2]) {
-				cylinder(d=1.0, h=0.2, $fn=30, center=true);
-			}
-			translate([-2.1, -2.1, 2]) {
-				cylinder(d=1.0, h=0.2, $fn=30, center=true);
-			}
-			translate([2.1, -2.1, 2]) {
-				cylinder(d=1.0, h=0.2, $fn=30, center=true);
-			}
-		}
-	}
-}
-
-module protoPiHat() {
-	union() {
+    plateWidth = 65;
+    plateLength = 56.38;
+    plateThickness = 1.7;
 		// The plate
-		color("white") {
-			roundedRect([65,
-									 56.38,
-									 1.7 ],
+		color("red") {
+			roundedRect([plateWidth,
+									 plateLength,
+									 plateThickness ],
 									4.8, $fn=100);
 		}
 		// The connector
@@ -354,28 +269,28 @@ module protoPiHat() {
 				}
 			}
 		}
-		/*
-	   * Extra Components
-		 */
-		// 1 - Oled screen, 128 x 64
-		translate([-14.0, -6.5, 1.7 + 2.5]) {
-			rotate([0, 0, 180]) {
-				ssd1306_128x64();
-			}
-		}
-		// 2 - BME280
-		translate([13.45, 2.0, 1.7 + 2.5]) {
-			rotate([0, 0, 180]) {
-				BME280();
-			}
-		}
-		// 2 Push Buttons
-		translate([28, 5.5, (1.7 + 4.0) / 2]) {
-			pushButton();
-		}
-		translate([28, -10.5, (1.7 + 4.0) / 2]) {
-			pushButton();
-		}
+    // Antenna Connector
+    squareWidth = 6.6;
+    squareHeight = 6.6;
+    antennaConnectorDiam = 6.6;
+    antennaConnectorLength = 8;
+    squareThickness = 1.78;
+    antennaAxisOffset = 13;
+    color("gold") {
+      translate([-(plateWidth / 2) + antennaAxisOffset, 
+                 -(plateLength / 2) - (squareThickness / 2), 
+                 2]) { 
+        rotate([90, 0, 0]) {
+          cube(size=[squareWidth * slack, squareHeight * slack, squareThickness * (slack == 1 ? slack : 2 * slack)], center=true);
+          translate([0, 0, 0]) {
+            difference() {
+              cylinder(d=antennaConnectorDiam * slack, h=antennaConnectorLength, $fn=50);            
+              cylinder(d=1, h=antennaConnectorLength * 1.1, $fn=50);
+            }
+          }
+        }
+      }
+    }
 	}
 }
 
@@ -411,24 +326,6 @@ module lid() {
 				}
 			}
 		}
-		translate([slack, -slack, 0]) {
-			// Hollow for buttons and breakout boards
-			// 1 - SSD1306
-			translate([-15.5, -5.5, 0]) {
-				cube(size=[37, 37, 10], center=true);
-			}
-			// 2 - BME280
-			translate([11.0, 3, 0]) {
-				cube(size=[20, 20, 10], center=true);
-			}
-			// 3 - PushButtons
-			translate([26.8, 6.0, 0]) {
-				cylinder(d=9.5, h=10, $fn=30, center=true); // d was 11
-			}
-			translate([26.8, -13.0, 0]) {
-				cylinder(d=9.5, h=10, $fn=30, center=true); // d was 11
-			}
-		}
 		// space for a nut, bottom right corner
 		translate([(outerWidth / 2) - (boxThickness * 2.5), 
 		           -((outerLength / 2) - (boxThickness * 2.5)), 
@@ -443,39 +340,59 @@ ALL_PARTS = 0;
 
 BOX_ONLY = 1;
 LID_ONLY = 2;
+ALL_PARTS_WITH_CONTENT = 3;
 
-option = ALL_PARTS;
+option = BOX_ONLY;
 
 appart = 5.0; //
 
-difference() {
-	union() {
-		if (option == ALL_PARTS || option == BOX_ONLY) {
-			boxPegsAndScrews();
-		}
-		if (option == ALL_PARTS || option == LID_ONLY) {
-			translate([0, 0, appart + ((boxThickness + outerHeight) / 2)]) {
-				lid();
-			}
-		}
-	}
-	translate([0, 0, (30 - outerHeight) / 2]) {
-		union() { // Add a '%' in front to see the box's content, remove it to print.
-			rpiAPlusWithConnectors(); // Add % to see just the rPi
-			translate([slack, -slack, 5.35]) {
-				rotate([0, 0, 0]) {
-					protoPiHat();
-				}
-			}
-		}
-	}
+ONE_BY_ONE = false;
+
+if (!ONE_BY_ONE) {
+  if (option != ALL_PARTS_WITH_CONTENT) {
+    difference() {
+      union() {
+        if (option == ALL_PARTS || option == BOX_ONLY) {
+          boxPegsAndScrews();
+        }
+        if (option == ALL_PARTS || option == LID_ONLY) {
+          translate([0, 0, appart + ((boxThickness + outerHeight) / 2)]) {
+            lid();
+          }
+        }
+      }
+      translate([0, 0, (30 - outerHeight) / 2]) {
+        union() { // Add a '%' in front to see the box's content, remove it to print.
+          rpiAPlusWithConnectors(); // Add % to see just the rPi
+          translate([slack, -slack, 5.35]) {
+            rotate([0, 0, 0]) {
+              protoPiHat(1.1);
+            }
+          }
+        }
+      }
+    }
+  } else {
+    union() {
+      boxPegsAndScrews();
+      translate([0, 0, appart + ((boxThickness + outerHeight) / 2)]) {
+        lid();
+      }
+    }
+    translate([0, 0, (30 - outerHeight) / 2]) {
+      union() { // Add a '%' in front to see the box's content, remove it to print.
+        rpiAPlusWithConnectors(); // Add % to see just the rPi
+        translate([slack, -slack, 5.35]) {
+          rotate([0, 0, 0]) {
+            protoPiHat(1.1);
+          }
+        }
+      }
+    }
+  }
+} else {
+  //rpiAPlusWithConnectors();
+  //oneHeaderPin();
+  //pinHeader(5);
+  //protoPiHat();
 }
-
-//rpiAPlusWithConnectors();
-//oneHeaderPin();
-//pinHeader(5);
-//ssd1306_128x64();
-//protoPiHat();
-//BME280();
-//pushButton();
-
