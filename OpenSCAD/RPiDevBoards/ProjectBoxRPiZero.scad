@@ -95,7 +95,7 @@ difference() {
     union() {
       cylinder(d=projectPlateHoleDiam, h=2 * thickness, $fn=50);
       translate([0, 0, -(thickness + 0.5)]) {
-        cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
+        #cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
       }
     }
   }
@@ -103,7 +103,7 @@ difference() {
     union() {
       cylinder(d=projectPlateHoleDiam, h=2 * thickness, $fn=50);
       translate([0, 0, -(thickness + 0.5)]) {
-        cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
+        #cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
       }
     }
   }
@@ -121,4 +121,30 @@ difference() {
 //  translate([-(projectPlateWidth / 2), -(projectPlateLength / 2), -thickness]) {
 //    cylinder(d=(2 * cornerInsetRadius), h=2 * thickness, $fn=50);
 //  }
+}
+
+// With feet
+withFeet = true;
+if (withFeet) {
+  screwBaseDiam = 12;
+  translate([0, (betweenHole / 2), - thickness]) {
+    difference() {
+      translate([0, 0, -(thickness + 0.5)]) {
+        cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
+      }
+      translate([0, 0, -10]) {
+        cylinder(d=projectPlateHoleDiam, h=20, $fn=50);
+      }
+    }
+  }
+  translate([0, -(betweenHole / 2), - thickness]) {
+    difference() {
+      translate([0, 0, -(thickness + 0.5)]) {
+        cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
+      }
+      translate([0, 0, -10]) {
+        cylinder(d=projectPlateHoleDiam, h=20, $fn=50);
+      }
+    }
+  }
 }
