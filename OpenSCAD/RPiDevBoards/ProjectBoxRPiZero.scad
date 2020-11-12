@@ -93,17 +93,29 @@ difference() {
   screwBaseDiam = 8.75;
   translate([0, (betweenHole / 2), - thickness]) {
     union() {
+      // Countersink on top
+      rotate([0, 180, 0]) {
+        translate([0, 0, -7.5]) {
+          cylinder(h=15, r1=10, r2=0, center=true);
+        }
+      }
       cylinder(d=projectPlateHoleDiam, h=2 * thickness, $fn=50);
       translate([0, 0, -(thickness + 0.5)]) {
-        #cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
+        cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
       }
     }
   }
   translate([0, -(betweenHole / 2), - thickness]) {
     union() {
+      // Countersink on top
+      rotate([0, 180, 0]) {
+        translate([0, 0, -7.5]) {
+          cylinder(h=15, r1=10, r2=0, center=true);
+        }
+      }
       cylinder(d=projectPlateHoleDiam, h=2 * thickness, $fn=50);
       translate([0, 0, -(thickness + 0.5)]) {
-        #cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
+        cylinder(d=screwBaseDiam, h=10, $fn=50, center=true);
       }
     }
   }
