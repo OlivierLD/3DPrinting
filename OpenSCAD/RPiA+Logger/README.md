@@ -12,5 +12,4 @@ On the first image, the USB connector (right of the white box) is the GPS.
 - The white box is 3D-printed.
 - The label is 2D-printed (`odt` and `pdf` provided).
 
-
 ---
