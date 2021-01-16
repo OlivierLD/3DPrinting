@@ -71,5 +71,12 @@ Screen Saver:
 $ sudo apt install xscreensaver
 ```
 
+Turn screen off:
+```
+$ export DISPLAY=:0.0
+$ xset dpms force off
+```
+Comes back on a click.
+
 Autonomous setting:
 ![07](./images/07.jpg)
