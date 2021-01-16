@@ -233,7 +233,8 @@ screenHingesAxisHeight = 20;
 module rpiEnclosure(screenAngle=0, 
                     bottomOnly=false, 
                     topOnly=false, 
-                    holeForTheHook=true) {
+                    holeForTheHook=true,
+                    screenType=1) {
 
   union() {
     // RPi Stand
@@ -475,7 +476,9 @@ module rpiEnclosure(screenAngle=0,
                   
                   rotate([0, rotAngle, 0]) {
                     translate([0, -12, 0]) {
-                      HDMI5inchesStand(option=1); // 1: 5", 2: 7"
+                      HDMI5inchesStand(option=2,  // 1: 5", 2: 7", 3: 7" from UCTronics
+                                       hollowCenter=false,
+                                       cornerScrews=false);
                     }
                   }
                   
@@ -549,13 +552,24 @@ module rpiEnclosure(screenAngle=0,
   }
 }
 
-screenAngle = 100; // When closed: 0
+// When closed: 0, opened: 100. No camera stand when 0.
+OPENED = 100; // Fix camera stand position for all screen options.
+CLOSED = 0;
+
+screenAngle = CLOSED; // Change at will
 bottomOnly = false;
-topOnly = false;
-holeForTheHook = false;
+topOnly = true;
+holeForTheHook = true; // false: Ok with 5"
+
+FIVE_INCHES_OPTION = 1;
+SEVEN_INCHES_OPTION = 2;
+SEVEN_INCHES_OPTION_V2 = 3;
+
+screenType = SEVEN_INCHES_OPTION_V2; // From HDMI.5.inches.stand.scad
 
 rpiEnclosure(screenAngle=screenAngle, 
              bottomOnly=bottomOnly, 
              topOnly=topOnly, 
-             holeForTheHook=holeForTheHook);
+             holeForTheHook=holeForTheHook,
+             screenType=screenType);
 // That's it!
