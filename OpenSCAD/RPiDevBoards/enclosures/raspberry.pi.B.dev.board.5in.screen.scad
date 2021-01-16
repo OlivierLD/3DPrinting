@@ -338,6 +338,9 @@ module rpiEnclosure(screenAngle=0,
               translate([0, 10, 0]) {              
                 cube(size=[(2 * standDiam), (2 * standDiam), plateThickNess], center=true);
               }
+              translate([0, 0, 10]) {
+                cylinder(h=20, d2=standDiam, d1=(2 * standDiam), center=true, $fn=100);
+              }
               cylinder(d=(2 * standDiam), h=plateThickNess, center=true, $fn=50);
            }            
             
