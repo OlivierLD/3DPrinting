@@ -2,7 +2,8 @@
  * Stand for a 5" or 7" HDMI screen, from Adafruit
  * https://www.adafruit.com/product/2260
  *
- * Specs at https://learn.adafruit.com/adafruit-5-800x480-tft-hdmi-monitor-touchscreen-backpack/downloads	
+ * Adafruit Specs at https://learn.adafruit.com/adafruit-5-800x480-tft-hdmi-monitor-touchscreen-backpack/downloads	
+ * Also works for UCTronics UC-595, https://www.uctronics.com/display/uctronics-7-inch-touch-screen-for-raspberry-pi-1024-600-capacitive-hdmi-lcd-touchscreen-monitor-portable-display-for-pi-4-b-3-b-windows-10-8-7-free-driver.html
  */
 echo(version=version());
 
@@ -22,6 +23,7 @@ SEVEN_INCHES_OPTION_V2 = 3;
 module HDMI5inchesStand(option=SEVEN_INCHES_OPTION,
                         hollowCenter=true,
                         cornerScrews=true) {
+                                                      
   // Screen dimension, between screws
   INCHES_FIVE_INCH_SCREEN_WIDTH = 4.44;
   INCHES_FIVE_INCH_SCREEN_HEIGHT = 3.3;
@@ -31,24 +33,23 @@ module HDMI5inchesStand(option=SEVEN_INCHES_OPTION,
   INCHES_SEVEN_INCH_SCREEN_HEIGHT = 4.26;
   
   // UCTronics, 7", see https://www.uctronics.com/display/uctronics-7-inch-touch-screen-for-raspberry-pi-1024-600-capacitive-hdmi-lcd-touchscreen-monitor-portable-display-for-pi-4-b-3-b-windows-10-8-7-free-driver.html
-  INCHES_SEVEN_INCH_SCREEN_V2_WIDTH = 6.25;
+  INCHES_SEVEN_INCH_SCREEN_V2_WIDTH = 6.26;
   INCHES_SEVEN_INCH_SCREEN_V2_HEIGHT = 4.25;
 
   INCHES_TO_MM = 25.4;
 
   // Default values
-  screenWidth = INCHES_SEVEN_INCH_SCREEN_WIDTH * INCHES_TO_MM;
-  screenHeight = INCHES_SEVEN_INCH_SCREEN_HEIGHT * INCHES_TO_MM;
+  screenWidth = (option == FIVE_INCHES_OPTION) ? INCHES_SEVEN_INCH_SCREEN_WIDTH * INCHES_TO_MM :
+                (option == SEVEN_INCHES_OPTION ? INCHES_SEVEN_INCH_SCREEN_WIDTH * INCHES_TO_MM : INCHES_SEVEN_INCH_SCREEN_V2_WIDTH * INCHES_TO_MM);
+  screenHeight = (option == FIVE_INCHES_OPTION) ? INCHES_SEVEN_INCH_SCREEN_HEIGHT * INCHES_TO_MM :
+                (option == SEVEN_INCHES_OPTION ? INCHES_SEVEN_INCH_SCREEN_HEIGHT * INCHES_TO_MM : INCHES_SEVEN_INCH_SCREEN_V2_HEIGHT * INCHES_TO_MM);
                           
   if (option == FIVE_INCHES_OPTION) {
-    screenWidth = INCHES_FIVE_INCH_SCREEN_WIDTH * INCHES_TO_MM;
-    screenHeight = INCHES_FIVE_INCH_SCREEN_HEIGHT * INCHES_TO_MM;
+    echo("Option FIVE_INCHES_OPTION");
   } else if (option == SEVEN_INCHES_OPTION) {
-    screenWidth = INCHES_SEVEN_INCH_SCREEN_WIDTH * INCHES_TO_MM;
-    screenHeight = INCHES_SEVEN_INCH_SCREEN_HEIGHT * INCHES_TO_MM;
+    echo("Option SEVEN_INCHES_OPTION");
   } else if (option == SEVEN_INCHES_OPTION_V2) {
-    screenWidth = INCHES_SEVEN_INCH_SCREEN_V2_WIDTH * INCHES_TO_MM;
-    screenHeight = INCHES_SEVEN_INCH_SCREEN_V2_HEIGHT * INCHES_TO_MM;
+    echo("Option SEVEN_INCHES_OPTION_V2");
   }    
 
   echo("Screen dims in mm:", screenWidth, " x ", screenHeight);
@@ -88,10 +89,10 @@ module HDMI5inchesStand(option=SEVEN_INCHES_OPTION,
   // Raspberry Pi pegs
   // -----------------
   // Base Pegs
-  basePegDiam = 6;
+  basePegDiam = (option == SEVEN_INCHES_OPTION_V2) ? 10 : 6;
   basePegScrewDiam = 2;
-  basePegHeight = 10;
-
+  basePegHeight = (option == SEVEN_INCHES_OPTION_V2) ? 22 : 10;
+  
   difference() {
     color("orange") {
       union() {
@@ -110,7 +111,7 @@ module HDMI5inchesStand(option=SEVEN_INCHES_OPTION,
       }
     }
     topPegDiam = 2;
-    topPegHeight = 12;
+    topPegHeight = (option == SEVEN_INCHES_OPTION_V2) ? 24 : 12;
     color("red") {
       union() {
         translate([ (screenWidth / 2), (screenHeight / 2), (topPegHeight / 2)]) {
@@ -131,8 +132,8 @@ module HDMI5inchesStand(option=SEVEN_INCHES_OPTION,
 }
 // That's it!
 
-// Paly with the options...
-HDMI5inchesStand(option=FIVE_INCHES_OPTION,
-                 hollowCenter=true,
-                 cornerScrews=true);
+// Play with the options...
+HDMI5inchesStand(option=SEVEN_INCHES_OPTION_V2, // FIVE_INCHES_OPTION, 
+                 hollowCenter=false,
+                 cornerScrews=false);
 

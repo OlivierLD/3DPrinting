@@ -15,13 +15,14 @@
  *
  * TODO: Header labels?
  *
- * See the bottom of the file for print options.
+ * NOTE:  See the bottom of the file for print options.
  */
  
  
 use <../HDMI.5.inches.stand.scad>
 // use <./cameraStand.scad>
 use <./cameraStand.v2.scad>
+use <../uc595.scad>
  
 echo(version=version());
 
@@ -227,14 +228,27 @@ module raspberryBStandOnly(drillHoles=true) {
 mainPlateWidth  = 140;
 mainPlateLength = 130;
 
-baseHingesAxisHeight = 25;
+BASE_HINGES_AXIS_HEIGTH = 25;
 screenHingesAxisHeight = 20;
 
 module rpiEnclosure(screenAngle=0, 
                     bottomOnly=false, 
                     topOnly=false, 
                     holeForTheHook=true,
-                    screenType=1) {
+                    screenType=1,
+                    baseHingesAxisHeight=BASE_HINGES_AXIS_HEIGTH,
+                    withLabels=true,
+                    withScreen=false,
+                    rpiZRotation=0,
+                    rpiTranslate=-20) {
+
+  if (screenType == FIVE_INCHES_OPTION) {
+    echo("Option FIVE_INCHES_OPTION");
+  } else if (screenType == SEVEN_INCHES_OPTION) {
+    echo("Option SEVEN_INCHES_OPTION");
+  } else if (screenType == SEVEN_INCHES_OPTION_V2) {
+    echo("Option SEVEN_INCHES_OPTION_V2");
+  }    
 
   union() {
     // RPi Stand
@@ -246,19 +260,24 @@ module rpiEnclosure(screenAngle=0,
             translate([0, 0, 0]) {
               roundedRect([mainPlateWidth, mainPlateLength, plateThickNess], cornerRadius);
             }
-            translate([0, -20, 0]) {
-              raspberryBStandOnly(false);
-              // With a Raspberry Pi 4B. 
-              if (!bottomOnly) {
-                translate([(1 * plateLength / 2) + 1.6 - (offset / 2) , -(35.4), 3]) {
-                  rotate([0, 0, 90]) {
-                    color("green", 0.75) {
-                      import("../../../Raspberry_Pi_3_Reference_Design_Model_B_Rpi_Raspberrypi/files/Raspberry_Pi_3.STL");
+            // Optional Rotation
+            rotate([0, 0, rpiZRotation]) { 
+              translate([0, rpiTranslate, 0]) {
+                raspberryBStandOnly(false);
+                // With a Raspberry Pi 4B. 
+                if (!bottomOnly) {
+                  translate([(1 * plateLength / 2) + 1.6 - (offset / 2) , -(35.4), 3]) {
+                    rotate([0, 0, 90]) {
+                      color("green", 0.75) {
+                        import("../../../Raspberry_Pi_3_Reference_Design_Model_B_Rpi_Raspberrypi/files/Raspberry_Pi_3.STL");
+                      }
                     }
                   }
                 }
               }
             }
+            // End optional rotation
+
             // Bottom Hinges. Axis height: 25mm (baseHingesAxisHeight)
             // Right, external one
             translate([(mainPlateWidth/2) - hingeBaseThickness - (1 * hingeOffset), (mainPlateLength/2) - (hingeBaseLength/2), (baseHingesAxisHeight / 2) + (plateThickNess / 2)]) {
@@ -274,7 +293,7 @@ module rpiEnclosure(screenAngle=0,
             }
             // Right foot
             prismBase = 10;
-            footHeight = 20;
+            footHeight = baseHingesAxisHeight - 5;
             footBaseLength = (2 * prismBase) + (3 * hingeBaseThickness);
             translate([(mainPlateWidth/2) - (hingeBaseThickness / 2) - (1 * hingeOffset), 
                        (mainPlateLength / 2) - hingeBaseLength, 
@@ -312,11 +331,30 @@ module rpiEnclosure(screenAngle=0,
           // Lid stand
           standDiam = 10;
           standHeight = baseHingesAxisHeight + screenHingesAxisHeight;
-          translate([0, 
-                     -(mainPlateLength/2) + (standDiam/2), 
-                     (standHeight / 2) + (plateThickNess / 2) - (plateThickNess + 0)]) {
-            rotate([0, 0, 90]) {
-              cylinder(d=standDiam, h=standHeight, center=true, $fn=50);
+          if (screenType == SEVEN_INCHES_OPTION_V2) {
+            translate([0, 
+                       -(mainPlateLength/2) + (standDiam/2) - 10, 
+                       0]) {
+              translate([0, 10, 0]) {              
+                cube(size=[(2 * standDiam), (2 * standDiam), plateThickNess], center=true);
+              }
+              cylinder(d=(2 * standDiam), h=plateThickNess, center=true, $fn=50);
+           }            
+            
+            translate([0, 
+                       -(mainPlateLength/2) + (standDiam/2) - 10, 
+                       (standHeight / 2) + (plateThickNess / 2) - (plateThickNess + 0)]) {
+              rotate([0, 0, 90]) {
+                cylinder(d=standDiam, h=standHeight, center=true, $fn=50);
+              }
+            }
+          } else {
+            translate([0, 
+                       -(mainPlateLength/2) + (standDiam/2), 
+                       (standHeight / 2) + (plateThickNess / 2) - (plateThickNess + 0)]) {
+              rotate([0, 0, 90]) {
+                cylinder(d=standDiam, h=standHeight, center=true, $fn=50);
+              }
             }
           }
           // Hook
@@ -350,7 +388,7 @@ module rpiEnclosure(screenAngle=0,
         // Drill holes (less material)
         translate([15, -20, 0]) {
           rotate([0, 0, 0]) {
-            cylinder(d=40, h=plateThickNess * 1.1, center=true, $fn=100);
+            cylinder(d=30, h=plateThickNess * 1.1, center=true, $fn=100);
           }
         }
         translate([15, 30, 0]) {
@@ -368,6 +406,15 @@ module rpiEnclosure(screenAngle=0,
             cylinder(d=40, h=plateThickNess * 1.1, center=true, $fn=100);
           }
         }
+        if (screenType == SEVEN_INCHES_OPTION_V2) {
+          translate([50, 15, 0]) {
+            rotate([0, 0, 0]) {
+              cylinder(d=20, h=plateThickNess * 1.1, center=true, $fn=100);
+            }
+          }
+        }
+        // Drill completed
+        
         // Hole for the hook
         if (holeForTheHook) {
           translate([- (mainPlateWidth / 2) + 10, -(mainPlateLength / 2) + 10, 0]) {
@@ -377,28 +424,30 @@ module rpiEnclosure(screenAngle=0,
           }
         }
         // Labels
-        translate([
-         55,  // left - right (X)
-         -55, // Top - bottom (Y)
-         1.5  // Up - down    (Z)
-        ]) {
-          rotate([0, 0, 90]) {
-            color("lime") {
-              linear_extrude(height=plateThickNess - 1, center=true) {
-                text("power HDMI audio", 6);
+        if (withLabels) {
+          translate([
+           55,  // left - right (X)
+           -55, // Top - bottom (Y)
+           1.5  // Up - down    (Z)
+          ]) {
+            rotate([0, 0, 90]) {
+              color("lime") {
+                linear_extrude(height=plateThickNess - 1, center=true) {
+                  text("power HDMI audio", 6);
+                }
               }
             }
           }
-        }
-        translate([
-         7.5,  // left - right (X)
-         -62, // Top - bottom (Y)
-         1.5  // Up - down    (Z)
-        ]) {
-          rotate([0, 0, 0]) {
-            color("lime") {
-              linear_extrude(height=plateThickNess - 1, center=true) {
-                text("SD", 6);
+          translate([
+           7.5,  // left - right (X)
+           -62, // Top - bottom (Y)
+           1.5  // Up - down    (Z)
+          ]) {
+            rotate([0, 0, 0]) {
+              color("lime") {
+                linear_extrude(height=plateThickNess - 1, center=true) {
+                  text("SD", 6);
+                }
               }
             }
           }
@@ -476,7 +525,7 @@ module rpiEnclosure(screenAngle=0,
                   
                   rotate([0, rotAngle, 0]) {
                     translate([0, -12, 0]) {
-                      HDMI5inchesStand(option=2,  // 1: 5", 2: 7", 3: 7" from UCTronics
+                      HDMI5inchesStand(option=screenType,  // 1: 5", 2: 7", 3: 7" from UCTronics
                                        hollowCenter=false,
                                        cornerScrews=false);
                     }
@@ -538,8 +587,17 @@ module rpiEnclosure(screenAngle=0,
               }
             }
           }
-          // With camera stand?
-          if (screenAngle != 0) {
+          // With a screen ?
+          if (withScreen && screenType == SEVEN_INCHES_OPTION_V2) {
+            rotate([-(screenAngle + 180), 0, 0]) {
+              translate([0, 12, 25.5]) {
+                uc595();
+              }
+            }
+          }
+          
+          // With camera stand? Only drawn for FIVE_INCHES_OPTION
+          if (screenAngle != 0 && screenType == FIVE_INCHES_OPTION) {
             rotate([-(screenAngle - 90), 0, 0]) {
               translate([0, 0, mainPlateLength / 2]) {
                 cameraStand(withCamera=true);
@@ -556,20 +614,26 @@ module rpiEnclosure(screenAngle=0,
 OPENED = 100; // Fix camera stand position for all screen options.
 CLOSED = 0;
 
-screenAngle = CLOSED; // Change at will
+screenAngle = OPENED; // Change at will
 bottomOnly = false;
-topOnly = true;
+topOnly = false;
 holeForTheHook = true; // false: Ok with 5"
 
+// From HDMI.5.inches.stand.scad
 FIVE_INCHES_OPTION = 1;
 SEVEN_INCHES_OPTION = 2;
 SEVEN_INCHES_OPTION_V2 = 3;
 
-screenType = SEVEN_INCHES_OPTION_V2; // From HDMI.5.inches.stand.scad
+screenType = SEVEN_INCHES_OPTION_V2; 
 
 rpiEnclosure(screenAngle=screenAngle, 
              bottomOnly=bottomOnly, 
              topOnly=topOnly, 
              holeForTheHook=holeForTheHook,
-             screenType=screenType);
+             screenType=screenType,
+             baseHingesAxisHeight=BASE_HINGES_AXIS_HEIGTH + (screenType == SEVEN_INCHES_OPTION_V2 ? 5 : 0), // TODO Tweak the 5...
+             withLabels=(screenType != SEVEN_INCHES_OPTION_V2),
+             withScreen=true,
+             rpiZRotation=(screenType == SEVEN_INCHES_OPTION_V2 ? 90 : 0), // 90 for the SEVEN_INCHES_OPTION_V2
+             rpiTranslate=(screenType == SEVEN_INCHES_OPTION_V2 ? -5 : -20)); 
 // That's it!
