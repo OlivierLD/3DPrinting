@@ -27,6 +27,11 @@
      color("gray") {
        cube(size=[lcdWidth, lcdHeight, screenTickness], center=true);
      }
+     translate([0, 0, 2.6]) {
+       color("cyan") {
+         text("UCTRONICS UC-595", halign="center");
+       }
+     }
    }
    translate([0, 0, -3]) {
      color("green") {
