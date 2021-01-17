@@ -593,7 +593,7 @@ module rpiEnclosure(screenAngle=0,
           // With a screen ?
           if (withScreen && screenType == SEVEN_INCHES_OPTION_V2) {
             rotate([-(screenAngle + 180), 0, 0]) {
-              translate([0, 12, 25.5]) {
+              translate([0, 12, 18.5]) {
                 uc595();
               }
             }

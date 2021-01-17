@@ -91,7 +91,7 @@ module HDMI5inchesStand(option=SEVEN_INCHES_OPTION,
   // Base Pegs
   basePegDiam = (option == SEVEN_INCHES_OPTION_V2) ? 10 : 6;
   basePegScrewDiam = 2;
-  basePegHeight = (option == SEVEN_INCHES_OPTION_V2) ? 22 : 10;
+  basePegHeight = (option == SEVEN_INCHES_OPTION_V2) ? 15 : 10;
   
   difference() {
     color("orange") {
