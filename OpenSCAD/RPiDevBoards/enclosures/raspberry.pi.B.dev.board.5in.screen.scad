@@ -1,17 +1,11 @@
 /*
- * 20-Jan-2020, MLK day, discovering OpenSCAD.
- * Note: This is a first experience with OpenSCAD. The structure of the code
- * could be improved, a lot! I know.
  *
- * Raspberry Pi *B stand 
+ * Raspberry Pi *B stand, with screen
+ * Several screen options, see at the bottom of the file.
  *
  * For the Raspberry Pi dimension:
  * See https://www.raspberrypi.org/documentation/hardware/raspberrypi/mechanical/rpi_MECH_4b_4p0.pdf
  *
- * Features:
- * - Text
- * - Image
- * - etc
  *
  * TODO: Header labels?
  *
@@ -26,6 +20,7 @@ use <../uc595.scad>
  
 echo(version=version());
 
+// Note; Logo not used in this file.
 logo = "../RPiLogo.png"; // res 240 x 300
 logox = 200; 
 logoy = 200; 
@@ -415,6 +410,16 @@ module rpiEnclosure(screenAngle=0,
               cylinder(d=20, h=plateThickNess * 1.1, center=true, $fn=100);
             }
           }
+          translate([50, -15, 0]) {
+            rotate([0, 0, 0]) {
+              cylinder(d=20, h=plateThickNess * 1.1, center=true, $fn=100);
+            }
+          }
+          translate([50, -45, 0]) {
+            rotate([0, 0, 0]) {
+              cylinder(d=20, h=plateThickNess * 1.1, center=true, $fn=100);
+            }
+          }
         }
         // Drill completed
         
@@ -636,7 +641,7 @@ rpiEnclosure(screenAngle=screenAngle,
              screenType=screenType,
              baseHingesAxisHeight=BASE_HINGES_AXIS_HEIGTH + (screenType == SEVEN_INCHES_OPTION_V2 ? 5 : 0), // TODO Tweak the 5...
              withLabels=(screenType != SEVEN_INCHES_OPTION_V2),
-             withScreen=true,
+             withScreen=false,
              rpiZRotation=(screenType == SEVEN_INCHES_OPTION_V2 ? 90 : 0), // 90 for the SEVEN_INCHES_OPTION_V2
              rpiTranslate=(screenType == SEVEN_INCHES_OPTION_V2 ? -5 : -20)); 
 // That's it!
