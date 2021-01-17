@@ -80,3 +80,9 @@ Comes back on a click.
 
 Autonomous setting:
 ![07](./images/07.jpg)
+
+
+With a 7" screen, high definition, and a wirelsee bluetooth keyboard.
+![08](./images/08.jpg)
+
+STL files featured [here](./stl/raspberry.pi.B.dev.board.7in.screen.stl)
