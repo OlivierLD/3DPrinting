@@ -86,7 +86,7 @@ Comes back on a click.
 With a [UCTronics 7" screen](https://www.uctronics.com/display/uctronics-7-inch-touch-screen-for-raspberry-pi-1024-600-capacitive-hdmi-lcd-touchscreen-monitor-portable-display-for-pi-4-b-3-b-windows-10-8-7-free-driver.html), high definition, and a wireless bluetooth keyboard.
 ![08](./images/08.jpg)
 
-STL files featured [here](./stl/raspberry.pi.B.dev.board.7in.screen.stl).
+STL files featured [here](./stl/raspberry.pi.B.dev.board.7in.screen.stl). Notice the way the screen is powered, with its own USB cable. This config does not use a USB Splitter as above (but it could).
 
 Or in separated modules, fitting in some pelican (or similar) box:
 | OpenSCAD                                     | At work                |
