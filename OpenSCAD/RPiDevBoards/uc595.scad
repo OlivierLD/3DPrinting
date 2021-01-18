@@ -29,7 +29,7 @@
      }
      translate([0, 0, 2.6]) {
        color("cyan") {
-         text("UCTRONICS UC-595", halign="center");
+         text("UCTronics UC-595", halign="center");
        }
      }
    }
@@ -77,7 +77,42 @@
                cylinder(h=2 * plateThickness, d=sidePlateHolesDiam, center=true, $fn=50);
              }
            }
-         }           
+         }
+         // Sockets on the left side
+         smallSwitchWidth = 4.5;
+         smallSwitchThick = 2;
+         smallSwitchLen = 2.5;
+         // Small push button
+         translate([-((plateWidth - smallSwitchLen) / 2), (sidePlateBetweenHoleAxis / 2) - smallSwitchWidth - 4, -(plateThickness / 2) -smallSwitchThick / 2]) {
+           color("silver") {
+              cube(size=[smallSwitchLen, smallSwitchWidth, smallSwitchThick], center=true);
+           }
+         }
+         
+         miniUsbWidth = 8;
+         miniUsbThick = 2.5;
+         miniUsbLen = 6;
+         // PWR
+         translate([-((plateWidth - miniUsbLen) / 2), (sidePlateBetweenHoleAxis / 2) - miniUsbWidth - 24, -(plateThickness / 2) -miniUsbThick / 2]) {
+           color("silver") {
+              cube(size=[miniUsbLen, miniUsbWidth, miniUsbThick], center=true);
+           }
+         }
+         // USB Touch
+         translate([-((plateWidth - miniUsbLen) / 2), (sidePlateBetweenHoleAxis / 2) - miniUsbWidth - 39, -(plateThickness / 2) -miniUsbThick / 2]) {
+           color("silver") {
+              cube(size=[miniUsbLen, miniUsbWidth, miniUsbThick], center=true);
+           }
+         }
+         // Jack 
+         jackWidth = 7;
+         jackThick = 5;
+         jackLen = 12;
+         translate([-((plateWidth - jackLen) / 2), (sidePlateBetweenHoleAxis / 2) - jackWidth - 52, -(plateThickness / 2) -jackThick / 2]) {
+           color("black") {
+              cube(size=[jackLen, jackWidth, jackThick], center=true);
+           }
+         }
        }
      }
    }

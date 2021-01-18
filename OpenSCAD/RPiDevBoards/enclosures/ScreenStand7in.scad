@@ -7,18 +7,47 @@ betweenHorizontalScrews = 159.5;
 betweenVerticalScrews = 108;
 screwDiam = 3;
 
-plateThickness = 5;
+plateThickness = 7; // 8 Max. 5 Min. Adjust at will.
 
 base = 50;
 height = 110;
 
+/*
+ 
+z 
+^  
+|       4           5
+|       .           .
+|      /|          /|
+|     / |         / |
+|    /  |        /  |
+| 0 .---. 3   1 .---. 2    
++---------> y
+  
+
++---------> x
+| 0 .---. 1   
+|   |   |
+v   |   |
+y 3 .---. 2  4 .---. 5
+  
+*/
 module prism(l, w, h){
-   polyhedron(points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
-              faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]);
+   polyhedron(points=[[0,0,0], // Point 0
+                      [l,0,0], // Point 1
+                      [l,w,0], // Point 2
+                      [0,w,0], // Point 3
+                      [0,w,h], // Point 4 
+                      [l,w,h]],// Point 5
+              faces=[[0,1,2,3],  // Base
+                     [5,4,3,2],  // Vertical Face
+                     [0,4,5,1],  // Slope
+                     [0,3,4],    // One side
+                     [5,2,1]]);  // The other side
 }
 
 
-module oneSide() {
+module oneSide(left=false) {
   translate([- (plateThickness / 2), 0, 0]) { // Center
     difference() {
       union() {
@@ -50,8 +79,21 @@ module oneSide() {
       
       // Hollow
       rotate([0, 90, 0]) {
-        translate([-25, 32, -plateThickness/2]) {
+        translate([-22, 30, -plateThickness/2]) {
           cylinder(h=(2 * plateThickness), d = 26, $fn=100);
+        }
+      }
+      if (left) {
+        // Space for the sockets, another difference
+        rotate([-atan(base / height) + 90, 0, 0]) {
+                    
+          translate([plateThickness / 2, 99 + 11.5, -1.99]) {
+            cube(size=[plateThickness * 2, 8, 4], center=true);
+          }
+
+          translate([plateThickness / 2, 99 - 26, -2.99]) {
+            cube(size=[plateThickness * 2, 40, 6], center=true);
+          }
         }
       }
     }
@@ -84,7 +126,10 @@ withScreen = true;
 fullView = true;
 
 barOnly = false;
+// Setting this up (those two) smartly is your responsibility.
+// You might see some wierd stuff if you do some wierd things.
 oneSideOnly = false;
+leftSideOnly = false;
 
 // With a screen ?
 if (withScreen) {
@@ -98,16 +143,22 @@ if (withScreen) {
 if (fullView || oneSideOnly) {
   // Right
   translate([(betweenHorizontalScrews / 2), 0, 0]) {
-    oneSide();
+    color("cyan") {
+      oneSide(leftSideOnly);
+    }
   }
 }
 if (fullView) {
   // Left
   translate([-(betweenHorizontalScrews / 2), 0, 0]) {
-    oneSide();
+    color("red") {
+      oneSide(true);
+    }
   }
 }
 
 if (fullView || barOnly) {
-  barBehind();
+  color("blue") {
+    barBehind();
+  }
 }
