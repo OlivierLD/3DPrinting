@@ -86,3 +86,7 @@ With a [UCTronics 7" screen](https://www.uctronics.com/display/uctronics-7-inch-
 ![08](./images/08.jpg)
 
 STL files featured [here](./stl/raspberry.pi.B.dev.board.7in.screen.stl).
+
+Or in separated modules, fitting in some pelican (or similar) box:
+![Screen Stand](./images/ScreenStand7in.png)
+

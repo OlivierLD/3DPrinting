@@ -73,7 +73,7 @@ module oneSide(left=false) {
         translate([-plateThickness/2, // left-right
                     40,  // back and forth
                     45]) { // Up and down
-          cube(size=[10, plateThickness, 12.5], center=false);
+          cube(size=[14, plateThickness, 12.5], center=false);
         }
       }
       
@@ -127,9 +127,42 @@ fullView = true;
 
 barOnly = false;
 // Setting this up (those two) smartly is your responsibility.
-// You might see some wierd stuff if you do some wierd things.
+// You might see some wierd stuff if you do some wierd things. Blame it on you!
 oneSideOnly = false;
 leftSideOnly = false;
+
+/**
+ * To print:
+ *   setup screwDiam (default 3)
+ *   setup plateThickness (default 7) 
+ * 
+ * Use withScreen = false;
+ *
+ * Full View: 
+ *    fullView = true;
+ *    barOnly = false;
+ *    oneSideOnly = false;
+ *    leftSideOnly = false;
+ *
+ * Right side: 
+ *    fullView = false;
+ *    barOnly = false;
+ *    oneSideOnly = true;
+ *    leftSideOnly = false;
+ *
+ * Left side: 
+ *    fullView = false;
+ *    barOnly = false;
+ *    oneSideOnly = true;
+ *    leftSideOnly = true;
+ *
+ * Behind bar: 
+ *    fullView = false;
+ *    barOnly = true;
+ *    oneSideOnly = false;
+ *    leftSideOnly = false;
+ *
+ */
 
 // With a screen ?
 if (withScreen) {
