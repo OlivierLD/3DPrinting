@@ -78,7 +78,7 @@ $ xset dpms force off
 ```
 Comes back on a click.
 
-| Autonomous setting     | In its own bow, on the go |      
+| Autonomous setting     | In its own box, on the go |      
 |:----------------------:|:-------------------------:|
 | ![07](./images/07.jpg) | ![10](./images/10.jpg)    |
 
@@ -91,7 +91,7 @@ STL files featured [here](./stl/raspberry.pi.B.dev.board.7in.screen.stl).
 Or in separated modules, fitting in some pelican (or similar) box:
 | OpenSCAD                                     | At work                |
 |:---------------------------------------------:|:---------------------:|
-| ![Screen Stand](./images/ScreenStand7in.png) | ![08](./images/08.jpg) |
+| ![Screen Stand](./images/ScreenStand7in.png) | ![09](./images/09.jpg) |
 
 
 STL files for the stand available [here](./stl/ScreenStand7in.full.stl)
