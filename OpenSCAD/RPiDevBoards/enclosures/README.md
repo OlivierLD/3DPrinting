@@ -54,7 +54,7 @@ $ sudo apt-get install vlc
 ```
 
 Camera Stand:
-- <https://www.adafruit.com/product/1434>, or this [3D pronted](./stl/cameraStand.v2.full.stl) one.
+- <https://www.adafruit.com/product/1434>, or this [3D printed](./stl/cameraStand.v2.full.stl) one.
 - <https://www.amazon.com/gp/product/B000CNPK3M/ref=oh_aui_search_detailpage?ie=UTF8&psc=1>
 
 Loud Speakers
