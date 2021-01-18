@@ -92,6 +92,8 @@ Or in separated modules, fitting in some pelican (or similar) box:
 | OpenSCAD                                     | At work                |
 |:---------------------------------------------:|:---------------------:|
 | ![Screen Stand](./images/ScreenStand7in.png) | ![09](./images/09.jpg) |
+| In its box                                   | Ready to go!           |
+| ![11](./images/11.jpg)                       | ![12](./images/12.jpg) |
 
 
 STL files for the stand available [here](./stl/ScreenStand7in.full.stl)
