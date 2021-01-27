@@ -72,7 +72,7 @@ module drawRaspberryPi(withSocket=false) {
       }
       // USB/Power
       rotate([0, 90, 0]) {
-        translate([-4, 13.4, 0]) {
+        translate([-4, 13.4, 3]) {
           #cube(size=[4, 10, 12], center=true);
         }
       }
@@ -91,13 +91,19 @@ module drawRaspberryPi(withSocket=false) {
       // USB, 1.
       rotate([0, 0, 90]) {
         translate([ 90, 30.5, 11.5]) {
-          #cube(size=[14, 14, 16], center=true);
+          #cube(size=[14,   // depth  
+                      15.5, // width
+                      16],  // height
+                      center=true);
         }
       }
       // USB, 2.
       rotate([0, 0, 90]) {
         translate([ 90, 49, 11.5]) {
-          #cube(size=[14, 14, 16], center=true);
+          #cube(size=[14,   // depth  
+                      15.5, // width
+                      16],  // height
+                      center=true);
         }
       }
     }
@@ -181,7 +187,6 @@ module raspberryBStand(withRPi=true, drillHoles=true) {
   }
 }
 
-
 /*
  * show=true: show the raspberry
  * show=false: drill holes for sockets
@@ -225,6 +230,6 @@ module tvBoxRPiB3(show=true) {
  */
 
 // Bottom
-tvBoxRPiB3(show=true); 
+tvBoxRPiB3(show=false); 
 
 // That's it!
