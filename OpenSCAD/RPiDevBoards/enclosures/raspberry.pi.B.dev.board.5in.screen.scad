@@ -626,6 +626,7 @@ screenAngle = OPENED; // Change at will
 bottomOnly = false;
 topOnly = false;
 holeForTheHook = true; // false: Ok with 5"
+withScreen = true;
 
 // From HDMI.5.inches.stand.scad
 FIVE_INCHES_OPTION = 1;
@@ -641,7 +642,7 @@ rpiEnclosure(screenAngle=screenAngle,
              screenType=screenType,
              baseHingesAxisHeight=BASE_HINGES_AXIS_HEIGTH + (screenType == SEVEN_INCHES_OPTION_V2 ? 5 : 0), // TODO Tweak the 5...
              withLabels=(screenType != SEVEN_INCHES_OPTION_V2),
-             withScreen=false,
+             withScreen=withScreen,
              rpiZRotation=(screenType == SEVEN_INCHES_OPTION_V2 ? 90 : 0), // 90 for the SEVEN_INCHES_OPTION_V2
              rpiTranslate=(screenType == SEVEN_INCHES_OPTION_V2 ? -5 : -20)); 
 // That's it!
