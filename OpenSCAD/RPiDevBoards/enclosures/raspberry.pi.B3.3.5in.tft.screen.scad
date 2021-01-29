@@ -71,13 +71,13 @@ module drawRaspberryPi(withSocket=false) {
       // HDMI
       rotate([0, 90, 0]) {
         translate([-7.5, 34.7, 0]) {
-          #cube(size=[10, 18, 12], center=true);
+          #cube(size=[10, 20, 12], center=true);
         }
       }
       // USB/Power
       rotate([0, 90, 0]) {
         translate([-5, 13.4, 3]) {
-          #cube(size=[6, 10, 12], center=true);
+          #cube(size=[7, 12, 12], center=true);
         }
       }
       // SD Card
@@ -246,15 +246,35 @@ module tvBoxRPiB3(show=true) {
 
 /* 
  * Now do it!
+ * 
+ * To print the bottom:
+ *   - justBottom = true
+ *   - justTop = false
+ *   - showRaspberry = false
+ *
+ * To print the top:
+ *   - justBottom = false
+ *   - justTop = true
+ *   - showRaspberry = false
+ *   - withScreen = false
+ *
+ * To visualize:
+ *   - justBottom = false
+ *   - justTop = false
+ *   - showRaspberry = true|false
+ *   - withScreen = true|false
+ * 
  */
 
 justTop = false;
-justBottom = true;
-withScreen = false;
+justBottom = false;
+
+withScreen = true;
+showRaspberry = false;
 
 if (!justTop) {
   // Bottom
-  tvBoxRPiB3(show=false); 
+  tvBoxRPiB3(show=showRaspberry); 
 
   // The screen
   if (withScreen) {
@@ -283,7 +303,7 @@ if (!justBottom) {
         // #roundedRect([mainPlateWidth, mainPlateLength, plateThickNess], cornerRadius);
       }
     }
-    union() { // Like above
+    union() { // Like above. To extrude it.
       // Bottom
       tvBoxRPiB3(show=false); 
 
@@ -292,7 +312,7 @@ if (!justBottom) {
       translate([-0.4, 1.25, 25.9]) { // On top of the box
       // translate([0, 0, 36]) {
         rotate([0, 0, 180]) {
-          drawScreen(extrudeTop=true);
+          drawScreen(extrudeTop=true, extrudeBottom=true);
         }
       }
     }

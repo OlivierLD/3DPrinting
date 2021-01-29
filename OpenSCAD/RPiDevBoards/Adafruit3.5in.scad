@@ -12,7 +12,7 @@ plateWidth = 56.62;
 plateLength = 84.86;
 betweenHolesWidth = 49.91;
 betweenHolesLength = 91.19;
-plateThickness = 1.7;
+_plateThickness = 1.7;
 holesDiam = 2.0;
 plateExtensionWidth = 5.5;
 plateExtensionLength = 97.5;
@@ -31,10 +31,12 @@ headerSideFromEdge = 1.5;
 headerOffset = 6.5; // from the narrow side of the plate
 
 
-module drawScreen(extrudeTop=false) {
+module drawScreen(extrudeTop=false, extrudeBottom=false) {
+  plateThickness = _plateThickness * (extrudeBottom ? 5 : 1);
   union () {
     // Plate
-    translate([0, 0, 0]) {
+    zTranslate = extrudeBottom ? -(plateThickness - _plateThickness) / 2 : 0;
+    translate([0, 0, zTranslate]) {
       rotate([0, 0, 0]) {
         color("green") {
           union() {
@@ -86,7 +88,7 @@ module drawScreen(extrudeTop=false) {
       }
     }
     // Screen
-    translate([0, 0, (screenThickness + plateThickness) / 2]) {
+    translate([0, 0, (screenThickness + _plateThickness) / 2]) {
       rotate([0, 0, 0]) {
         union() {
           color("darkgray") {
@@ -109,7 +111,7 @@ module drawScreen(extrudeTop=false) {
     // Header Connector
     translate([((plateWidth - headerConnectorWidth) / 2) - headerSideFromEdge, 
                ((plateLength - headerConnectorLength) / 2) - headerOffset, 
-               -(plateThickness + headerConnectorHeight) / 2]) {
+               -(_plateThickness + headerConnectorHeight) / 2]) {
       rotate([0, 0, 0]) {
         color("black") {
           cube(size=[headerConnectorWidth, headerConnectorLength, headerConnectorHeight], center=true);
@@ -137,4 +139,4 @@ module drawScreen(extrudeTop=false) {
   }
 }
 
-drawScreen();
+drawScreen(extrudeBottom=false);
