@@ -31,6 +31,14 @@ headerSideFromEdge = 1.5;
 headerOffset = 6.5; // from the narrow side of the plate
 
 
+// Getters, called from other modules.
+function getScreenPlateWidth() =
+	plateWidth;
+function getScreenPlateLength() =
+	plateLength;
+function getPlateExtensionWidth() =
+  plateExtensionWidth;
+
 module drawScreen(extrudeTop=false, extrudeBottom=false) {
   plateThickness = _plateThickness * (extrudeBottom ? 5 : 1);
   union () {

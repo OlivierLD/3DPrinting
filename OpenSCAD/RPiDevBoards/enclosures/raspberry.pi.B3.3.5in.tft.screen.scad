@@ -191,6 +191,11 @@ module raspberryBStand(withRPi=true, drillHoles=true) {
   }
 }
 
+
+screenPlateWidth = getScreenPlateWidth();
+screenPlateLength = getScreenPlateLength();
+screenPlateExtensionWidth = getPlateExtensionWidth();
+
 /*
  * show=true: show the raspberry
  * show=false: drill holes for sockets
@@ -215,6 +220,51 @@ module tvBoxRPiB3(show=true) {
                 }
               }
             }
+            // Pegs for the screws of the screen
+            pegHeight = 4;
+            pegHoleLength = 5;
+            d2 = 5;
+            d1 = plateThickNess;
+            rotate([0, 0, 0]) {
+              // bottom right
+              translate([- ((screenPlateWidth - screenPlateExtensionWidth) / 2) - 0.5, 
+                         - (screenPlateLength / 2) - 2, 
+                         wallHeight - (pegHeight / 2) ]) {
+                difference() {
+                  cylinder(d2=d2, d1=d1, h=pegHeight, center=true, $fn=50);
+                  // hole
+                  translate([0, 0, 1]) {
+                    cylinder(d=1.5, h=pegHoleLength, center=true, $fn=50);
+                  }
+                }
+              }
+              // Top right
+              translate([+ ((screenPlateWidth - screenPlateExtensionWidth) / 2) - 0.5, 
+                         - (screenPlateLength / 2) - 2, 
+                         wallHeight - (pegHeight / 2) ]) {
+                difference() {
+                  cylinder(d2=d2, d1=d1, h=pegHeight, center=true, $fn=50);
+                  // hole
+                  translate([0, 0, 1]) {
+                    cylinder(d=1.5, h=pegHoleLength, center=true, $fn=50);
+                  }
+                }
+              }
+              // Top Left
+              translate([+ ((screenPlateWidth - screenPlateExtensionWidth) / 2) - 0.5, 
+                         + (screenPlateLength / 2) + 5, 
+                         wallHeight - (pegHeight / 2) ]) {
+                difference() {
+                  cylinder(d2=d2, d1=d1, h=pegHeight, center=true, $fn=50);
+                  // hole
+                  translate([0, 0, 1]) {
+                    cylinder(d=1.5, h=pegHoleLength, center=true, $fn=50);
+                  }
+                }
+              }         
+              // Bottom Left: None.
+            }
+            
             withLogo = true;
             if (withLogo) {
               rotate([90, 0, -90]) {
@@ -267,9 +317,9 @@ module tvBoxRPiB3(show=true) {
  */
 
 justTop = false;
-justBottom = false;
+justBottom = true;
 
-withScreen = true;
+withScreen = false;
 showRaspberry = false;
 
 if (!justTop) {
