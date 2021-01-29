@@ -200,7 +200,7 @@ screenPlateExtensionWidth = getPlateExtensionWidth();
  * show=true: show the raspberry
  * show=false: drill holes for sockets
  */
-module tvBoxRPiB3(show=true) { 
+module tvBoxRPiB3(show=true, logo=true) { 
 
   difference() {
     // Bottom
@@ -265,7 +265,7 @@ module tvBoxRPiB3(show=true) {
               // Bottom Left: None.
             }
             
-            withLogo = true;
+            withLogo = logo;
             if (withLogo) {
               rotate([90, 0, -90]) {
                 translate([0, 10, 32.2]) {
@@ -301,6 +301,7 @@ module tvBoxRPiB3(show=true) {
  *   - justBottom = true
  *   - justTop = false
  *   - showRaspberry = false
+ *   - withLogo = false
  *
  * To print the top:
  *   - justBottom = false
@@ -313,6 +314,7 @@ module tvBoxRPiB3(show=true) {
  *   - justTop = false
  *   - showRaspberry = true|false
  *   - withScreen = true|false
+ *   - withLogo = true|false
  * 
  */
 
@@ -321,10 +323,11 @@ justBottom = true;
 
 withScreen = false;
 showRaspberry = false;
+withLogo = false;
 
 if (!justTop) {
   // Bottom
-  tvBoxRPiB3(show=showRaspberry); 
+  tvBoxRPiB3(show=showRaspberry, logo=withLogo); 
 
   // The screen
   if (withScreen) {
