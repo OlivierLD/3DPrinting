@@ -200,7 +200,7 @@ screenPlateExtensionWidth = getPlateExtensionWidth();
  * show=true: show the raspberry
  * show=false: drill holes for sockets
  */
-module tvBoxRPiB3(show=true, logo=true) { 
+module tvBoxRPiB3(show=true, logo=true, showWall=true) { 
 
   difference() {
     // Bottom
@@ -210,7 +210,7 @@ module tvBoxRPiB3(show=true, logo=true) {
           // Base
           roundedRect([mainPlateWidth, mainPlateLength, plateThickNess], cornerRadius);
           // The wall
-          if (true) { // Set to false to see inside the box.
+          if (showWall) { // Set to false to see inside the box.
             wallHeight = 20 + 5; // 5 = basePegHeight;
             translate([0, 0, (wallHeight / 2)]) { // 12.5 = (20 + 5) / 2
               difference() {
@@ -224,11 +224,11 @@ module tvBoxRPiB3(show=true, logo=true) {
             pegHeight = 4;
             pegHoleLength = 5;
             d2 = 5;
-            d1 = plateThickNess;
+            d1 = 1; // plateThickNess;
             rotate([0, 0, 0]) {
               // bottom right
               translate([- ((screenPlateWidth - screenPlateExtensionWidth) / 2) - 0.5, 
-                         - (screenPlateLength / 2) - 2, 
+                         - (screenPlateLength / 2) - 0.8, 
                          wallHeight - (pegHeight / 2) ]) {
                 difference() {
                   cylinder(d2=d2, d1=d1, h=pegHeight, center=true, $fn=50);
@@ -240,7 +240,7 @@ module tvBoxRPiB3(show=true, logo=true) {
               }
               // Top right
               translate([+ ((screenPlateWidth - screenPlateExtensionWidth) / 2) - 0.5, 
-                         - (screenPlateLength / 2) - 2, 
+                         - (screenPlateLength / 2) - 0.8, 
                          wallHeight - (pegHeight / 2) ]) {
                 difference() {
                   cylinder(d2=d2, d1=d1, h=pegHeight, center=true, $fn=50);
@@ -252,7 +252,7 @@ module tvBoxRPiB3(show=true, logo=true) {
               }
               // Top Left
               translate([+ ((screenPlateWidth - screenPlateExtensionWidth) / 2) - 0.5, 
-                         + (screenPlateLength / 2) + 5, 
+                         + (screenPlateLength / 2) + 3.5, 
                          wallHeight - (pegHeight / 2) ]) {
                 difference() {
                   cylinder(d2=d2, d1=d1, h=pegHeight, center=true, $fn=50);
@@ -268,9 +268,10 @@ module tvBoxRPiB3(show=true, logo=true) {
             withLogo = logo;
             if (withLogo) {
               rotate([90, 0, -90]) {
-                translate([0, 10, 32.2]) {
+                out = 32.7; // use more than 32.2 to see it
+                translate([0, 10, out]) {
                   color("orange") {
-                    text("Over cool", halign="center", size=10);
+                    text("Over cool stuff!", halign="center", size=6);
                   }
                 }
               }
@@ -295,7 +296,7 @@ module tvBoxRPiB3(show=true, logo=true) {
 
 
 /* 
- * Now do it!
+ * Now do it:
  * 
  * To print the bottom:
  *   - justBottom = true
@@ -322,12 +323,13 @@ justTop = false;
 justBottom = true;
 
 withScreen = false;
+showBoxWalls=true;
 showRaspberry = false;
-withLogo = false;
+withLogo = true;
 
 if (!justTop) {
   // Bottom
-  tvBoxRPiB3(show=showRaspberry, logo=withLogo); 
+  tvBoxRPiB3(show=showRaspberry, logo=withLogo, showWall=showBoxWalls); 
 
   // The screen
   if (withScreen) {

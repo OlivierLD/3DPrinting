@@ -9,7 +9,7 @@
  
 // Plate
 plateWidth = 56.62;
-plateLength = 84.86;
+plateLength = 87; // 84.86;
 betweenHolesWidth = 49.91;
 betweenHolesLength = 91.19;
 _plateThickness = 1.7;
@@ -28,7 +28,7 @@ headerConnectorLength = 51.28;
 headerConnectorWidth = 5.1;
 headerConnectorHeight = 13.0;
 headerSideFromEdge = 1.5;
-headerOffset = 6.5; // from the narrow side of the plate
+headerOffset = 7.57; // from the narrow side of the plate
 
 
 // Getters, called from other modules.

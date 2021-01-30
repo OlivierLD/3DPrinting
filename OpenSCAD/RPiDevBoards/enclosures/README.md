@@ -97,3 +97,9 @@ Or in separated modules, fitting in some pelican (or similar) box:
 
 
 STL files for the stand available [here](./stl/ScreenStand7in.full.stl)
+
+
+| Small enclosure         | With a lid             |
+|:-----------------------:|:----------------------:|
+| ![13](./images/13.jpg)  | ![14](./images/14.jpg) |
+
