@@ -11,8 +11,6 @@
  * https://learn.adafruit.com/adafruit-pitft-3-dot-5-touch-screen-for-raspberry-pi?view=all
  *
  * NOTE: See the bottom of the file for print options.
- *
- * Note: The top part is n ot ready yet.
  */
  
  
@@ -23,7 +21,7 @@ echo(version=version());
 
 module roundedRect(size, radius) {  
   // https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/2D_to_3D_Extrusion
-	linear_extrude(height=size.z, center=true, $fn=50) {
+	linear_extrude(height=size.z, center=true, $fn=100) {
 		offset(radius) offset(-radius) {
 			square([size.x, size.y], center = true);
 		}
@@ -323,10 +321,10 @@ module tvBoxRPiB3(show=true, logo=true, showWall=true, solid=false) {
  * 
  */
 
-justTop = true;
+justTop = false;
 justBottom = false;
 
-withScreen = false;
+withScreen = true;
 showBoxWalls = true;
 showRaspberry = true;
 withLogo = true;
@@ -337,9 +335,7 @@ if (!justTop) {
 
   // The screen
   if (withScreen) {
-    // translate([-0.4, 1.25, 22.5]) { // When completely closed.
     translate([-0.4, 1.25, 25.9]) { // On top of the box
-    // translate([0, 0, 36]) {
       rotate([0, 0, 180]) {
         drawScreen();
       }
@@ -351,9 +347,9 @@ if (!justTop) {
 if (!justBottom) {
   difference() {
     // The lid
-    lidThickness = 9;
+    lidThickness = 15;
     rotate([0, 0, 0]) {
-      translate([0, 0, 28]) { 
+      translate([0, 0, 24.5]) { 
         roundedRect([mainPlateWidth + (2.5 * plateThickNess), 
                      mainPlateLength + (2.5 * plateThickNess), 
                      lidThickness], 
@@ -371,7 +367,7 @@ if (!justBottom) {
       translate([-0.4, 1.25, 25.9]) { // On top of the box
       // translate([0, 0, 36]) {
         rotate([0, 0, 180]) {
-          drawScreen(extrudeTop=true, extrudeBottom=true);
+          drawScreen(extrudeTop=true, extrudeBottom=true, screenDimFactor=1.075);
         }
       }
       // The bottom box, higher... To remove unwanted grooves.
@@ -379,8 +375,8 @@ if (!justBottom) {
         // tvBoxRPiB3(show=false, solid=true); // Wow! Demanding!
       // }
       // Big extrusion under everything...
-      translate([0, 0, 11.8]) {
-        cube(size=[58, 150, 30], center=true);
+      translate([0, 0, 11.75]) {
+        cube(size=[58.0, 150, 30], center=true);
       }
     }
   }

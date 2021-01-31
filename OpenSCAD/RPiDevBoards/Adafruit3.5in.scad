@@ -39,7 +39,7 @@ function getScreenPlateLength() =
 function getPlateExtensionWidth() =
   plateExtensionWidth;
 
-module drawScreen(extrudeTop=false, extrudeBottom=false) {
+module drawScreen(extrudeTop=false, extrudeBottom=false, screenDimFactor=1.0) {
   plateThickness = _plateThickness * (extrudeBottom ? 5 : 1);
   union () {
     // Plate
@@ -96,14 +96,21 @@ module drawScreen(extrudeTop=false, extrudeBottom=false) {
       }
     }
     // Screen
+    dimFactor = screenDimFactor;
     translate([0, 0, (screenThickness + _plateThickness) / 2]) {
       rotate([0, 0, 0]) {
         union() {
           color("darkgray") {
-            cube(size=[screenWidth, screenLength, screenThickness], center=true);
+            cube(size=[screenWidth * dimFactor, 
+                       screenLength * dimFactor, 
+                       screenThickness * dimFactor], 
+                 center=true);
           }
           color("gray") {
-            cube(size=[screenWidth - (2 * screenEdgeOffset), screenLength - (2 * screenEdgeOffset), screenThickness], center=true);
+            cube(size=[screenWidth - (2 * screenEdgeOffset), 
+                       screenLength - (2 * screenEdgeOffset), 
+                       screenThickness], 
+                 center=true);
           }
           translate([0, 0, 1.16]) {
             rotate([0, 0, 90]) {
