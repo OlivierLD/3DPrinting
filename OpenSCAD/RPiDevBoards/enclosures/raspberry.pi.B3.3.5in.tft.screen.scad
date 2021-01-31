@@ -10,7 +10,9 @@
  * 3.5" TFT Screen:
  * https://learn.adafruit.com/adafruit-pitft-3-dot-5-touch-screen-for-raspberry-pi?view=all
  *
- * NOTE:  See the bottom of the file for print options.
+ * NOTE: See the bottom of the file for print options.
+ *
+ * Note: The top part is n ot ready yet.
  */
  
  
@@ -322,9 +324,9 @@ module tvBoxRPiB3(show=true, logo=true, showWall=true) {
 justTop = false;
 justBottom = true;
 
-withScreen = false;
-showBoxWalls=true;
-showRaspberry = false;
+withScreen = true;
+showBoxWalls = true;
+showRaspberry = true;
 withLogo = true;
 
 if (!justTop) {
@@ -347,9 +349,9 @@ if (!justTop) {
 if (!justBottom) {
   difference() {
     // The lid
-    lidThickness = 6;
+    lidThickness = 9;
     rotate([0, 0, 0]) {
-      translate([0, 0, 28.5]) { // was 27
+      translate([0, 0, 28]) { 
         roundedRect([mainPlateWidth + (2.5 * plateThickNess), 
                      mainPlateLength + (2.5 * plateThickNess), 
                      lidThickness], 
