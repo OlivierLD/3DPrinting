@@ -202,7 +202,7 @@ screenPlateExtensionWidth = getPlateExtensionWidth();
  * show=true: show the raspberry
  * show=false: drill holes for sockets
  */
-module tvBoxRPiB3(show=true, logo=true, showWall=true) { 
+module tvBoxRPiB3(show=true, logo=true, showWall=true, solid=false) { 
 
   difference() {
     // Bottom
@@ -217,8 +217,10 @@ module tvBoxRPiB3(show=true, logo=true, showWall=true) {
             translate([0, 0, (wallHeight / 2)]) { // 12.5 = (20 + 5) / 2
               difference() {
                 roundedRect([mainPlateWidth, mainPlateLength, wallHeight], cornerRadius);
-                translate([0, 0, 0.5]) { // 0.5 = (1 / 2) ===========================+
-                  roundedRect([mainPlateWidth - 6, mainPlateLength - 6, wallHeight + 1], cornerRadius - plateThickNess);              
+                if (!solid) {
+                  translate([0, 0, 0.5]) { // 0.5 = (1 / 2) ===========================+
+                    roundedRect([mainPlateWidth - 6, mainPlateLength - 6, wallHeight + 1], cornerRadius - plateThickNess);              
+                  }
                 }
               }
             }
@@ -321,10 +323,10 @@ module tvBoxRPiB3(show=true, logo=true, showWall=true) {
  * 
  */
 
-justTop = false;
-justBottom = true;
+justTop = true;
+justBottom = false;
 
-withScreen = true;
+withScreen = false;
 showBoxWalls = true;
 showRaspberry = true;
 withLogo = true;
@@ -362,7 +364,7 @@ if (!justBottom) {
     }
     union() { // Like above. To extrude it.
       // Bottom
-      tvBoxRPiB3(show=false); 
+      tvBoxRPiB3(show=false, solid=true); 
 
       // The screen
       // translate([-0.4, 1.25, 22.5]) { // When completely closed.
@@ -371,6 +373,14 @@ if (!justBottom) {
         rotate([0, 0, 180]) {
           drawScreen(extrudeTop=true, extrudeBottom=true);
         }
+      }
+      // The bottom box, higher... To remove unwanted grooves.
+      // translate([0, 0, 4]) {
+        // tvBoxRPiB3(show=false, solid=true); // Wow! Demanding!
+      // }
+      // Big extrusion under everything...
+      translate([0, 0, 11.8]) {
+        cube(size=[58, 150, 30], center=true);
       }
     }
   }
