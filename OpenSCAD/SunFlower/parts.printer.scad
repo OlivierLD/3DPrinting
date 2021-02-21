@@ -686,7 +686,8 @@ module printBase1_v5(bottomCylinderHeight,
                      betweenVertAxis=37.5, // TODO Tweak this
                      motorSide=42.5,
                      verticalAxisDiam=5,
-                     baseFixingScrewsDiam=3) {
+                     baseFixingScrewsDiam=3,
+                     withMotor=false) {
 
     cornerRadius = 10;
 	motorDepth= 39 ;
@@ -772,7 +773,19 @@ module printBase1_v5(bottomCylinderHeight,
 				drillingPattern(extDiam, fixingFootSize, screwDiam, minWallThickness, feetInside=true);
 			}
 		}
-		
+		if (withMotor) {
+			translate([0, -betweenVertAxis, -((motorDepth - bottomPlateThickness)/ 2) - motorTopWallThickness]) {
+				rotate([90, 0, 0]) {
+					motor(motorSide=motorSide, // 42.32, 
+								motorDepth=39, 
+								withScrews=false, 
+								screwLen=10,
+								forSocket=false,
+								justRedrillScrewHoles = false,
+								label="NEMA-17");
+				}
+			}
+    }
 	}
 	
 	if (withGear || option == V5_BASE_UPPER_TOP_ONLY || option == V5_BASE_ALL_ELEMENTS) { 
