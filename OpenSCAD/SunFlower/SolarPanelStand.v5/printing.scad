@@ -44,8 +44,8 @@ if (option == CUSTOM_PRINT) {
 //  designOption = V5_BASE_BASE_ONLY;
 //	designOption = V5_BASE_TOP_ONLY;
 //  designOption = V5_BASE_UPPER_TOP_ONLY;
-//  designOption = V5_BASE_ALL_ELEMENTS;
-    designOption = V5_BRACKET_BASE_ONLY;
+    designOption = V5_BASE_ALL_ELEMENTS;
+//  designOption = V5_BRACKET_BASE_ONLY;
 //  designOption = 0;
 	
 	withGear = false; // Set to false for printing

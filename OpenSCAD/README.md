@@ -1,6 +1,6 @@
 # OpenSCAD models
 
-> On Debian, Ubuntu and friends:
+> On Debian, Ubuntu and friends (All downloads: <https://www.openscad.org/downloads.html>):
 ```
  $ sudo apt-get install openscad
 ```
