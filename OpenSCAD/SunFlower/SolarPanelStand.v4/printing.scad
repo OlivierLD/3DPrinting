@@ -53,7 +53,7 @@ BASE1_AND_ALL_GEARS = 18; // for dev or visualization
 
 // Choose your own here
 inDev = false; // Set to true to show the worm gear
-option = PRINT_BASE_1; 
+option = BASE1_AND_ALL_GEARS;  // PRINT_BASE_1; 
 
 if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,

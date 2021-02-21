@@ -50,10 +50,73 @@ BEVEL_GEAR_PINION = 18;
 
 BASE1_AND_ALL_GEARS = 19; // for dev or visualization
 
-// Choose your own here
-option = PRINT_MAIN_STAND_BASE; // BASE1_AND_ALL_GEARS; 
+FULL_STAND = 20;
 
-if (option == PRINT_BRACKET) {
+// Choose your own here
+option = PRINT_BRACKET_WITH_FEET;
+// option = PRINT_MAIN_STAND_BASE;
+// option = PRINT_MAIN_STAND_LEFT;
+// option = PRINT_MAIN_STAND_RIGHT;
+// option = BASE1_AND_ALL_GEARS; 
+// option = FULL_STAND;
+
+if (option == FULL_STAND) {
+
+	printMainStand(standWidth, 
+								 standLength, 
+								 standHeight, 
+								 standTopWidth, 
+								 wallThickness, 
+								 verticalAxisDiam,
+								 horizontalAxisDiam, 
+								 flapScrewDiam,
+								 extDiam, 
+								 fixingFootSize, 
+								 fixingFootScrewDiam, 
+								 minFootWallThickness,
+								 topFeetInside=topBaseFeetInside,
+								 wheelStandThickness=bigWheelStandThickness,
+								 wheelStandDrillingPattern=actoBotics615238DrillingPattern,
+								 fixingFeetOnBase=true,
+	               printOption=BASE_ONLY);
+ 
+ 	printMainStand(standWidth, 
+								 standLength, 
+								 standHeight, 
+								 standTopWidth, 
+								 wallThickness, 
+								 verticalAxisDiam,
+								 horizontalAxisDiam, 
+								 flapScrewDiam,
+								 extDiam, 
+								 fixingFootSize, 
+								 fixingFootScrewDiam, 
+								 minFootWallThickness,
+								 topFeetInside=topBaseFeetInside,
+								 wheelStandThickness=bigWheelStandThickness,
+								 wheelStandDrillingPattern=actoBotics615238DrillingPattern,
+								 fixingFeetOnBase=true,
+	               printOption=LEFT_ONLY);
+
+	printMainStand(standWidth, 
+								 standLength, 
+								 standHeight, 
+								 standTopWidth, 
+								 wallThickness, 
+								 verticalAxisDiam,
+								 horizontalAxisDiam, 
+								 flapScrewDiam,
+								 extDiam, 
+								 fixingFootSize, 
+								 fixingFootScrewDiam, 
+								 minFootWallThickness,
+								 topFeetInside=topBaseFeetInside,
+								 wheelStandThickness=bigWheelStandThickness,
+								 wheelStandDrillingPattern=actoBotics615238DrillingPattern,
+								 fixingFeetOnBase=true,
+	               printOption=RIGHT_ONLY);
+  
+} else if (option == PRINT_BRACKET) {
 	printBracket(horizontalAxisDiam,
 							 sizeAboveAxis,
 							 sizeBelowAxis,

@@ -33,6 +33,12 @@ New parts:
 
 - Bottom ball bearing
 
+### Base parts
+
+| Bracket                        | Bracket Base                             |
+|:------------------------------:|:----------------------------------------:|
+| ![bracket](./full.bracket.png) | ![bracket base](./full.bracket.base.png) |
+
 ### Lessons learned
 The 3D printed gears (specially the pinion, on the motor axis) are difficult to lock in place. The PLA seems not to be strong enough to hold the screws and bolts...
 Metallic gears would not have this problem.
