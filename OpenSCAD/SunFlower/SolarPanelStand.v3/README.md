@@ -35,7 +35,7 @@ New parts:
 
 ### Base parts
 
-| Bracket                        | Bracket Base                             |
+| Bracket                        | Stand                                    |
 |:------------------------------:|:----------------------------------------:|
 | ![bracket](./full.bracket.png) | ![bracket base](./full.bracket.base.png) |
 
