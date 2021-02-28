@@ -11,11 +11,15 @@
  * https://learn.adafruit.com/adafruit-pitft-3-dot-5-touch-screen-for-raspberry-pi?view=all
  *
  * NOTE: See the bottom of the file for print options.
+ * Look for "PRINT OPTIONS".
  */
  
  
 use <../HDMI.5.inches.stand.scad>
 use <../Adafruit3.5in.scad>
+
+// Warning!! Location depends on your machine!! 
+use <../../../../LEGO.oliv/LEGO.scad> 
  
 echo(version=version());
 
@@ -196,11 +200,61 @@ screenPlateWidth = getScreenPlateWidth();
 screenPlateLength = getScreenPlateLength();
 screenPlateExtensionWidth = getPlateExtensionWidth();
 
+module oneFeetBar() {
+  barWidth = 10;
+  barLength = mainPlateLength * 1.25;
+  screwDiam = 4;
+  difference() {
+    union() {
+      cube(size=[barWidth, barLength, plateThickNess], center= true);
+      translate([0, barLength / 2, 0]) {
+        cylinder(h=plateThickNess, d=barWidth, center=true, $fn=50);
+      }
+      translate([0, - barLength / 2, 0]) {
+        cylinder(h=plateThickNess, d=barWidth, center=true, $fn=50);
+      }
+    }
+    // Drill
+    translate([0, barLength / 2, 0]) {
+      cylinder(d=screwDiam, h=2 * plateThickNess, center=true, $fn=50);
+    }
+    translate([0, - barLength / 2, 0]) {
+      cylinder(d=screwDiam, h=2 * plateThickNess, center=true, $fn=50);
+    }
+  }
+}
+
+module fixingFeet() {
+  translate([0, 0, 0]) {
+    difference() {
+      union() {
+        rotate([0, 0, 33]) {
+          oneFeetBar();
+        }
+        rotate([0, 0, -33]) {
+          oneFeetBar();
+        }
+      }
+    }
+  }
+}
+
+module basePlate(withFeet) {
+  roundedRect([mainPlateWidth, mainPlateLength, plateThickNess], cornerRadius);
+  if (withFeet) {
+    fixingFeet();
+  }
+}
+
 /*
  * show=true: show the raspberry
  * show=false: drill holes for sockets
  */
-module tvBoxRPiB3(show=true, logo=true, showWall=true, solid=false) { 
+module tvBoxRPiB3(show=true, 
+                  logo=true, 
+                  showWall=true, 
+                  solid=false,
+                  withFeet=false) { 
 
   difference() {
     // Bottom
@@ -208,7 +262,7 @@ module tvBoxRPiB3(show=true, logo=true, showWall=true, solid=false) {
       translate([0, 0, 0]) {
         union() {
           // Base
-          roundedRect([mainPlateWidth, mainPlateLength, plateThickNess], cornerRadius);
+          basePlate(withFeet);
           // The wall
           if (showWall) { // Set to false to see inside the box.
             wallHeight = 20 + 5; // 5 = basePegHeight;
@@ -296,15 +350,30 @@ module tvBoxRPiB3(show=true, logo=true, showWall=true, solid=false) {
   }
 }
 
+module legoPlate() {
+  basePlate(withFeet=true);
+  // Lego brick
+  translate([0, 0, -10]) {
+    rotate([0, 0, 90]) {
+      block(width=6,  // In studs (top studs)
+            length=8, // In studs (top studs)
+            height=1, // In "standard block" height
+            type="brick");
+    }
+  }
+}
 
 /* 
- * Now do it:
+ * PRINT OPTIONS
+ *---------------
+ * Now, do it:
  * 
  * To print the bottom:
  *   - justBottom = true
  *   - justTop = false
  *   - showRaspberry = false
  *   - withLogo = false
+ *   - withFeet true | false
  *
  * To print the top:
  *   - justBottom = false
@@ -312,26 +381,38 @@ module tvBoxRPiB3(show=true, logo=true, showWall=true, solid=false) {
  *   - showRaspberry = false
  *   - withScreen = false
  *
+ * To print the lego plate:
+ *   - legoPlateOnly = true
+ *
  * To visualize:
  *   - justBottom = false
  *   - justTop = false
  *   - showRaspberry = true|false
  *   - withScreen = true|false
  *   - withLogo = true|false
+ *   - withLegoPlate = true|false
  * 
  */
 
 justTop = false;
-justBottom = false;
+justBottom = false; // false;
 
-withScreen = true;
+withScreen = true; // true;
 showBoxWalls = true;
-showRaspberry = true;
+showRaspberry = false; // true;
 withLogo = true;
 
-if (!justTop) {
+withFeet = true;
+
+withLegoPlate = true;
+legoPlateOnly = false;
+
+if (!justTop && !legoPlateOnly) {
   // Bottom
-  tvBoxRPiB3(show=showRaspberry, logo=withLogo, showWall=showBoxWalls); 
+  tvBoxRPiB3(show=showRaspberry, 
+             logo=withLogo, 
+             showWall=showBoxWalls, 
+             withFeet=withFeet); 
 
   // The screen
   if (withScreen) {
@@ -343,8 +424,14 @@ if (!justTop) {
   }
 }
 
+if (withLegoPlate || legoPlateOnly) {
+  translate([0, 0, -(plateThickNess + 0.1)]) {
+    legoPlate();
+  }
+}
+
 // The top
-if (!justBottom) {
+if (!justBottom && !legoPlateOnly) {
   difference() {
     // The lid
     lidThickness = 15;
