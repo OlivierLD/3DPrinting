@@ -395,16 +395,16 @@ module legoPlate() {
  */
 
 justTop = false;
-justBottom = false; // false;
+justBottom = true; // false;
 
-withScreen = true; // true;
+withScreen = false; // true;
 showBoxWalls = true;
 showRaspberry = false; // true;
 withLogo = true;
 
 withFeet = true;
 
-withLegoPlate = true;
+withLegoPlate = false;
 legoPlateOnly = false;
 
 if (!justTop && !legoPlateOnly) {
