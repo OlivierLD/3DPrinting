@@ -350,8 +350,8 @@ module tvBoxRPiB3(show=true,
   }
 }
 
-module legoPlate() {
-  basePlate(withFeet=true);
+module legoPlate(withFeet=true) {
+  basePlate(withFeet=withFeet);
   // Lego brick
   translate([0, 0, -10]) {
     rotate([0, 0, 90]) {
@@ -383,6 +383,10 @@ module legoPlate() {
  *
  * To print the lego plate:
  *   - legoPlateOnly = true
+ *   - withFeet = true
+ * To print a lego plate for a breadboard (half-size)
+ *   - legoPlateOnly = true
+ *   - withFeet = false
  *
  * To visualize:
  *   - justBottom = false
@@ -404,7 +408,7 @@ withLogo = true;
 
 withFeet = true;
 
-withLegoPlate = false;
+withLegoPlate = true;
 legoPlateOnly = false;
 
 if (!justTop && !legoPlateOnly) {
@@ -426,7 +430,7 @@ if (!justTop && !legoPlateOnly) {
 
 if (withLegoPlate || legoPlateOnly) {
   translate([0, 0, -(plateThickNess + 0.1)]) {
-    legoPlate();
+    legoPlate(withFeet);
   }
 }
 
