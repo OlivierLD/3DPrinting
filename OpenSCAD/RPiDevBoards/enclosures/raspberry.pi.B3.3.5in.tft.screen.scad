@@ -15,10 +15,11 @@
  */
  
  
-use <../HDMI.5.inches.stand.scad>
+// use <../HDMI.5.inches.stand.scad>
 use <../Adafruit3.5in.scad>
 
 // Warning!! Location depends on your machine!! 
+// See https://www.chrisfinke.com/2015/01/27/3d-printed-lego-compatible-bricks/
 use <../../../../LEGO.oliv/LEGO.scad> 
  
 echo(version=version());
@@ -399,16 +400,18 @@ module legoPlate(withFeet=true) {
  */
 
 justTop = false;
-justBottom = true; // false;
+justBottom = false;
 
 withScreen = false; // true;
 showBoxWalls = true;
 showRaspberry = false; // true;
-withLogo = true;
+withLogo = false;
+
+extrudeForScreen = false;
 
 withFeet = true;
 
-withLegoPlate = true;
+withLegoPlate = false;
 legoPlateOnly = false;
 
 if (!justTop && !legoPlateOnly) {
@@ -458,7 +461,20 @@ if (!justBottom && !legoPlateOnly) {
       translate([-0.4, 1.25, 25.9]) { // On top of the box
       // translate([0, 0, 36]) {
         rotate([0, 0, 180]) {
-          drawScreen(extrudeTop=true, extrudeBottom=true, screenDimFactor=1.075);
+          drawScreen(extrudeTop=extrudeForScreen, extrudeBottom=true, screenDimFactor=1.075);
+        }
+        if (!extrudeForScreen) { // Drill holes
+          translate([0, 0, 10]) {
+            translate([0, -20, 0]) {
+              cylinder(d=10, h=30, center=true, $fn=50);
+            }
+            translate([0, 0, 0]) {
+              cylinder(d=10, h=30, center=true, $fn=50);
+            }
+            translate([0, 20, 0]) {
+              cylinder(d=10, h=30, center=true, $fn=50);
+            }
+          }
         }
       }
       // The bottom box, higher... To remove unwanted grooves.
