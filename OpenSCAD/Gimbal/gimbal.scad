@@ -10,6 +10,9 @@
  * @author OlivierLD
  */
  use <../mechanical.parts.scad>
+ 
+ // Warning!! Location depends on your machine!! 
+use <../../../LEGO.oliv/LEGO.scad> 
 
 echo(version=version());
 
@@ -284,6 +287,7 @@ FIRST_RING_ONLY = 2;
 OUTER_RING_ONLY = 3;
 
 BRACKETS_ONLY = 4;
+LEGO_BASE_ONLY = 5;
 
 CYLINDER_BASE = 0;
 BRACKET_BASE = 1;
@@ -294,13 +298,49 @@ withBracketsOnAxis = true;
 firstDeltaZ = ((mainBucketHeight / 2) * 0.75) - axisDiam;
 secondDeltaZ = -(outerRingHeight - firstDeltaZ - firstRingThickness) / 2;
 
+// Lego base
+module legoBase() {
+  bracketWidth = 30;
+  color( "blue" ) {
+    
+    difference() {
+    
+      union() {
+        place(0, 0, -6.9) {
+          uncenter(0, 0) {
+            block(
+              width=4,
+              length=4,
+              height=2,
+              type="tile");
+          }
+        }
+        // A Plate
+        translate([0, 0, - (outerRingExtDiam / 2) - 2.6]) {
+          cube(size=[ 30, 30, 6], center=true);
+        }
+      }
+      // Drill hole
+      translate([0, 0, - (outerRingExtDiam / 2) /* outerRingHeight */]) {
+        cylinder(d=bracketWidth, h=10, $fn=100, center=true);
+      }
+      // Drill axis
+      translate([0, 0, - (outerRingExtDiam / 2) /* outerRingHeight */]) {
+        cylinder(d=5, h=30, $fn=50, center=true);
+      }
+
+    }
+  }
+}
+
 /*****************************
  *
  * YOUR PARAMETERS GO HERE
  *
  *****************************/
  
-option = ALL_ELEMENTS;
+option = ALL_ELEMENTS; // LEGO_BASE_ONLY; // 
+withLegoBase = true;
 
 function timeToTilt(t, mini, maxi) =
 	animate ? lookup(t, [
@@ -520,6 +560,12 @@ union() {
 						}
 					}
 				}
+        // Lego base?
+        if (withLegoBase) {
+          translate([0, 0, 0]) {
+            legoBase();
+          }
+        }
 			}
 		}
 		if (option == BRACKETS_ONLY) {
@@ -528,6 +574,9 @@ union() {
 				bracket(ep = bracketEp, diam = axisDiam * 1.1, thick = bracketEp);
 			// }
 		}
+    if (option == LEGO_BASE_ONLY) {
+      legoBase();
+    }
 	}
 }
 
