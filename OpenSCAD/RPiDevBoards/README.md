@@ -18,5 +18,6 @@ Check out the `stl` files.
 |:---------------------------:|:---------------------------:|
 | ![03](./images/03.lego.jpg) | ![04](./images/04.lego.jpg) |
 
+![05](./images/rpi.lego.jpg)
 
 ---
