@@ -396,14 +396,18 @@ module legoPlate(withFeet=true) {
  *   - withScreen = true|false
  *   - withLogo = true|false
  *   - withLegoPlate = true|false
+ *
+ * ... and check out the code. Point of Truth.
  * 
  */
 
+justBasePlate = false;
+
 justTop = false;
-justBottom = false;
+justBottom = justBasePlate || false;
 
 withScreen = false; // true;
-showBoxWalls = true;
+showBoxWalls = true && (!justBasePlate);
 showRaspberry = false; // true;
 withLogo = false;
 
@@ -413,6 +417,8 @@ withFeet = true;
 
 withLegoPlate = false;
 legoPlateOnly = false;
+
+/* =========================== */
 
 if (!justTop && !legoPlateOnly) {
   // Bottom
