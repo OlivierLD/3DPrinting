@@ -33,3 +33,6 @@ Generating `stl` code by hand is just a nonsense, but take a look at the sizes o
 
 ### Stuff to look at
 - A bridge between Blender and OpenSCAD: <https://mathgrrl.com/hacktastic/2015/10/beefy-trophy-baking-meshes-into-openscad-from-blender/>
+
+## Misc Resources
+- [GCode Viewer](http://jherrm.com/gcode-viewer/) online.
