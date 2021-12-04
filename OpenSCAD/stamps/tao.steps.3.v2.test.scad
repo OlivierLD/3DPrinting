@@ -48,7 +48,7 @@ module oneStep() {
   }
 }
 
-//color("green") {
+//color("blue") {
 difference() {  
 	union() {
 		difference() {

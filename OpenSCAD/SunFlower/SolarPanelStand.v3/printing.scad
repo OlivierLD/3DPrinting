@@ -53,12 +53,13 @@ BASE1_AND_ALL_GEARS = 19; // for dev or visualization
 FULL_STAND = 20;
 
 // Choose your own here
-option = PRINT_BRACKET_WITH_FEET;
+// --------------------
+// option = PRINT_BRACKET_WITH_FEET;
 // option = PRINT_MAIN_STAND_BASE;
 // option = PRINT_MAIN_STAND_LEFT;
 // option = PRINT_MAIN_STAND_RIGHT;
 // option = BASE1_AND_ALL_GEARS; 
-// option = FULL_STAND;
+option = FULL_STAND;
 
 if (option == FULL_STAND) {
 
