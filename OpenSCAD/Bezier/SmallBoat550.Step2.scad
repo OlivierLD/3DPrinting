@@ -15,21 +15,8 @@ use <./Bezier.scad>
 echo(version=version());
 // echo(">>>>>> For visualization only, not for print!");
 
-extVolume = [550, 300, 159];
-
-// Basic Ctrl Points
-rail = [
-  [   0.000000,    0.000000, 75.000000 ],
-  [   0.000000,   21.428571, 75.0 ],
-  [  69.642857,   86.785714, 47.500000 ],
-  [ 305.357143, 156.428571,  45.357143 ],
-  [ 550.000000,  65.0,       56.000000 ]
-];
-keel = [
-  [   5.000000, 0.000000,  -2.000000 ],
-  [ 300.0,      0.000000, -45.0 ],
-  [ 550.000000, 0.000000,  10.000000 ]
-];
+// All the boat definition in there
+include <./SmallBoat.550.prms.scad>
 
 function reverse(list) = 
   [for (i = [len(list) - 1 : -1 : 0]) list[i]];
