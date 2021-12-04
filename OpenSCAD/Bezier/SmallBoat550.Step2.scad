@@ -17,19 +17,21 @@ echo(version=version());
 
 // All the boat definition in there
 include <./SmallBoat.550.prms.scad>
+// include <./tri.9.14.scad>
 
 function reverse(list) = 
   [for (i = [len(list) - 1 : -1 : 0]) list[i]];
 
 module SmallBoat550() {
   
+  withBeams = true;
+  
   increment = 0.025;
   // railPoints
-  railPoints = [ for (t = [0:increment:1]) concat(recurse(rail, t)) ];
+  railPoints = [ for (t = [0:increment:1]) recurse(rail, t) ];
   // keelPoints
-  keelPoints = [ for (t = [0:increment:1]) concat(recurse(keel, t)) ];
+  keelPoints = [ for (t = [0:increment:1]) recurse(keel, t) ];
     
-
   translate([- extVolume[0] / 2, 
              0, 
              0]) {
@@ -58,11 +60,11 @@ module SmallBoat550() {
         ];
         
         // echo("ctrlPointsPort_1:", ctrlPointsPort_1);
-        bezierPoints_1_port = [ for (t = [0:increment:1]) concat(recurse(ctrlPointsPort_1, t)) ];
-        bezierPoints_2_port = [ for (t = [0:increment:1]) concat(recurse(ctrlPointsPort_2, t)) ];
+        bezierPoints_1_port = [ for (t = [0:increment:1]) recurse(ctrlPointsPort_1, t) ];
+        bezierPoints_2_port = [ for (t = [0:increment:1]) recurse(ctrlPointsPort_2, t) ];
         
-        bezierPoints_1_stbd = [ for (t = [0:increment:1]) concat(recurse(ctrlPointsStbd_1, t)) ];
-        bezierPoints_2_stbd = [ for (t = [0:increment:1]) concat(recurse(ctrlPointsStbd_2, t)) ];
+        bezierPoints_1_stbd = [ for (t = [0:increment:1]) recurse(ctrlPointsStbd_1, t) ];
+        bezierPoints_2_stbd = [ for (t = [0:increment:1]) recurse(ctrlPointsStbd_2, t) ];
 
         // Polyhedron here
         allPoints = concat(bezierPoints_1_port, 
@@ -71,11 +73,39 @@ module SmallBoat550() {
                            reverse(bezierPoints_2_stbd));
         // echo("After:", len(allPoints), " points");
         faces = [ for (i = [0 : (2 * len(bezierPoints_1_port)) - 2])
-          concat(
             [ i, i+1, (2 * len(bezierPoints_1_port)) + i + 1, (2 * len(bezierPoints_1_port)) + i ]
-          ) ];
+          ];
         hull() {      
           polyhedron(allPoints, faces, 1);
+        }
+      }
+      
+      if (withBeams) {
+        for (idx = [0 : len(railPoints) - 2]) {
+          ctrlPointsBeam_1 = [
+              [railPoints[idx][0], railPoints[idx][1], railPoints[idx][2]], // rail
+              [railPoints[idx][0], 0, railPoints[idx][2] + (2 * railPoints[idx][1] * 0.15)], // center
+              [railPoints[idx][0], -railPoints[idx][1], railPoints[idx][2]] // other rail
+          ];
+          ctrlPointsBeam_2 = [
+              [railPoints[idx + 1][0], railPoints[idx + 1][1], railPoints[idx + 1][2]], // rail
+              [railPoints[idx + 1][0], 0, railPoints[idx + 1][2] + (2 * railPoints[idx + 1][1] * 0.15)], // center
+              [railPoints[idx + 1][0], -railPoints[idx + 1][1], railPoints[idx + 1][2]] // other rail
+          ];
+          bezierPointsBeam_1 = [ for (t = [0:increment:1]) recurse(ctrlPointsBeam_1, t) ];
+          bezierPointsBeam_2 = [ for (t = [0:increment:1]) recurse(ctrlPointsBeam_2, t) ];
+            
+          allPoints = concat(bezierPointsBeam_1, bezierPointsBeam_2);
+          faces = [ for (i = [0 : len(bezierPointsBeam_1) - 2 ]) 
+                           [ i, 
+                             i+1, 
+                             i + (len(bezierPointsBeam_1)) + 1, 
+                             i + (len(bezierPointsBeam_1))
+                           ] 
+          ];
+          hull() {
+            polyhedron(allPoints, faces, 1);
+          }
         }
       }
     }

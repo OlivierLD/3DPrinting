@@ -2,7 +2,7 @@
  * Parameters for a small 5.50 m boat.
  */
 
-extVolume = [550, 300, 159];
+extVolume = [550, 300, 150];
 
 // Basic Ctrl Points
 rail = [

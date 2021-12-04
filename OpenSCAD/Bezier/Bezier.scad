@@ -7,15 +7,26 @@ function deltaX(from, to) = to[0] - from[0];
 function deltaY(from, to) = to[1] - from[1];
 function deltaZ(from, to) = to[2] - from[2];
 
+/**
+ * Calculate intermediate between 2 points
+ * @param from double triplet [x, y, z]
+ * @param to   double triplet [x, y, z]
+ * @param t double, [0..1]
+ */
 function calculate3D(from, to, t) = 
   [from[0] + (deltaX(from, to) * t), 
    from[1] + (deltaY(from, to) * t), 
    from[2] + (deltaZ(from, to) * t)];
 
+/**
+ * Calculate the bezier point for value t
+ * @param ctrl Array of double triplets
+ * @param t double [0..1]
+ */
 function recurse(ctrl, t) =
   (len(ctrl) > 3) ? 
     // len > 3
-    recurse([ for (ptIdx = [ 0 : len(ctrl) - 2 ]) concat(calculate3D(ctrl[ptIdx], ctrl[ptIdx + 1], t)) ], t) : 
+    recurse([ for (ptIdx = [ 0 : len(ctrl) - 2 ]) calculate3D(ctrl[ptIdx], ctrl[ptIdx + 1], t) ], t) : 
     ((len(ctrl) == 2) ? 
         // len = 2
         calculate3D(ctrl[0], ctrl[1], t) : 
@@ -46,7 +57,7 @@ for (t = [0:0.01:1.001]) {
 
 // newArray = [];
 /*
-newArray = [ for (i = [0: len(ctrlPoints) - 1]) concat(ctrlPoints[i]) ];
+newArray = [ for (i = [0: len(ctrlPoints) - 1]) ctrlPoints[i] ];
 echo("NewArray:", newArray);
 */
 
@@ -56,7 +67,7 @@ echo("NewArray:", newArray);
 /**
 if (len(ctrl)  > 3) {
   inside = [ for (ptIdx = [ 0 : len(ctrl) - 2 ]) 
-    concat(calculate3D(ctrl[ptIdx], ctrl[ptIdx + 1], t)) ];
+    calculate3D(ctrl[ptIdx], ctrl[ptIdx + 1], t) ];
 
   echo("Inside:", inside);
 }
