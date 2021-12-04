@@ -22,9 +22,10 @@ include <./SmallBoat.550.prms.scad>
 function reverse(list) = 
   [for (i = [len(list) - 1 : -1 : 0]) list[i]];
 
+
+withBeams = true;  
+
 module SmallBoat550() {
-  
-  withBeams = true;
   
   increment = 0.025;
   // railPoints
@@ -35,7 +36,7 @@ module SmallBoat550() {
   translate([- extVolume[0] / 2, 
              0, 
              0]) {
-    color("silver", 0.95) {       
+//  color("silver", 1.00) {
       for (idx = [0 : len(railPoints) - 2]) {
         // echo("idx:", idx);
         ctrlPointsPort_1 = [ 
@@ -75,8 +76,10 @@ module SmallBoat550() {
         faces = [ for (i = [0 : (2 * len(bezierPoints_1_port)) - 2])
             [ i, i+1, (2 * len(bezierPoints_1_port)) + i + 1, (2 * len(bezierPoints_1_port)) + i ]
           ];
-        hull() {      
-          polyhedron(allPoints, faces, 1);
+        color("cyan", 0.9) {
+          hull() {      
+            polyhedron(allPoints, faces, 1);
+          }
         }
       }
       
@@ -103,12 +106,14 @@ module SmallBoat550() {
                              i + (len(bezierPointsBeam_1))
                            ] 
           ];
-          hull() {
-            polyhedron(allPoints, faces, 1);
+          color("orange", 0.9) {
+            hull() {
+              polyhedron(allPoints, faces, 1);
+            }
           }
         }
       }
-    }
+//  }
   }
 }
 
