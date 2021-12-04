@@ -4,9 +4,10 @@
  * Small boat, with Bezier curves.
  * This is the OpenSCAD version of its Java conterpart.
  * 
- * Step 1: Just the rails and the keel.
+ * Step 2: Bezier frames derived from rails and keel.
  *
  * OpenSCAD Manual at https://en.wikibooks.org/wiki/OpenSCAD_User_Manual
+ * Some usefull functions at https://github.com/openscad/scad-utils/blob/master/lists.scad
  */
  
 use <./Bezier.scad>
