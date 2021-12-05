@@ -17,10 +17,27 @@ module FullTri(withBeams=true, withColor=true) {
       Tri914(withBeams=withBeams, withColor=withColor);
     }
     translate([0, -360, 0]) { // port
-      Outrigger(withBeams=withBeams, withColor=withColor);
+      rotate([-10, 0, 0]) {
+        Outrigger(withBeams=withBeams, withColor=withColor);
+      }
     }
     translate([0, 360, 0]) {  // starboard
-      Outrigger(withBeams=withBeams, withColor=withColor);
+      rotate([+10, 0, 0]) {
+        Outrigger(withBeams=withBeams, withColor=withColor);
+      }
+    }
+    // Cylindric amrs
+    color("silver", 0.9) {
+      translate([-150, 0, 65]) {
+        rotate([90, 0, 0]) {
+          cylinder(h=720, r=20, center=true);
+        }
+      }
+      translate([150, 0, 65]) {
+        rotate([90, 0, 0]) {
+          cylinder(h=720, r=20, center=true);
+        }
+      }
     }
   }
 }
