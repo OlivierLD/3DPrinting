@@ -9,7 +9,7 @@ Considering that:
 It would be great to use OpenSCAD to render the boat designs in 3D.  
 The thing is that all the hydrostatic calculations are easier to implement in Java, this is certainly not the job of a language like OpenSCAD...
 
-So the idea is the following one;
+So the idea is the following one:
 - As the boat design is entirely driven by a couple of control points, we could do the required calculations in Java, along with a minimal Swing rendering.
 - Once the hydrostatic calculations are satifying, we can generate/export the coordinates of the control points, and use them from OpenSCAD to generate and render the STL files.
 
