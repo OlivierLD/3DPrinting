@@ -120,6 +120,4 @@ module BoatDesign(extVolume, rail, keel, withBeams=true, withColor=true) {
 // include <./tri.9.14.scad>
 // include <./outrigger.prms.scad>
 
-// BoatDesign(rail, keel, withBeams=true, withColor=true);
-
-// BoatDesign(withBeams=true, withColor=true);
+// BoatDesign(extVolume, rail, keel, withBeams=true, withColor=true);
