@@ -4,67 +4,113 @@
  * Small boat, with Bezier curves.
  * This is the OpenSCAD version of its Java conterpart.
  * 
- * Step 1: Just the rails and the keel.
+ * Step 2: Bezier frames derived from rails and keel.
  *
  * OpenSCAD Manual at https://en.wikibooks.org/wiki/OpenSCAD_User_Manual
+ * Some usefull functions at https://github.com/openscad/scad-utils/blob/master/lists.scad
  */
  
 use <./Bezier.scad>
 
 echo(version=version());
-echo(">>>>>> For visualization only, not for print!");
+// echo(">>>>>> For visualization only, not for print!");
 
-extVolume = [550, 300, 159];
+// All the boat definition in there
+include <./SmallBoat.550.prms.scad>
+// include <./tri.9.14.scad>
 
-// Basic Ctrl Points
-rail = [
-  [   0.000000,    0.000000, 75.000000 ],
-  [   0.000000,   21.428571, 75.0 ],
-  [  69.642857,   86.785714, 47.500000 ],
-  [ 305.357143, 156.428571,  45.357143 ],
-  [ 550.000000,  65.0,       56.000000 ]
-];
-keel = [
-  [   5.000000, 0.000000,  -2.000000 ],
-  [ 300.0,      0.000000, -45.0 ],
-  [ 550.000000, 0.000000,  10.000000 ]
-];
+function reverse(list) = 
+  [for (i = [len(list) - 1 : -1 : 0]) list[i]];
 
 
-module SmallBoat550() {
+module SmallBoat550(withBeams=true, withColor=true) {
   
-  increment = 0.01;
+  increment = 0.025;
   // railPoints
-  railPoints = [ for (t = [0:increment:1]) concat(recurse(rail, t)) ];
+  railPoints = [ for (t = [0:increment:1]) recurse(rail, t) ];
   // keelPoints
-  keelPoints = [ for (t = [0:increment:1]) concat(recurse(keel, t)) ];
-  // otherRail
-  otherRailPoints = [ for (i = [0 : len(railPoints) - 1]) concat([railPoints[i][0], -railPoints[i][1], railPoints[i][2]]) ];  
+  keelPoints = [ for (t = [0:increment:1]) recurse(keel, t) ];
     
-  allPoints = concat(railPoints, keelPoints, otherRailPoints);
-  echo(
-    "Len rail:", len(railPoints),
-    "Len keel:", len(keelPoints),
-    "Total:", len(allPoints)
-  );
-  
-  faces = [for (idx = [0 : len(railPoints) - 2])
-    concat(
-      [idx, idx + 1, // rail
-       len(railPoints) + idx + 1, len(railPoints) + idx ] // keel
-    ) ]; 
-  otherFaces = [for (idx = [0 : len(otherRailPoints) - 2])
-    concat(
-      [(2 * len(keelPoints)) + idx, (2 * len(keelPoints)) + idx + 1, // rail
-       len(railPoints) + idx + 1, len(otherRailPoints) + idx ] // keel
-    ) ]; 
-  
   translate([- extVolume[0] / 2, 
              0, 
              0]) {
-    // cube(size=extVolume);
-    polyhedron( allPoints, concat(faces, otherFaces) );           
+    for (idx = [0 : len(railPoints) - 2]) {
+      // echo("idx:", idx);
+      ctrlPointsPort_1 = [ 
+        [railPoints[idx][0], railPoints[idx][1], railPoints[idx][2]], // rail
+        [railPoints[idx][0], railPoints[idx][1], keelPoints[idx][2]], // under the rail, at the keel level
+        [keelPoints[idx][0], keelPoints[idx][1], keelPoints[idx][2]]  // keel
+      ];
+      ctrlPointsPort_2 = [
+        [railPoints[idx + 1][0], railPoints[idx + 1][1], railPoints[idx + 1][2]], 
+        [railPoints[idx + 1][0], railPoints[idx + 1][1], keelPoints[idx + 1][2]], 
+        [keelPoints[idx + 1][0], keelPoints[idx + 1][1], keelPoints[idx + 1][2]]
+      ];
+      ctrlPointsStbd_1 = [
+        [railPoints[idx][0], -railPoints[idx][1], railPoints[idx][2]], 
+        [railPoints[idx][0], -railPoints[idx][1], keelPoints[idx][2]], 
+        [keelPoints[idx][0],  keelPoints[idx][1], keelPoints[idx][2]]
+      ];
+      ctrlPointsStbd_2 = [
+        [railPoints[idx + 1][0], -railPoints[idx + 1][1], railPoints[idx + 1][2]], 
+        [railPoints[idx + 1][0], -railPoints[idx + 1][1], keelPoints[idx + 1][2]], 
+        [keelPoints[idx + 1][0],  keelPoints[idx + 1][1], keelPoints[idx + 1][2]]
+      ];
+      
+      // echo("ctrlPointsPort_1:", ctrlPointsPort_1);
+      bezierPoints_1_port = [ for (t = [0:increment:1]) recurse(ctrlPointsPort_1, t) ];
+      bezierPoints_2_port = [ for (t = [0:increment:1]) recurse(ctrlPointsPort_2, t) ];
+      
+      bezierPoints_1_stbd = [ for (t = [0:increment:1]) recurse(ctrlPointsStbd_1, t) ];
+      bezierPoints_2_stbd = [ for (t = [0:increment:1]) recurse(ctrlPointsStbd_2, t) ];
+
+      // Polyhedron here
+      allPoints = concat(bezierPoints_1_port, 
+                         reverse(bezierPoints_1_stbd), 
+                         bezierPoints_2_port, 
+                         reverse(bezierPoints_2_stbd));
+      // echo("After:", len(allPoints), " points");
+      faces = [ for (i = [0 : (2 * len(bezierPoints_1_port)) - 2])
+          [ i, i+1, (2 * len(bezierPoints_1_port)) + i + 1, (2 * len(bezierPoints_1_port)) + i ]
+        ];
+      color(withColor ? "cyan" : "silver", 0.9) {
+        hull() {      
+          polyhedron(allPoints, faces, 1);
+        }
+      }
+    }
+    
+    if (withBeams) {
+      for (idx = [0 : len(railPoints) - 2]) {
+        ctrlPointsBeam_1 = [
+            [railPoints[idx][0], railPoints[idx][1], railPoints[idx][2]], // rail
+            [railPoints[idx][0], 0, railPoints[idx][2] + (2 * railPoints[idx][1] * 0.15)], // center
+            [railPoints[idx][0], -railPoints[idx][1], railPoints[idx][2]] // other rail
+        ];
+        ctrlPointsBeam_2 = [
+            [railPoints[idx + 1][0], railPoints[idx + 1][1], railPoints[idx + 1][2]], // rail
+            [railPoints[idx + 1][0], 0, railPoints[idx + 1][2] + (2 * railPoints[idx + 1][1] * 0.15)], // center
+            [railPoints[idx + 1][0], -railPoints[idx + 1][1], railPoints[idx + 1][2]] // other rail
+        ];
+        bezierPointsBeam_1 = [ for (t = [0:increment:1]) recurse(ctrlPointsBeam_1, t) ];
+        bezierPointsBeam_2 = [ for (t = [0:increment:1]) recurse(ctrlPointsBeam_2, t) ];
+          
+        allPoints = concat(bezierPointsBeam_1, bezierPointsBeam_2);
+        faces = [ for (i = [0 : len(bezierPointsBeam_1) - 2 ]) 
+                         [ i, 
+                           i+1, 
+                           i + (len(bezierPointsBeam_1)) + 1, 
+                           i + (len(bezierPointsBeam_1))
+                         ] 
+        ];
+        color(withColor ? "orange" : "silver", 0.9) {
+          hull() {
+            polyhedron(allPoints, faces, 1);
+          }
+        }
+      }
+    }
   }
 }
 
-SmallBoat550();
+SmallBoat550(withBeams=true, withColor=true);

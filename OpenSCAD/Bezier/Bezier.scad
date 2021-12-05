@@ -10,7 +10,7 @@ function deltaY(from, to) = to[1] - from[1];
 function deltaZ(from, to) = to[2] - from[2];
 
 /**
- * Calculate intermediate 3D point between 2 3D-points
+ * Calculate intermediate 3D point between 2 3D-points, at value t
  * @param from double triplet [x, y, z]
  * @param to   double triplet [x, y, z]
  * @param t double, [0..1]
@@ -22,7 +22,7 @@ function calculate3D(from, to, t) =
 
 /**
  * Calculate the bezier 3D-point for value t
- * @param ctrl Array of double triplets
+ * @param ctrl Array of at least 2 double triplets [[x1, y1, z1], [x2, y2, z2], ... ]
  * @param t double [0..1]
  */
 function recurse(ctrl, t) =
@@ -33,5 +33,6 @@ function recurse(ctrl, t) =
         // len = 2
         calculate3D(ctrl[0], ctrl[1], t) : 
         // len = 3
-        calculate3D(calculate3D(ctrl[0], ctrl[1], t), calculate3D(ctrl[1], ctrl[2], t), t) );
+        calculate3D(calculate3D(ctrl[0], ctrl[1], t), calculate3D(ctrl[1], ctrl[2], t), t) 
+    );
 
