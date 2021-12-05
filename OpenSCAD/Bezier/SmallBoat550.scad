@@ -16,8 +16,9 @@ echo(version=version());
 // echo(">>>>>> For visualization only, not for print!");
 
 // All the boat definition in there
-include <./SmallBoat.550.prms.scad>
-// include <./tri.9.14.scad>
+// include <./SmallBoat.550.prms.scad>
+include <./tri.9.14.scad>
+// include <./outrigger.prms.scad>
 
 function reverse(list) = 
   [for (i = [len(list) - 1 : -1 : 0]) list[i]];
@@ -35,7 +36,7 @@ module SmallBoat550(withBeams=true, withColor=true) {
              0, 
              0]) {
     for (idx = [0 : len(railPoints) - 2]) {
-      // echo("idx:", idx);
+      // echo(str("idx:", idx));
       ctrlPointsPort_1 = [ 
         [railPoints[idx][0], railPoints[idx][1], railPoints[idx][2]], // rail
         [railPoints[idx][0], railPoints[idx][1], keelPoints[idx][2]], // under the rail, at the keel level
