@@ -12,12 +12,12 @@ echo(version=version());
 // echo(">>>>>> For visualization only, not for print!");
 
 // All the boat definition in there
-include <./SmallBoat.550.prms.scad>
-// include <./tri.9.14.scad>
+// include <./SmallBoat.550.prms.scad>
+include <./tri.9.14.scad>
 // include <./outrigger.prms.scad>
 
-module SmallBoat550(withBeams=true, withColor=true) {
+module Tri914(withBeams=true, withColor=true) {
   BoatDesign(extVolume, rail, keel, withBeams, withColor);
 }
 
-SmallBoat550(true, true);
+Tri914();
