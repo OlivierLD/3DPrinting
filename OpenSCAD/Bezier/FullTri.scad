@@ -39,6 +39,22 @@ module FullTri(withBeams=true, withColor=true) {
         }
       }
     }
+    // Mast
+    color("silver", 0.9) {
+      translate([-150, 0, 680]) {
+        rotate([0, 0, 0]) {
+          cylinder(h=1200, r=9, center=true);
+        }
+      }
+    }
+    // Boom
+    color("silver", 0.9) {
+      translate([100, 0, 120]) {
+        rotate([0, 90, 0]) {
+          cylinder(h=500, r=9, center=true);
+        }
+      }
+    }
   }
 }
 
