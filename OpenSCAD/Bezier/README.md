@@ -18,6 +18,19 @@ We use the following files in OpenSCAD:
 - `BoatDesign.scad`, to implement a generic boat design, based on 2 3D Bezier curves, one for the rail(s), one for the keel. This file uses `Bezier.scad`.
 - Then, files like `SmallBoat550.scad`, `Outrigger.scad`, `Tri.914.scad` are examples of design implementation, implemented as OpenSCAD modules. Those files can be used to generate STL models.
     - Those files can use parameter files, containing the definition of the rails and keel, as arrays of points. See `SmallBoat.550.prms.scad`, `tri.914.scad`, `outrigger.prms.scad`, etc.
+    - For example, the `SmallBoat.550.scad` comes down to
+    ```
+    use <./Bezier.scad>
+    use <./BoatDesign.scad>
+
+    include <./SmallBoat.550.prms.scad>
+
+    module SmallBoat550(withBeams=true, withColor=true) {
+        BoatDesign(extVolume, rail, keel, withBeams, withColor);
+    }
+
+    SmallBoat550(true, true);    
+    ```
     - `FullTri.scad` even uses several of those modules on the same model, as a more complex example.
 
 > See in the files above how they use the `use` and `include` directives to refer to each other.
