@@ -23,7 +23,7 @@ Generating `stl` code by hand is just a nonsense, but take a look at the sizes o
 - [OnShape](https://www.onshape.com/), web-based, looks really good, but not always free.
 - [FreeCAD](https://www.freecadweb.org/), programmable in Python.
 - [AutoCAD](https://www.autodesk.com/products/autocad/overview), a reference, very good. But far from free...
-- [OpenJSCAD](https://openjscad.org/), in JavaScript!
+- [OpenJSCAD](https://openjscad.org/), in JavaScript! Moved to <http://openjscad.azurewebsites.net/>.Online, supports `stl` uploads as well.
 - [Blender](http://www.blender.org), free and Open Source.
 - More to come...
 
