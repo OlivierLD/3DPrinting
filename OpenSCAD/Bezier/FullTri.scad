@@ -49,8 +49,8 @@ module FullTri(withBeams=true, withColor=true) {
     }
     // Boom
     color("silver", 0.9) {
-      translate([100, 0, 120]) {
-        rotate([0, 90, 0]) {
+      translate([100, 43, 120]) {
+        rotate([0, 90, 10]) {
           cylinder(h=500, r=9, center=true);
         }
       }
