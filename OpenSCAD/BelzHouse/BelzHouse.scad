@@ -43,7 +43,7 @@ module pignon() {
     cube(size=[4000, 3100, 3300], center=false);
     translate([2000 + (4500 / 2), -(4500 / 2), 3300]) {
       rotate([0, 0, 90]) {
-        prism(5700, 4500, 2600);
+        prism(5700, 4500, 2200);
       }
     }
   }
