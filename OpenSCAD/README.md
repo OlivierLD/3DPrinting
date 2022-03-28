@@ -16,6 +16,10 @@ Each directory contains the code (`.scad`) along with the generated `stl` files 
 
 > The development path becomes in this case `scad` > `stl` > `gcode` > `3d-printing`.
 
+### OpenSCAD documentation
+<https://openscad.org/documentation.html>
+
+
 ### Stuff to look at
 - Blender to OpenSCAD: <https://mathgrrl.com/hacktastic/2015/10/beefy-trophy-baking-meshes-into-openscad-from-blender/>
 
