@@ -1,6 +1,6 @@
 /**
  * Belz house
- * Use # before difference object to see tham.
+ * Use # before difference object to see them (debug).
  */
 
 module prism(l, w, h) {
@@ -82,20 +82,20 @@ module belzHouse() {
       // Velux(es)
       
       // Nord ouest Velux
-      translate([4600, -2100, 3700]) {
+      translate([4600, -2125, 3700]) {
         rotate([45, 0, 0]) {
           velux();
         }
       }
 
       // Sud ouest Velux
-      translate([700, 1100, 4700]) {
+      translate([700, 1150, 4700]) {
         rotate([-45, 0, 0]) {
           velux();
         }
       }
       // Sud est Velux
-      translate([-1700, 1100, 4700]) {
+      translate([-1700, 1150, 4700]) {
         rotate([-45, 0, 0]) {
           velux();
         }
@@ -118,7 +118,7 @@ module belzHouse() {
     /* Windows and So. */
     // Roof, West
     translate([6500, -50, 3150]) {   
-      cube(size=[500, 2400, 400], center=false);
+      #cube(size=[500, 2400, 400], center=false);
     }
     // Roof, East
     translate([-7000, -50, 3150]) {  
@@ -126,40 +126,40 @@ module belzHouse() {
     }
     // Main West
     translate([400, 2100, 50]) { 
-      color("blue") {
+      color("silver") {
         cube(size=[1800, 500, 2000], center=false);
       }
     }
     // Main East
     translate([-2200, 2100, 50]) { 
-      color("green") {
+      color("silver") {
         cube(size=[1800, 500, 2000], center=false);
       }
     }
     // East Window
     translate([-5500, 5200, 50]) { 
-      color("red") {
+      color("silver") {
         cube(size=[2000, 500, 2000], center=false);
       }
     }
     // Garage door
     translate([3500, 5200, 50]) { 
-      color("red") {
+      color("brown") {
         cube(size=[2000, 500, 2000], center=false);
       }
     }
     // Top Front Window,  west
-    translate([6400, 5100, 3300]) { 
+    translate([6400, 5105, 3300]) { 
       rotate([0, 0, 90]) {
-        color("red") {
+        color("silver") {
           prism(600, 3800, 1800);
         }
       }
     }
     // Top Front Window,  east
-    translate([-2600, 5100, 3300]) { 
+    translate([-2600, 5105, 3300]) { 
       rotate([0, 0, 90]) {
-        color("red") {
+        color("silver") {
           prism(600, 3800, 1800);
         }
       }
@@ -167,7 +167,7 @@ module belzHouse() {
     // Pignon est, second floor window
     translate([-6400, -550, 3300]) { 
       rotate([0, 0, 90]) {
-        color("red") {
+        color("silver") {
           cube(size=[600, 200, 1000], center=false);
         }
       }
@@ -175,7 +175,7 @@ module belzHouse() {
     // Pignon est, first floor window
     translate([-6400, 2300, 900]) { 
       rotate([0, 0, 90]) {
-        color("red") {
+        color("silver") {
           cube(size=[900, 200, 1100], center=false);
         }
       }
@@ -183,7 +183,7 @@ module belzHouse() {
     // Back Window
     translate([-1050, -2300, 1100]) {
       rotate([0, 0, 0]) {
-        color("red") {
+        color("silver") {
           cube(size=[1050, 200, 1000], center=false);
         }
       }
@@ -191,7 +191,7 @@ module belzHouse() {
     // Pignon ouest window
     translate([6600, -1600, 1100]) { 
       rotate([0, 0, 90]) {
-        color("red") {
+        color("silver") {
           cube(size=[850, 200, 1100], center=false);
         }
       }
