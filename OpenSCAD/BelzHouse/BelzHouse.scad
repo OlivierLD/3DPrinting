@@ -1,5 +1,6 @@
 /**
  * Belz house
+ * Use # before difference object to see tham.
  */
 
 module prism(l, w, h) {
@@ -89,6 +90,25 @@ module belzHouse() {
     translate([-5500, 5200, 50]) { // East Window
       color("red") {
         cube(size=[2000, 500, 2000], center=false);
+      }
+    }
+    translate([3500, 5200, 50]) { // Garage door
+      color("red") {
+        cube(size=[2000, 500, 2000], center=false);
+      }
+    }
+    translate([6400, 5100, 3300]) { // Top Front Window,  west
+      rotate([0, 0, 90]) {
+        color("red") {
+          prism(600, 3800, 1800);
+        }
+      }
+    }
+    translate([-2600, 5100, 3300]) { // Top Front Window,  east
+      rotate([0, 0, 90]) {
+        color("red") {
+          prism(600, 3800, 1800);
+        }
       }
     }
   }
