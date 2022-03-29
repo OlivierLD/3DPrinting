@@ -69,6 +69,7 @@ module belzHouse() {
         pignon();
       }
     }
+    // Windows and So.
     translate([6500, -50, 3150]) {   // Roof, West
       cube(size=[500, 2400, 400], center=false);
     }
