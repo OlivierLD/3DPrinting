@@ -50,24 +50,47 @@ module pignon() {
 }
 
 module belzHouse() {
-  union() {
+  difference() {
     union() {
-      translate([-13000 / 2, -4500 / 2, 0]) {
-        cube(size=[13000, 4500, 3300], center=false); // Main part
+      union() {
+        translate([-13000 / 2, -4500 / 2, 0]) {
+          cube(size=[13000, 4500, 3300], center=false); // Main part
+        }
+        translate([-13000 / 2, -5200 / 2, 3300]) {
+          mainRoof();
+        }
       }
-      translate([-13000 / 2, -5200 / 2, 3300]) {
-        mainRoof();
+      // Pignon Ouest
+      translate([(13000 / 2) - 4000, (4500 / 2), 0]) {
+        pignon();
+      }
+      // Pignon Est
+      translate([( - 13000 / 2) + 00, (4500 / 2), 0]) {
+        pignon();
       }
     }
-    // Pignon Ouest
-    translate([(13000 / 2) - 4000, (4500 / 2), 0]) {
-      pignon();
+    translate([6500, -50, 3150]) {   // Roof, West
+      cube(size=[500, 2400, 400], center=false);
     }
-    // Pignon Est
-    translate([( - 13000 / 2) + 00, (4500 / 2), 0]) {
-      pignon();
+    translate([-7000, -50, 3150]) {  // Roof, East
+      cube(size=[500, 2400, 400], center=false);
     }
-	}
+    translate([400, 2100, 50]) { // Main West
+      color("blue") {
+        cube(size=[1800, 500, 2000], center=false);
+      }
+    }
+    translate([-2200, 2100, 50]) { // Main East
+      color("green") {
+        cube(size=[1800, 500, 2000], center=false);
+      }
+    }
+    translate([-5500, 5200, 50]) { // East Window
+      color("red") {
+        cube(size=[2000, 500, 2000], center=false);
+      }
+    }
+  }
 }
 
 belzHouse();
