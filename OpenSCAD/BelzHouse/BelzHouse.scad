@@ -22,7 +22,9 @@ extra_roof = 0; // 500;
 module mainRoof() {
   union() {
     translate([-extra_roof / 2, 0, 0]) {
-      prism(13000 + extra_roof, 5200, 2600);
+      color("gray") {
+        prism(13000 + extra_roof, 5200, 2600);
+      }
     }
     translate([0, (5200 - 1000) / 2, 2100]) {
       chimney();
@@ -35,7 +37,7 @@ module mainRoof() {
 
 module chimney() {
   // color("red") {
-  cube(size=[600, 1000, 1100], center=false);
+    cube(size=[600, 1000, 1100], center=false);
   // }
 }
 
@@ -44,9 +46,17 @@ module pignon() {
     cube(size=[4000, 3100, 3300], center=false);
     translate([2000 + (4500 / 2), -(4500 / 2), 3300]) {
       rotate([0, 0, 90]) {
-        prism(5700, 4500, 2200);
+        color("gray") {
+          prism(5700, 4500, 2200);
+        }
       }
     }
+  }
+}
+
+module velux() {
+  color("silver") {
+    cube(size=[1000, 1100, 100], center=false);
   }
 }
 
@@ -69,45 +79,120 @@ module belzHouse() {
       translate([( - 13000 / 2) + 00, (4500 / 2), 0]) {
         pignon();
       }
+      // Velux(es)
+      
+      // Nord ouest
+      translate([4600, -2100, 3700]) {
+        rotate([45, 0, 0]) {
+          velux();
+        }
+      }
+
+      // Sud ouest
+      translate([700, 1100, 4700]) {
+        rotate([-45, 0, 0]) {
+          velux();
+        }
+      }
+      // Sud est
+      translate([-1700, 1100, 4700]) {
+        rotate([-45, 0, 0]) {
+          velux();
+        }
+      }
+
+      // Pignon Sud ouest
+      translate([3800, 3300, 4700]) {
+        rotate([-45, 0, 90]) {
+          velux();
+        }
+      }
+      // Pignon Sud est
+      translate([-3000, 3300, 3950]) {
+        rotate([45, 0, 90]) {
+          velux();
+        }
+      }
+
     }
-    // Windows and So.
-    translate([6500, -50, 3150]) {   // Roof, West
+    /* Windows and So. */
+    // Roof, West
+    translate([6500, -50, 3150]) {   
       cube(size=[500, 2400, 400], center=false);
     }
-    translate([-7000, -50, 3150]) {  // Roof, East
+    // Roof, East
+    translate([-7000, -50, 3150]) {  
       cube(size=[500, 2400, 400], center=false);
     }
-    translate([400, 2100, 50]) { // Main West
+    // Main West
+    translate([400, 2100, 50]) { 
       color("blue") {
         cube(size=[1800, 500, 2000], center=false);
       }
     }
-    translate([-2200, 2100, 50]) { // Main East
+    // Main East
+    translate([-2200, 2100, 50]) { 
       color("green") {
         cube(size=[1800, 500, 2000], center=false);
       }
     }
-    translate([-5500, 5200, 50]) { // East Window
+    // East Window
+    translate([-5500, 5200, 50]) { 
       color("red") {
         cube(size=[2000, 500, 2000], center=false);
       }
     }
-    translate([3500, 5200, 50]) { // Garage door
+    // Garage door
+    translate([3500, 5200, 50]) { 
       color("red") {
         cube(size=[2000, 500, 2000], center=false);
       }
     }
-    translate([6400, 5100, 3300]) { // Top Front Window,  west
+    // Top Front Window,  west
+    translate([6400, 5100, 3300]) { 
       rotate([0, 0, 90]) {
         color("red") {
           prism(600, 3800, 1800);
         }
       }
     }
-    translate([-2600, 5100, 3300]) { // Top Front Window,  east
+    // Top Front Window,  east
+    translate([-2600, 5100, 3300]) { 
       rotate([0, 0, 90]) {
         color("red") {
           prism(600, 3800, 1800);
+        }
+      }
+    }
+    // Pignon est, second floor window
+    translate([-6400, -550, 3300]) { 
+      rotate([0, 0, 90]) {
+        color("red") {
+          cube(size=[600, 200, 1000], center=false);
+        }
+      }
+    }
+    // Pignon est, first floor window
+    translate([-6400, 2300, 900]) { 
+      rotate([0, 0, 90]) {
+        color("red") {
+          cube(size=[900, 200, 1100], center=false);
+        }
+      }
+    }
+    // Back Window
+    translate([-1050, -2300, 1100]) {
+      rotate([0, 0, 0]) {
+        color("red") {
+          cube(size=[1050, 200, 1000], center=false);
+        }
+      }
+    }
+    // Pignon ouest window
+    translate([6600, -1600, 1100]) { 
+      rotate([0, 0, 90]) {
+        color("red") {
+          cube(size=[850, 200, 1100], center=false);
         }
       }
     }
