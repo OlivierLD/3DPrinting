@@ -4,12 +4,12 @@
  */
 
 module prism(l, w, h) {
-   polyhedron(points=[[0,0,0],   // 0
-                      [l,0,0],   // 1
-                      [l,w,0],   // 2
-                      [0,w,0],   // 3
-                      [0,w / 2,h],   // 4
-                      [l,w / 2,h]],  // 5
+   polyhedron(points=[[0,0,0],      // 0
+                      [l,0,0],      // 1
+                      [l,w,0],      // 2
+                      [0,w,0],      // 3
+                      [0,w / 2,h],  // 4
+                      [l,w / 2,h]], // 5
               faces=[[0,1,2,3],         // bottom
                      [5,4,3,2],         // One face (top)
                      [0,4,5,1],         // Other face (top)
@@ -81,33 +81,33 @@ module belzHouse() {
       }
       // Velux(es)
       
-      // Nord ouest
+      // Nord ouest Velux
       translate([4600, -2100, 3700]) {
         rotate([45, 0, 0]) {
           velux();
         }
       }
 
-      // Sud ouest
+      // Sud ouest Velux
       translate([700, 1100, 4700]) {
         rotate([-45, 0, 0]) {
           velux();
         }
       }
-      // Sud est
+      // Sud est Velux
       translate([-1700, 1100, 4700]) {
         rotate([-45, 0, 0]) {
           velux();
         }
       }
 
-      // Pignon Sud ouest
-      translate([3800, 3300, 4700]) {
+      // Pignon Sud ouest Velux
+      translate([3750, 3300, 4700]) {
         rotate([-45, 0, 90]) {
           velux();
         }
       }
-      // Pignon Sud est
+      // Pignon Sud est Velux
       translate([-3000, 3300, 3950]) {
         rotate([45, 0, 90]) {
           velux();
