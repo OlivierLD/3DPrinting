@@ -19,7 +19,7 @@ We use the following files in OpenSCAD:
 - Then, files like `SmallBoat550.scad`, `Outrigger.scad`, `Tri.914.scad` are examples of design implementation, implemented as OpenSCAD modules. Those files can be used to generate STL models.
     - Those files can use parameter files, containing the definition of the rails and keel, as arrays of points. See `SmallBoat.550.prms.scad`, `tri.914.scad`, `outrigger.prms.scad`, etc.
     - For example, the `SmallBoat.550.scad` comes down to
-    ```
+    ```openscad
     use <./Bezier.scad>
     use <./BoatDesign.scad>
 
@@ -35,4 +35,11 @@ We use the following files in OpenSCAD:
 
 > See in the files above how they use the `use` and `include` directives to refer to each other.
 
+## TODO
+- Add roofs, cockpits, panels, rudders, etc
+- Add rigging and sails
+
 ---
+
+Christophe Granger
+Joseph KAbris - ou les possibilites d'une vie, 

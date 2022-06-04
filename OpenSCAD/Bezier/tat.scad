@@ -3,6 +3,7 @@
  *
  * OpenSCAD Manual at https://en.wikibooks.org/wiki/OpenSCAD_User_Manual
  * Some usefull functions at https://github.com/openscad/scad-utils/blob/master/lists.scad
+ * Points/parameters generation, see https://github.com/OlivierLD/raspberry-coffee/blob/master/Project-Trunk/BoatDesign
  */
  
 use <./Bezier.scad>
@@ -12,12 +13,10 @@ echo(version=version());
 // echo(">>>>>> For visualization only, not for print!");
 
 // All the boat definition in there
-include <./SmallBoat.550.prms.scad>
-// include <./tri.9.14.scad>
-// include <./outrigger.prms.scad>
+include <./tat.prms.scad>
 
-module SmallBoat550(withBeams=true, withColor=true) {
+module TeteAToto(withBeams=true, withColor=true) {
   BoatDesign(extVolume, rail, keel, withBeams, withColor);
 }
 
-SmallBoat550(true, true);
+TeteAToto(true, true);

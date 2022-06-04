@@ -13,7 +13,7 @@ echo(version=version());
 
 // All the boat definition in there
 // include <./SmallBoat.550.prms.scad>
-include <./tri.9.14.scad>
+include <./tri.9.14.prms.scad>
 // include <./outrigger.prms.scad>
 
 module Tri914(withBeams=true, withColor=true) {
