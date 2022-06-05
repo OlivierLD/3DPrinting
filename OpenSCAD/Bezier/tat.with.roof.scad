@@ -8,36 +8,87 @@
 use <./roof.tat.scad>
 use <./tat.scad>
 
+use <./centerBoard.scad>
+
 echo(version=version());
 // echo(">>>>>> For visualization only, not for print!");
 
+module rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0) {
+    union() {
+        // The blade
+        rotate([90, 0, 0]) {
+            centerBoard(width = width, wlRatio = wlRatio, thickness = thickness);
+        }
+        // The head
+        translate([-width / 2, -thickness, 0]) {
+            cube(size=[width, thickness * 2, 55], center=false);
+        }
+    }
+}
+
 module FullTeteAToto(withBeams=true, withColor=true) {
-  union() {
-    translate([0, 0, 0]) {
-      TeteAToto(withBeams=withBeams, withColor=withColor);
-    }
-    translate([-100, 0, 105]) { // roof
-      rotate([180, 0, 0]) {
-        RoofTeteAToto(withBeams=false, withColor=withColor);
-      }
-    }
-    // Mast
-    color("silver", 0.9) {
-      translate([-150, 0, 0]) {
-        rotate([0, 0, 0]) {
-          cylinder(h=700, r=6, center=false);
+    
+  difference() {  
+      union() {
+        translate([0, 0, 0]) {
+          TeteAToto(withBeams=withBeams, withColor=withColor);
+        }
+        translate([-100, 0, 105]) { // roof
+          rotate([180, 0, 0]) {
+            RoofTeteAToto(withBeams=false, withColor=withColor);
+          }
+        }
+        // Mast
+        color("silver", 0.9) {
+          translate([-150, 0, 0]) {
+            rotate([0, 0, 0]) {
+              cylinder(h=700, r1=8, r2=3, center=false);
+            }
+          }
+        }
+        // Boom
+        /*
+        color("silver", 0.9) {
+          translate([100, 43, 120]) {
+            rotate([0, 90, 10]) {
+              cylinder(h=500, r=9, center=true);
+            }
+          }
+        } */
+        // Center board
+        translate([0, 0, 0]) {
+            rotate([90, 0, 0]) {
+                centerBoard(width = 37.0, wlRatio = 6.0, thickness = 5.0);
+            }
+        }
+        // Rudder(s)
+        twoRudders = true; // Modify this if needed
+        translate([290, 0, 12]) {
+            if (!twoRudders) {
+                rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0);
+            } else {
+                // Port
+                translate([0, -40, 0]) {
+                    rotate([-12, 0, 0]) {
+                        rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0);
+                    }
+                }    
+                // Starboard
+                translate([0, 40, 0]) {
+                    rotate([12, 0, 0]) {
+                        rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0);
+                    }
+                }    
+            }
         }
       }
-    }
-    // Boom
-    /*
-    color("silver", 0.9) {
-      translate([100, 43, 120]) {
-        rotate([0, 90, 10]) {
-          cylinder(h=500, r=9, center=true);
-        }
+      // Cockpit
+      cockpitLen = 200;
+      cockpitWidth = 75;
+      cockpitDepth = 50;
+      translate([0, - cockpitWidth / 2, 20]) {
+          cube([cockpitLen, cockpitWidth, cockpitDepth], false);
       }
-    } */
   }
 }
 
