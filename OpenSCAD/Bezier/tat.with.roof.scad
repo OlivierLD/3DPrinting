@@ -16,8 +16,8 @@ module FullTeteAToto(withBeams=true, withColor=true) {
     translate([0, 0, 0]) {
       TeteAToto(withBeams=withBeams, withColor=withColor);
     }
-    translate([-100, 0, 60]) { // roof
-      rotate([0, 0, 0]) {
+    translate([-100, 0, 105]) { // roof
+      rotate([180, 0, 0]) {
         RoofTeteAToto(withBeams=false, withColor=withColor);
       }
     }
