@@ -2,7 +2,7 @@
  * @author OlivierLD
  *
  * Small boat, with Bezier curves.
- * This is the OpenSCAD version of its Java conterpart.
+ * This is the OpenSCAD version of its Java counterpart.
  * 
  * Step 2: Bezier frames derived from rails and keel.
  *
@@ -19,12 +19,13 @@ echo(version=version());
 function reverse(list) = 
   [for (i = [len(list) - 1 : -1 : 0]) list[i]];
 
+DEFAULT_BEZIER_T_STEP = 0.025; // Going below 0.005 seems to be too demanding...
 
-module BoatDesign(extVolume, rail, keel, withBeams=true, withColor=true) {
+module BoatDesign(extVolume, rail, keel, withBeams=true, withColor=true, bezierTStep=DEFAULT_BEZIER_T_STEP) {
   
   if (extVolume != undef && rail != undef && len(rail) >= 2 && keel != undef && len(keel) >= 2) {
     
-    increment = 0.025;
+    increment = bezierTStep;
     // railPoints
     railPoints = [ for (t = [0:increment:1]) recurse(rail, t) ];
     // keelPoints

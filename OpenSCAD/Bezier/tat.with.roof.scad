@@ -13,7 +13,10 @@ use <./centerBoard.scad>
 echo(version=version());
 // echo(">>>>>> For visualization only, not for print!");
 
+WITH_TWO_RUDDERS = true; // Set to false for one rudder.
+
 module rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0) {
+    headHeight = 60;
     union() {
         // The blade
         rotate([90, 0, 0]) {
@@ -21,7 +24,13 @@ module rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0) {
         }
         // The head
         translate([-width / 2, -thickness, 0]) {
-            cube(size=[width, thickness * 2, 55], center=false);
+            cube(size=[width, thickness * 2, headHeight], center=false);
+        }
+        // the tiller
+        translate([-(100 - (width / 2)), 0, headHeight + 3]) {
+            rotate([0, 92, 0]) {
+                cylinder($fn=30, 100, 2.5, 2.5, center=false);
+            }
         }
     }
 }
@@ -62,9 +71,8 @@ module FullTeteAToto(withBeams=true, withColor=true) {
             }
         }
         // Rudder(s)
-        twoRudders = true; // Modify this if needed
         translate([290, 0, 12]) {
-            if (!twoRudders) {
+            if (!WITH_TWO_RUDDERS) {
                 rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0);
             } else {
                 // Port

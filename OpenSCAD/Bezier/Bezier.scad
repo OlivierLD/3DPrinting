@@ -33,6 +33,6 @@ function recurse(ctrl, t) =
         // len = 2
         calculate3D(ctrl[0], ctrl[1], t) : 
         // len = 3
-        calculate3D(calculate3D(ctrl[0], ctrl[1], t), calculate3D(ctrl[1], ctrl[2], t), t) 
+        calculate3D(calculate3D(ctrl[0], ctrl[1], t), calculate3D(ctrl[1], ctrl[2], t ), t) 
     );
 
