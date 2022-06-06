@@ -14,6 +14,7 @@ echo(version=version());
 // echo(">>>>>> For visualization only, not for print!");
 
 WITH_TWO_RUDDERS = true; // Set to false for one rudder.
+WITH_MAST = false;
 
 module rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0) {
     headHeight = 60;
@@ -48,12 +49,14 @@ module FullTeteAToto(withBeams=true, withColor=true) {
           }
         }
         // Mast
-        color("silver", 0.9) {
-          translate([-150, 0, 0]) {
-            rotate([0, 0, 0]) {
-              cylinder(h=700, r1=8, r2=3, center=false);
-            }
-          }
+        if (WITH_MAST) {
+           color("silver", 0.9) {
+              translate([-150, 0, 0]) {
+                rotate([0, 0, 0]) {
+                  cylinder(h=700, r1=8, r2=3, center=false);
+                }
+              }
+           }
         }
         // Boom
         /*
