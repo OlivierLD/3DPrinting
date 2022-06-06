@@ -35,7 +35,7 @@ We use the following files in OpenSCAD:
 
 > See in the files above how they use the `use` and `include` directives to refer to each other.
 
-> _Note_: The smoothing of the modules (huls, roofs, etc) is driven by the variable `DEFAULT_BEZIER_T_STEP` in `BoatDesign.scad`. This will
+> _Note_: The smoothing of the modules (hulls, roofs, etc) is driven by the variable `DEFAULT_BEZIER_T_STEP` in `BoatDesign.scad`. This will
 > define the `t` step increment for the Bezier elaboration. Going below `0.005` seems to be too demanding.  
 > In the code above, `BoatDesign(extVolume, rail, keel, withBeams, withColor);`, the `BoatDesign` module actually takes an extra parameter named `bezierTStep`, its default value is `DEFAULT_BEZIER_T_STEP`. It can be overridden, like this:  
 > ```openscad
@@ -47,7 +47,3 @@ We use the following files in OpenSCAD:
 - Add rigging and sails
 
 ---
-
-Christophe Granger
-Joseph KAbris - ou les possibilites d'ueibcccjefdlrjltjlcrjdfduiblvvgghhhhdfnlilknv
-ne vie, 
