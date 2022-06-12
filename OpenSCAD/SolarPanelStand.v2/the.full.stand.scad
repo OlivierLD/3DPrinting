@@ -8,7 +8,8 @@
  t, NOT for print.
  * Animation available in stuck mode.
  *
- * To Animate: Use menu View -> Animate, F{PS: 10, Steps: 200
+ * To Animate: Use OpenSCAD menu View -> Animate, FPS: 10, Steps: 360
+ * -> See functions timeToRot, timeToTilt, spinCoupler
  */
 use <../mechanical.parts.scad>
 use <./all.parts.scad>
