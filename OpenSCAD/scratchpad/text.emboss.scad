@@ -11,7 +11,7 @@ module roundedRect(size, radius) {
 
 // Text?
 text="Oliv did it";
-// TODO Find text dimesions.
+// TODO Find text dimensions.
 difference() {  
     roundedRect([100, 50, 5], 10);
     linear_extrude(height=5, center=true) {

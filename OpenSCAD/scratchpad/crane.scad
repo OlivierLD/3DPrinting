@@ -60,16 +60,15 @@ loc = [
 */
 function xyz(t,i) = 
     lookup(t, [
-    [0/len(loc),loc[0][i]],
-    [1/len(loc),loc[1][i]],
-    [2/len(loc),loc[2][i]],
-    [3/len(loc),loc[3][i]],
-    [4/len(loc),loc[4][i]],
-    [5/len(loc),loc[5][i]],
-    [6/len(loc),loc[6][i]],
-    [7/len(loc),loc[7][i]],
-
-]);
+        [0/len(loc),loc[0][i]],
+        [1/len(loc),loc[1][i]],
+        [2/len(loc),loc[2][i]],
+        [3/len(loc),loc[3][i]],
+        [4/len(loc),loc[4][i]],
+        [5/len(loc),loc[5][i]],
+        [6/len(loc),loc[6][i]],
+        [7/len(loc),loc[7][i]],
+    ]);
 
 /*
 * This is the actual way I wrote this function.  I rewrote it in the

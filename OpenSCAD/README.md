@@ -26,3 +26,6 @@ Each directory contains the code (`.scad`) along with the generated `stl` files 
 - [Octoprint](https://octoprint.org/)! Works great from a Raspberry Pi, really cool stuff.
 
 - [The 3D print zone](https://the3dprintzone.com/). Articles, videos, tutorials, etc.
+
+### Bonus
+Do look into the `scratchpad` folder... ;) 

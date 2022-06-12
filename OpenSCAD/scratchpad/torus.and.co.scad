@@ -3,9 +3,10 @@
 // 
 
 color("red") {
-	rotate_extrude(convexity = 10) {
-		translate([2, 0, 0]) {
-			circle(r = 1, $fn = 100);
+	rotate_extrude(convexity = 10, $fn=10) { // $fn: torus' smoothing
+        // Change x value below...
+		translate([3, 0, 0]) { // Ring's diam
+			circle(r = 0.75, $fn = 100); // Torus' diam
 		}
 	}
 }

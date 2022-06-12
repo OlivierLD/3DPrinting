@@ -1,5 +1,7 @@
 /*
  * Example 3, from https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Primitive_Solids#polyhedron
+ *
+ * Many true / false option at the bottom of the file.
  */
 module prism(l, w, h) {
   polyhedron(
