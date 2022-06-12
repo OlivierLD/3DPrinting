@@ -42,6 +42,8 @@ We use the following files in OpenSCAD:
 > BoatDesign(extVolume, rail, keel, withBeams, withColor, 0.025);
 > ```
 
+Can be rendered in [TinkerCad](https://www.tinkercad.com/things/5Be9yKQkFRr-la-tete-a-toto)...
+
 ## TODO
 - Add roofs, cockpits, panels, rudders, etc
 - Add rigging and sails
