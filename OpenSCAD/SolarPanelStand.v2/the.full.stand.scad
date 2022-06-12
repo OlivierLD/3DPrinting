@@ -2,10 +2,13 @@
  * @author OlivierLD
  *
  * The full stand... Using other scad files.
- * See "include" statement below.
+ * See "include" and "use" statements below.
  *
- * Used to visualize the whole project, not for print.
+ * Used to visualize the whole projec
+ t, NOT for print.
  * Animation available in stuck mode.
+ *
+ * To Animate: Use menu View -> Animate, F{PS: 10, Steps: 200
  */
 use <../mechanical.parts.scad>
 use <./all.parts.scad>
@@ -51,6 +54,7 @@ function timeToTilt(t, stuck) =
 function spinCoupler(t, stuck) =
 	stuck ? (baseAnimation ? t * 10 * 360 : 0) : 0;
 
+// Rod-to-rod coupler
 module coupler() {
 	diam = 19;
 	length = 25;
@@ -73,6 +77,7 @@ module coupler() {
 	}
 }
 
+// Let's go.
 difference() {
 	currentHeight = 0;
 	baseRotationAngle = timeToRot($t, stuck); // [0..360]
