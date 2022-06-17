@@ -118,7 +118,7 @@ module belzHouse() {
     /* Windows and So. */
     // Roof, West
     translate([6500, -50, 3150]) {   
-      #cube(size=[500, 2400, 400], center=false);
+      cube(size=[500, 2400, 400], center=false);
     }
     // Roof, East
     translate([-7000, -50, 3150]) {  
