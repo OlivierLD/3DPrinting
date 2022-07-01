@@ -136,7 +136,7 @@ counterTopThickness = 2;
     translate([counterTopWidth / 2, (x3 + 60) / 2, countertopHeight]) {
       rotate([0, 0, 90]) {
         color("white") {
-          cube(size=[x3 - 60, counterTopWidth, counterTopThickness], center=true);
+          cube(size=[x3 - 60 + 50, counterTopWidth, counterTopThickness], center=true);
         }
       }
     }
@@ -166,15 +166,15 @@ counterTopThickness = 2;
 // West
 translate([(x1 + 60) / 2, counterTopWidth / 2, countertopHeight / 2]) {
   rotate([0, 0, 0]) {
-    color("cyan") {
+    color("blue") {
       cube(size=[x1 - 60, counterTopWidth, countertopHeight], center=true);
     }
   }
 }
 // North
-translate([counterTopWidth / 2, (x3 + 60) / 2, countertopHeight / 2]) {
+translate([counterTopWidth / 2, (x3 + 50 + 60) / 2, countertopHeight / 2]) {
   rotate([0, 0, 90]) {
-    color("cyan") {
+    color("blue") {
       cube(size=[x3 - 60, counterTopWidth, countertopHeight], center=true);
     }
   }
@@ -182,7 +182,7 @@ translate([counterTopWidth / 2, (x3 + 60) / 2, countertopHeight / 2]) {
 // Bevel 
 rotate([0, 0, -45]) {
   translate([0, (xb + counterTopWidth)/ 2, countertopHeight / 2]) {
-    color("cyan") {
+    color("blue") {
       cube(size=[xb, counterTopWidth, countertopHeight], center=true);
     }
   }
@@ -203,19 +203,19 @@ translate([x1 - (counterTopWidth / 2), fridgeDepth/ 2, fridgeHeight / 2]) {
 rightStuffHeight = 151;
 rightStuffWidth = 60;
 rightStuffDepth = counterTopWidth;
-translate([(2 + rightStuffDepth) / 2, x3 - (rightStuffWidth / 2), rightStuffHeight / 2]) {
+/*translate([(2 + rightStuffDepth) / 2, x3 - (rightStuffWidth / 2), rightStuffHeight / 2]) {
   rotate([0, 0, 0]) {
     color("blue") {
       cube(size=[rightStuffWidth, rightStuffDepth, rightStuffHeight], center=true);
     }
   }
-}
+}*/
 
 // La hotte
 hDepth = 40;
 hWidth = 80;
 hHeight = 36;
-translate([hDepth / 2, (60 + 100) - (hHeight / 2), 180 + (hHeight / 2)]) {
+translate([hDepth / 2, (60 + 30 + 100) - (hHeight / 2), 180 + (hHeight / 2)]) {
   rotate([0, 0, 0]) {
     color("gray") {
       cube(size=[hDepth, hWidth, hHeight], center=true);
@@ -239,7 +239,7 @@ translate([(60 + 100) - (closetHeight / 2), closetDepth / 2, 130 + (closetHeight
 stoveWidth = 80;
 stoveDepth = 60;
 stoveThickness = 2;
-translate([(stoveDepth / 2), 40 + 60 + (stoveWidth / 2), countertopHeight + stoveThickness]) {
+translate([(stoveDepth / 2), 40 + 60 + 30 + (stoveWidth / 2), countertopHeight + stoveThickness]) {
   rotate([0, 0, 0]) {
     union() {
       color("gray") {
