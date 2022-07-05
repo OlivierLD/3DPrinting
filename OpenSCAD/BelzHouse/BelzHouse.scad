@@ -1,6 +1,7 @@
 /**
  * Belz house
  * Use # before difference object to see them (debug).
+ * Measures in mm
  */
 
 module prism(l, w, h) {

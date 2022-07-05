@@ -1,5 +1,7 @@
 //
 // Cuisine à Belz
+// A test.
+// Measures in CM. TODO Change to mm.
 //
 
 sinkLength = 75;
@@ -269,3 +271,13 @@ translate([(stoveDepth / 2), 40 + 60 + 30 + (stoveWidth / 2), countertopHeight +
   }
 }
 
+translate([100, 120, 0]) {
+  rotate([90, 0, -40]) {
+    color("orange") {
+      scale([0.125, 0.125, 0.125]) {
+        import("/Users/olivierlediouris/3DPrinting/walid90/3d-human-model/3DHumanModel.STL");
+        // import("../../Raspberry_Pi_A+_board/A+_Board.stl");
+      }
+    }
+  }
+}
