@@ -1,12 +1,12 @@
 //
 // Cuisine à Belz
 // A test.
-// Measures in CM. TODO Change to mm.
+// Measures in mm.
 //
 
-sinkLength = 75;
-sinkWidth = 50;
-sinkDepth = 18;
+sinkLength = 750;
+sinkWidth = 500;
+sinkDepth = 180;
 
 module sink() {
   difference() {
@@ -24,8 +24,8 @@ module sink() {
 }
 
 // West wall
-x1 = 260;
-y1 = 250;
+x1 = 2600;
+y1 = 2500;
 translate([x1 / 2, 0, y1 / 2]) {
   rotate([90, 0, 0]) {
     color("yellow") {
@@ -34,8 +34,8 @@ translate([x1 / 2, 0, y1 / 2]) {
   }
 }
 // Door frame
-x2 = 30;
-y2 = 250;
+x2 = 300;
+y2 = 2500;
 translate([x1, -x2 / 2, y2 / 2]) {
   rotate([90, 0, 90]) {
     color("yellow") {
@@ -43,8 +43,8 @@ translate([x1, -x2 / 2, y2 / 2]) {
     }
   }
 }
-x2_1 = 70;
-y2_1 = 250;
+x2_1 = 700;
+y2_1 = 2500;
 translate([x1 + (x2_1 / 2), -x2, y2_1 / 2]) {
   rotate([90, 0, 0]) {
     color("yellow") {
@@ -55,8 +55,8 @@ translate([x1 + (x2_1 / 2), -x2, y2_1 / 2]) {
 
 
 // North wall
-x3 = 245;
-y3 = 250;
+x3 = 2450;
+y3 = 2500;
 translate([0, x3 / 2, y3 / 2]) {
   rotate([90, 0, 90]) {
     color("yellow") {
@@ -65,9 +65,9 @@ translate([0, x3 / 2, y3 / 2]) {
   }
 }
 // Bevel
-xb = 85;
-yb = 250;
-translate([30, 30, yb / 2]) {
+xb = 850;
+yb = 2500;
+translate([300, 300, yb / 2]) {
   rotate([90, 0, -45]) {
     color("yellow") {
       square(size = [xb, yb], center = true);
@@ -75,10 +75,10 @@ translate([30, 30, yb / 2]) {
   }
 }
 // North wall extension
-x4 = 240;
-y4 = 250;
-wh = 126.3;
-ww = 100;
+x4 = 2400;
+y4 = 2500;
+wh = 1263;
+ww = 1000;
 difference() {
   translate([0, x3 + (x4/ 2), y4 / 2]) {
     rotate([90, 0, 90]) {
@@ -88,18 +88,18 @@ difference() {
     }
   }
   // Window
-  translate([0, y3 + (ww / 2), 120 + (wh / 2)]) {
+  translate([0, y3 + (ww / 2), 1200 + (wh / 2)]) {
     rotate([0, 0, 0]) {
-      cube(size=[5, ww, wh], center=true);
+      cube(size=[50, ww, wh], center=true);
     }
   }
 }
 
 // Heater
-heaterLength = 122;
-heaterHeight = 60;
-heaterThickness = 8;
-translate([heaterThickness, x3 + (heaterLength / 2) + 45, (heaterHeight / 2) + 20]) {
+heaterLength = 1220;
+heaterHeight = 600;
+heaterThickness = 80;
+translate([heaterThickness, x3 + (heaterLength / 2) + 450, (heaterHeight / 2) + 200]) {
   rotate([0, 0, 0]) {
     color("grey") {
       cube(size=[heaterThickness, heaterLength, heaterHeight], center=true);
@@ -120,25 +120,25 @@ translate([floorWidth / 2, (floorLength / 2) - x2, 0]) {
 }
 
 // Counter top 
-countertopHeight = (72 + 15);
-counterTopWidth = 62;
-counterTopThickness = 2;
+countertopHeight = (720 + 150);
+counterTopWidth = 620;
+counterTopThickness = 20;
 //
 //difference() {
   union() {
     // West part
-    translate([(x1 + 60) / 2, counterTopWidth / 2, countertopHeight]) {
+    translate([(x1 + 600) / 2, counterTopWidth / 2, countertopHeight]) {
       rotate([0, 0, 0]) {
         color("white") {
-          cube(size=[x1 - 60, counterTopWidth, counterTopThickness], center=true);
+          cube(size=[x1 - 600, counterTopWidth, counterTopThickness], center=true);
         }
       }
     }
     // North part
-    translate([counterTopWidth / 2, (x3 + 60) / 2, countertopHeight]) {
+    translate([counterTopWidth / 2, (x3 + 600) / 2, countertopHeight]) {
       rotate([0, 0, 90]) {
         color("white") {
-          cube(size=[x3 - 60 + 50, counterTopWidth, counterTopThickness], center=true);
+          cube(size=[x3 - 600 + 500, counterTopWidth, counterTopThickness], center=true);
         }
       }
     }
@@ -154,7 +154,7 @@ counterTopThickness = 2;
   // sink
   rotate([0, 0, -45]) {
 
-    translate([0, 75, countertopHeight - (sinkDepth / 1.1)]) {
+    translate([0, 750, countertopHeight - (sinkDepth / 1.1)]) {
       color("silver") {
         sink();
       }
@@ -166,18 +166,18 @@ counterTopThickness = 2;
 
 // Under the counter top
 // West
-translate([(x1 + 60) / 2, counterTopWidth / 2, countertopHeight / 2]) {
+translate([(x1 + 600) / 2, counterTopWidth / 2, countertopHeight / 2]) {
   rotate([0, 0, 0]) {
     color("blue") {
-      cube(size=[x1 - 60, counterTopWidth, countertopHeight], center=true);
+      cube(size=[x1 - 600, counterTopWidth, countertopHeight], center=true);
     }
   }
 }
 // North
-translate([counterTopWidth / 2, (x3 + 50 + 60) / 2, countertopHeight / 2]) {
+translate([counterTopWidth / 2, (x3 + 500 + 600) / 2, countertopHeight / 2]) {
   rotate([0, 0, 90]) {
     color("blue") {
-      cube(size=[x3 - 60, counterTopWidth, countertopHeight], center=true);
+      cube(size=[x3 - 600, counterTopWidth, countertopHeight], center=true);
     }
   }
 }
@@ -191,8 +191,8 @@ rotate([0, 0, -45]) {
 }
 
 // fridge
-fridgeHeight = 201;
-fridgeWidth = 60;
+fridgeHeight = 2010;
+fridgeWidth = 600;
 fridgeDepth = counterTopWidth;
 translate([x1 - (counterTopWidth / 2), fridgeDepth/ 2, fridgeHeight / 2]) {
   rotate([0, 0, 0]) {
@@ -202,8 +202,8 @@ translate([x1 - (counterTopWidth / 2), fridgeDepth/ 2, fridgeHeight / 2]) {
   }
 }
 // Right side (oven, micro-wave)
-rightStuffHeight = 151;
-rightStuffWidth = 60;
+rightStuffHeight = 1510;
+rightStuffWidth = 600;
 rightStuffDepth = counterTopWidth;
 /*translate([(2 + rightStuffDepth) / 2, x3 - (rightStuffWidth / 2), rightStuffHeight / 2]) {
   rotate([0, 0, 0]) {
@@ -214,10 +214,10 @@ rightStuffDepth = counterTopWidth;
 }*/
 
 // La hotte
-hDepth = 40;
-hWidth = 80;
-hHeight = 36;
-translate([hDepth / 2, (60 + 30 + 100) - (hHeight / 2), 180 + (hHeight / 2)]) {
+hDepth = 400;
+hWidth = 800;
+hHeight = 360;
+translate([hDepth / 2, (600 + 300 + 1000) - (hHeight / 2), 1800 + (hHeight / 2)]) {
   rotate([0, 0, 0]) {
     color("gray") {
       cube(size=[hDepth, hWidth, hHeight], center=true);
@@ -226,10 +226,10 @@ translate([hDepth / 2, (60 + 30 + 100) - (hHeight / 2), 180 + (hHeight / 2)]) {
 }
 
 // Closet, west wall
-closetWidth = 100; // + 30 + 30 ?
-closetDepth = 50;
-closetHeight = 72;
-translate([(60 + 100) - (closetHeight / 2), closetDepth / 2, 130 + (closetHeight / 2)]) {
+closetWidth = 1000; // + 30 + 30 ?
+closetDepth = 500;
+closetHeight = 720;
+translate([(600 + 1000) - (closetHeight / 2), closetDepth / 2, 1300 + (closetHeight / 2)]) {
   rotate([0, 0, 90]) {
     color("blue") {
       cube(size=[closetDepth, closetWidth, closetHeight], center=true);
@@ -238,43 +238,43 @@ translate([(60 + 100) - (closetHeight / 2), closetDepth / 2, 130 + (closetHeight
 }
 
 // Stove, 60 x 80
-stoveWidth = 80;
-stoveDepth = 60;
-stoveThickness = 2;
-translate([(stoveDepth / 2), 40 + 60 + 30 + (stoveWidth / 2), countertopHeight + stoveThickness]) {
+stoveWidth = 800;
+stoveDepth = 600;
+stoveThickness = 20;
+translate([(stoveDepth / 2), 400 + 600 + 300 + (stoveWidth / 2), countertopHeight + stoveThickness]) {
   rotate([0, 0, 0]) {
     union() {
       color("gray") {
         cube(size=[stoveDepth, stoveWidth, stoveThickness], center = true);
       }
     }
-    translate([15, -20, 2]) {
+    translate([150, -200, 20]) {
       color("black") {
-        cylinder(h=1, r=10, center=true);
+        cylinder(h=10, r=100, center=true);
       }
     }
-    translate([-15, -20, 2]) {
+    translate([-150, -200, 20]) {
       color("black") {
-        cylinder(h=1, r=10, center=true);
+        cylinder(h=10, r=100, center=true);
       }
     }
-    translate([15, 20, 2]) {
+    translate([150, 200, 20]) {
       color("black") {
-        cylinder(h=1, r=10, center=true);
+        cylinder(h=10, r=100, center=true);
       }
     }
-    translate([-15, 20, 2]) {
+    translate([-150, 200, 20]) {
       color("black") {
-        cylinder(h=1, r=10, center=true);
+        cylinder(h=10, r=100, center=true);
       }
     }
   }
 }
 
-translate([100, 120, 0]) {
+translate([1000, 1200, 0]) {
   rotate([90, 0, -40]) {
     color("orange") {
-      scale([0.125, 0.125, 0.125]) {
+      scale([1.25, 1.25,1.25]) {
         import("/Users/olivierlediouris/3DPrinting/walid90/3d-human-model/3DHumanModel.STL");
         // import("../../Raspberry_Pi_A+_board/A+_Board.stl");
       }
