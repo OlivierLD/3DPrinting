@@ -1,7 +1,7 @@
 /**
  * Belz house
  * Use # before difference object to see them (debug).
- * Measures in mm
+ * Dimensions in mm
  */
 
 module prism(l, w, h) {
@@ -61,6 +61,12 @@ module velux() {
   }
 }
 
+module small_velux() {
+  color("silver") {
+    cube(size=[500, 900, 100], center=false);
+  }
+}
+
 module belzHouse() {
   difference() {
     union() {
@@ -112,6 +118,13 @@ module belzHouse() {
       translate([-3000, 3300, 3950]) {
         rotate([45, 0, 90]) {
           velux();
+        }
+      }
+
+      // Sud ouest,  Small Velux
+      translate([5650, 650, 5200]) {
+        rotate([-45, 0, 0]) {
+          small_velux();
         }
       }
 
