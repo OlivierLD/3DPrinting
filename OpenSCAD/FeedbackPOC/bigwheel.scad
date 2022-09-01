@@ -187,9 +187,11 @@ HUB_LOCK_ONLY = 2;
 POT_SOCKET = 3;
 SMALL_WHEEL_ONLY = 4;
 
-option = BIG_WHEEL_ONLY;
+// option = BIG_WHEEL_ONLY;
+option = ALL_PARTS;
 
-stuck = true;
+// stuck = true;
+stuck = false;
  
 union() { 
 	

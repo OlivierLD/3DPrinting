@@ -31,11 +31,11 @@ module servoSocket() {
 		translate([- (standThickness / 2) - (servoXOffset) + deeper, 0, servoZOffset]) {
 			rotate([0, 90, 0]) {
 				color("darkgrey", 0.95) {
-					%servoParallax900_00005();
+					%servoParallax900_00005();  // The servo itself
 				}
 				translate([0, 0, 5]) {
 					color("silver") {
-						servoParallax900_00005(drillPattern=true, drillDiam=2.5, drillLength=10);
+						servoParallax900_00005(drillPattern=true, drillDiam=2.5, drillLength=10); // Servo drilling
 					}
 				}
 				// Servo axis? Uncomment below if visualization is needed.

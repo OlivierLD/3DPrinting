@@ -297,7 +297,9 @@ union() {
   hWidth = 900;
   hHeight = 30;
   // Bottom
-  translate([hDepth / 2, (721.2 + 1010) - (0 * hHeight / 2), (650 + 870) + (hHeight / 2)]) {
+  translate([hDepth / 2, 
+            (721.2 + 1010) - (0 * hWidth / 2), 
+            (650 + 870) + (hHeight / 2)]) {
     rotate([0, 0, 0]) {
       color("gray") {
         cube(size=[hDepth, hWidth, hHeight], center=true);
@@ -354,7 +356,7 @@ translate([(1900) - (closetHeight / 2), closetDepth / 2, closetBottomHeight + (c
 closetWidth_2 = 300;
 closetDepth_2 = 500;
 closetHeight_2 = 500;
-closetBottomHeight_2 = 1520;
+closetBottomHeight_2 = 1300;
 
 withRight = false; // Impact below
 
@@ -376,8 +378,8 @@ if (withRight) {
 // Left
 closetWidth_3 = 500;
 closetDepth_3 = 500;
-closetHeight_3 = 500;
-translate([(closetDepth_3 /2), 1020, 1520 + (closetHeight_3 / 2)]) {
+closetHeight_3 = 720;
+translate([(closetDepth_3 /2), 1020, closetBottomHeight_2 + (closetHeight_3 / 2)]) {
   rotate([0, 0, 0]) {
     color(furniture_color) {
       difference() {
@@ -392,7 +394,9 @@ translate([(closetDepth_3 /2), 1020, 1520 + (closetHeight_3 / 2)]) {
 
 
 // Stove, 51 x 60
-translate([(stoveDepth / 2) + 50, 721.2 + 1010 + (0 * stoveWidth / 2), countertopHeight + stoveThickness]) {
+translate([(stoveDepth / 2) + 50, 
+           721.2 + 1010 + (0 * stoveWidth / 2), 
+           countertopHeight + stoveThickness]) {
   rotate([0, 0, 0]) {
     // The whole thing
     union() {

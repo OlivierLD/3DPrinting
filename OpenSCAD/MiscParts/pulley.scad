@@ -16,7 +16,7 @@ torusDiam = 10;
   
 difference() {
   
-  cylinder(h=torusDiam, r=(ringDiam / 2), center=true, $fn=100); // Pulley
+  cylinder(h=1.1 * torusDiam, r=(ringDiam / 2), center=true, $fn=100); // Pulley
   cylinder(h=12, r=2, center=true, $fn=100);  // Axis
   torus(ringDiam, torusDiam);                 // The groove
   
