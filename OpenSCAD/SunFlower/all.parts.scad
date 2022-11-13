@@ -3,7 +3,7 @@
  *
  * All parts for the full stand... Using other scad files.
  * Used by parts.printer.scad,
- * itsef used by printing.scad
+ * itself used by printing.scad
  *
  * For testing, to set the required option, 
  * see the "option" variable at the bottom of the script.
@@ -1362,7 +1362,7 @@ BEVEL_PINION = 22;
 MOTOR_BOX_WORM_GEAR_BB = 23;
 CONIC_GEAR_SPUR_SUPPORT = 24;
 
-option = CONIC_GEAR_SPUR_SUPPORT; // FULL_BASE_WITH_WORM_GEAR;
+option = /*CONIC_GEAR_SPUR_SUPPORT; */ FULL_BASE; // _WITH_WORM_GEAR;
 
 if (option == GROOVED_CYLINDER) {
 	cylHeight = 50;
