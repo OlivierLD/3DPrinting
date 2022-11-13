@@ -1,6 +1,8 @@
 # SunFlower
 ## Orienting a solar panel, so it faces the Sun
 
+The code for the software part is at <https://github.com/OlivierLD/raspberry-coffee/tree/master/Project-Trunk/SunFlower-v2>.
+
 Several versions are pesented here.  
 They all have
 - A base
