@@ -3,6 +3,12 @@
  *
  * OpenSCAD Manual at https://en.wikibooks.org/wiki/OpenSCAD_User_Manual
  * Some usefull functions at https://github.com/openscad/scad-utils/blob/master/lists.scad
+ *
+ * 550m sailboat (named "Tête à Toto"). Hull, roof, cockpit, and other options.
+ * Options:
+ *   - Appendix (rudder(s) and centerboard)
+ *     - One or two rudders
+ *   - Mast
  */
  
 use <./roof.tat.scad>
@@ -13,6 +19,7 @@ use <./centerBoard.scad>
 echo(version=version());
 // echo(">>>>>> For visualization only, not for print!");
 
+WITH_APPENDIX = false;   // Rudder(s) and centerboard
 WITH_TWO_RUDDERS = true; // Set to false for one rudder.
 WITH_MAST = false;
 
@@ -67,30 +74,32 @@ module FullTeteAToto(withBeams=true, withColor=true) {
             }
           }
         } */
-        // Center board
-        translate([0, 0, 0]) {
-            rotate([90, 0, 0]) {
-                centerBoard(width = 37.0, wlRatio = 6.0, thickness = 5.0);
-            }
-        }
-        // Rudder(s)
-        translate([290, 0, 12]) {
-            if (!WITH_TWO_RUDDERS) {
-                rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0);
-            } else {
-                // Port
-                translate([0, -40, 0]) {
-                    rotate([-12, 0, 0]) {
-                        rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0);
-                    }
-                }    
-                // Starboard
-                translate([0, 40, 0]) {
-                    rotate([12, 0, 0]) {
-                        rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0);
-                    }
-                }    
-            }
+        if (WITH_APPENDIX) {
+          // Center board
+          translate([0, 0, 0]) {
+              rotate([90, 0, 0]) {
+                  centerBoard(width = 37.0, wlRatio = 6.0, thickness = 5.0);
+              }
+          }
+          // Rudder(s)
+          translate([290, 0, 12]) {
+              if (!WITH_TWO_RUDDERS) {
+                  rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0);
+              } else {
+                  // Port
+                  translate([0, -40, 0]) {
+                      rotate([-12, 0, 0]) {
+                          rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0);
+                      }
+                  }    
+                  // Starboard
+                  translate([0, 40, 0]) {
+                      rotate([12, 0, 0]) {
+                          rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0);
+                      }
+                  }    
+              }
+           }
         }
       }
       // Cockpit
