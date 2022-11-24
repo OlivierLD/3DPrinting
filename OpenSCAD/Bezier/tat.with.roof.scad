@@ -9,6 +9,7 @@
  *   - Appendix (rudder(s) and centerboard)
  *     - One or two rudders
  *   - Mast
+ *   - Stand Oly
  */
  
 use <./roof.tat.scad>
@@ -19,9 +20,10 @@ use <./centerBoard.scad>
 echo(version=version());
 // echo(">>>>>> For visualization only, not for print!");
 
-WITH_APPENDIX = false;   // Rudder(s) and centerboard
+WITH_APPENDIX = true;    // Rudder(s) and centerboard
 WITH_TWO_RUDDERS = true; // Set to false for one rudder.
-WITH_MAST = false;
+WITH_MAST = true;
+STAND_ONLY = false;
 
 module rudder(width = 25.0, wlRatio = 6.0, thickness = 3.0) {
     headHeight = 60;
@@ -66,15 +68,15 @@ module FullTeteAToto(withBeams=true, withColor=true) {
            }
         }
         // Boom
-        /*
+        /* 
         color("silver", 0.9) {
           translate([100, 43, 120]) {
             rotate([0, 90, 10]) {
               cylinder(h=500, r=9, center=true);
             }
           }
-        } */
-        if (WITH_APPENDIX) {
+        }  */
+        if (WITH_APPENDIX && !STAND_ONLY) {
           // Center board
           translate([0, 0, 0]) {
               rotate([90, 0, 0]) {
@@ -112,4 +114,25 @@ module FullTeteAToto(withBeams=true, withColor=true) {
   }
 }
 
-FullTeteAToto(true, true);
+
+if (STAND_ONLY) {
+  difference() {
+    union() {
+      translate([-100, 0, -20]) {
+        cube([20, 180, 50], center=true);
+      }
+      translate([100, 0, -20]) {
+        cube([20, 180, 50], center=true);
+      }
+      translate([0, -75, -40]) {
+        cube([200, 30, 10], center=true);
+      }
+      translate([0, 75, -40]) {
+        cube([200, 30, 10], center=true);
+      }
+    }
+    #FullTeteAToto(true, true);
+  }
+} else {
+  FullTeteAToto(true, true);
+}
