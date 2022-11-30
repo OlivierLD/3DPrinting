@@ -32,7 +32,7 @@ module roundedRect(size, radius) {
 	}
 }
 
-// Countersunk. [dk, k] dk: head diameter, k head thickness.
+// Countersink. [dk, k] dk: head diameter, k head thickness.
 M3_CS = [6.72, 1.86];
 M4_CS = [8.96, 2.48];
 M5_CS = [11.20, 3.1];
