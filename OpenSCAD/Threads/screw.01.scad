@@ -11,6 +11,7 @@ HEAD_DIAMETER  = 42;
 HEAD_THICKNESS = 16;
 
 // Threaded part. Length includes the head's thickness.
-thread_for_screw(diameter=BOLT_DIAMETER, length=(BOLT_LENGTH + HEAD_THICKNESS)); 
+thread_for_screw(diameter=BOLT_DIAMETER, 
+                 length=(BOLT_LENGTH + HEAD_THICKNESS)); 
 // Head
 cylinder(d=HEAD_DIAMETER, h=HEAD_THICKNESS, $fn=6);

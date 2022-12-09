@@ -13,7 +13,9 @@ HEAD_THICKNESS = 16;
 // Threaded part. Length includes the head's thickness.
 // thread_for_screw(diameter=BOLT_DIAMETER, length=(BOLT_LENGTH + HEAD_THICKNESS)); 
 // More threads: smaller pitch
-thread_for_screw_fullparm(diameter=BOLT_DIAMETER, length=(BOLT_LENGTH + HEAD_THICKNESS), pitch=3.5);
+thread_for_screw_fullparm(diameter=BOLT_DIAMETER, 
+                          length=(BOLT_LENGTH + HEAD_THICKNESS), 
+                          pitch=3.5);
 
 // Head
-cylinder(d=HEAD_DIAMETER, h=HEAD_THICKNESS, $fn=6);
+cylinder(d=HEAD_DIAMETER, h=HEAD_THICKNESS, $fn=6); // 6: 6 faces

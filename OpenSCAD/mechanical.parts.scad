@@ -73,7 +73,7 @@ function getBBDims(diam) =  // Ball bearings dims
   (diam == 0.25) ? BB_025_IN :
 	[0, 0];
 
-function getCSScrewDims(diam) = // Countersunk dims
+function getCSScrewDims(diam) = // Countersink dims
 	(diam == 3) ? M3_CS :
 	(diam == 4) ? M4_CS :
 	(diam == 5) ? M5_CS :

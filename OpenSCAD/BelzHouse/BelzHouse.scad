@@ -67,6 +67,12 @@ module small_velux() {
   }
 }
 
+module deck() {
+  color("silver") {
+    cube(size=[9000, 4500, 30], center=false);
+  }
+}
+
 module belzHouse() {
   difference() {
     union() {
@@ -125,6 +131,13 @@ module belzHouse() {
       translate([5650, 650, 5200]) {
         rotate([-45, 0, 0]) {
           small_velux();
+        }
+      }
+
+      // Deck
+      translate([-6500, 2250, 0]) {
+        rotate([0, 0, 0]) {
+          deck();
         }
       }
 
