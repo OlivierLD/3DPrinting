@@ -73,165 +73,271 @@ module deck() {
   }
 }
 
+// The guy, standing on the deck...
+showTheGuy = true;
+
 module belzHouse() {
-  difference() {
-    union() {
+  union() {
+    difference() {
       union() {
-        translate([-13000 / 2, -4500 / 2, 0]) {
-          cube(size=[13000, 4500, 3300], center=false); // Main part
+        union() {
+          translate([-13000 / 2, -4500 / 2, 0]) {
+            cube(size=[13000, 4500, 3300], center=false); // Main part
+          }
+          translate([-13000 / 2, -5200 / 2, 3300]) {
+            mainRoof();
+          }
         }
-        translate([-13000 / 2, -5200 / 2, 3300]) {
-          mainRoof();
+        // Pignon Ouest
+        translate([(13000 / 2) - 4000, (4500 / 2), 0]) {
+          pignon();
+        }
+        // Pignon Est
+        translate([( - 13000 / 2) + 00, (4500 / 2), 0]) {
+          pignon();
+        }
+        // Velux(es)
+        
+        // Nord ouest Velux
+        translate([4600, -2125, 3700]) {
+          rotate([45, 0, 0]) {
+            velux();
+          }
+        }
+
+        // Sud ouest Velux
+        translate([700, 1150, 4700]) {
+          rotate([-45, 0, 0]) {
+            velux();
+          }
+        }
+        // Sud est Velux
+        translate([-1700, 1150, 4700]) {
+          rotate([-45, 0, 0]) {
+            velux();
+          }
+        }
+
+        // Pignon Sud ouest Velux
+        translate([3750, 3300, 4700]) {
+          rotate([-45, 0, 90]) {
+            velux();
+          }
+        }
+        // Pignon Sud est Velux
+        translate([-3000, 3300, 3950]) {
+          rotate([45, 0, 90]) {
+            velux();
+          }
+        }
+
+        // Sud ouest,  Small Velux
+        translate([5650, 650, 5200]) {
+          rotate([-45, 0, 0]) {
+            small_velux();
+          }
+        }
+
+        // Deck
+        translate([-6500, 2250, 0]) {
+          rotate([0, 0, 0]) {
+            deck();
+          }
+        }
+
+      }
+      /* Windows and So. */
+      // Roof, West
+      translate([6500, -50, 3150]) {   
+        cube(size=[500, 2400, 400], center=false);
+      }
+      // Roof, East
+      translate([-7000, -50, 3150]) {  
+        cube(size=[500, 2400, 400], center=false);
+      }
+      // Main West
+      translate([400, 2100, 50]) { 
+        color("silver") {
+          cube(size=[1800, 500, 2000], center=false);
         }
       }
-      // Pignon Ouest
-      translate([(13000 / 2) - 4000, (4500 / 2), 0]) {
-        pignon();
+      // Main East
+      translate([-2200, 2100, 50]) { 
+        color("silver") {
+          cube(size=[1800, 500, 2000], center=false);
+        }
       }
-      // Pignon Est
-      translate([( - 13000 / 2) + 00, (4500 / 2), 0]) {
-        pignon();
+      // Small window east of terrasse
+      translate([-2450, 2250 + 380, 800 + 1250]) { 
+        rotate([0, 90, 90]) {
+          color("silver") {
+            cube(size=[1250, 200, 400], center=false);
+          }
+        }
       }
-      // Velux(es)
       
-      // Nord ouest Velux
-      translate([4600, -2125, 3700]) {
-        rotate([45, 0, 0]) {
-          velux();
+      // East Window
+      translate([-5500, 5200, 50]) { 
+        color("silver") {
+          cube(size=[2000, 500, 2000], center=false);
         }
       }
-
-      // Sud ouest Velux
-      translate([700, 1150, 4700]) {
-        rotate([-45, 0, 0]) {
-          velux();
+      // Garage door
+      translate([3500, 5200, 50]) { 
+        color("brown") {
+          cube(size=[2000, 500, 2000], center=false);
         }
       }
-      // Sud est Velux
-      translate([-1700, 1150, 4700]) {
-        rotate([-45, 0, 0]) {
-          velux();
+      // Top Front Window,  west
+      translate([6400, 5105, 3300]) { 
+        rotate([0, 0, 90]) {
+          color("silver") {
+            prism(600, 3800, 1800);
+          }
         }
       }
-
-      // Pignon Sud ouest Velux
-      translate([3750, 3300, 4700]) {
-        rotate([-45, 0, 90]) {
-          velux();
+      // Top Front Window,  east
+      translate([-2600, 5105, 3300]) { 
+        rotate([0, 0, 90]) {
+          color("silver") {
+            prism(600, 3800, 1800);
+          }
         }
       }
-      // Pignon Sud est Velux
-      translate([-3000, 3300, 3950]) {
-        rotate([45, 0, 90]) {
-          velux();
+      // Pignon est, second floor window
+      translate([-6400, -550, 3300]) { 
+        rotate([0, 0, 90]) {
+          color("silver") {
+            cube(size=[600, 200, 1000], center=false);
+          }
         }
       }
-
-      // Sud ouest,  Small Velux
-      translate([5650, 650, 5200]) {
-        rotate([-45, 0, 0]) {
-          small_velux();
+      // Pignon est, first floor window
+      translate([-6400, 2300, 900]) { 
+        rotate([0, 0, 90]) {
+          color("silver") {
+            cube(size=[900, 200, 1100], center=false);
+          }
         }
       }
-
-      // Deck
-      translate([-6500, 2250, 0]) {
+      // Back Window
+      translate([-1050, -2300, 1100]) {
         rotate([0, 0, 0]) {
-          deck();
+          color("silver") {
+            cube(size=[1050, 200, 1000], center=false);
+          }
         }
       }
-
-    }
-    /* Windows and So. */
-    // Roof, West
-    translate([6500, -50, 3150]) {   
-      cube(size=[500, 2400, 400], center=false);
-    }
-    // Roof, East
-    translate([-7000, -50, 3150]) {  
-      cube(size=[500, 2400, 400], center=false);
-    }
-    // Main West
-    translate([400, 2100, 50]) { 
-      color("silver") {
-        cube(size=[1800, 500, 2000], center=false);
-      }
-    }
-    // Main East
-    translate([-2200, 2100, 50]) { 
-      color("silver") {
-        cube(size=[1800, 500, 2000], center=false);
-      }
-    }
-    // Small window east of terrasse
-    translate([-2450, 2250 + 380, 800 + 1250]) { 
-      rotate([0, 90, 90]) {
-        color("silver") {
-          cube(size=[1250, 200, 400], center=false);
+      // Pignon ouest window
+      translate([6600, -1600, 1100]) { 
+        rotate([0, 0, 90]) {
+          color("silver") {
+            cube(size=[850, 200, 1100], center=false);
+          }
         }
       }
     }
-    
-    // East Window
-    translate([-5500, 5200, 50]) { 
-      color("silver") {
-        cube(size=[2000, 500, 2000], center=false);
-      }
-    }
-    // Garage door
-    translate([3500, 5200, 50]) { 
-      color("brown") {
-        cube(size=[2000, 500, 2000], center=false);
-      }
-    }
-    // Top Front Window,  west
-    translate([6400, 5105, 3300]) { 
-      rotate([0, 0, 90]) {
-        color("silver") {
-          prism(600, 3800, 1800);
+    // extra stuff, optional
+    if (showTheGuy) {
+      translate([0, 3500, 30]) { // 30: deck thickness
+        rotate([90, 0, -180]) {
+          color("blue") {
+            scale([1.25, 1.25, 1.25]) {
+              import("/Users/olivierlediouris/3DPrinting/walid90/3d-human-model/3DHumanModel.STL");
+              // import("../../Raspberry_Pi_A+_board/A+_Board.stl");
+            }
+          }
         }
       }
     }
-    // Top Front Window,  east
-    translate([-2600, 5105, 3300]) { 
-      rotate([0, 0, 90]) {
-        color("silver") {
-          prism(600, 3800, 1800);
+    // The patio ?
+    if (true) {
+      // NS pieces
+      // East
+      translate([-(2500 - 40), 1800, 2500]) {
+        rotate([0, 5, 90]) {
+          color("orange") {
+            cube(size=[3600, 40, 60], center=false);
+          }
         }
       }
-    }
-    // Pignon est, second floor window
-    translate([-6400, -550, 3300]) { 
-      rotate([0, 0, 90]) {
-        color("silver") {
-          cube(size=[600, 200, 1000], center=false);
+      // Middle
+      translate([-20, 1800, 2500]) {
+        rotate([0, 5, 90]) {
+          color("orange") {
+            cube(size=[3600, 40, 60], center=false);
+          }
         }
       }
-    }
-    // Pignon est, first floor window
-    translate([-6400, 2300, 900]) { 
-      rotate([0, 0, 90]) {
-        color("silver") {
-          cube(size=[900, 200, 1100], center=false);
+      // West
+      translate([2500 - 0, 1800, 2500]) {
+        rotate([0, 5, 90]) {
+          color("orange") {
+            cube(size=[3600, 40, 60], center=false);
+          }
         }
       }
-    }
-    // Back Window
-    translate([-1050, -2300, 1100]) {
-      rotate([0, 0, 0]) {
-        color("silver") {
-          cube(size=[1050, 200, 1000], center=false);
+      
+      // EW pieces
+      // Internal
+      translate([-3000, 2250, 2460]) {
+        rotate([-5, 0, 0]) {
+          color("orange") {
+            cube(size=[6000, 40, 60], center=false);
+          }
         }
       }
-    }
-    // Pignon ouest window
-    translate([6600, -1600, 1100]) { 
-      rotate([0, 0, 90]) {
-        color("silver") {
-          cube(size=[850, 200, 1100], center=false);
+      // In between N
+      translate([-3000, 3267, 2369]) {
+        rotate([-5, 0, 0]) {
+          color("orange") {
+            cube(size=[6000, 40, 60], center=false);
+          }
         }
       }
-    }
+      // In between S
+      translate([-3000, 4283, 2284]) {
+        rotate([-5, 0, 0]) {
+          color("orange") {
+            cube(size=[6000, 40, 60], center=false);
+          }
+        }
+      }
+      // External
+      translate([-3000, 5300, 2195]) {
+        rotate([-5, 0, 0]) {
+          color("orange") {
+            cube(size=[6000, 40, 60], center=false);
+          }
+        }
+      }
+      
+      // Pole(s)
+      translate([-70, 5300, 2200]) {
+        union() {
+          rotate([0, 90, 0]) {
+            color("orange") {
+              cube(size=[2200, 40, 60], center=false);
+            }
+          }
+          translate([-500, 0, 0]) {
+            rotate([0, 45, 0]) {
+              color("orange") {
+                cube(size=[750, 40, 60], center=false);
+              }
+            }
+          }
+          translate([500, 0, 30]) {
+            rotate([0, 135, 0]) {
+              color("orange") {
+                cube(size=[750, 40, 60], center=false);
+              }
+            }
+          }
+        }
+      }
+      
+    } // end if (true)
   }
 }
 

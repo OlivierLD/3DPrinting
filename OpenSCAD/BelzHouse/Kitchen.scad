@@ -451,7 +451,7 @@ translate([(stoveDepth / 2) + 50,
 }
 
 // The guy, standing in the kitchen...
-showTheGuy = false;
+showTheGuy = true;
 if (showTheGuy) {
   translate([1200, 1500, 0]) {
     rotate([90, 0, -40]) {
