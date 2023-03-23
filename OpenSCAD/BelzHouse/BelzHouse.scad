@@ -239,7 +239,7 @@ module belzHouse() {
     }
     // extra stuff, optional
     if (showTheGuy) {
-      translate([0, 3500, 30]) { // 30: deck thickness
+      translate([-1000, 3500, 30]) { // 30: deck thickness
         rotate([90, 0, -180]) {
           color("blue") {
             scale([1.25, 1.25, 1.25]) {
@@ -313,6 +313,7 @@ module belzHouse() {
       }
       
       // Pole(s)
+      // At the end
       translate([-70, 5300, 2200]) {
         union() {
           rotate([0, 90, 0]) {
@@ -336,7 +337,32 @@ module belzHouse() {
           }
         }
       }
-      
+      // Middle
+      translate([-20, 3750, 2350]) {
+        rotate([0, 0, 90]) {
+          union() {
+            rotate([0, 90, 0]) {
+              color("orange") {
+                cube(size=[2350, 40, 60], center=false);
+              }
+            }
+            translate([-500, 0, 0]) {
+              rotate([0, 45, 0]) {
+                color("orange") {
+                  cube(size=[750, 40, 60], center=false);
+                }
+              }
+            }
+            translate([450, 0, 0]) {
+              rotate([0, 135, 0]) {
+                color("orange") {
+                  cube(size=[650, 40, 60], center=false);
+                }
+              }
+            }
+          }
+        }
+      }
     } // end if (true)
   }
 }

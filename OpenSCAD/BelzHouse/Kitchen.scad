@@ -455,9 +455,9 @@ showTheGuy = true;
 if (showTheGuy) {
   translate([1200, 1500, 0]) {
     rotate([90, 0, -40]) {
-      color("orange") {
+      color("silver") {
         scale([1.25, 1.25, 1.25]) {
-          #import("/Users/olivierlediouris/3DPrinting/walid90/3d-human-model/3DHumanModel.STL");
+          import("/Users/olivierlediouris/3DPrinting/walid90/3d-human-model/3DHumanModel.STL");
           // import("../../Raspberry_Pi_A+_board/A+_Board.stl");
         }
       }
