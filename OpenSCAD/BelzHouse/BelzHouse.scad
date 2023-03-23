@@ -163,6 +163,15 @@ module belzHouse() {
         cube(size=[1800, 500, 2000], center=false);
       }
     }
+    // Small window east of terrasse
+    translate([-2450, 2250 + 380, 800 + 1250]) { 
+      rotate([0, 90, 90]) {
+        color("silver") {
+          cube(size=[1250, 200, 400], center=false);
+        }
+      }
+    }
+    
     // East Window
     translate([-5500, 5200, 50]) { 
       color("silver") {

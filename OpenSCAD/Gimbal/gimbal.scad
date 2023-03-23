@@ -12,6 +12,7 @@
  use <../mechanical.parts.scad>
  
  // Warning!! Location depends on your machine!! 
+ // See https://github.com/OlivierLD/LEGO.scad
 use <../../../LEGO.oliv/LEGO.scad> 
 
 echo(version=version());
@@ -279,6 +280,7 @@ apart = false;
 withColor = false;
 withPCB = false;
 
+// -- Drawing Options --
 NONE = -1;
 ALL_ELEMENTS = 0;
 
@@ -291,6 +293,8 @@ LEGO_BASE_ONLY = 5;
 
 CYLINDER_BASE = 0;
 BRACKET_BASE = 1;
+// -- End of Drawing Options --
+
 baseOption = BRACKET_BASE;
 
 withBracketsOnAxis = true;
@@ -339,7 +343,7 @@ module legoBase() {
  *
  *****************************/
  
-option = ALL_ELEMENTS; // LEGO_BASE_ONLY; // 
+option = ALL_ELEMENTS;  // LEGO_BASE_ONLY; // Look for others.
 withLegoBase = true;
 
 function timeToTilt(t, mini, maxi) =

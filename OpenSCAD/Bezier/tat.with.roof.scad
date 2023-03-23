@@ -9,7 +9,7 @@
  *   - Appendix (rudder(s) and centerboard)
  *     - One or two rudders
  *   - Mast
- *   - Stand Oly
+ *   - Stand Only
  */
  
 use <./roof.tat.scad>
