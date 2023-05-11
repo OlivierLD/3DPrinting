@@ -168,7 +168,7 @@ module belzHouse() {
         }
       }
       // Small window east of terrasse
-      translate([-2450, 2250 + 380, 800 + 1250]) { 
+      translate([-2450, 2250 + 380, 700 + 1250]) {
         rotate([0, 90, 90]) {
           color("silver") {
             cube(size=[1250, 200, 400], center=false);
@@ -251,84 +251,107 @@ module belzHouse() {
       }
     }
     // The patio ?
-    if (true) {
-      // NS pieces
+    middlePole = false;
+    moreEWpieces = false;
+    withShade = true;
+    
+    LEN_NS = 2500;
+    LEN_EW = 6000;
+    HEIGHT_ON_N_WALL = 2450; // => 2195 at the South end
+    
+    if (withShade) {
+      // NS top pieces
       // East
-      translate([-(2500 - 40), 1800, 2500]) {
+      translate([-(2500 - 40), 2250, HEIGHT_ON_N_WALL]) {
         rotate([0, 5, 90]) {
           color("orange") {
-            cube(size=[3600, 40, 60], center=false);
+            cube(size=[LEN_NS, 40, 60], center=false);
           }
         }
       }
-      // Middle
-      translate([-20, 1800, 2500]) {
-        rotate([0, 5, 90]) {
-          color("orange") {
-            cube(size=[3600, 40, 60], center=false);
+      if (false) { // Just one
+        // Middle - section: 40x60, hence the -20 below.
+        translate([-20, 2250, HEIGHT_ON_N_WALL]) {
+          rotate([0, 5, 90]) {
+            color("green") {
+              cube(size=[LEN_NS, 40, 60], center=false);
+            }
           }
         }
-      }
-      // West
-      translate([2500 - 0, 1800, 2500]) {
-        rotate([0, 5, 90]) {
-          color("orange") {
-            cube(size=[3600, 40, 60], center=false);
+      } else { // One every 500mm
+        for (X=[-2000, -1500, -1000, -500, 0, 500, 1000, 1500, 2000]) {
+          translate([X-20, 2250, HEIGHT_ON_N_WALL]) {
+            rotate([0, 5, 90]) {
+              color("orange") {
+                cube(size=[LEN_NS, 40, 60], center=false);
+              }
+            }
           }
         }
       }
       
-      // EW pieces
-      // Internal
+      // West
+      translate([2500 - 0, 2250, HEIGHT_ON_N_WALL]) {
+        rotate([0, 5, 90]) {
+          color("orange") {
+            cube(size=[LEN_NS, 40, 60], center=false);
+          }
+        }
+      }
+      
+      // EW top pieces
+      // Internal (top, against the wall)
       translate([-3000, 2250, 2460]) {
         rotate([-5, 0, 0]) {
           color("orange") {
-            cube(size=[6000, 40, 60], center=false);
+            cube(size=[LEN_EW, 40, 60], center=false);
           }
         }
       }
-      // In between N
-      translate([-3000, 3267, 2369]) {
-        rotate([-5, 0, 0]) {
-          color("orange") {
-            cube(size=[6000, 40, 60], center=false);
+      if (moreEWpieces) {
+        // In between N
+        translate([-3000, 3267, 2369]) {
+          rotate([-5, 0, 0]) {
+            color("orange") {
+              cube(size=[LEN_EW, 40, 60], center=false);
+            }
+          }
+        }
+        // In between S
+        translate([-3000, 4283, 2284]) {
+          rotate([-5, 0, 0]) {
+            color("orange") {
+              cube(size=[LEN_EW, 40, 60], center=false);
+            }
           }
         }
       }
-      // In between S
-      translate([-3000, 4283, 2284]) {
+      // External (S, outer one)
+      translate([-3000, 2200 + LEN_NS, 2230]) { // 3500 => 2195
         rotate([-5, 0, 0]) {
           color("orange") {
-            cube(size=[6000, 40, 60], center=false);
-          }
-        }
-      }
-      // External
-      translate([-3000, 5300, 2195]) {
-        rotate([-5, 0, 0]) {
-          color("orange") {
-            cube(size=[6000, 40, 60], center=false);
+            cube(size=[LEN_EW, 40, 60], center=false);
           }
         }
       }
       
       // Pole(s)
       // At the end
-      translate([-70, 5300, 2200]) {
+      translate([-70, 2200 + LEN_NS, 2250]) {
         union() {
           rotate([0, 90, 0]) {
             color("orange") {
               cube(size=[2200, 40, 60], center=false);
             }
           }
-          translate([-500, 0, 0]) {
+          translate([-510, 0, 0]) {
             rotate([0, 45, 0]) {
               color("orange") {
                 cube(size=[750, 40, 60], center=false);
               }
             }
           }
-          translate([500, 0, 30]) {
+          translate([525, 0, 30]) {
             rotate([0, 135, 0]) {
               color("orange") {
                 cube(size=[750, 40, 60], center=false);
@@ -337,26 +360,28 @@ module belzHouse() {
           }
         }
       }
-      // Middle
-      translate([-20, 3750, 2350]) {
-        rotate([0, 0, 90]) {
-          union() {
-            rotate([0, 90, 0]) {
-              color("orange") {
-                cube(size=[2350, 40, 60], center=false);
-              }
-            }
-            translate([-500, 0, 0]) {
-              rotate([0, 45, 0]) {
+      if (middlePole) {
+        // Middle
+        translate([-20, 3750, 2350]) {
+          rotate([0, 0, 90]) {
+            union() {
+              rotate([0, 90, 0]) {
                 color("orange") {
-                  cube(size=[750, 40, 60], center=false);
+                  cube(size=[2350, 40, 60], center=false);
                 }
               }
-            }
-            translate([450, 0, 0]) {
-              rotate([0, 135, 0]) {
-                color("orange") {
-                  cube(size=[650, 40, 60], center=false);
+              translate([-510, 0, 40]) {
+                rotate([0, 45, 0]) {
+                  color("orange") {
+                    cube(size=[750, 40, 60], center=false);
+                  }
+                }
+              }
+              translate([450, 0, 0]) {
+                rotate([0, 135, 0]) {
+                  color("orange") {
+                    cube(size=[650, 40, 60], center=false);
+                  }
                 }
               }
             }
