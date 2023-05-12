@@ -1,6 +1,6 @@
 /**
  * Belz house
- * Use # before difference object to see them (debug).
+ * Use # or % before objects to see them (debug).
  * Dimensions in mm
  */
 
@@ -251,9 +251,9 @@ module belzHouse() {
       }
     }
     // The patio ?
-    middlePole = false;
-    moreEWpieces = false;
     withShade = true;
+    middlePole = withShade && false;
+    moreEWpieces = withShade && false;
     
     LEN_NS = 2500;
     LEN_EW = 6000;
@@ -362,7 +362,7 @@ module belzHouse() {
       }
       if (middlePole) {
         // Middle
-        translate([-20, 3750, 2350]) {
+        translate([-20, 750 + LEN_NS, 2380]) {
           rotate([0, 0, 90]) {
             union() {
               rotate([0, 90, 0]) {
