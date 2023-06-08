@@ -1,6 +1,7 @@
 //
 // A test
-// A Block with its wheel
+// A Block with its wheel.
+// Becket: ringot (fr)
 //
 // See drawing options at the bottom of the code.
 //

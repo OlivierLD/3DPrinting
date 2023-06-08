@@ -2,7 +2,7 @@
  * Double pulley
  */
 
-use <./pulley.scad>
+use <./wheels.scad>
 
 module doubleWheel(ringDiam, torusDiam, axisDiam) {
   union() {
