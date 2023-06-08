@@ -23,10 +23,15 @@ option = OPTION_FULL;
 
 union() {
   if (option != OPTION_BLOCK_ONLY) {
-    wheel(ringDiam, torusDiam, axisDiam);
+    translate([0, 0, ((torusDiam * 0.75))]) {
+      wheel(ringDiam, torusDiam, axisDiam);
+    }
+    translate([0, 0, -(torusDiam * 0.75)]) {
+      wheel(ringDiam, torusDiam, axisDiam);
+    }
   }
   if (option != OPTION_WHEEL_ONLY) {
-    block(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
+    doubleBlock(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
   }
 }
 

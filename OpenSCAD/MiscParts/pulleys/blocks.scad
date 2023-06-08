@@ -100,17 +100,17 @@ module doubleBlock(sideThickness,       // Cheek's thickness
       translate([0, 0, 0]) {
         oneCheek(sideThickness, sideWidth, wheelPlusRopeDiam, axisDiam);
       }
-      translate([0, 0, +((cheekThickness / 2) + (internalThickness / 1))]) {
+      translate([0, 0, +((cheekThickness / 1) + (internalThickness / 1))]) {
         oneCheek(sideThickness, sideWidth, wheelPlusRopeDiam, axisDiam);
       }
-      translate([0, 0, -((cheekThickness / 2) + (internalThickness / 1))]) {
+      translate([0, 0, -((cheekThickness / 1) + (internalThickness / 1))]) {
         oneCheek(sideThickness, sideWidth, wheelPlusRopeDiam, axisDiam);
       }
       // The junction across the cheeks
       difference() {
         union() {
           translate([0, 1.2 * wheelPlusRopeDiam, 0]) {
-            cube(size=[sideWidth, 0.5 * wheelPlusRopeDiam, (2 * internalThickness) + (2 * sideThickness)], center=true);
+            cube(size=[sideWidth, 0.5 * wheelPlusRopeDiam, (2 * internalThickness) + (3 * sideThickness)], center=true);
           }
           translate([0, 1.45 * wheelPlusRopeDiam, 0]) {
             cylinder(h=totalThickness, r=(sideWidth / 2), center=true, $fn=100);
@@ -160,7 +160,7 @@ module doubleWithBecket(sideThickness,       // Cheek's thickness
         // translate([0, 0, +((cheekThickness / 2) + (internalThickness / 1))]) {
         //   oneCheek(sideThickness, sideWidth, wheelPlusRopeDiam, axisDiam);
         // }
-        translate([0, 0, -((cheekThickness / 2) + (internalThickness / 1))]) {
+        translate([0, 0, -((cheekThickness / 1) + (internalThickness / 1))]) {
           oneCheek(sideThickness, sideWidth, wheelPlusRopeDiam, axisDiam);
         }
       }
@@ -168,10 +168,10 @@ module doubleWithBecket(sideThickness,       // Cheek's thickness
       difference() {
         union() {
           translate([0, 1.2 * wheelPlusRopeDiam, 0]) {
-            cube(size=[sideWidth, 0.5 * wheelPlusRopeDiam, (2 * internalThickness) + (2 * sideThickness)], center=true);
+            cube(size=[sideWidth, 0.5 * wheelPlusRopeDiam, (2 * internalThickness) + (3 * sideThickness)], center=true);
           }
           translate([0, 1.45 * wheelPlusRopeDiam, 0]) {
-            cylinder(h=totalThickness, r=(sideWidth / 2), center=true, $fn=100);
+            cylinder(h=totalThickness * 1.25, r=(sideWidth / 2), center=true, $fn=100);
           }
         }
       }
@@ -207,6 +207,6 @@ cheekWidth = 20;
 
 // block(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
 // becketBlock(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
-// doubleBlock(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
-doubleWithBecket(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
+doubleBlock(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
+// doubleWithBecket(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
 
