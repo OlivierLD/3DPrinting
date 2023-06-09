@@ -3,13 +3,14 @@
 // Becket: ringot (fr)
 //
 // See drawing options at the bottom of the code.
+// Change wheel diameter at will.
 //
 
 use <./wheels.scad>
 use <./blocks.scad>
 
 // Go !
-ringDiam = 30;
+ringDiam = 30;   // Wheel diameter
 torusDiam = 10;  // aka line diam
 axisDiam = 6;
 cheekThickness = 3;
