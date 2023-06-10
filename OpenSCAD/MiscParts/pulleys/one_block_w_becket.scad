@@ -10,7 +10,7 @@ use <./blocks.scad>
 
 // Go !
 ringDiam = 30;
-torusDiam = 10;  // aka line diam
+torusDiam = 8;  // aka line diam
 axisDiam = 6;
 cheekThickness = 3;
 cheekWidth = 20;
@@ -26,7 +26,7 @@ union() {
     wheel(ringDiam, torusDiam, axisDiam);
   }
   if (option != OPTION_WHEEL_ONLY) {
-    becketBlock(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
+    becketBlock(cheekThickness, cheekWidth, torusDiam * 1.5, (ringDiam / 2) + (torusDiam / 2), 6);
   }
 }
 

@@ -16,7 +16,7 @@ module doubleWheel(ringDiam, torusDiam, axisDiam) {
 }
 
 ringDiam = 30;
-torusDiam = 10;  // aka line diam
+torusDiam = 8;  // aka line diam
 axisDiam = 6;
 
 doubleWheel(ringDiam, torusDiam, axisDiam);

@@ -11,7 +11,7 @@ use <./blocks.scad>
 
 // Go !
 ringDiam = 30;   // Wheel diameter
-torusDiam = 10;  // aka line diam
+torusDiam = 8;  // aka line diam
 axisDiam = 6;
 cheekThickness = 3;
 cheekWidth = 20;
@@ -24,15 +24,15 @@ option = OPTION_FULL;
 
 union() {
   if (option != OPTION_BLOCK_ONLY) {
-    translate([0, 0, ((torusDiam * 0.75))]) {
+    translate([0, 0, ((torusDiam * 0.9375))]) {
       wheel(ringDiam, torusDiam, axisDiam);
     }
-    translate([0, 0, -(torusDiam * 0.75)]) {
+    translate([0, 0, -(torusDiam * 0.9375)]) {
       wheel(ringDiam, torusDiam, axisDiam);
     }
   }
   if (option != OPTION_WHEEL_ONLY) {
-    doubleWithBecket(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
+    doubleWithBecket(cheekThickness, cheekWidth, torusDiam * 1.5, (ringDiam / 2) + (torusDiam / 2), 6);
   }
 }
 

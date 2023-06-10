@@ -10,13 +10,13 @@ use <./blocks.scad>
 // Go !
 ringDiam1 = 30;   // wheel diameter
 ringDiam2 = 50;   // wheel diameter
-torusDiam = 10;  // aka line diameter
+torusDiam = 8;  // aka line diameter
 axisDiam = 6;
 cheekThickness = 3;
 cheekWidth = 20;
 
 axisToBottomLen = 110;
-internalThickness = torusDiam * 1.2;
+internalThickness = torusDiam * 1.5;
 totalThickness = internalThickness + (2 * cheekThickness);
 
 topOffset = 50;

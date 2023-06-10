@@ -200,13 +200,14 @@ module doubleWithBecket(sideThickness,       // Cheek's thickness
 
 // For tests
 ringDiam = 30;
-torusDiam = 10;  // aka line diam
+torusDiam = 8;  // aka line diam
 axisDiam = 6;
 cheekThickness = 3;
 cheekWidth = 20;
+internalThickness = torusDiam * 1.5;
 
-// block(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
-// becketBlock(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
-// doubleBlock(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
-doubleWithBecket(cheekThickness, cheekWidth, torusDiam * 1.2, (ringDiam / 2) + (torusDiam / 2), 6);
+// block(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
+// becketBlock(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
+// doubleBlock(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
+doubleWithBecket(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
 
