@@ -32,7 +32,7 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
       roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius, $fn=100);
       if (withSide) {
         difference() {
-          // Outside
+          // Outside - big block
           translate([0, 0, sideHeight / 2]) {
             roundedRect([plateWidth + (2 * sideThickness), 
                          plateLength + (2 * sideThickness), 
@@ -48,9 +48,23 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
           translate([(plateWidth / 2), 15, 2.5 + basePegHeight]) {
             cube([10, 25, 7], center=true);
           }
+          // Opening for the SD card
+          union() {
+            translate([-1, -(plateLength / 2), 2.5 + basePegHeight]) {
+              cube([10, 25, 5], center=true);
+            }
+            rotate([90, 0, 0]) {
+              translate([3.75, 2.5 + basePegHeight, (plateLength / 2)]) {
+                cylinder(h=10, r=2.5, center=true, $fn=50);
+              }
+              translate([-5.75, 2.5 + basePegHeight, (plateLength / 2)]) {
+                cylinder(h=10, r=2.5, center=true, $fn=50);
+              }
+            }
+          }
           // Labels
           label = "USB      PWR";
-          fontSize = 2.5;
+          fontSize = 2.5; // in mm
 				  translate([sideThickness + (plateWidth / 2), 5, 9 + basePegHeight]) { 
   					rotate([0, 90, 0]) {
 	  					linear_extrude(height=1.5, center=true) {
@@ -62,7 +76,6 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
 				  		}
 			  		}
 		  		}
-
         }
       }
     }
@@ -118,7 +131,7 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
   }
 
   slack = 1.05;
-  // With a Raspberry Pi Zero. Dimensions 65 x 30 out all.
+  // With a Raspberry Pi Zero. Dimensions 65 x 30 out-all.
   if (withRpi) {
     translate([(1 * plateWidth / 2) - (30.5) - (offset / 2) , -32.5, 0 -14.5]) {
       rotate([90, 0, 90]) {
@@ -132,7 +145,7 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
 }
 
 if (true) {
-  RPiZeroSmallPlate(withPlate=true, withRpi=true, withSide=true);
+  RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=true);
 } else {
   echo(">>> Nothing rendered, see the bottom of the code");
 }
