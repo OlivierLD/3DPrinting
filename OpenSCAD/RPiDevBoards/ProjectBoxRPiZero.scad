@@ -3,7 +3,10 @@
  * This part is the plate that goes into the project box,
  * or on top of a lego plate (included here)
  *
+ * Look for RPiZeroSmallPlate in the code below
+ *
  * See in the script the parameters
+ * - withRPi
  * - withFeet
  * - withLegoPlate
  * - legoPlateOnly
@@ -26,6 +29,7 @@ rpiPlateLenght = 68;
 rpiPlateWidth = 35;
 raspiLower = 5 + (thickness / 2);
 
+withRPi = false;
 withFeet = true;
 withLegoPlate = true;
 legoPlateOnly = false;
@@ -96,7 +100,7 @@ difference() {
       }
       translate([- projectPlateAxisOffset, 0, 0]) {
         translate([0, 0, -raspiLower]) {
-          RPiZeroSmallPlate(withPlate=false, withRpi=true, withSide=false);
+          RPiZeroSmallPlate(withPlate=false, withRpi=withRPi, withSide=false);
           cube(size=[ rpiPlateWidth,
                       rpiPlateLenght,
                       thickness ], 

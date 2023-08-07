@@ -1,4 +1,6 @@
 /*
+ * To be called (included) from other modules.
+ * 
  * Raspberry Pi Zero dev board, support.
  * A Raspberry Pi Zero, only.
  * Can be used to build a plate that goes in a project box...
@@ -144,7 +146,7 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
   // That's it!
 }
 
-if (true) {
+if (false) {
   RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=true);
 } else {
   echo(">>> Nothing rendered, see the bottom of the code");
