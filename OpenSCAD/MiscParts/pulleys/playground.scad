@@ -21,7 +21,7 @@ totalThickness = internalThickness + (2 * cheekThickness);
 
 topOffset = 50;
 
-WITH_WHEELS = true;
+WITH_WHEELS = false;
 
 difference() {
   union() {

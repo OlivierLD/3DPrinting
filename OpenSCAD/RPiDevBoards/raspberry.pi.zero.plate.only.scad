@@ -17,16 +17,40 @@ module roundedRect(size, radius) {
 	}
 }
 
-module RPiZeroSmallPlate(withPlate=true, withRpi=false) {
+module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
   // Base plate
   // ----------
   plateWidth = 40;
   plateLength = 80;
   plateThickNess = 3;
   cornerRadius = 10;
+  sideThickness = 3;
+  sideHeight = 20;
 
   if (withPlate) {
-    roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius);
+    union() {
+      roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius, $fn=100);
+      if (withSide) {
+        difference() {
+          // Outside
+          translate([0, 0, sideHeight / 2]) {
+            roundedRect([plateWidth + (2 * sideThickness), 
+                         plateLength + (2 * sideThickness), 
+                         plateThickNess + sideHeight], cornerRadius + sideThickness, $fn=100);
+          }
+          // Inside
+          translate([0, 0, plateThickNess + (sideHeight / 2)]) {
+            roundedRect([plateWidth, 
+                         plateLength, 
+                         plateThickNess + sideHeight], cornerRadius, $fn=100);
+          }
+          // Opening for sockets
+          translate([(plateWidth / 2), 15, 2.5 + basePegHeight]) {
+            cube([10, 25, 7], center=true);
+          }
+        }
+      }
+    }
   }
 
   // Raspberry Pi holes: diameter: 2.5mm
@@ -92,7 +116,9 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false) {
   // That's it!
 }
 
-if (false) {
-  RPiZeroSmallPlate(withPlate=true, withRpi=true);
+if (true) {
+  RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=true);
+} else {
+  echo(">>> Nothing rendered, see the bottom of the code");
 }
 

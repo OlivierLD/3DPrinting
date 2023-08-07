@@ -96,7 +96,7 @@ difference() {
       }
       translate([- projectPlateAxisOffset, 0, 0]) {
         translate([0, 0, -raspiLower]) {
-          RPiZeroSmallPlate(withPlate=false, withRpi=true);
+          RPiZeroSmallPlate(withPlate=false, withRpi=true, withSide=false);
           cube(size=[ rpiPlateWidth,
                       rpiPlateLenght,
                       thickness ], 
