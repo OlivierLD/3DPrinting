@@ -48,6 +48,21 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
           translate([(plateWidth / 2), 15, 2.5 + basePegHeight]) {
             cube([10, 25, 7], center=true);
           }
+          // Labels
+          label = "USB      PWR";
+          fontSize = 2.5;
+				  translate([sideThickness + (plateWidth / 2), 5, 9 + basePegHeight]) { 
+  					rotate([0, 90, 0]) {
+	  					linear_extrude(height=1.5, center=true) {
+		  					rotate([0, 0, 90]) {
+			  					translate([0, -(fontSize / 2)]) {
+				  					text(label, fontSize);
+					  			}
+					  		}
+				  		}
+			  		}
+		  		}
+
         }
       }
     }
@@ -117,7 +132,7 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
 }
 
 if (true) {
-  RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=true);
+  RPiZeroSmallPlate(withPlate=true, withRpi=true, withSide=true);
 } else {
   echo(">>> Nothing rendered, see the bottom of the code");
 }
