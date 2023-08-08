@@ -12,5 +12,8 @@ include <./raspberry.pi.zero.plate.only.scad>
 withRPi = true;
 
 difference() { 
-  RPiZeroSmallPlate(withPlate=true, withRpi=withRPi, withSide=true);
+  // Box only
+  RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=withRPi, withSide=true, withTop=false);
+  // Top only
+  // RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
 }

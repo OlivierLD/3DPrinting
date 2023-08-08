@@ -19,7 +19,7 @@ module roundedRect(size, radius) {
 	}
 }
 
-module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
+module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=false, withTop=false) {
   // Base plate
   // ----------
   plateWidth = 40;
@@ -29,6 +29,24 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
   sideThickness = 3;
   sideHeight = 20;
 
+  topOffset = 1;
+
+  if (withTop) {
+    union() {
+      translate([0, 0, sideHeight + topOffset]) {
+        translate([0, 0, plateThickNess]) {
+          roundedRect([plateWidth + (2 * sideThickness), plateLength + (2 * sideThickness), plateThickNess], (cornerRadius + sideThickness), $fn=100); 
+        }
+        difference() {
+          roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius, $fn=100); 
+          translate([0, 0, -1]) {
+            roundedRect([plateWidth - (2 * sideThickness), plateLength - (2 * sideThickness), plateThickNess + 2], cornerRadius - sideThickness, $fn=100); 
+          }
+        }
+      }
+    }
+  }
+  
   if (withPlate) {
     union() {
       roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius, $fn=100);
@@ -47,8 +65,8 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
                          plateThickNess + sideHeight], cornerRadius, $fn=100);
           }
           // Opening for sockets
-          translate([(plateWidth / 2), 15, 2.5 + basePegHeight]) {
-            cube([10, 25, 7], center=true);
+          translate([(plateWidth / 2), 15, 2.75 + basePegHeight]) {
+            cube([10, 25, 8], center=true);
           }
           // Opening for the SD card
           union() {
@@ -78,6 +96,20 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
 				  		}
 			  		}
 		  		}
+
+          label_2 = "SD Card";
+				  translate([-8, - (sideThickness + (plateLength / 2)), 9 + basePegHeight]) { 
+  					rotate([0, 90, -90]) {
+	  					linear_extrude(height=1.5, center=true) {
+		  					rotate([0, 0, 90]) {
+			  					translate([0, -(fontSize / 2)]) {
+				  					text(label_2, fontSize);
+					  			}
+					  		}
+				  		}
+			  		}
+		  		}
+
         }
       }
     }
@@ -96,42 +128,44 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
   basePegScrewDiam = 2;
   basePegHeight = 5;
   offset = 8;
-  difference() {
-    color("orange") {
-      union() {
+  
+  if (withPegs) {
+    difference() {
+      color("orange") {
+        union() {
+          translate([ ((plateWidth/2) - offset), (rPiWidth / 2), plateThickNess]) {
+            cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
+          }
+          translate([ ((plateWidth/2) - offset), -(rPiWidth / 2), plateThickNess]) {
+            cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
+          }
+          translate([ ((plateWidth/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
+            cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
+          }
+          translate([ ((plateWidth/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
+            cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
+          }
+        }
+      }
+      topPegDiam = 2;
+      topPegHeight = 7;
+      // Drill
+      color("red") {
         translate([ ((plateWidth/2) - offset), (rPiWidth / 2), plateThickNess]) {
-          cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
+          cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
         }
         translate([ ((plateWidth/2) - offset), -(rPiWidth / 2), plateThickNess]) {
-          cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
+          cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
         }
         translate([ ((plateWidth/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
-          cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
+          cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
         }
         translate([ ((plateWidth/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
-          cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
+          cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
         }
-      }
-    }
-    topPegDiam = 2;
-    topPegHeight = 7;
-    // Drill
-    color("red") {
-      translate([ ((plateWidth/2) - offset), (rPiWidth / 2), plateThickNess]) {
-        cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
-      }
-      translate([ ((plateWidth/2) - offset), -(rPiWidth / 2), plateThickNess]) {
-        cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
-      }
-      translate([ ((plateWidth/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
-        cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
-      }
-      translate([ ((plateWidth/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
-        cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
       }
     }
   }
-
   slack = 1.05;
   // With a Raspberry Pi Zero. Dimensions 65 x 30 out-all.
   if (withRpi) {
@@ -147,7 +181,8 @@ module RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=false) {
 }
 
 if (false) {
-  RPiZeroSmallPlate(withPlate=true, withRpi=false, withSide=true);
+  RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=true, withSide=true, withTop=true);
+  // RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
 } else {
   echo(">>> Nothing rendered, see the bottom of the code");
 }
