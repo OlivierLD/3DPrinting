@@ -10,10 +10,16 @@
 include <./raspberry.pi.zero.plate.only.scad>
 
 withRPi = true;
+withBox = true;
+withTop = true;
 
-difference() { 
-  // Box only
-  RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=withRPi, withSide=true, withTop=false);
-  // Top only
-  // RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
+union() { 
+  // Box 
+  if (withBox) {
+    RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=withRPi, withSide=true, withTop=false);
+  }
+  // Top 
+  if (withTop) {
+    RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
+  }
 }

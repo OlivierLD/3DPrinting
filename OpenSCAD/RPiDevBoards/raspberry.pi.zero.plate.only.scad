@@ -116,7 +116,7 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
   }
 
   // Raspberry Pi holes: diameter: 2.5mm
-  // 23mm x 58mm (between holes axis)
+  // RasPi Zero: 23mm x 58mm (between holes axis)
   rPiWidth = 58;
   rPiLength = 23;
 

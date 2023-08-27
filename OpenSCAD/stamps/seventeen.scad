@@ -31,7 +31,7 @@ difference() {
 				scale([.9 * plateWidth / logox, .9 * plateWidth / logoy, .2]) {
 					color("silver") {
 						rotate([0, 0, 0]) {
-              surface(file=logo, invert=true, center=true); // , convexity=5);
+              surface(file=logo, invert=true, center=true, convexity=5);
 						}
 					}
 				}
