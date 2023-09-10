@@ -1,6 +1,7 @@
 /*
- * To be called (included) from other modules.
- * 
+ * With a GPS and a Power Bank
+ *
+ * To be called (included) from other modules ?
  * Raspberry Pi Zero dev board, support.
  * A Raspberry Pi Zero, only.
  * Can be used to build a plate that goes in a project box...
@@ -11,13 +12,71 @@
  */
 echo(version=version());
 
-module roundedRect(size, radius) {  
-	linear_extrude(height=size.z, center=true) {
+module roundedRect(size, radius, center=true) {  
+	linear_extrude(height=size.z, center=center) {
 		offset(radius) offset(-radius) {
-			square([size.x, size.y], center = true);
+			square([size.x, size.y], center = center);
 		}
 	}
 }
+
+/* GPS/GLONASS U-blox7 */
+module GPS() {
+  union() {
+    translate([0, 0, 0]) {
+      rotate([0, 0, 0]) {
+        color("white") {
+          cube(size=[25, 31, 9], center=true);
+        }
+      }
+    }
+    translate([0, -31 / 2, 0]) {
+      rotate([0, 0, 0]) {
+        color("white") {
+          cylinder(h=9, d1=25, d2=25, center=true, $fn=100);
+        }
+      }
+    }
+    // USB Socket
+    translate([0, 22, 0]) {
+      rotate([0, 0, 0]) {
+        color("silver") {
+          cube(size=[12, 14, 4.5], center=true);
+        }
+      }
+    }
+    // Text
+    rotate([0, 0, -90]) {
+      translate([6, -1, 4.1]) {
+         color("black") {
+           text("GPS/GLONASS", halign="center", size=3.5);
+         }
+       }
+     }
+  }
+}
+
+/* 
+ * A 4400 mAh 
+ * 
+ */
+module PowerBank() {
+  union() {
+    color("white") {
+      roundedRect([41, 98, 22], 5, $fn=100); 
+    }
+        // Text
+    rotate([0, 0, 0]) {
+      translate([0, -40, 11]) {
+         color("black") {
+           text("4400 mAh", halign="center", size=3.5);
+         }
+       }
+     }
+
+  }
+}
+
 
 module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=false, withTop=false) {
   // Base plate
@@ -49,7 +108,7 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
   
   if (withPlate) {
     union() {
-      roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius, $fn=100);
+      roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius, false, $fn=100);
       if (withSide) {
         difference() {
           // Outside - big block
@@ -133,16 +192,16 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
     difference() {
       color("orange") {
         union() {
-          translate([ ((plateWidth/2) - offset), (rPiWidth / 2), plateThickNess]) {
+          translate([ ((plateWidth) - offset), (rPiWidth / 1) + offset, plateThickNess]) {
             cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
           }
-          translate([ ((plateWidth/2) - offset), -(rPiWidth / 2), plateThickNess]) {
+          translate([ ((plateWidth/1) - offset), -(0 * rPiWidth / 1) + offset, plateThickNess]) {
             cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
           }
-          translate([ ((plateWidth/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
+          translate([ ((plateWidth/1) - offset) - rPiLength, (rPiWidth / 1) + offset, plateThickNess]) {
             cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
           }
-          translate([ ((plateWidth/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
+          translate([ ((plateWidth/1) - offset) - rPiLength, -(0 * rPiWidth / 1) + offset, plateThickNess]) {
             cylinder(h=basePegHeight, d1=basePegBottomDiam, d2=basePegDiam, center=true, $fn=100);
           }
         }
@@ -151,16 +210,16 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
       topPegHeight = 7;
       // Drill
       color("red") {
-        translate([ ((plateWidth/2) - offset), (rPiWidth / 2), plateThickNess]) {
+        translate([ ((plateWidth/1) - offset), (rPiWidth / 1) + offset, plateThickNess]) {
           cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
         }
-        translate([ ((plateWidth/2) - offset), -(rPiWidth / 2), plateThickNess]) {
+        translate([ ((plateWidth/1) - offset), -(0 * rPiWidth / 2) + offset, plateThickNess]) {
           cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
         }
-        translate([ ((plateWidth/2) - offset) - rPiLength, (rPiWidth / 2), plateThickNess]) {
+        translate([ ((plateWidth/1) - offset) - rPiLength, (rPiWidth / 1) + offset, plateThickNess]) {
           cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
         }
-        translate([ ((plateWidth/2) - offset) - rPiLength, -(rPiWidth / 2), plateThickNess]) {
+        translate([ ((plateWidth/1) - offset) - rPiLength, -(0 * rPiWidth / 2) + offset, plateThickNess]) {
           cylinder(h=topPegHeight, d=basePegScrewDiam, center=true, $fn=100);
         }
       }
@@ -169,7 +228,7 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
   slack = 1.05;
   // With a Raspberry Pi Zero. Dimensions 65 x 30 out-all.
   if (withRpi) {
-    translate([(1 * plateWidth / 2) - (30.5) - (offset / 2) , -32.5, 0 -14.5]) {
+    translate([(1 * plateWidth / 1) - (30.5) - (offset / 2) , 5 /*-32.5*/, 0 -14.5]) {
       rotate([90, 0, 90]) {
         color("green", 0.75) {
           import("../../raspberry-pi-zero-2.snapshot.9/RapberryPiZero.STL");
@@ -181,8 +240,21 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
 }
 
 if (true) {
-  RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=true, withSide=true, withTop=true);
-  // RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
+  union() {
+    // RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=true, withSide=true, withTop=true);
+    RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=true, withSide=false, withTop=false);
+    // RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
+    translate([66, 46.5, 7.6]) {
+      rotate([0, 0, 90]) {
+        GPS();
+      }
+    }
+    translate([55, 95, 15]) {
+      rotate([0, 0, 90]) {
+        PowerBank();
+      }
+    }
+  }
 } else {
   echo(">>> Nothing rendered, see the bottom of the code");
 }
