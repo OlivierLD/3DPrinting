@@ -1,10 +1,9 @@
 /*
- * With a GPS and a Power Bank
- *
  * To be called (included) from other modules ?
  * Raspberry Pi Zero dev board, support.
- * A Raspberry Pi Zero, only.
- * Can be used to build a plate that goes in a project box...
+ * A Raspberry Pi Zero.
+ * GPS dongle (see GPS module)
+ * Power Bank (see PowerBank module)
  *
  * For the Raspberry Pi dimension:
  * See https://www.raspberrypi.org/documentation/hardware/raspberrypi/mechanical/rpi_MECH_Zero_1p3.pdf
@@ -22,7 +21,10 @@ module roundedRect(size, radius, center=true) {
 	}
 }
 
-/* GPS/GLONASS U-blox7 */
+/* 
+ * GPS/GLONASS U-blox7 
+ * Like https://www.amazon.com/HiLetgo-G-Mouse-GLONASS-Receiver-Windows/dp/B01MTU9KTF/ref=sr_1_3?keywords=usb+gps+dongle&qid=1691564294&sprefix=USB+GPS%2Caps%2C153&sr=8-3
+ */
 module GPS() {
   union() {
     translate([0, 0, 0]) {
@@ -130,7 +132,7 @@ module pegs() {
 module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=false, withTop=false) {
   // Base plate
   // ----------
-  usbSocketSlack = 30;
+  usbSocketSlack = 33;
   plateWidth = 105 + usbSocketSlack;
   plateLength = 120;
   plateThickNess = 3;
@@ -148,10 +150,12 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
           translate([0, 0, plateThickNess]) {
             roundedRect([plateWidth + (2 * sideThickness), plateLength + (2 * sideThickness), plateThickNess], (cornerRadius + sideThickness), false, $fn=100); 
           }
-          difference() {
-            roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius, false, $fn=100); 
-            translate([0, 0, -1]) {
-              roundedRect([plateWidth - (2 * sideThickness), plateLength - (2 * sideThickness), plateThickNess + 2], cornerRadius - sideThickness, false, $fn=100); 
+          translate([sideThickness, sideThickness, 0]) {
+            difference() {
+              roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius, false, $fn=100); 
+              translate([sideThickness, sideThickness, -1]) {
+                roundedRect([plateWidth - (2 * sideThickness), plateLength - (2 * sideThickness), plateThickNess + 2], cornerRadius - sideThickness, false, $fn=100); 
+              }
             }
           }
         }
@@ -251,7 +255,7 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
 }
 
 module main() {
-  withAccessories = true; // RasPi, GPS, PowerBank
+  withAccessories = false; // RasPi, GPS, PowerBank
     
   // Invert booleans below for top only  
   withPlate = true;
@@ -259,6 +263,11 @@ module main() {
   withSide = true;
   withTop = false;
   
+  // withPlate = false;
+  // withPegs = false;
+  // withSide = false;
+  // withTop = true;
+
   union() {
     // RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=true, withSide=true, withTop=true);
     RPiZeroSmallPlate(withPlate=withPlate, 
