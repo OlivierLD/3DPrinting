@@ -58,10 +58,7 @@ module GPS() {
   }
 }
 
-/* 
- * A 4400 mAh 
- * 
- */
+/* A 4400 mAh power bank */
 module PowerBank() {
   union() {
     color("white") {
@@ -133,7 +130,8 @@ module pegs() {
 module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=false, withTop=false) {
   // Base plate
   // ----------
-  plateWidth = 105 + 30; // 30: room for the USB socket
+  usbSocketSlack = 30;
+  plateWidth = 105 + usbSocketSlack;
   plateLength = 120;
   plateThickNess = 3;
   cornerRadius = 10;
@@ -144,16 +142,26 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
   offset = 8;
 
   if (withTop) {
-    // TODO Optional hole for the screen
-    union() {
-      translate([-sideThickness, -sideThickness, sideHeight + topOffset]) {
-        translate([0, 0, plateThickNess]) {
-          roundedRect([plateWidth + (2 * sideThickness), plateLength + (2 * sideThickness), plateThickNess], (cornerRadius + sideThickness), false, $fn=100); 
+    difference() {
+      union() {
+        translate([-sideThickness, -sideThickness, sideHeight + topOffset]) {
+          translate([0, 0, plateThickNess]) {
+            roundedRect([plateWidth + (2 * sideThickness), plateLength + (2 * sideThickness), plateThickNess], (cornerRadius + sideThickness), false, $fn=100); 
+          }
+          difference() {
+            roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius, false, $fn=100); 
+            translate([0, 0, -1]) {
+              roundedRect([plateWidth - (2 * sideThickness), plateLength - (2 * sideThickness), plateThickNess + 2], cornerRadius - sideThickness, false, $fn=100); 
+            }
+          }
         }
-        difference() {
-          roundedRect([plateWidth, plateLength, plateThickNess], cornerRadius, false, $fn=100); 
-          translate([0, 0, -1]) {
-            roundedRect([plateWidth - (2 * sideThickness), plateLength - (2 * sideThickness), plateThickNess + 2], cornerRadius - sideThickness, false, $fn=100); 
+      }
+      if (true) { // Hole for the screen. TODO: an option
+        screenWidth = rPiWidth + 3;
+        screenLength = rPiLength + 5;
+        rotate([0, 0, 90]) {
+          translate([5.0 + sideThickness, -screenLength - sideThickness -4.5, 25]) {
+            roundedRect([screenWidth, screenLength, 10], 3, false, $fn=100);
           }
         }
       }
@@ -227,10 +235,10 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
       }
     }
   }
-  slack = 1.05;
+
   // With a Raspberry Pi Zero. Dimensions 65 x 30 out-all.
   if (withRpi) {
-    translate([ 9.5 - (offset / 2) , 4.5,  -14.5]) {
+    translate([9.5 - (offset / 2) , 4.5,  -14.5]) {
       rotate([90, 0, 90]) {
         color("green", 0.75) {
           import("../../raspberry-pi-zero-2.snapshot.9/RapberryPiZero.STL");
@@ -238,20 +246,26 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
       }
     }
   }
+  
   // That's it!
 }
 
-if (true) {
-  
-  withAccessories = true;
+module main() {
+  withAccessories = true; // RasPi, GPS, PowerBank
+    
+  // Invert booleans below for top only  
+  withPlate = true;
+  withPegs = true;
+  withSide = true;
+  withTop = false;
   
   union() {
     // RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=true, withSide=true, withTop=true);
-    RPiZeroSmallPlate(withPlate=true, 
-                      withPegs=true, 
+    RPiZeroSmallPlate(withPlate=withPlate, 
+                      withPegs=withPegs, 
                       withRpi=withAccessories, 
-                      withSide=true, 
-                      withTop=false);
+                      withSide=withSide, 
+                      withTop=withTop);
     // RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
     
     if (withAccessories) {
@@ -268,7 +282,14 @@ if (true) {
       }
     }
   }
+}
+
+// Main part
+if (true) {
+  main();
 } else {
+  echo ("-----------------------------------------------");
   echo(">>> Nothing rendered, see the bottom of the code");
+  echo ("-----------------------------------------------");
 }
 
