@@ -10,7 +10,13 @@
  *
  * TODO: Consider different orientations for the power bank
  *
+ * Manual at https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/
+ *
  */
+ 
+include <./GPSDongle.scad>
+include <./PowerBank4400.scad>
+ 
 echo(version=version());
 
 module roundedRect(size, radius, center=true) {  
@@ -19,63 +25,6 @@ module roundedRect(size, radius, center=true) {
 			square([size.x, size.y], center = center);
 		}
 	}
-}
-
-/* 
- * GPS/GLONASS U-blox7 
- * Like https://www.amazon.com/HiLetgo-G-Mouse-GLONASS-Receiver-Windows/dp/B01MTU9KTF/ref=sr_1_3?keywords=usb+gps+dongle&qid=1691564294&sprefix=USB+GPS%2Caps%2C153&sr=8-3
- */
-module GPS() {
-  union() {
-    translate([0, 0, 0]) {
-      rotate([0, 0, 0]) {
-        color("white") {
-          cube(size=[25, 31, 9], center=true);
-        }
-      }
-    }
-    translate([0, -31 / 2, 0]) {
-      rotate([0, 0, 0]) {
-        color("white") {
-          cylinder(h=9, d1=25, d2=25, center=true, $fn=100);
-        }
-      }
-    }
-    // USB Socket
-    translate([0, 22, 0]) {
-      rotate([0, 0, 0]) {
-        color("silver") {
-          cube(size=[12, 14, 4.5], center=true);
-        }
-      }
-    }
-    // Text
-    rotate([0, 0, -90]) {
-      translate([6, -1, 4.1]) {
-         color("black") {
-           text("GPS/GLONASS", halign="center", size=3.5);
-         }
-       }
-     }
-  }
-}
-
-/* A 4400 mAh power bank */
-module PowerBank() {
-  union() {
-    color("white") {
-      roundedRect([41, 98, 22], 5, $fn=100); 
-    }
-        // Text
-    rotate([0, 0, 0]) {
-      translate([0, -40, 11]) {
-         color("black") {
-           text("4400 mAh", halign="center", size=3.5);
-         }
-       }
-     }
-
-  }
 }
 
 // Raspberry Pi holes: diameter: 2.5mm
@@ -129,7 +78,7 @@ module pegs() {
   }
 }
 
-module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=false, withTop=false) {
+module RPiZeroPlate(withPlate=true, withPegs=true, withRpi=false, withSide=false, withTop=false) {
   // Base plate
   // ----------
   usbSocketSlack = 33;
@@ -245,7 +194,7 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
     translate([9.5 - (offset / 2) , 4.5,  -14.5]) {
       rotate([90, 0, 90]) {
         color("green", 0.75) {
-          import("../../raspberry-pi-zero-2.snapshot.9/RapberryPiZero.STL");
+          import("../../../raspberry-pi-zero-2.snapshot.9/RapberryPiZero.STL");
         }
       }
     }
@@ -255,7 +204,7 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
 }
 
 module main() {
-  withAccessories = false; // RasPi, GPS, PowerBank
+  withAccessories = true; // RasPi, GPS, PowerBank. TODO Add eink bonnet
     
   // Invert booleans below for top only  
   withPlate = true;
@@ -269,24 +218,24 @@ module main() {
   // withTop = true;
 
   union() {
-    // RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=true, withSide=true, withTop=true);
-    RPiZeroSmallPlate(withPlate=withPlate, 
+    // RPiZeroPlate(withPlate=true, withPegs=true, withRpi=true, withSide=true, withTop=true);
+    RPiZeroPlate(withPlate=withPlate, 
                       withPegs=withPegs, 
                       withRpi=withAccessories, 
                       withSide=withSide, 
                       withTop=withTop);
-    // RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
+    // RPiZeroPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
     
     if (withAccessories) {
       // Accessories
       translate([66, 46.5, 7.6]) {
         rotate([0, 0, 90]) {
-          GPS();
+          GPSDongle();
         }
       }
       translate([52.5, 95, 15]) {
         rotate([0, 0, 90]) {
-          PowerBank();
+          PowerBank4400();
         }
       }
     }

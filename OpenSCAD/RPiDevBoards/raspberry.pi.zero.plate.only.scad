@@ -180,7 +180,7 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
   // That's it!
 }
 
-if (true) {
+if (false) {
   RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=true, withSide=true, withTop=true);
   // RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
 } else {

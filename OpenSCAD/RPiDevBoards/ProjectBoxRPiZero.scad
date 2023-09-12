@@ -29,7 +29,7 @@ rpiPlateLenght = 68;
 rpiPlateWidth = 35;
 raspiLower = 5 + (thickness / 2);
 
-withRPi = false;
+withRPi = true;
 withFeet = true;
 withLegoPlate = true;
 legoPlateOnly = false;
@@ -100,7 +100,7 @@ difference() {
       }
       translate([- projectPlateAxisOffset, 0, 0]) {
         translate([0, 0, -raspiLower]) {
-          RPiZeroSmallPlate(withPlate=false, withRpi=withRPi, withSide=false);
+          RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=withRPi, withSide=false);
           cube(size=[ rpiPlateWidth,
                       rpiPlateLenght,
                       thickness ], 
