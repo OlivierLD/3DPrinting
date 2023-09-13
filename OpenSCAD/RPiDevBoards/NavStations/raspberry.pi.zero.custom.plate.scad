@@ -16,6 +16,7 @@
  
 include <./GPSDongle.scad>
 include <./PowerBank4400.scad>
+include <./EInkBonnet213.scad>
  
 echo(version=version());
 
@@ -78,7 +79,12 @@ module pegs() {
   }
 }
 
-module RPiZeroPlate(withPlate=true, withPegs=true, withRpi=false, withSide=false, withTop=false) {
+module RPiZeroPlate(withPlate=true, 
+                    withPegs=true, 
+                    withRpi=false, 
+                    withSide=false, 
+                    withTop=false,
+                    withScreenHole=true) {
   // Base plate
   // ----------
   usbSocketSlack = 33;
@@ -89,7 +95,7 @@ module RPiZeroPlate(withPlate=true, withPegs=true, withRpi=false, withSide=false
   sideThickness = 3;
   sideHeight = 25;
 
-  topOffset = 1;
+  topOffset = 20; //1;
   offset = 8;
 
   if (withTop) {
@@ -109,11 +115,11 @@ module RPiZeroPlate(withPlate=true, withPegs=true, withRpi=false, withSide=false
           }
         }
       }
-      if (true) { // Hole for the screen. TODO: an option
+      if (withScreenHole) { // Hole for the screen.
         screenWidth = rPiWidth + 3;
         screenLength = rPiLength + 5;
         rotate([0, 0, 90]) {
-          translate([5.0 + sideThickness, -screenLength - sideThickness -4.5, 25]) {
+          translate([4.0 + sideThickness, -screenLength - sideThickness -4.5, sideHeight + topOffset]) {
             roundedRect([screenWidth, screenLength, 10], 3, false, $fn=100);
           }
         }
@@ -210,7 +216,8 @@ module main() {
   withPlate = true;
   withPegs = true;
   withSide = true;
-  withTop = false;
+  withTop = true;
+  withScreenHole = true; // Set to false if no eink bonnet
   
   // withPlate = false;
   // withPegs = false;
@@ -220,10 +227,11 @@ module main() {
   union() {
     // RPiZeroPlate(withPlate=true, withPegs=true, withRpi=true, withSide=true, withTop=true);
     RPiZeroPlate(withPlate=withPlate, 
-                      withPegs=withPegs, 
-                      withRpi=withAccessories, 
-                      withSide=withSide, 
-                      withTop=withTop);
+                 withPegs=withPegs, 
+                 withRpi=withAccessories, 
+                 withSide=withSide, 
+                 withTop=withTop,
+                 withScreenHole=withScreenHole);
     // RPiZeroPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
     
     if (withAccessories) {
@@ -236,6 +244,12 @@ module main() {
       translate([52.5, 95, 15]) {
         rotate([0, 0, 90]) {
           PowerBank4400();
+        }
+      }
+      
+      translate([21, 36, 11.5]) {
+        rotate([0, 0, 0]) {
+          einkBonner213();
         }
       }
     }
