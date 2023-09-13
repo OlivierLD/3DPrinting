@@ -20,7 +20,7 @@ GPS, Power Bank, e-ink bonnet.  The software part is the same as above.
 
 ## RasPi A+
 BME280 and Oled Screen  
-[Code](../../RPiA+Logger/rpi.aplus.enclosure.scad)
+[Code](../../RPiA+Logger/rpi.aplus.enclosure.scad), [Details](https://github.com/OlivierLD/ROB/blob/master/raspberry-sailor/MUX-implementations/NMEA-multiplexer-basic/use_cases/USE_CASES_2.md)
 
 
 ## TODO
