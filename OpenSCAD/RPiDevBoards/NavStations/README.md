@@ -5,6 +5,10 @@ GPS and Power supply externalized.
 [Code](../ProjectBoxRPiZeroBox.scad), 
 [Details](https://github.com/OlivierLD/ROB/blob/master/raspberry-sailor/MUX-implementations/NMEA-multiplexer-basic/HOWTO.md)
 
+| Empty                       | With a Raspberry Pi            | With Top                 |
+|:---------------------------:|:------------------------------:|:------------------:|
+| ![Empty](./small.empty.png) | ![WithRPi](./small.no.top.png) | ![WithTop](./small.with.top.png) |
+
 ## Autonomous, self contained, with optional e-ink Bonnet
 GPS, Power Bank, e-ink bonnet.  The software part is the same as above.  
 

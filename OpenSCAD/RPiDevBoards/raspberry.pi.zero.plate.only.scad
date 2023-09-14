@@ -29,7 +29,7 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
   sideThickness = 3;
   sideHeight = 20;
 
-  topOffset = 1;
+  topOffset = 20;
 
   if (withTop) {
     union() {
