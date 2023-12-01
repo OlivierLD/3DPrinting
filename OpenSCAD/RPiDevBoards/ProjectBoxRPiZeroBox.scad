@@ -9,9 +9,9 @@
  */
 include <./raspberry.pi.zero.plate.only.scad>
 
-withRPi = false;
+withRPi = true;
 withBox = true;
-withTop = false;
+withTop = true;
 
 height = 30;
 

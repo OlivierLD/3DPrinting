@@ -12,7 +12,7 @@ GPS and Power supply externalized.
 ## Autonomous, self contained, with optional e-ink Bonnet
 GPS, Power Bank, e-ink bonnet.  The software part is the same as above.  
 
-[Code](./raspberry.pi.zero.custom.plate.scad)
+[3D part Code](./raspberry.pi.zero.custom.plate.scad)
 
 
 | | |
@@ -22,10 +22,16 @@ GPS, Power Bank, e-ink bonnet.  The software part is the same as above.
 | ![Pic.03](./raspberry.pi.zero.custom.plate.wtop.png) ||
 | with top | |
 
+| A bigger box, for I2C connection on the header  |
+|:-------------:|
+| ![Barograph](../BarographBox.png) |
+
 ## RasPi A+
 BME280 and Oled Screen  
 [Code](../../RPiA+Logger/rpi.aplus.enclosure.scad), [Details](https://github.com/OlivierLD/ROB/blob/master/raspberry-sailor/MUX-implementations/NMEA-multiplexer-basic/use_cases/USE_CASES_2.md)
 
 
 ## TODO
-With a compass
+- With a compass (magnetometer)
+- Document the Barograph / Thermograph, with a BMP180, BME180 or BME280
+    - A Barograph is a very useful instrument for marine weather and forecasts. But it can be quite expensive (see [here](https://www.naudet.com/barometre-enregistreur-c102x2726134)). We'll trry to build one with a Raspberry Pi Zero, and a sensor like a BME280 sensor (less that $2.00).
