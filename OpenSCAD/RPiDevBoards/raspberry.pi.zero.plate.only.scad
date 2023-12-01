@@ -19,7 +19,12 @@ module roundedRect(size, radius) {
 	}
 }
 
-module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=false, withTop=false) {
+module RPiZeroSmallPlate(withPlate=true, 
+                         withPegs=true, 
+                         withRpi=false, 
+                         withSide=false, 
+                         withTop=false,
+                         boxHeight=20) {
   // Base plate
   // ----------
   plateWidth = 40;
@@ -27,7 +32,7 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
   plateThickNess = 3;
   cornerRadius = 10;
   sideThickness = 3;
-  sideHeight = 20;
+  sideHeight = boxHeight; // 20;
 
   topOffset = 20;
 
@@ -65,8 +70,9 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
                          plateThickNess + sideHeight], cornerRadius, $fn=100);
           }
           // Opening for sockets
+          openingWidth = 30; // 25;
           translate([(plateWidth / 2), 15, 2.75 + basePegHeight]) {
-            cube([10, 25, 8], center=true);
+            cube([10, openingWidth, 8], center=true);
           }
           // Opening for the SD card
           union() {
@@ -181,9 +187,16 @@ module RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=false, withSide=
 }
 
 if (false) {
-  RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=true, withSide=true, withTop=true);
+  RPiZeroSmallPlate(withPlate=true, 
+                    withPegs=true, 
+                    withRpi=true, 
+                    withSide=true, 
+                    withTop=true); // ,
+                    // boxHeight=30);
   // RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
 } else {
-  echo(">>> Nothing rendered, see the bottom of the code");
+  echo("+----------------------------------------------+");
+  echo("| Nothing rendered, see the bottom of the code |");
+  echo("+----------------------------------------------+");
 }
 

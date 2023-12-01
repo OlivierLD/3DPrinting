@@ -9,14 +9,25 @@
  */
 include <./raspberry.pi.zero.plate.only.scad>
 
-withRPi = true;
+withRPi = false;
 withBox = true;
-withTop = true;
+withTop = false;
+
+height = 30;
 
 union() { 
   // Box 
   if (withBox) {
-    RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=withRPi, withSide=true, withTop=false);
+    difference() {
+      RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=withRPi, withSide=true, withTop=false, boxHeight=height);
+      // Optional: opening for the wiring
+      holeDiam = 8; // mm
+      translate([20, 0, 22.5]) {
+        rotate([0, 90, 0]) {
+          cylinder(h=30, d=holeDiam, center=true, $fn=100);
+        }
+      }
+    }
   }
   // Top 
   if (withTop) {

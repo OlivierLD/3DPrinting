@@ -37,5 +37,5 @@ module GPSDongle() {
      }
   }
 }
-
- 
+// Show the dongle, for tests.
+// GPSDongle(); 
