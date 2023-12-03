@@ -29,6 +29,8 @@ GPS, Power Bank, e-ink bonnet.  The software part is the same as above.
 | A bigger box, for I2C connection on the header | Printed |
 | ![The lid](./pix/02.printing.jpg) | ![](./pix/03.first.test.jpg) |
 | Printing the lid | First test |
+| ![For real, one](./pix/inplace.01.jpg) | ![For real, two](./pix/inplace.02.jpg) |
+| Ready to go, one | Ready to go, two |
 
 
 ## RasPi A+
