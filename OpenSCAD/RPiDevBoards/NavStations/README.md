@@ -20,17 +20,18 @@ GPS, Power Bank, e-ink bonnet.  The software part is the same as above.
 | ![Pic.01](./raspberry.pi.zero.custom.plate.png) | ![Pic.02](./raspberry.pi.zero.custom.plate.eink.png) | 
 | No e-ink screen | With e-ink screen |
 | ![Pic.03](./raspberry.pi.zero.custom.plate.wtop.png) | ![For real](./pix/full-station.jpg) |
-| with top | For real |
+| with top | Printed, for real |
 
 ### With a BME280 (for PRMSL)
 | | |
 |:-------------:|:------------:|
 | ![Barograph](../BarographBox.png) | ![The box](./pix/01.the.box.jpg) |
-| A bigger box, for I2C connection on the header | Printed |
-| ![The lid](./pix/02.printing.jpg) | ![](./pix/03.first.test.jpg) |
+| A taller box, for I2C connection on the header | Printed |
+| ![The lid](./pix/02.printing.jpg) | ![First setting](./pix/03.first.test.jpg) |
 | Printing the lid | First test |
+| External 3D printed enclosure for the sensor | See here: <https://www.thingiverse.com/thing:1067700> |
 | ![For real, one](./pix/inplace.01.jpg) | ![For real, two](./pix/inplace.02.jpg) |
-| Ready to go, one | Ready to go, two |
+| BME280 connected, ready to go, one | BME280 connected, ready to go, two |
 
 
 ## RasPi A+
