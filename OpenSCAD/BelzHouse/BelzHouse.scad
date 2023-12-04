@@ -4,6 +4,14 @@
  * Dimensions in mm
  */
 
+// The guy, standing on the deck...
+showTheGuy = true;
+// The patio ?
+withShade = true;
+middlePole = withShade && false;
+moreEWpieces = withShade && false;
+
+
 module prism(l, w, h) {
    polyhedron(points=[[0,0,0],      // 0
                       [l,0,0],      // 1
@@ -44,11 +52,11 @@ module chimney() {
 
 module pignon() {
   union() {
-    cube(size=[4000, 3100, 3300], center=false);
+    cube(size=[4000, 3100, 3300], center=false); // Base
     translate([2000 + (4500 / 2), -(4500 / 2), 3300]) {
       rotate([0, 0, 90]) {
         color("gray") {
-          prism(5700, 4500, 2200);
+          prism(5700, 4500, 2200); // Roof: l, w, h. Pente 3.1468 m
         }
       }
     }
@@ -73,16 +81,13 @@ module deck() {
   }
 }
 
-// The guy, standing on the deck...
-showTheGuy = true;
-
 module belzHouse() {
   union() {
     difference() {
       union() {
         union() {
           translate([-13000 / 2, -4500 / 2, 0]) {
-            cube(size=[13000, 4500, 3300], center=false); // Main part
+            cube(size=[13000, 4500, 3300], center=false); // Main part - E-W
           }
           translate([-13000 / 2, -5200 / 2, 3300]) {
             mainRoof();
@@ -243,6 +248,7 @@ module belzHouse() {
         rotate([90, 0, -180]) {
           color("blue") {
             scale([1.25, 1.25, 1.25]) {
+              // That one's out of the repo...
               import("/Users/olivierlediouris/3DPrinting/walid90/3d-human-model/3DHumanModel.STL");
               // import("../../Raspberry_Pi_A+_board/A+_Board.stl");
             }
@@ -250,10 +256,6 @@ module belzHouse() {
         }
       }
     }
-    // The patio ?
-    withShade = true;
-    middlePole = withShade && false;
-    moreEWpieces = withShade && false;
     
     LEN_NS = 2500;
     LEN_EW = 6000;
