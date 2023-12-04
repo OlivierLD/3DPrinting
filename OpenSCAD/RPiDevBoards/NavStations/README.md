@@ -23,6 +23,8 @@ GPS, Power Bank, e-ink bonnet.  The software part is the same as above.
 | with top | Printed, for real |
 
 ### With a BME280 (for PRMSL)
+A Barograph is a very useful instrument for marine weather and forecasts. But it can be quite expensive (see [here](https://www.naudet.com/barometre-enregistreur-c102x2726134)). We'll trry to build one with a Raspberry Pi Zero, and a sensor like a BME280 sensor (less that $2.00).
+
 | | |
 |:-------------:|:------------:|
 | ![Barograph](../BarographBox.png) | ![The box](./pix/01.the.box.jpg) |
@@ -32,6 +34,8 @@ GPS, Power Bank, e-ink bonnet.  The software part is the same as above.
 | External 3D printed enclosure for the sensor | See here: <https://www.thingiverse.com/thing:1067700> |
 | ![For real, one](./pix/inplace.01.jpg) | ![For real, two](./pix/inplace.02.jpg) |
 | BME280 connected, ready to go, one | BME280 connected, ready to go, two |
+| ![Outside part](./pix/outside.part.png) ||
+| Outside part ||
 
 
 ## RasPi A+
@@ -42,4 +46,3 @@ BME280 and Oled Screen
 ## TODO
 - With a compass (magnetometer)
 - Document the Barograph / Thermograph, with a BMP180, BME180 or BME280
-    - A Barograph is a very useful instrument for marine weather and forecasts. But it can be quite expensive (see [here](https://www.naudet.com/barometre-enregistreur-c102x2726134)). We'll trry to build one with a Raspberry Pi Zero, and a sensor like a BME280 sensor (less that $2.00).
