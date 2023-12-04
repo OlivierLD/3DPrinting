@@ -26,14 +26,14 @@ GPS, Power Bank, e-ink bonnet.  The software part is the same as above.
 A Barograph is a very useful instrument for marine weather and forecasts. But it can be quite expensive (see [here](https://www.naudet.com/barometre-enregistreur-c102x2726134)). We'll trry to build one with a Raspberry Pi Zero, and a sensor like a BME280 sensor (less that $2.00).
 
 <table style="width: 100%; margin: auto;">
-<tr><td style="width: 50%;">![Barograph](../BarographBox.png)</td><td style="width: 50%;">![The box](./pix/01.the.box.jpg)</td></tr>
+<tr><td style="width: 50%;"><img src="../BarographBox.png"></td><td style="width: 50%;"><img src="./pix/01.the.box.jpg"></td></tr>
 <tr><td>A taller box, for I2C connection on the header</td><td>Printed</td></tr>
-<tr><td>![The lid](./pix/02.printing.jpg)</td><td>![First setting](./pix/03.first.test.jpg)</td></tr>
+<tr><td><img src="./pix/02.printing.jpg"></td><td><img src="./pix/03.first.test.jpg"></td></tr>
 <tr><td>Printing the lid</td><td>First test</td></tr>
-<tr><td>External 3D printed enclosure for the sensor</td><td>See here: <https://www.thingiverse.com/thing:1067700></td></tr>
-<tr><td>![For real, one](./pix/inplace.01.jpg)</td><td>![For real, two](./pix/inplace.02.jpg)</td></tr>
+<tr><td colspan="2">External 3D printed enclosure for the sensor, see <a href="https://www.thingiverse.com/thing:1067700" target="ThingVerse">here</a></td></tr>
+<tr><td><img src="./pix/inplace.01.jpg"></td><td><img src="./pix/inplace.02.jpg"></td></tr>
 <tr><td>BME280 connected, ready to go, one</td><td>BME280 connected, ready to go, two</td></tr>
-<tr><td>![Outside part](./pix/outside.part.png)</td><td></td></tr>
+<tr><td><img src="./pix/outside.part.png"></td><td></td></tr>
 <tr><td>Outside part</td><td></td></tr>
 </table>
 
