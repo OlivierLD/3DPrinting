@@ -33,8 +33,8 @@ A Barograph is a very useful instrument for marine weather and forecasts. But it
 <tr><td colspan="2">External 3D printed enclosure for the sensor, see <a href="https://www.thingiverse.com/thing:1067700" target="ThingVerse">here</a></td></tr>
 <tr><td><img src="./pix/inplace.01.jpg"></td><td><img src="./pix/inplace.02.jpg"></td></tr>
 <tr><td>BME280 connected, ready to go, one</td><td>BME280 connected, ready to go, two</td></tr>
-<tr><td><img src="./pix/outside.part.png"></td><td></td></tr>
-<tr><td>Outside part</td><td></td></tr>
+<tr><td><img src="./pix/outside.part.png"></td><td><img src="./pix/for.real.jpg"></td></tr>
+<tr><td>Outside part</td><td>In place</td></tr>
 </table>
 
 For details on the software, see [here](https://github.com/OlivierLD/ROB/blob/master/raspberry-sailor/MUX-implementations/NMEA-multiplexer-basic/use_cases/USE_CASES_4.md).
