@@ -37,7 +37,10 @@ A Barograph is a very useful instrument for marine weather and forecasts. But it
 <tr><td>Outside part</td><td>In place</td></tr>
 </table>
 
-For details on the software, see [here](https://github.com/OlivierLD/ROB/blob/master/raspberry-sailor/MUX-implementations/NMEA-multiplexer-basic/use_cases/USE_CASES_4.md).
+For details on the software, see [here](https://github.com/OlivierLD/ROB/blob/master/raspberry-sailor/MUX-implementations/NMEA-multiplexer-basic/use_cases/USE_CASES_4.md).  
+
+Data can be displayed in a Web UI:  
+![Web UI](./pix/web.ui.png)
 
 ## RasPi A+
 BME280 and Oled Screen  
