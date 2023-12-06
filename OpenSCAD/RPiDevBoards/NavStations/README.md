@@ -22,8 +22,10 @@ GPS, Power Bank, e-ink bonnet.  The software part is the same as above.
 | ![Pic.03](./raspberry.pi.zero.custom.plate.wtop.png) | ![For real](./pix/full-station.jpg) |
 | with top | Printed, for real |
 
-### With a BME280 (for PRMSL)
-A Barograph is a very useful instrument for marine weather and forecasts. But it can be quite expensive (see [here](https://www.naudet.com/barometre-enregistreur-c102x2726134)). We'll trry to build one with a Raspberry Pi Zero, and a sensor like a BME280 sensor (less that $2.00).
+### With a BME280 
+#### For Atmospheric Pressure, Relative Humidity, Air Temperature
+A Barograph is a very useful instrument for marine weather and forecasts. But it can be quite expensive (see [here](https://www.naudet.com/barometre-enregistreur-c102x2726134)). We'll trry to build one with a Raspberry Pi Zero, and a sensor like a BME280 sensor (less that $2.00).  
+A BME280 sensor can be obtained from many providers. See [here](https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/) for the specs.
 
 <table style="width: 100%; margin: auto;">
 <tr><td style="width: 50%;"><img src="../BarographBox.png"></td><td style="width: 50%;"><img src="./pix/01.the.box.jpg"></td></tr>
@@ -39,8 +41,10 @@ A Barograph is a very useful instrument for marine weather and forecasts. But it
 
 For details on the software, see [here](https://github.com/OlivierLD/ROB/blob/master/raspberry-sailor/MUX-implementations/NMEA-multiplexer-basic/use_cases/USE_CASES_4.md).  
 
-Data can be displayed in a Web UI:  
-![Web UI](./pix/web.ui.png)
+Data can be rendered in a Web UI:  
+![Web UI](./pix/web.ui.png)  
+Top part show real-time data, graphs at the bottom can spread across one week (one data point every 15 minutes).
+
 
 ## RasPi A+
 BME280 and Oled Screen  
