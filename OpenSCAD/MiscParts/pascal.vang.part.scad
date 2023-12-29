@@ -1,5 +1,6 @@
 /*
  * Piece hale-bas
+ * Vang junction part
  */
  
  // ringDiam: diam at max thickness (middle).
@@ -11,14 +12,18 @@
 	}
 } 
 
-module tube(extDiam, intDiam, height) {
+module tube(extDiam, intDiam, height, offsetYInt=0.0) {
   difference() {
     cylinder(h=height, r=(extDiam / 2), center=true, $fn=100);
-    cylinder(h=height, r=(intDiam / 2), center=true, $fn=100);    
+    translate([0, offsetYInt, 0]) {
+      cylinder(h=height, r=(intDiam / 2), center=true, $fn=100);    
+    }
   }
 }
 
 /*
+ * Main dimensions
+ * ==============
  * Diam ext: 52.5 mm
  * Diam int: 45.75 mm
  * Epaisseur cylindre 3.375 mm
@@ -28,13 +33,14 @@ module tube(extDiam, intDiam, height) {
  */
 
 tubeExtDiam = 52.5;
-tubeIntDiam = 45.75;
-tubeHeight = 19;
+tubeIntDiam = 47.0; // 5.75;
+tubeHeight = 19.0;
 torusSemiDiam = 6.0;
+offsetInteriorY = 1.25;
 
 difference() {
   union() {
-    tube(tubeExtDiam, tubeIntDiam, tubeHeight);
+    tube(tubeExtDiam, tubeIntDiam, tubeHeight, offsetInteriorY);
     translate([0, 0, (tubeHeight / 2)]) {
       torus(tubeIntDiam /* - torusSemiDiam */, torusSemiDiam * 2);
     }
@@ -44,6 +50,8 @@ difference() {
     tube(tubeExtDiam + (torusSemiDiam * 2), tubeExtDiam, tubeHeight);
   }
   // Interior, final cleanup
-  cylinder(h=tubeHeight * 2, r=(tubeIntDiam / 2), center=true, $fn=100);
+  translate([0, offsetInteriorY, 0]) {
+    cylinder(h=tubeHeight * 2, r=(tubeIntDiam / 2), center=true, $fn=100);
+  }
 }
   
