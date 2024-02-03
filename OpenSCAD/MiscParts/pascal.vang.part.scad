@@ -32,11 +32,11 @@ module tube(extDiam, intDiam, height, offsetYInt=0.0) {
  * Tore demi-diam : 6 mm
  */
 
-tubeExtDiam = 52.5;
-tubeIntDiam = 47.0; // 5.75;
+tubeExtDiam = 52.25;
+tubeIntDiam = 46.0; // 45.75;
 tubeHeight = 19.0;
 torusSemiDiam = 6.0;
-offsetInteriorY = 1.25;
+offsetInteriorY = 0.0; // 1.25;
 
 difference() {
   union() {
