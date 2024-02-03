@@ -6,7 +6,7 @@
  *
  * LEGO part relies on https://github.com/OlivierLD/LEGO.scad/tree/oliv.playgbround
  *
- * See in the script the parameters
+ * See in the script the parameters:
  * - withRPi
  * - withBox
  * - withTop
@@ -22,7 +22,7 @@
  *  withLegoBrick = true or false
  *  withLegoBasePlate = false
  * 
- * To print the box
+ * To print the box, use:
  *  withRPi = false
  *  withBox = true
  *  withTop = false
@@ -30,7 +30,7 @@
  *  withLegoBrick = true or false
  *  withLegoBasePlate = false
  *
- * To print the top
+ * To print the top, use:
  *  withRPi = false
  *  withBox = false
  *  withTop = true
@@ -38,7 +38,7 @@
  *  withLegoBrick = false
  *  withLegoBasePlate = false
  *
- * To print Lego base plate
+ * To print Lego base plate, use:
  *  withRPi = false
  *  withBox = false
  *  withTop = false
@@ -55,7 +55,7 @@ use <../../../LEGO.oliv/LEGO.scad>
 withRPi = true;
 withBox = true;
 withTop = true;
-highBox = true;
+highBox = false;
 withLegoBrick = true;
 withLegoBasePlate = false; // Exclusive, reset all the above.
 
@@ -64,6 +64,10 @@ thickness = 3;
 rpiPlateLenght = 68;
 rpiPlateWidth = 35;
 
+// For the base plate.
+// Raspberry Pi Zero, L = 6, others, L = 10;
+nbSpotW = 14; // 22
+nbSpotL =  6; //  10; // 22
 
 height = highBox ? 30 : 16; // 30;
 
@@ -125,8 +129,8 @@ union() {
               rotate([0, 0, 90]) {
                 block(
                   type=BASE_PLATE,
-                  width=22,
-                  length=22,
+                  width=nbSpotW,  // Nb spots
+                  length=nbSpotL, // Nb spots
                   roadway_width=0,
                   roadway_length=0,
                   roadway_x=0);
