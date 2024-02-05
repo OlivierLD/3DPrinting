@@ -90,8 +90,8 @@ union() {
     // Box 
     if (withBox || brickOnly) {
       union() {
-        difference() {
-          if (!brickOnly) {
+       if (!brickOnly) {
+          difference() {
             RPiZeroSmallPlate(withPlate=true, withPegs=true, withRpi=withRPi, withSide=true, withTop=false, boxHeight=height);
             if (highBox) {
               // Optional: opening for the wiring, on high box
