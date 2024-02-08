@@ -71,7 +71,7 @@ withTop = true;
 highBox = false;
 withLegoBrick = true;
 brickOnly = false;
-withLegoBasePlate = false; // Exclusive, reset all the above.
+withLegoBasePlate = true; // Was Exclusive, reset all the above.
 
 // for the Lego brick
 thickness = 3;
@@ -86,7 +86,7 @@ nbSpotL =  6; //  10; // 22
 height = highBox ? 30 : 16; // 30;
 
 union() { 
-  if (!withLegoBasePlate) {
+  if (true || !withLegoBasePlate) {
     // Box 
     if (withBox || brickOnly) {
       union() {
@@ -133,26 +133,30 @@ union() {
     if (withTop && !brickOnly) {
       RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
     }
-  } else { // if (withLegoBasePlate) 
+  } // else { // 
+  
+  if (withLegoBasePlate) {
       TILE_TYPE = "tile"; 
       BLOCK_TYPE = "block"; // or just "block_type"
       BASE_PLATE = "baseplate";
 
-      rotate([0, 0, 180]) {
-        union() {
-          //place(-4, -12) {
-      			//uncenter(22, 6) {
-              rotate([0, 0, 90]) {
-                block(
-                  type=BASE_PLATE,
-                  width=nbSpotW,  // Nb studs
-                  length=nbSpotL, // Nb studs
-                  roadway_width=0,
-                  roadway_length=0,
-                  roadway_x=0);
-              }
-      		  //}
-      		//}
+      translate([0, 0, -20]) {
+        rotate([0, 0, 180]) {
+          union() {
+            //place(-4, -12) {
+              //uncenter(22, 6) {
+                rotate([0, 0, 90]) {
+                  block(
+                    type=BASE_PLATE,
+                    width=nbSpotW,  // Nb studs
+                    length=nbSpotL, // Nb studs
+                    roadway_width=0,
+                    roadway_length=0,
+                    roadway_x=0);
+                }
+              //}
+            //}
+          }
         }
       }
    }
