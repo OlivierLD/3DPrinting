@@ -70,8 +70,8 @@ withBox = true;
 withTop = true;
 highBox = false;
 withLegoBrick = true;
-brickOnly = true;
-withLegoBasePlate = false; // Was Exclusive, reset all the above.
+brickOnly = false;
+withLegoBasePlate = true; // Was Exclusive, reset all the above.
 
 // for the Lego brick
 thickness = 3;
@@ -132,7 +132,8 @@ union() {
                   }
                   rotate([0, 0, 0]) {
                     translate([((rpiPlateWidth / 2) - 5), ((rpiPlateLenght / 2) - 5), 0]) {
-                      cylinder(h= 30, d=2, center=true, $fn=50);
+                      import("/Users/olivierlediouris/3DPrinting/Sextant - 5350353/files/Sextant.stl");
+cylinder(h= 30, d=2, center=true, $fn=50);
                     }
                   }
                 }
