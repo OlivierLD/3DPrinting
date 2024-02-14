@@ -70,8 +70,8 @@ withBox = true;
 withTop = true;
 highBox = false;
 withLegoBrick = true;
-brickOnly = false;
-withLegoBasePlate = true; // Was Exclusive, reset all the above.
+brickOnly = true;
+withLegoBasePlate = false; // Was Exclusive, reset all the above.
 
 // for the Lego brick
 thickness = 3;
@@ -109,10 +109,33 @@ union() {
           // color("red") {
             translate([0, 0, 0]) {
               union() {
-                cube(size=[ rpiPlateWidth,
-                            rpiPlateLenght,
-                            thickness ], 
-                     center=true);
+                difference() {
+                  cube(size=[ rpiPlateWidth,
+                              rpiPlateLenght,
+                              thickness ], 
+                       center=true);
+                  // Holes for the screws
+                  rotate([0, 0, 0]) {
+                    translate([(rpiPlateWidth / 2) - 5, -((rpiPlateLenght / 2) - 5), 0]) {
+                      cylinder(h= 30, d=2, center=true, $fn=50);
+                    }
+                  }
+                  rotate([0, 0, 0]) {
+                    translate([-((rpiPlateWidth / 2) - 5), -((rpiPlateLenght / 2) - 5), 0]) {
+                      cylinder(h= 30, d=2, center=true, $fn=50);
+                    }
+                  }
+                  rotate([0, 0, 0]) {
+                    translate([-((rpiPlateWidth / 2) - 5), ((rpiPlateLenght / 2) - 5), 0]) {
+                      cylinder(h= 30, d=2, center=true, $fn=50);
+                    }
+                  }
+                  rotate([0, 0, 0]) {
+                    translate([((rpiPlateWidth / 2) - 5), ((rpiPlateLenght / 2) - 5), 0]) {
+                      cylinder(h= 30, d=2, center=true, $fn=50);
+                    }
+                  }
+                }
                 // cube(size= [12, 94, thickness], center = true);
                 // Lego brick
                 translate([0, 0, -10]) {

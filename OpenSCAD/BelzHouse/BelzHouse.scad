@@ -28,6 +28,7 @@ module prism(l, w, h) {
 
 extra_roof = 0; // 500;
 
+// Oriented E-W
 module mainRoof() {
   union() {
     translate([-extra_roof / 2, 0, 0]) {
@@ -50,13 +51,14 @@ module chimney() {
   // }
 }
 
-module pignon() {
+// Oriented N-S
+module pignon() { 
   union() {
     cube(size=[4000, 3100, 3300], center=false); // Base
     translate([2000 + (4500 / 2), -(4500 / 2), 3300]) {
       rotate([0, 0, 90]) {
         color("gray") {
-          prism(5700, 4500, 2200); // Roof: l, w, h. Une Pente: 3.1468 m
+          prism(5700, 4500, 2200); // Roof: l, w, h. Une Pente: 3.1468 m sqrt(2200^2 + (4500 / 2)^2)
         }
       }
     }
