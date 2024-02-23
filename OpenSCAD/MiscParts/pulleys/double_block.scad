@@ -19,7 +19,7 @@ OPTION_FULL = 0;
 OPTION_WHEEL_ONLY = 1;
 OPTION_BLOCK_ONLY = 2;
 
-option = OPTION_FULL;
+option = OPTION_FULL; // OPTION_BLOCK_ONLY;
 
 union() {
   if (option != OPTION_BLOCK_ONLY) {

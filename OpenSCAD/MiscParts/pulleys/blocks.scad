@@ -19,6 +19,8 @@ module block(sideThickness,       // Cheek's thickness
              internalThickness,   // Between the cheeks
              wheelPlusRopeDiam,   // Wheel + rope
              axisDiam) {          // axis diam
+
+  // Was modified, 1.45 -> 1.75 & 1.8, and /*axisDiam*/ 7                     
   totalThickness = internalThickness + (2 * sideThickness);
   difference() {
     union() {
@@ -34,7 +36,7 @@ module block(sideThickness,       // Cheek's thickness
           translate([0, 1.2 * wheelPlusRopeDiam, 0]) {
             cube(size=[sideWidth, 0.5 * wheelPlusRopeDiam, internalThickness + (2 * sideThickness)], center=true);
           }
-          translate([0, 1.45 * wheelPlusRopeDiam, 0]) {
+          translate([0, /*1.45*/ 1.75 * wheelPlusRopeDiam, 0]) {
             cylinder(h=totalThickness, r=(sideWidth / 2), center=true, $fn=100);
           }
         }
@@ -50,9 +52,9 @@ module block(sideThickness,       // Cheek's thickness
           }
         }
         // Block top axis
-        translate([0, 1.65 * wheelPlusRopeDiam, 0]) {
+        translate([0, /*1.65*/ 1.8 * wheelPlusRopeDiam, 0]) {
           rotate([0, 0, 0]) {
-            cylinder(h=totalThickness * 2, r=axisDiam / 2, center=true, $fn=100);
+            cylinder(h=totalThickness * 2, r=/*axisDiam*/ 7 / 2, center=true, $fn=100);
           }
         }
       }
@@ -94,6 +96,9 @@ module doubleBlock(sideThickness,       // Cheek's thickness
                    internalThickness,   // Between the cheeks
                    wheelPlusRopeDiam,   // Wheel + rope
                    axisDiam) {          // axis diam
+                     
+  // Was modified.
+  // Look for 1.45 / 1.75 & 1.8, and /*axisDiam*/ 7                   
   totalThickness = internalThickness + (2 * sideThickness);
   difference() {
     union() {
@@ -112,7 +117,7 @@ module doubleBlock(sideThickness,       // Cheek's thickness
           translate([0, 1.2 * wheelPlusRopeDiam, 0]) {
             cube(size=[sideWidth, 0.5 * wheelPlusRopeDiam, (2 * internalThickness) + (3 * sideThickness)], center=true);
           }
-          translate([0, 1.45 * wheelPlusRopeDiam, 0]) {
+          translate([0, /*1.45*/ 1.75 * wheelPlusRopeDiam, 0]) {
             cylinder(h=totalThickness, r=(sideWidth / 2), center=true, $fn=100);
           }
         }
@@ -128,9 +133,9 @@ module doubleBlock(sideThickness,       // Cheek's thickness
           }
         }
         // Block top axis
-        translate([0, 1.65 * wheelPlusRopeDiam, 0]) {
+        translate([0, /*1.65*/ 1.8 * wheelPlusRopeDiam, 0]) {
           rotate([0, 0, 0]) {
-            cylinder(h=totalThickness * 2, r=axisDiam / 2, center=true, $fn=100);
+            cylinder(h=totalThickness * 2, r=/*axisDiam*/ 7 / 2, center=true, $fn=100);
           }
         }
       }
@@ -206,8 +211,10 @@ cheekThickness = 3;
 cheekWidth = 20;
 internalThickness = torusDiam * 1.5;
 
-// block(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
-becketBlock(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
+// Choose below
+// ------------
+block(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
+// becketBlock(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
 // doubleBlock(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
 // doubleWithBecket(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
 
