@@ -3,6 +3,8 @@
 // Becket: ringot (fr)
 //
 
+BIGGER_HOOK = false;
+
 module oneCheek(thickness, width, axisToBottomLen, axisDiam) {
   union() {
     translate([0, 0, 0]) {
@@ -36,7 +38,7 @@ module block(sideThickness,       // Cheek's thickness
           translate([0, 1.2 * wheelPlusRopeDiam, 0]) {
             cube(size=[sideWidth, 0.5 * wheelPlusRopeDiam, internalThickness + (2 * sideThickness)], center=true);
           }
-          translate([0, /*1.45*/ 1.75 * wheelPlusRopeDiam, 0]) {
+          translate([0, (BIGGER_HOOK ? 1.75 : 1.45) * wheelPlusRopeDiam, 0]) {
             cylinder(h=totalThickness, r=(sideWidth / 2), center=true, $fn=100);
           }
         }
@@ -52,9 +54,9 @@ module block(sideThickness,       // Cheek's thickness
           }
         }
         // Block top axis
-        translate([0, /*1.65*/ 1.8 * wheelPlusRopeDiam, 0]) {
+        translate([0, (BIGGER_HOOK ? 1.8 : 1.65) * wheelPlusRopeDiam, 0]) {
           rotate([0, 0, 0]) {
-            cylinder(h=totalThickness * 2, r=/*axisDiam*/ 7 / 2, center=true, $fn=100);
+            cylinder(h=totalThickness * 2, r= (BIGGER_HOOK ? 7 : axisDiam) / 2, center=true, $fn=100);
           }
         }
       }
@@ -117,7 +119,7 @@ module doubleBlock(sideThickness,       // Cheek's thickness
           translate([0, 1.2 * wheelPlusRopeDiam, 0]) {
             cube(size=[sideWidth, 0.5 * wheelPlusRopeDiam, (2 * internalThickness) + (3 * sideThickness)], center=true);
           }
-          translate([0, /*1.45*/ 1.75 * wheelPlusRopeDiam, 0]) {
+          translate([0, (BIGGER_HOOK ? 1.75 : 1.45) * wheelPlusRopeDiam, 0]) {
             cylinder(h=totalThickness, r=(sideWidth / 2), center=true, $fn=100);
           }
         }
@@ -133,9 +135,9 @@ module doubleBlock(sideThickness,       // Cheek's thickness
           }
         }
         // Block top axis
-        translate([0, /*1.65*/ 1.8 * wheelPlusRopeDiam, 0]) {
+        translate([0, (BIGGER_HOOK ? 1.8 : 1.65) * wheelPlusRopeDiam, 0]) {
           rotate([0, 0, 0]) {
-            cylinder(h=totalThickness * 2, r=/*axisDiam*/ 7 / 2, center=true, $fn=100);
+            cylinder(h=totalThickness * 2, r=(BIGGER_HOOK ? 7 : axisDiam) / 2, center=true, $fn=100);
           }
         }
       }
@@ -212,9 +214,10 @@ cheekWidth = 20;
 internalThickness = torusDiam * 1.5;
 
 // Choose below
+// See BIGGER_HOOK boolean, top of this code.
 // ------------
-block(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
+// block(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
 // becketBlock(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
-// doubleBlock(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
+doubleBlock(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
 // doubleWithBecket(cheekThickness, cheekWidth, internalThickness, (ringDiam / 2) + (torusDiam / 2), 6);
 

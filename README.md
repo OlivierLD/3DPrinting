@@ -17,6 +17,7 @@ Generating `stl` code by hand is just a nonsense, but take a look at the sizes o
 - [User Manual](https://en.wikibooks.org/wiki/OpenSCAD_User_Manual)
 - [Language reference](https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language)
 - Another good doc [here](https://openhome.cc/eGossip/OpenSCAD/)
+- A [CheatSheet](https://openscad.org/cheatsheet/)
 
 ## Others
 - [TinkerCAD](https://www.tinkercad.com/learn/codeblocks), web-based, also has a programmatic approach, based on `blockly` or something similar.
