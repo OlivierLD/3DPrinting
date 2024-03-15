@@ -226,12 +226,11 @@ module RPiZeroPlate(withPlate=true,
       }
     }
   }
-  
   // That's it!
 }
 
 module main() {
-  withAccessories = true; // RasPi, GPS, PowerBank. TODO Add eink bonnet
+  withAccessories = true; // RasPi, GPS, PowerBank, eink bonnet
     
   // Invert booleans below for top only  
   withPlate = true;
@@ -246,6 +245,15 @@ module main() {
   // withSide = false;
   // withTop = true;
 
+/*
+  withAccessories = false;
+  withPlate = true;
+  withPegs = true;
+  withSide = true;
+  withTop = false;
+  withScreenHole = true;
+  withSideNotch = true;
+*/
   union() {
     // RPiZeroPlate(withPlate=true, withPegs=true, withRpi=true, withSide=true, withTop=true);
     RPiZeroPlate(withPlate=withPlate, 
