@@ -84,7 +84,8 @@ module RPiZeroPlate(withPlate=true,
                     withRpi=false, 
                     withSide=false, 
                     withTop=false,
-                    withScreenHole=true) {
+                    withScreenHole=true,
+                    sideNotch=false) {
   // Base plate
   // ----------
   usbSocketSlack = 33;
@@ -182,6 +183,26 @@ module RPiZeroPlate(withPlate=true,
               }
             }
           }
+          if (sideNotch) {
+            // Opening for the external GPS cable
+            translate([50, 0, 22]) {
+              rotate([0, 90, 0]) {
+                union() {
+                  translate([0, 0, 2.5 + basePegHeight]) {
+                    cube([10, 25, 5], center=true);
+                  }
+                  rotate([90, 0, 0]) {
+                    translate([4.75, plateThickNess + basePegHeight - 0.5, 0]) {
+                      cylinder(h=10, r=2.5, center=true, $fn=50);
+                    }
+                    translate([-5.10, plateThickNess + basePegHeight - 0.5, 0]) {
+                      cylinder(h=10, r=2.5, center=true, $fn=50);
+                    }
+                  }
+                }
+              }
+            }
+          } 
         }
       }
     }
@@ -218,6 +239,7 @@ module main() {
   withSide = true;
   withTop = true;
   withScreenHole = true; // Set to false if no eink bonnet
+  withSideNotch = true;
   
   // withPlate = false;
   // withPegs = false;
@@ -231,7 +253,8 @@ module main() {
                  withRpi=withAccessories, 
                  withSide=withSide, 
                  withTop=withTop,
-                 withScreenHole=withScreenHole);
+                 withScreenHole=withScreenHole,
+                 sideNotch=withSideNotch);
     // RPiZeroPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
     
     if (withAccessories) {
