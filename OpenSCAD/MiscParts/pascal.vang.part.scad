@@ -3,8 +3,8 @@
  * Vang junction part
  */
  
- // ringDiam: diam at max thickness (middle).
- module torus(ringDiam, torusDiam) { 
+// ringDiam: diam at max thickness (middle).
+module torus(ringDiam, torusDiam) { 
 	rotate_extrude(convexity = ringDiam, $fn = 100) {
 		translate([ringDiam / 2, 0, 0]) {
 			circle(r = torusDiam / 2, $fn = 100);

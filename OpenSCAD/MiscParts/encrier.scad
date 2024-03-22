@@ -81,7 +81,9 @@ module top() {
 }
 
 // Main part ! Comment at will.
+STUCK = true;
+
 bottom();
-translate([0, 0, (MAIN_TUBE_HEIGHT / 2) + 14]) {
+translate([0, 0, (MAIN_TUBE_HEIGHT / 2) + (STUCK ? 5 : 14)]) {
   top();
 }
