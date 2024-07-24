@@ -9,7 +9,7 @@ module torus(ringDiam, torusDiam) {
 	}
 } 
 
-MAIN_TUBE_HEIGHT = 60;
+MAIN_TUBE_HEIGHT = 50;
 MAIN_TUBE_EXT_DIAM = 35;
 MAIN_TUBE_INT_DIAM = 30;
 
@@ -40,50 +40,69 @@ module top() {
   EXTERNAL_RING_DIAM = 49;
   INTERNAL_DIAM = 20;
   
-  union() {
-    // External ring
-    rotate([0, 0, 0]) {
-      translate([0, 0, 0]) {
-        torus(EXTERNAL_RING_DIAM - (TORUS_DIAM / 2), TORUS_DIAM);
-      }
-    }
-    // Internal ring
-    rotate([0, 0, 0]) {
-      translate([0, 0, 0]) {
-        torus(INTERNAL_DIAM + TORUS_DIAM, TORUS_DIAM);
-      }
-    }
-    // Disc between toruses
-    difference() {
-      // out
+  difference() {
+    union() {
+      // External ring
       rotate([0, 0, 0]) {
         translate([0, 0, 0]) {
-          cylinder(h=TORUS_DIAM, d=(EXTERNAL_RING_DIAM - (TORUS_DIAM / 2)), center=true);
+          torus(EXTERNAL_RING_DIAM - (TORUS_DIAM / 2), TORUS_DIAM);
         }
       }
-      // in
+      // Internal ring
       rotate([0, 0, 0]) {
         translate([0, 0, 0]) {
-          cylinder(h=TORUS_DIAM * 1.1, d=(INTERNAL_DIAM + (TORUS_DIAM / 1)), center=true, $fn=100);
+          torus(INTERNAL_DIAM + TORUS_DIAM, TORUS_DIAM);
+        }
+      }
+      // Disc between toruses
+      difference() {
+        // out
+        rotate([0, 0, 0]) {
+          translate([0, 0, 0]) {
+            cylinder(h=TORUS_DIAM, d=(EXTERNAL_RING_DIAM - (TORUS_DIAM / 2)), center=true);
+          }
+        }
+        // in
+        rotate([0, 0, 0]) {
+          translate([0, 0, 0]) {
+            cylinder(h=TORUS_DIAM * 1.1, d=(INTERNAL_DIAM + (TORUS_DIAM / 1)), center=true, $fn=100);
+          }
+        }
+      }
+      // Join to the tube
+      rotate([0, 0, 0]) {
+        translate([0, 0, -8]) {
+          difference() {
+            cylinder(h=10, d=MAIN_TUBE_INT_DIAM, center=true, $fn=100);
+            cylinder(h=10 + 5, d=(INTERNAL_DIAM * 1.1), center=true, $fn=100);
+          }
         }
       }
     }
-    // Join to the tube
-    rotate([0, 0, 0]) {
-      translate([0, 0, -8]) {
-        difference() {
-          cylinder(h=10, d=MAIN_TUBE_INT_DIAM, center=true, $fn=100);
-          cylinder(h=10 + 5, d=(INTERNAL_DIAM * 1.1), center=true, $fn=100);
+    // Top torus ? Optional.
+    if (false) {
+      rotate([0, 0, 0]) {
+        translate([0, 0, 9]) {
+          torus(INTERNAL_DIAM + (2* TORUS_DIAM), TORUS_DIAM);
         }
       }
     }
+
   }
 }
 
 // Main part ! Comment at will.
+
+WITH_TOP = false;
+WITH_BOTTOM = true;
+
 STUCK = true;
 
-bottom();
-translate([0, 0, (MAIN_TUBE_HEIGHT / 2) + (STUCK ? 5 : 14)]) {
-  top();
+if (WITH_BOTTOM) {
+  bottom();
+}
+if (WITH_TOP) {
+  translate([0, 0, (MAIN_TUBE_HEIGHT / 2) + (STUCK ? 5 : 14)]) {
+    top();
+  }
 }
