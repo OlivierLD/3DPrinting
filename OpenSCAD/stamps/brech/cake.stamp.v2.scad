@@ -17,11 +17,11 @@ string = "ELLIE";
 // string = "BABA";
 textlen = len(string);
 
-box_width = letter_size*textlen*1.1;
-box_height = letter_size*1.5;
+box_width = letter_size*textlen * 1.1;
+box_height = letter_size * 1.5;
 
 union() {
-    linear_extrude(1) {
+    linear_extrude(4) {
         square([box_width, box_height], center = true);
     }
 
