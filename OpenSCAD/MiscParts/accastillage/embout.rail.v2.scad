@@ -6,8 +6,8 @@
 use <../../mechanical.parts.scad>
 
 // Globals rail
-top_thickness = 8;
-bottom_thickness = 8;
+top_thickness = 10; // 8;
+bottom_thickness = 6; // 8;
 top_width = 33;
 bottom_width = 19;
 
