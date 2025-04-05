@@ -104,49 +104,70 @@ module locker() {
 }
 
 module handle() {
-   translate([0, 7.5, (TOTAL_THICKNESS / 2)]) {
-     rotate([90, 0, -90]) {
-       // cube([5, ONE_PLATE_WIDTH, 10], center=true);
-       // Ascending part, a  polyhedron
-       CubePoints = [
-         [0, 0, 0],     // 0
-         [25, 20, 0],   // 1
-         [25, 10, 0],   // 2
-         [20, 0, 0],    // 3
-         [0, 0, 8],     // 4
-         [25, 20, 8],   // 5
-         [25, 10, 8],   // 6
-         [20, 0, 8]     // 7
-       ];
-       CubeFaces = [
-         [0, 1, 2, 3],  // bottom
-         [4, 5, 1, 0],  // front
-         [7, 6, 5, 4],  // top
-         [5, 6, 2, 1],  // right
-         [6, 7, 3, 2],  // back
-         [7, 4, 0, 3]   // left
-       ]; 
-       polyhedron( CubePoints, CubeFaces );
-
-       // Handle itself
-       translate([37.5, 15, 4.5]) {
-         rotate([90, -2, 0]) {
-           difference() {
-              cube([26, 8, 10], center=true);
-             
-              // Notches on the handle
-              rotate([0, 0, 0]) {
-                for (i = [1 : 1: 4]) {
-                  translate([(i * 3) - 6, 4, 0]) {
-                    cylinder(h=15, r=0.75, center=true);
-                  }
-                }
-              }
-           }
-         }
-       }
+  
+  difference() {
+  union() {
+     translate([0, 7.5, (TOTAL_THICKNESS / 2)]) {
+       rotate([90, 0, -90]) { 
+          // cube([5, ONE_PLATE_WIDTH, 10], center=true);
+          // Ascending part, a  polyhedron
+          CubePoints = [
+             [0, 0, 0],     // 0
+             [25, 20, 0],   // 1
+             [25, 10, 0],   // 2
+             [20, 0, 0],    // 3
+             [0, 0, 8],     // 4
+             [25, 20, 8],   // 5
+             [25, 10, 8],   // 6
+             [20, 0, 8]     // 7
+          ];
+          CubeFaces = [
+             [0, 1, 2, 3],  // bottom
+             [4, 5, 1, 0],  // front
+             [7, 6, 5, 4],  // top
+             [5, 6, 2, 1],  // right
+             [6, 7, 3, 2],  // back
+             [7, 4, 0, 3]   // left
+          ]; 
+          polyhedron( CubePoints, CubeFaces );
+         
+          // Handle itself
+          translate([37.5, 15, 4.5]) {
+             rotate([90, -2, 0]) {
+               difference() {
+                 cube([26, 8, 10], center=true);
+                 // Notches on the handle
+                 rotate([0, 0, 0]) {
+                   for (i = [1 : 1: 4]) {
+                     translate([(i * 3) - 6, 4, 0]) {
+                       cylinder(h=15, r=0.75, center=true);
+                     }
+                   }
+                 }
+               }
+             }
+          }
+        }
+      }
+   } // End union
+   // Notches on the other side
+   rotate([45, 0, 0]) {
+     translate([0, 4, 16]) {
+       cylinder(h=28, r1=4, r2=2, center=true, $fn=100);
      }
    }
+   rotate([90, -2, 0]) {
+     translate([0, 23, 28]) {
+       cylinder(h=24, r1=2, r2=2, center=true, $fn=100);
+     }
+   }
+   translate([1, -30, 23]) {
+     rotate([0, 0, 82]) {
+       cube([30, 5, 15], center=true);
+     }
+   }
+   
+  } // End difference
 }
  
 
@@ -167,7 +188,7 @@ translate([0, 0, 0 /*TOTAL_THICKNESS / 2*/]) {
      }
      if (WITH_HANDLE) {
        translate([0, 0, 0]) {
-         color("red") {
+         color("orange") {
            handle();
          }
        }
