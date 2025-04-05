@@ -2,6 +2,7 @@
  * Locker for porthole
  *
  * First designed for Frolic.
+ * TODO Manage orientation, left or right
  */
  
 ONE_PLATE_THICKNESS = 5;
@@ -49,8 +50,15 @@ module oneHorizontalPlate () {
    }
  }
  
- // Execution 
- translate([0, 0, 0 /*TOTAL_THICKNESS / 2*/]) {
+ module handle() {
+   translate([-5.5, 0, 12.5]) {
+     rotate([0, 0, 0]) {
+       cube([5, 25, 10], center=true);
+     }
+   }
+ }
+ 
+ module locker() {
    difference() {
      union() {
        translate([0, 0, ((TOTAL_THICKNESS - ONE_PLATE_THICKNESS) / 2)]) {
@@ -67,13 +75,14 @@ module oneHorizontalPlate () {
        translate([0, 0, 0]) {
          cube([ONE_PLATE_LENGTH_01, ONE_PLATE_WIDTH, TOTAL_THICKNESS], center=true);
        }
+       // TODO The handle
      }
-     // Holes
+     // Axis
      // 1 - Big one
      translate([(ONE_PLATE_LENGTH_01 / 2), 0, 0]) {
        cylinder(h=40, r=3.9, center=true, $fn=50);
      }
-     // 1.1 - Head
+     // 1.1 - Axis Head
      translate([(ONE_PLATE_LENGTH_01 / 2), 0, -10.6 + BIG_AXIS_HEAD_THICKNESS]) {
        cylinder(h=BIG_AXIS_HEAD_THICKNESS, r=BIG_AXIS_DIAM / 2, center=true, $fn=50);
      }
@@ -87,6 +96,28 @@ module oneHorizontalPlate () {
           cube([15, 30, 40], center=true);
        }
      }
-     
+     // "Coin marks" at the back
+     COIN_RADIUS = 20;
+     for (i = [1:1:6]) { // [start: inc: end]
+       echo("Managing i=", i);
+       offset = -(ONE_PLATE_WIDTH / 2) + (ONE_PLATE_WIDTH / 7) * (i * 1);
+       translate([-COIN_RADIUS + 1, offset, -9.5]) {
+         rotate([90, 0, 0]) {
+           cylinder(h=1.5,r=COIN_RADIUS, center=true, $fn=100);
+         }
+       }
+     }
+   }
+ }
+ 
+ // Execution 
+ translate([0, 0, 0 /*TOTAL_THICKNESS / 2*/]) {
+   union() {
+     translate([0, 0, 0]) {
+       locker();
+     }
+     translate([0, 0, 0]) {
+       handle();
+     }
    }
  }
