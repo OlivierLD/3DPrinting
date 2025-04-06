@@ -1,12 +1,18 @@
 /**
- * Locker for porthole
+ * Locker for a Lewmar porthole. Kit No. 36004199Z.
  * @author Olivier Le Diouris
+ * @version 1.0.0
  *
  * First designed for Frolic.
- * Also manages orientation, left or right
+ * Also manages orientation, left or right.
+ * See the "// Execution " part.
  *
  * Note: Some rendering issues on the handle, in preview...
  *       But it works.
+ *
+ * CheatSheet at https://openscad.org/cheatsheet/index.html
+ *
+ * If you like affine geometry, you'll feel just like home!
  */
  
 ONE_PLATE_THICKNESS = 5;
@@ -18,7 +24,10 @@ BIG_AXIS_DIAM = 11;
 BIG_AXIS_HEAD_THICKNESS = 5;
 
 TOTAL_THICKNESS = 16; // Full bottom part
- 
+
+/**
+ * Part on the "locker" module.
+ */
 module oneHorizontalPlate () {
    hull() {
      translate([0, 0, 0]) {
@@ -112,7 +121,7 @@ module handle() {
        translate([0, 7.5, (TOTAL_THICKNESS / 2)]) {
          rotate([90, 0, -90]) { 
             // cube([5, ONE_PLATE_WIDTH, 10], center=true);
-            // Ascending part, a  polyhedron
+            // Ascending part, a polyhedron
             CubePoints = [
                [0, 0, 0],     // 0
                [25, 20, 0],   // 1
