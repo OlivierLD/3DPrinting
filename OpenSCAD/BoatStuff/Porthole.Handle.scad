@@ -3,7 +3,10 @@
  * @author Olivier Le Diouris
  *
  * First designed for Frolic.
- * TODO Manage orientation, left or right
+ * Also manages orientation, left or right
+ *
+ * Note: Some rendering issues on the handle, in preview...
+ *       But it works.
  */
  
 ONE_PLATE_THICKNESS = 5;
@@ -17,7 +20,7 @@ BIG_AXIS_HEAD_THICKNESS = 5;
 TOTAL_THICKNESS = 16; // Full bottom part
  
 module oneHorizontalPlate () {
-   union() {
+   hull() {
      translate([0, 0, 0]) {
        cube([ONE_PLATE_LENGTH_01, ONE_PLATE_WIDTH, ONE_PLATE_THICKNESS], center=true);
      }
@@ -68,7 +71,6 @@ module locker() {
        translate([0, 0, 0]) {
          cube([ONE_PLATE_LENGTH_01, ONE_PLATE_WIDTH, TOTAL_THICKNESS], center=true);
        }
-       // TODO The handle
      }
      // Axis
      // 1 - Big one
@@ -106,66 +108,66 @@ module locker() {
 module handle() {
   
   difference() {
-  union() {
-     translate([0, 7.5, (TOTAL_THICKNESS / 2)]) {
-       rotate([90, 0, -90]) { 
-          // cube([5, ONE_PLATE_WIDTH, 10], center=true);
-          // Ascending part, a  polyhedron
-          CubePoints = [
-             [0, 0, 0],     // 0
-             [25, 20, 0],   // 1
-             [25, 10, 0],   // 2
-             [20, 0, 0],    // 3
-             [0, 0, 8],     // 4
-             [25, 20, 8],   // 5
-             [25, 10, 8],   // 6
-             [20, 0, 8]     // 7
-          ];
-          CubeFaces = [
-             [0, 1, 2, 3],  // bottom
-             [4, 5, 1, 0],  // front
-             [7, 6, 5, 4],  // top
-             [5, 6, 2, 1],  // right
-             [6, 7, 3, 2],  // back
-             [7, 4, 0, 3]   // left
-          ]; 
-          polyhedron( CubePoints, CubeFaces );
-         
-          // Handle itself
-          translate([37.5, 15, 4.5]) {
-             rotate([90, -2, 0]) {
-               difference() {
-                 cube([26, 8, 10], center=true);
-                 // Notches on the handle
-                 rotate([0, 0, 0]) {
-                   for (i = [1 : 1: 4]) {
-                     translate([(i * 3) - 6, 4, 0]) {
-                       cylinder(h=15, r=0.75, center=true);
+    union() {
+       translate([0, 7.5, (TOTAL_THICKNESS / 2)]) {
+         rotate([90, 0, -90]) { 
+            // cube([5, ONE_PLATE_WIDTH, 10], center=true);
+            // Ascending part, a  polyhedron
+            CubePoints = [
+               [0, 0, 0],     // 0
+               [25, 20, 0],   // 1
+               [25, 10, 0],   // 2
+               [20, 0, 0],    // 3
+               [0, 0, 8],     // 4
+               [25, 20, 8],   // 5
+               [25, 10, 8],   // 6
+               [20, 0, 8]     // 7
+            ];
+            CubeFaces = [
+               [0, 1, 2, 3],  // bottom
+               [4, 5, 1, 0],  // front
+               [7, 6, 5, 4],  // top
+               [5, 6, 2, 1],  // right
+               [6, 7, 3, 2],  // back
+               [7, 4, 0, 3]   // left
+            ]; 
+            polyhedron( CubePoints, CubeFaces );
+           
+            // Handle itself
+            translate([37.5, 15, 4.5]) {
+               rotate([90, -2, 0]) {
+                 difference() {
+                   cube([26, 8, 10], center=true);
+                   // Notches on the handle
+                   rotate([0, 0, 0]) {
+                     for (i = [1 : 1: 4]) {
+                       translate([(i * 3) - 6, 4, 0]) {
+                         cylinder(h=15, r=0.75, center=true);
+                       }
                      }
                    }
                  }
                }
-             }
+            }
           }
         }
-      }
-   } // End union
-   // Notches on the other side
-   rotate([45, 0, 0]) {
-     translate([0, 4, 16]) {
-       cylinder(h=28, r1=4, r2=2, center=true, $fn=100);
+     } // End union
+     // Notches on the other side
+     rotate([45, 0, 0]) {
+       translate([0, 4, 16]) {
+         cylinder(h=28, r1=4, r2=2, center=true, $fn=100);
+       }
      }
-   }
-   rotate([90, -2, 0]) {
-     translate([0, 23, 28]) {
-       cylinder(h=24, r1=2, r2=2, center=true, $fn=100);
+     rotate([90, -2, 0]) {
+       translate([0, 23, 28]) {
+         cylinder(h=24, r1=2, r2=2, center=true, $fn=100);
+       }
      }
-   }
-   translate([1, -30, 23]) {
-     rotate([0, 0, 82]) {
-       cube([30, 5, 15], center=true);
+     translate([1, -30, 23]) {
+       rotate([0, 0, 82]) {
+         cube([30, 5, 15], center=true);
+       }
      }
-   }
    
   } // End difference
 }
@@ -177,23 +179,38 @@ module handle() {
 WITH_BOTTOM = true;
 WITH_HANDLE = true;
 
-translate([0, 0, 0 /*TOTAL_THICKNESS / 2*/]) {
-   union() {
-      if (WITH_BOTTOM) {
-        translate([0, 0, 0]) {
-          color("blue") {
-            locker();
-          }
+RIGHT_SIDE_HANDLE = 1; // Default
+LEFT_SIDE_HANDLE = 2;
+
+OPTION = RIGHT_SIDE_HANDLE;
+
+mirrorOnY = OPTION == LEFT_SIDE_HANDLE ? 1 : 0;
+if (OPTION == LEFT_SIDE_HANDLE) {
+  echo("Will show a LEFT handle");
+} else {
+  echo("Will show a RIGHT handle");
+}
+
+// echo("mirrorOnY = ", mirrorOnY);
+mirror([0, mirrorOnY, 0]) {
+  translate([0, 0, 0 /*TOTAL_THICKNESS / 2*/]) {
+     union() {
+        if (WITH_BOTTOM) {
+          translate([0, 0, 0]) {
+            // color("blue") {
+              locker();
+            //}
+         }
        }
-     }
-     if (WITH_HANDLE) {
-       translate([0, 0, 0]) {
-         color("orange") {
-           handle();
+       if (WITH_HANDLE) {
+         translate([0, 0, 0]) {
+           // color("orange") {
+             handle();
+           // }
          }
        }
      }
-   }
+  }
 }
 
 echo("Bye now!");
