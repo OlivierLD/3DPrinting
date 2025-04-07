@@ -20,8 +20,10 @@ ONE_PLATE_WIDTH = 25;
 ONE_PLATE_LENGTH_01 = 18;
 ONE_PLATE_WIDTH_02 = 16;
 BETWEEN_AXIS = 17;
-BIG_AXIS_DIAM = 11;
-BIG_AXIS_HEAD_THICKNESS = 5;
+BIG_AXIS_DIAM = 8.05;
+BIG_AXIS_HEAD_DIAM = 14;
+BIG_AXIS_HEAD_THICKNESS = 3;
+SMALL_AXIS_DIAM = 4;
 
 TOTAL_THICKNESS = 16; // Full bottom part
 
@@ -84,15 +86,15 @@ module locker() {
      // Axis
      // 1 - Big one
      translate([(ONE_PLATE_LENGTH_01 / 2), 0, 0]) {
-       cylinder(h=40, r=3.9, center=true, $fn=50);
+       cylinder(h=40, r=BIG_AXIS_DIAM / 2, center=true, $fn=50);
      }
      // 1.1 - Axis Head
-     translate([(ONE_PLATE_LENGTH_01 / 2), 0, -10.6 + BIG_AXIS_HEAD_THICKNESS]) {
-       cylinder(h=BIG_AXIS_HEAD_THICKNESS, r=BIG_AXIS_DIAM / 2, center=true, $fn=50);
+     translate([(ONE_PLATE_LENGTH_01 / 2), 0, -9.51 + BIG_AXIS_HEAD_THICKNESS]) {
+       cylinder(h=BIG_AXIS_HEAD_THICKNESS, r=BIG_AXIS_HEAD_DIAM / 2, center=true, $fn=50);
      }
      // 2 - Small one
      translate([(ONE_PLATE_LENGTH_01 / 2) + BETWEEN_AXIS, 0, 0]) {
-       cylinder(h=40, r=2, center=true, $fn=50);
+       cylinder(h=40, r=SMALL_AXIS_DIAM / 2, center=true, $fn=50);
      }
      // 3 - Cut the back
      translate([-12.0, 0, 0]) {
