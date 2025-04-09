@@ -4,7 +4,7 @@
  * @version 1.0.0
  *
  * First designed for Frolic.
- * Also manages orientation, left or right.
+ * Also manages orientation, left or right, see "OPTION = RIGHT_SIDE_HANDLE;"
  * See the "// Execution " part.
  *
  * Note: Some rendering issues on the handle, in preview...
@@ -21,7 +21,7 @@ ONE_PLATE_LENGTH_01 = 18;
 ONE_PLATE_WIDTH_02 = 16;
 BETWEEN_AXIS = 17;
 BIG_AXIS_DIAM = 8.05;
-BIG_AXIS_HEAD_DIAM = 14;
+BIG_AXIS_HEAD_DIAM = 11; // 14;
 BIG_AXIS_HEAD_THICKNESS = 3;
 SMALL_AXIS_DIAM = 4;
 
@@ -169,6 +169,7 @@ module handle() {
          cylinder(h=28, r1=4, r2=2, center=true, $fn=100);
        }
      }
+     // Inside the handle
      rotate([90, -2, 0]) {
        translate([0, 23, 28]) {
          cylinder(h=24, r1=2, r2=2, center=true, $fn=100);
@@ -179,7 +180,12 @@ module handle() {
          cube([30, 5, 15], center=true);
        }
      }
-   
+     // To be able to rotate the handle
+     translate([9, 1, 18]) {
+       rotate([0, 0, 35]) {
+         cube([20, 30, 20], center=true);
+       }
+     }
   } // End difference
 }
  
