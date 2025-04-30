@@ -32,6 +32,7 @@
  *  withLegoBrick = true or false
  *  brickOnly = false
  *  withLegoBasePlate = false
+ *  withBracket = false
  *  
  * To separate the lego brick from the box:
  *   Box only:
@@ -49,6 +50,7 @@
  *  withLegoBrick = false
  *  brickOnly = false
  *  withLegoBasePlate = false
+ *  withBracket = false
  *
  * To print Lego base plate, use:
  *  withRPi = false
@@ -58,6 +60,17 @@
  *  withLegoBrick = false
  *  brickOnly = false
  *  withLegoBasePlate = true
+ *  withBracket = false
+ * 
+ * To print the - optional - bracket(s), use:
+ *  withRPi = false
+ *  withBox = false
+ *  withTop = false
+ *  highBox = false
+ *  withLegoBrick = false
+ *  brickOnly = false
+ *  withLegoBasePlate = false
+ *  withBracket = true 
  *
  */
 include <./raspberry.pi.zero.plate.only.scad>
@@ -69,9 +82,33 @@ withRPi = true;
 withBox = true;
 withTop = true;
 highBox = false;
-withLegoBrick = true;
+withLegoBrick = false; // true;
 brickOnly = false;
-withLegoBasePlate = true; // Was Exclusive, reset all the above.
+withLegoBasePlate = false; // Was Exclusive, reset all the above.
+withBracket = true; // true;
+
+module bracket() {
+  difference() {
+    // Main
+    translate([0, 0, -10]) {
+      rotate([0, 0, 0]) {
+        cube([50, 10, 35], center=true);
+      }
+    }
+    // The hook
+    translate([5, 0, -14]) {
+      rotate([0, 0, 0]) {
+        cube([50, 12, 20], center=true);
+      }
+    }
+    // The box
+    translate([0, 0, 8.5]) {
+      rotate([0, 0, 0]) {
+        cube([46.0, 12, 20], center=true);
+      }
+    }
+  }
+}
 
 // for the Lego brick
 thickness = 3;
@@ -133,7 +170,7 @@ union() {
                   rotate([0, 0, 0]) {
                     translate([((rpiPlateWidth / 2) - 5), ((rpiPlateLenght / 2) - 5), 0]) {
                       import("/Users/olivierlediouris/3DPrinting/Sextant - 5350353/files/Sextant.stl");
-cylinder(h= 30, d=2, center=true, $fn=50);
+                      cylinder(h= 30, d=2, center=true, $fn=50);
                     }
                   }
                 }
@@ -156,6 +193,9 @@ cylinder(h= 30, d=2, center=true, $fn=50);
     // Top 
     if (withTop && !brickOnly) {
       RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
+    }
+    if (withBracket) {
+      bracket();
     }
   } // else { // 
   

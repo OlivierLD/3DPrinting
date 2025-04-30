@@ -88,6 +88,12 @@ module RPiZeroSmallPlate(withPlate=true,
               }
             }
           }
+          // To see the green led
+          translate([10, 40, 8]) {
+            rotate([90, 0, 0]) {
+              cylinder(h=30, r=1.5, center=true, $fn=50);
+            }
+          }
           // Labels
           label = "USB      PWR";
           fontSize = 2.5; // in mm
@@ -110,6 +116,19 @@ module RPiZeroSmallPlate(withPlate=true,
 		  					rotate([0, 0, 90]) {
 			  					translate([0, -(fontSize / 2)]) {
 				  					text(label_2, fontSize);
+					  			}
+					  		}
+				  		}
+			  		}
+		  		}
+
+          label_3 = "LED";
+				  translate([13, + (sideThickness + (plateLength / 2)), 9 + basePegHeight]) { 
+  					rotate([0, 90, 90]) {
+	  					linear_extrude(height=1.5, center=true) {
+		  					rotate([0, 0, 90]) {
+			  					translate([0, -(fontSize / 2)]) {
+				  					text(label_3, fontSize);
 					  			}
 					  		}
 				  		}
@@ -186,12 +205,17 @@ module RPiZeroSmallPlate(withPlate=true,
   // That's it!
 }
 
-if (false) {
-  RPiZeroSmallPlate(withPlate=true, 
-                    withPegs=true, 
-                    withRpi=true, 
-                    withSide=true, 
-                    withTop=true); // ,
+if (true) {
+  withPlate = true;
+  withPegs = true;
+  withRPi = true;
+  withSide = true;
+  withTop = false;
+  RPiZeroSmallPlate(withPlate=withPlate, 
+                    withPegs=withPegs, 
+                    withRpi=withRPi, 
+                    withSide=withSide, 
+                    withTop=withTop); // ,
                     // boxHeight=30);
   // RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
 } else {

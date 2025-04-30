@@ -4,8 +4,7 @@
  * The full stand... Using other scad files.
  * See "include" and "use" statements below.
  *
- * Used to visualize the whole projec
- t, NOT for print.
+ * Used to visualize the whole project, NOT for print.
  * Animation available in stuck mode.
  *
  * To Animate: Use OpenSCAD menu View -> Animate, FPS: 10, Steps: 360
