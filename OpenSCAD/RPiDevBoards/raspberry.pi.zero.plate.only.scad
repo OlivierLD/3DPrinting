@@ -205,7 +205,7 @@ module RPiZeroSmallPlate(withPlate=true,
   // That's it!
 }
 
-if (true) {
+if (false) {
   withPlate = true;
   withPegs = true;
   withRPi = true;

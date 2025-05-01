@@ -6,6 +6,7 @@
  *
  * LEGO part relies on https://github.com/OlivierLD/LEGO.scad/tree/oliv.playgbround
  *
+ * Many oiptions available...
  * See in the script the parameters:
  * - withRPi
  * - withBox
@@ -23,6 +24,7 @@
  *  withLegoBrick = true or false
  *  brickOnly = false
  *  withLegoBasePlate = false
+ *  withBracket = true | false (optional)
  * 
  * To print the box, use:
  *  withRPi = false
