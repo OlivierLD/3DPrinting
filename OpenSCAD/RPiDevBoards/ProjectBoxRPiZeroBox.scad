@@ -112,6 +112,64 @@ module bracket() {
   }
 }
 
+module bracket_v2() {
+  difference() {
+    // Main
+    translate([0, 0, -3]) {
+      rotate([0, 0, 0]) {
+        cube([50, 10, 48], center=true);
+      }
+    }
+    // The hook
+    translate([5, 0, -14]) {
+      rotate([0, 0, 0]) {
+        cube([50, 12, 20], center=true);
+      }
+    }
+    // The box
+    translate([0, 0, 8.5]) {
+      rotate([0, 0, 0]) {
+        cube([46.0, 12, 18], center=true);
+      }
+    }
+    // The top
+    translate([0, 0, 20]) {
+      rotate([0, 0, 0]) {
+        cube([40, 12, 10], center=true);
+      }
+    }
+  }
+}
+
+module bracket_v3() {
+  difference() {
+    // Main
+    translate([0, 0, -3]) {
+      rotate([0, 0, 0]) {
+        cube([50, 10, 48], center=true);
+      }
+    }
+    // The hook
+    translate([5, 0, -14]) {
+      rotate([0, 0, 0]) {
+        cube([50, 12, 20], center=true);
+      }
+    }
+    // The box
+    translate([0, 0, 8.5]) {
+      rotate([0, 0, 0]) {
+        cube([46.0, 12, 18], center=true);
+      }
+    }
+    // The top
+    translate([5, 0, 15.5]) {
+      rotate([0, 0, 0]) {
+        cube([50, 12, 25], center=true);
+      }
+    }
+  }
+}
+
 // for the Lego brick
 thickness = 3;
 rpiPlateLenght = 68;
@@ -197,7 +255,9 @@ union() {
       RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
     }
     if (withBracket) {
-      bracket();
+      // bracket();
+      bracket_v2();
+      // bracket_v3();
     }
   } // else { // 
   
