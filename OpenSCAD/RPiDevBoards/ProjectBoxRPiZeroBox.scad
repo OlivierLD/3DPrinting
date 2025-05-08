@@ -84,10 +84,13 @@ withRPi = true;
 withBox = true;
 withTop = true;
 highBox = false;
+withEInk = true; // true; // Higher box if true, ignored if highBox is true
 withLegoBrick = false; // true;
 brickOnly = false;
 withLegoBasePlate = false; // Was Exclusive, reset all the above.
 withBracket = true; // true;
+
+/* ------------------------------------ */
 
 module bracket() {
   difference() {
@@ -115,9 +118,9 @@ module bracket() {
 module bracket_v2() {
   difference() {
     // Main
-    translate([0, 0, -3]) {
+    translate([0, 0, withEInk ? -1 : -3]) {
       rotate([0, 0, 0]) {
-        cube([50, 10, 48], center=true);
+        cube([50, 10, withEInk ? 58 : 48], center=true);
       }
     }
     // The hook
@@ -127,13 +130,13 @@ module bracket_v2() {
       }
     }
     // The box
-    translate([0, 0, 8.5]) {
+    translate([0, 0, withEInk ? 11.5 : 8.5]) {
       rotate([0, 0, 0]) {
-        cube([46.0, 12, 18], center=true);
+        cube([46.0, 12, withEInk ? 26 : 18], center=true);
       }
     }
     // The top
-    translate([0, 0, 20]) {
+    translate([0, 0, (withEInk ? 25 : 20)]) {
       rotate([0, 0, 0]) {
         cube([40, 12, 10], center=true);
       }
@@ -144,9 +147,9 @@ module bracket_v2() {
 module bracket_v3() {
   difference() {
     // Main
-    translate([0, 0, -3]) {
+    translate([0, 0, withEInk ? -1 : -3]) {
       rotate([0, 0, 0]) {
-        cube([50, 10, 48], center=true);
+        cube([50, 10, withEInk ? 58 : 48], center=true);
       }
     }
     // The hook
@@ -156,15 +159,15 @@ module bracket_v3() {
       }
     }
     // The box
-    translate([0, 0, 8.5]) {
+    translate([0, 0, withEInk ? 11.5 : 8.5]) {
       rotate([0, 0, 0]) {
-        cube([46.0, 12, 18], center=true);
+        cube([46.0, 12, withEInk ? 26 : 18], center=true);
       }
     }
     // The top
-    translate([5, 0, 15.5]) {
+    translate([5, 0, 16.5]) {
       rotate([0, 0, 0]) {
-        cube([50, 12, 25], center=true);
+        cube([50, 12, 26], center=true);
       }
     }
   }
@@ -180,7 +183,10 @@ rpiPlateWidth = 35;
 nbSpotW = 14; // 22
 nbSpotL =  6; //  10; // 22
 
-height = highBox ? 30 : 16; // 30;
+rawHeight = 16;
+heightWithEInk = 23;
+
+height = highBox ? 30 : (withEInk ? heightWithEInk : rawHeight); // 30;
 
 union() { 
   if (true || !withLegoBasePlate) {
