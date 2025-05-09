@@ -6,7 +6,7 @@
  *
  * LEGO part relies on https://github.com/OlivierLD/LEGO.scad/tree/oliv.playgbround
  *
- * Many oiptions available...
+ * Many options available...
  * See in the script the parameters:
  * - withRPi
  * - withBox
@@ -21,6 +21,7 @@
  *  withBox = true
  *  withTop = true
  *  highBox = true or false
+ *  withEInk = true or false
  *  withLegoBrick = true or false
  *  brickOnly = false
  *  withLegoBasePlate = false
@@ -31,6 +32,7 @@
  *  withBox = true
  *  withTop = false
  *  highBox = true or false
+ *  withEInk = true if you want a lightly higher box
  *  withLegoBrick = true or false
  *  brickOnly = false
  *  withLegoBasePlate = false
@@ -74,6 +76,8 @@
  *  withLegoBasePlate = false
  *  withBracket = true 
  *
+ * Warning: brackets come up in 3 versions.
+ * Check the line that says "if (withBracket) {..."
  */
 include <./raspberry.pi.zero.plate.only.scad>
 // Warning!! Location depends on your machine!! 
