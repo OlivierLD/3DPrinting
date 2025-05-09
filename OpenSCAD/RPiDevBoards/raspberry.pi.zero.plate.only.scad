@@ -219,6 +219,7 @@ if (false) {
                     // boxHeight=30);
   // RPiZeroSmallPlate(withPlate=false, withPegs=false, withRpi=false, withSide=false, withTop=true);
 } else {
+  echo("- From raspberry.pi.zero.plate.only.scad:");
   echo("+----------------------------------------------+");
   echo("| Nothing rendered, see the bottom of the code |");
   echo("+----------------------------------------------+");
