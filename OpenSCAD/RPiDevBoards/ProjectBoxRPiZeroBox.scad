@@ -88,13 +88,19 @@ withRPi = true;
 withBox = true;
 withTop = true;
 highBox = false;
-withEInk = true; // true; // Higher box if true, ignored if highBox is true
+withEInk = true; // false; // Higher box if true, ignored if highBox is true
 withLegoBrick = false; // true;
 brickOnly = false;
 withLegoBasePlate = false; // Was Exclusive, reset all the above.
 withBracket = true; // true;
 
 /* ------------------------------------ */
+
+if (withEInk) {
+  echo("+-----------------------+");
+  echo("| Box higher, with eInk |");
+  echo("+-----------------------+");
+}
 
 module bracket() {
   difference() {
