@@ -124,7 +124,7 @@ module bracket_v2() {
     // Main
     translate([0, 0, withEInk ? -1 : -3]) {
       rotate([0, 0, 0]) {
-        cube([50, 10, withEInk ? 58 : 48], center=true);
+        cube([52, 10, withEInk ? 58 : 48], center=true);
       }
     }
     // The hook
@@ -133,13 +133,13 @@ module bracket_v2() {
         cube([50, 12, 20], center=true);
       }
     }
-    // The box
-    translate([0, 0, withEInk ? 11.5 : 8.5]) {
+    // The box space
+    translate([0, 0, withEInk ? 13.0 : 8.5]) {
       rotate([0, 0, 0]) {
-        cube([46.0, 12, withEInk ? 26 : 18], center=true);
+        cube([46.5, 12, withEInk ? 23.1 : 18], center=true);
       }
     }
-    // The top
+    // The top of the hook
     translate([0, 0, (withEInk ? 25 : 20)]) {
       rotate([0, 0, 0]) {
         cube([40, 12, 10], center=true);
@@ -153,7 +153,7 @@ module bracket_v3() {
     // Main
     translate([0, 0, withEInk ? -1 : -3]) {
       rotate([0, 0, 0]) {
-        cube([50, 10, withEInk ? 58 : 48], center=true);
+        cube([52, 10, withEInk ? 58 : 48], center=true);
       }
     }
     // The hook
@@ -162,10 +162,10 @@ module bracket_v3() {
         cube([50, 12, 20], center=true);
       }
     }
-    // The box
+    // The box space
     translate([0, 0, withEInk ? 11.5 : 8.5]) {
       rotate([0, 0, 0]) {
-        cube([46.0, 12, withEInk ? 26 : 18], center=true);
+        cube([46.5, 12, withEInk ? 23.1 : 18], center=true);
       }
     }
     // The top
