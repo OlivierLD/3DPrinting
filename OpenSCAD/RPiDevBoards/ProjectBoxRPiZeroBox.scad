@@ -84,15 +84,21 @@ include <./raspberry.pi.zero.plate.only.scad>
 use <../../../LEGO.oliv/LEGO.scad> 
 
 
+RIGHT = 1;
+LEFT  = 2;
+
+/* User parameters start here */
 withRPi = true;
 withBox = true;
 withTop = true;
 highBox = false;
-withEInk = true; // false; // Higher box if true, ignored if highBox is true
+withEInk = true; // false; // Higher box (for an eInk screen) if true, ignored if highBox is true
 withLegoBrick = false; // true;
 brickOnly = false;
 withLegoBasePlate = false; // Was Exclusive, reset all the above.
-withBracket = true; // true;
+withBracket = true; // false;
+bracketSide = LEFT;
+/* End of user parameters */
 
 /* ------------------------------------ */
 
@@ -272,8 +278,11 @@ union() {
     }
     if (withBracket) {
       // bracket();
-      bracket_v2();
-      // bracket_v3();
+      if (bracketSide == LEFT) {
+        bracket_v2();
+      } else {
+        bracket_v3();
+      }
     }
   } // else { // 
   
