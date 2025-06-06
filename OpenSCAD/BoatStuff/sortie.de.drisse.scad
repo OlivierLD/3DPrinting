@@ -29,7 +29,14 @@
 }
 
 difference() {
-  shape01(115, 23, 10.4);
+  union() {
+    shape01(115, 23, 10.4);
+    rotate([0, 0, 0]) {
+      translate([0, -40, -6.0]) {
+        shape01(50, 18.0, 2.0);
+      }
+    }
+  }
   rotate([0, 0, 0]) {
     translate([0, 0, 4]) {
       shape01(108, 14, 5);
@@ -65,7 +72,7 @@ difference() {
   
   // The rope coming up
   translate([0, -20, -1.5]) {
-    rotate([-77, 0, 0]) {
+    rotate([-73.2, 0, 0]) {
       cylinder(h=100, r=6.5, center=true, $fn=100);
     }
   }
@@ -80,13 +87,13 @@ difference() {
   translate([0, 0, -4]) {
     rotate([0, 0, 0]) {
       difference() {
-        shape01(120, 25, 6);
-        shape01(108, 18, 7);
+        shape01(120, 25, 2.0);
+        shape01(108, 18, 2.0);
       }
     }
   }
 
-  // The pop at the bottom
+  // The pop (screw) at the bottom
   translate([0, 48, 0]) {
     rotate([0, 0, 0]) {
       cylinder(h=30, r=2.5, center=true, $fn=100);
