@@ -1,9 +1,10 @@
 /*
- * Sortie de drisse
+ * Sortie de drisse (pour le mat d'Alain)
  *
  * Dimensions L: 115mm, l: 23mm, h: 10.4mm
  */
  
+ // That one's reused several times
  module shape01(length, width, thickness) {
    blockLength = length - width;
    union() {
@@ -28,14 +29,17 @@
    }
 }
 
+// Let's go
 difference() {
   union() {
-    shape01(115, 23, 10.4);
-    rotate([0, 0, 0]) {
-      translate([0, -40, -6.0]) {
-        shape01(50, 18.0, 2.0);
+    // color("blue") {
+      shape01(115, 23, 11.8); // 10.4);
+      rotate([0, 0, 0]) { 
+        translate([0, -40, -6.90]) {
+          shape01(50, 16.0, 2.0); // The one that goes inside the mast
+        }
       }
-    }
+    // }
   }
   rotate([0, 0, 0]) {
     translate([0, 0, 4]) {
@@ -59,36 +63,36 @@ difference() {
   // The hole through it
   rotate([0, 0, 0]) {
     translate([0, -18, 0]) {
-      shape01(72, 14, 15);
+      shape01(72, 14, 16);
     }
   }
   
   // The rope going down
-  translate([0, 0, -1.5]) {
+  translate([0, 0, -0.5]) {
     rotate([-77, 0, 0]) {
       cylinder(h=100, r=6.5, center=true, $fn=100);
     }
   }
   
   // The rope coming up
-  translate([0, -20, -1.5]) {
+  translate([0, -16, -1.5]) {
     rotate([-73.2, 0, 0]) {
       cylinder(h=100, r=6.5, center=true, $fn=100);
     }
   }
   // Bottom difference
-  translate([0, 50, -6]) {
+  translate([0, 42, -8]) {
     rotate([0, 0, 0]) {
-      cube([40, 30, 10], center=true);
+      cube([30, 40, 10], center=true);
     }
   }
   
   // Bottom difference
-  translate([0, 0, -4]) {
+  translate([0, 0, -4.5]) {
     rotate([0, 0, 0]) {
       difference() {
-        shape01(120, 25, 2.0);
-        shape01(108, 18, 2.0);
+        shape01(120, 25, 3.0);
+        shape01(108, 16, 3.0);
       }
     }
   }
