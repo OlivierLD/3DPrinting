@@ -62,7 +62,7 @@ difference() {
   
   // The hole through it
   rotate([0, 0, 0]) {
-    translate([0, -18, 0]) {
+    translate([0, -17, 0]) {
       shape01(72, 14, 16);
     }
   }
