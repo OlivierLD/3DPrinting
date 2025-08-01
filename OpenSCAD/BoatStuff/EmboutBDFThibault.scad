@@ -21,7 +21,7 @@
    length = 47;
    height = 20;
    
-   union() {
+   hull() { // was union
      rotate([0, 0, 0]) {
        translate([0, 0, 0]) {
          cube([5.5, length, height], center=true);
@@ -85,7 +85,7 @@
    height = 18;
    
    difference() {
-     union() {
+     hull() { // was union
      
        // Main thing
        rotate([0, 0, 0]) {
