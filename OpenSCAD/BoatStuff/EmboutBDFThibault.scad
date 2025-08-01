@@ -177,6 +177,7 @@
        }
      }
    }
+   
    // The axis
    rotate([0, 0, 0]) {
      translate([0, 0, 0]) {
@@ -190,9 +191,23 @@
      }
    }
    // Tip of the hook
-   translate([0, -12, 17]) {
-     rotate([-70, 0, 0]) {
-       cylinder(h=10, r=3, center=true, $fn=50);
+   if (false) {  // V1
+     translate([0, -12, 17]) {
+       rotate([-70, 0, 0]) {
+         cylinder(h=10, r=3, center=true, $fn=50);
+       }
+     }
+   } else {
+     rotate([0, 0, 0]) {
+       translate([0, -14.5, 17]) {
+         cylinder(h=20, r=3.05, center=true, $fn=50);
+       }
+     }
+     // Free the back
+     rotate([0, 0, 0]) {
+       translate([0, -10.5, 22]) {
+         cube([6.1, 8, 30], center=true);
+       }
      }
    }
    
@@ -206,6 +221,15 @@
    translate([0, 15, 20]) {
      rotate([-25, 0, 0]) {
        cube([30, 50, 10], center=true);
+     }
+   }
+   
+   // The hole for the screw in the spreader
+   if (true) {
+     translate([-5, -14, -10]) {
+       rotate([0, 90, 0]) {
+         cylinder(h=10, r=1.5, center=true, $fn=30);
+       }
      }
    }
 
