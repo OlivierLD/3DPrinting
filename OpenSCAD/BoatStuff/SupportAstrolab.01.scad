@@ -11,7 +11,7 @@ module horizontalInside () {
        }
      }
      rotate([90, 0, 0]) {
-       translate([0, 0, 2.5]) {
+       translate([0, 0, 3.0]) {
          cube([12, diam, 6], center=true);
        }
      }
@@ -44,7 +44,7 @@ module verticalInside () {
        }
      }
      rotate([90, 0, 0]) {
-       translate([0, 0, 2.5]) {
+       translate([0, 0, 3.0]) {
          cube([12, diam, 6], center=true);
        }
      }
