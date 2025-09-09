@@ -1,5 +1,6 @@
 /**
- * Support Perche Astrolab
+ * Support Perche Astrolab.
+ * Pour La Reveuse.
  */
 
 module horizontalInside () { 

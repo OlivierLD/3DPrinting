@@ -1293,7 +1293,7 @@ if (false) { // servoParallax900_00005 test
 	servoParallax900_00005(drillPattern=false);
 }
 
-if (false) { // MCP73871_USB_Solar test
+if (true) { // MCP73871_USB_Solar test
 	MCP73871_USB_Solar(bigHangout=false, withStand=true, standOnly=false);
 }
 
@@ -1342,7 +1342,7 @@ if (false) {
 	actoBotics615222();
 }
 
-if (true) {
+if (false) {
 	// Just a wheel stand, for print test
 	difference() {
 		// Wheel stand
