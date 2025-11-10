@@ -17,11 +17,11 @@ module roundedRect(size, radius) {
 }
 
 buckleWidth = 27.5; // in mm
-buckleLen   = 16.0;
+buckleLen   = 20.0; // 16.0;
 buckleThick = 6.0;
 
 innerWidth = 21.0;
-innerLen   = 6.0;
+innerLen   = 8.0; // 6.0;
 
 // Option 1, rough
 module buckle01() {
