@@ -113,7 +113,7 @@ module ballBearing(id) {
 }
 
 /**
- * A countersunk metal screw 
+ * A countersink metal screw 
  * Can be used for the screw itself, or the hole it needs.
  * diameter can be one of 3, 4, 5, 6, or 8
  * Use a top greater than 0 for difference().
@@ -133,6 +133,34 @@ module metalScrewCS(diam, length, top=0) {
 		translate([0, 0, length - k]) {
 			cylinder(h=k, d1=diam, d2=dk, center=false, $fn=50);
 		}
+		translate([0, 0, 0.1]) {
+			cylinder(h=length - k + 0.1, d=diam, $fn=50);
+		}
+	}
+}
+
+/**
+ * A cylindric-head metal screw 
+ * Can be used for the screw itself, or the hole it needs.
+ * diameter can be one of 3, 4, 5, 6, or 8
+ * Use a top greater than 0 for difference().
+ */
+module metalScrewCyl(diam, headDiam, length, top=0) {
+	//echo (str("Diam:", diam, "mm"));
+  k = diam; // head thickness. TODO Tweak that one
+	union() {
+		if (top > 0) {
+			translate([0, 0, length - 0.01]) {
+				cylinder(h=top + 0.01, d=headDiam, $fn=50);
+			}
+		}
+    // head
+		translate([0, 0, length - k]) {
+      // color("red") {
+			cylinder(h=k, d1=headDiam, d2=headDiam, center=false, $fn=50);
+      // }
+		}
+    // Thread
 		translate([0, 0, 0.1]) {
 			cylinder(h=length - k + 0.1, d=diam, $fn=50);
 		}
@@ -1126,7 +1154,7 @@ module actoBotics615222(stand = false,
 }
 
 /*
- * Tests
+ * Tests, main.
  */
 echo("For tests and dev only");
 echo("------------------------------");
@@ -1170,6 +1198,31 @@ if (false) { // CS Screw test
 	for (i=[3, 4, 5, 6, 8]) {
 		translate([-15 * i, 0, 0]) {
 			metalScrewCS(i, screwLen);
+		}
+	}
+}
+
+if (true) { // Cylindric head Screw test
+	screwDiam = 3.0;
+  headDiam = 6.0; // 5.5;
+	screwLen = 30;
+
+	translate([-20, 0, 0]) {
+		metalScrewCyl(screwDiam, headDiam, screwLen);
+	}
+  // In a cube
+	translate([0 /*20*/, 0, 0]) { 
+		difference() {
+			cube(16);
+			translate([8, 8, -20]) { // Try #translate ;)
+				metalScrewCyl(screwDiam, headDiam, screwLen, 10);
+			}
+		}
+	}
+	
+	for (i=[3, 4, 5, 6, 8]) {
+		translate([-15 * i, 0, 0]) {
+			metalScrewCyl(i, i * (5.5 /3.0), screwLen);
 		}
 	}
 }
@@ -1293,7 +1346,7 @@ if (false) { // servoParallax900_00005 test
 	servoParallax900_00005(drillPattern=false);
 }
 
-if (true) { // MCP73871_USB_Solar test
+if (false) { // MCP73871_USB_Solar test
 	MCP73871_USB_Solar(bigHangout=false, withStand=true, standOnly=false);
 }
 
