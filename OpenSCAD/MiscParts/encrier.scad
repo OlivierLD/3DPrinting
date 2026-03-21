@@ -93,7 +93,7 @@ module top() {
 
 // Main part ! Comment at will.
 
-WITH_TOP = false;
+WITH_TOP = true;
 WITH_BOTTOM = true;
 
 STUCK = true;
