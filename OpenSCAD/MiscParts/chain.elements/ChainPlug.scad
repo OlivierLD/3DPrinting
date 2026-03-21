@@ -23,6 +23,7 @@ module top_bottom(width, diam) {
      }
   }
 }
+
 module one_link(width, height, diam) {
   x = (height / 2) - (1 * width / 2);
   union() {
@@ -51,24 +52,68 @@ module one_link(width, height, diam) {
   }
 }
 
+module one_link_hull(width, height, diam) {
+  hull() {
+    one_link(width, height, diam);
+  }
+}
+
 // a 3-link chain
-module 3_link_chain(width, height, diam) {
+module 3_link_chain(width, height, diam, hull=false) {
   // top
   translate([(height - (1.5 * diam)), 0, 0]) {
     rotate([90, 0, 0]) {
-      one_link(width, height, diam);
+      if (!hull) {
+        one_link(width, height, diam);
+      } else {
+        one_link_hull(width, height, diam);
+      }
     }
   }
   // center
   translate([0, 0, 0]) {
     rotate([0, 0, 0]) {
-      one_link(width, height, diam);
+      if (!hull) {
+        one_link(width, height, diam);
+      } else {
+        one_link_hull(width, height, diam);
+      }
     }
   }
   // bottom
   translate([-(height - (1.5 * diam)), 0, 0]) {
     rotate([90, 0, 0]) {
-      one_link(width, height, diam);
+      if (!hull) {
+        one_link(width, height, diam);
+      } else {
+        one_link_hull(width, height, diam);
+      }
+    }
+  }
+}
+
+module plugPart(width, length, height) {
+  linear_extrude(height=height, center=true) {
+    hull() {
+      translate([-length / 8, 0, 0]) {
+        circle(d=width, $fn=100);
+      }
+      translate([length / 8, 0, 0]) {
+        circle(d=width, $fn=100);
+      }
+    }
+  }  
+}
+
+module plug() {
+  union() {
+    // Bottom
+    translate([0, 0, - 20 / 2]) {
+      plugPart(44, 58, 20);
+    }
+    // Top
+    translate([0, 0, 10 / 2]) {
+      plugPart(44 + 6, 58 + 6, 10);
     }
   }
 }
@@ -78,6 +123,23 @@ LINK_HEIGHT = 50;
 LINK_WIDTH  = 35;
 LINK_DIAM   = 10;
 
-rotate([0, 90, 0]) {
-  3_link_chain(LINK_WIDTH, LINK_HEIGHT, LINK_DIAM);
+
+// Aha ! Now we're talking !
+difference() {
+  plug();
+  // Cut half the plug
+  translate([0, 25, 0]) {
+    rotate([0, 0, 0]) {
+      cube(size=[200, 50, 50], center=true);
+    }
+  }
+  
+  translate([0, 0, -5]) {
+    rotate([0, 90, 0]) {
+      // hull() {
+        3_link_chain(LINK_WIDTH, LINK_HEIGHT, LINK_DIAM, true);
+      //}
+    }
+  }
+  
 }
