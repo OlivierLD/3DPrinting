@@ -1,15 +1,21 @@
 /*
- * Chain Link and chain plug 
- * (pour l'ecubier de La Reveuse)
+ * Chain Link and chain plug
+ * (pour l'écubier - hawsehole - de La Reveuse)
  */
- 
-module torus(ringDiam, torusDiam) { 
+
+/**
+ * Draw a Torus
+
+ * @param ringDiam The ring diameter. Warning: Add the torus (2 * 1 / 2) diameter to get the final part diameter !
+ * @param torusDiam The torus diameter
+ */
+module torus(ringDiam, torusDiam) {
  	rotate_extrude(convexity = ringDiam, $fn = 100) {
 		translate([ringDiam / 2, 0, 0]) {
 			circle(r = torusDiam / 2, $fn = 100);
 		}
 	}
-} 
+}
 
 
 // Top/Bottom part
@@ -17,9 +23,9 @@ module top_bottom(width, diam) {
   difference() {
     torus(width - (diam / 2), diam);
     translate([10, 0, 0]) {
-          cube(size=[(width + (diam / 2)) / 2, 
-                      width + (diam / 2), 
-                      diam], 
+          cube(size=[(width + (diam / 2)) / 2,
+                      width + (diam / 2),
+                      diam],
                center=true);
      }
   }
@@ -60,7 +66,7 @@ module one_link_hull(width, height, diam) {
 }
 
 // a 3-link chain
-module 3_link_chain(width, height, diam, hull=false) {
+module three_link_chain(width, height, diam, hull=false) {
   // top
   translate([(height - (1.5 * diam)), 0, 0]) {
     rotate([90, 0, 0]) {
@@ -103,7 +109,7 @@ module plugPart(width, length, height) {
         circle(d=width, $fn=100);
       }
     }
-  }  
+  }
 }
 
 module plug() {
@@ -134,13 +140,13 @@ difference() {
       cube(size=[200, 50, 50], center=true);
     }
   }
-  
+  // Empty the chain path
   translate([0, 0, -5]) {
     rotate([0, 90, 0]) {
       // hull() {
-        3_link_chain(LINK_WIDTH, LINK_HEIGHT, LINK_DIAM, true);
+        three_link_chain(LINK_WIDTH, LINK_HEIGHT, LINK_DIAM, true);
       //}
     }
   }
-  
+
 }
