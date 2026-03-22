@@ -113,14 +113,33 @@ module plugPart(width, length, height) {
 }
 
 module plug() {
-  union() {
-    // Bottom
-    translate([0, 0, - 20 / 2]) {
-      plugPart(44, 58, 20);
+  difference() {
+    union() {
+      // Bottom
+      translate([0, 0, - 20 / 2]) {
+        plugPart(44, 58, 20);
+      }
+      // Top
+      translate([0, 0, 10 / 2]) {
+        plugPart(44 + 6, 58 + 6, 10);
+      }
+      // Top-Ring
+      translate([35, 0, 8]) {
+        rotate([90, 90, 0]) {
+          union() {
+            cylinder(h=20, r=8, center=true, $fn=100);
+            translate([4, -4, 0]) {
+              cube([8, 8, 20], center=true);
+            }
+          }
+        }
+      }
     }
-    // Top
-    translate([0, 0, 10 / 2]) {
-      plugPart(44 + 6, 58 + 6, 10);
+    // Same translation/rotation as above, hole in the ring
+    translate([35, 0, 8]) {
+       rotate([90, 90, 0]) {
+         cylinder(h=200, r=4, center=true, $fn=100);
+       }
     }
   }
 }
@@ -130,14 +149,19 @@ LINK_HEIGHT = 50;
 LINK_WIDTH  = 35;
 LINK_DIAM   = 10;
 
+FOR_PRINT = true;
+
 
 // Aha ! Now we're talking !
 difference() {
   plug();
-  // Cut half the plug
-  translate([0, 25, 0]) {
-    rotate([0, 0, 0]) {
-      cube(size=[200, 50, 50], center=true);
+  
+  if (FOR_PRINT) { // TODO: left or right?
+    // Cut half the plug
+    translate([0, 25, 0]) {
+      rotate([0, 0, 0]) {
+        cube(size=[200, 50, 50], center=true);
+      }
     }
   }
   // Empty the chain path
