@@ -17,8 +17,7 @@ module torus(ringDiam, torusDiam) {
 	}
 }
 
-
-// Top/Bottom part
+// Top/Bottom part of a link
 module top_bottom(width, diam) {
   difference() {
     torus(width - (diam / 2), diam);
@@ -99,6 +98,7 @@ module three_link_chain(width, height, diam, hull=false) {
   }
 }
 
+// Common to the two parts (top and bottom). Just dimensions are different
 module plugPart(width, length, height) {
   linear_extrude(height=height, center=true) {
     hull() {
@@ -144,27 +144,32 @@ module plug() {
   }
 }
 
-// Main starts here
 LINK_HEIGHT = 50;
 LINK_WIDTH  = 35;
-LINK_DIAM   = 10;
+LINK_DIAM   = 10; // Increase this to get some slack...
 
-FOR_PRINT = true;
+LEFT_SIDE  = 0;
+RIGHT_SIDE = 1;
 
+// Main starts here
+// Just set FOR_PRINT, and SIDE_TO_PRINT
+
+FOR_PRINT = true; // Set to false to see the full part
+SIDE_TO_PRINT = LEFT_SIDE; // RIGHT_SIDE; // Ignored if FOR_PRONT is false.
 
 // Aha ! Now we're talking !
 difference() {
   plug();
   
-  if (FOR_PRINT) { // TODO: left or right?
+  if (FOR_PRINT) {
     // Cut half the plug
-    translate([0, 25, 0]) {
+    translate([0, SIDE_TO_PRINT == LEFT_SIDE ? 25 : -25, 0]) {
       rotate([0, 0, 0]) {
         cube(size=[200, 50, 50], center=true);
       }
     }
   }
-  // Empty the chain path
+  // Empty/clear the chain path
   translate([0, 0, -5]) {
     rotate([0, 90, 0]) {
       // hull() {
@@ -172,5 +177,4 @@ difference() {
       //}
     }
   }
-
 }
