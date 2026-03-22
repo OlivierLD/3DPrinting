@@ -1,5 +1,6 @@
 /*
- * Chain Link
+ * Chain Link and chain plug 
+ * (pour l'ecubier de La Reveuse)
  */
  
 module torus(ringDiam, torusDiam) { 
