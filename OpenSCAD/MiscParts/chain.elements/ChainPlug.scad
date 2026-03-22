@@ -155,7 +155,7 @@ RIGHT_SIDE = 1;
 // Just set FOR_PRINT, and SIDE_TO_PRINT
 
 FOR_PRINT = true; // Set to false to see the full part
-SIDE_TO_PRINT = LEFT_SIDE; // RIGHT_SIDE; // Ignored if FOR_PRONT is false.
+SIDE_TO_PRINT = LEFT_SIDE; // RIGHT_SIDE; // Ignored if FOR_PRINT is false.
 
 // Aha ! Now we're talking !
 difference() {
