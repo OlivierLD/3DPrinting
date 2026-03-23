@@ -1,11 +1,11 @@
 /*
- * Chain Link and chain plug
+ * Chain Links and chain plug
  * (pour l'écubier - hawsehole - de La Reveuse)
  */
 
 /**
  * Draw a Torus
-
+ *
  * @param ringDiam The ring diameter. Warning: Add the torus (2 * 1 / 2) diameter to get the final part diameter !
  * @param torusDiam The torus diameter
  */
@@ -147,34 +147,3 @@ module plug() {
 LINK_HEIGHT = 50;
 LINK_WIDTH  = 35;
 LINK_DIAM   = 10; // Increase this to get some slack...
-
-LEFT_SIDE  = 0;
-RIGHT_SIDE = 1;
-
-// Main starts here
-// Just set FOR_PRINT, and SIDE_TO_PRINT
-
-FOR_PRINT = true; // Set to false to see the full part
-SIDE_TO_PRINT = LEFT_SIDE; // RIGHT_SIDE; // Ignored if FOR_PRINT is false.
-
-// Aha ! Now we're talking !
-difference() {
-  plug();
-  
-  if (FOR_PRINT) {
-    // Cut half the plug
-    translate([0, SIDE_TO_PRINT == LEFT_SIDE ? 25 : -25, 0]) {
-      rotate([0, 0, 0]) {
-        cube(size=[200, 50, 50], center=true);
-      }
-    }
-  }
-  // Empty/clear the chain path
-  translate([0, 0, -5]) {
-    rotate([0, 90, 0]) {
-      // hull() {
-        three_link_chain(LINK_WIDTH, LINK_HEIGHT, LINK_DIAM, true);
-      //}
-    }
-  }
-}
