@@ -1,13 +1,17 @@
 // To print elements coded in ChainPlug.scad
 // Variables LINK_WIDTH, LINK_HEIGHT, LINK_DIAM are defined in the included file.
 //
+
 include <./ChainPlug.scad>
 
 LEFT_SIDE  = 0;
 RIGHT_SIDE = 1;
 
-// Main starts here
-// Just set FOR_PRINT, and SIDE_TO_PRINT
+/*******************************************
+ * Main starts here                        *
+ * Just set FOR_PRINT, and SIDE_TO_PRINT   *
+ * Bonus: See the FOR_DEMO as well         *
+ *******************************************/
 
 FOR_PRINT = true; // Set to false to see the full part
 SIDE_TO_PRINT = LEFT_SIDE; // RIGHT_SIDE; // Ignored if FOR_PRINT is false.
@@ -56,7 +60,7 @@ if (FOR_DEMO && FOR_PRINT) { // Print both parts
       translate([0, 0, -5]) {
         rotate([0, 90, 0]) {
           // hull() {
-            three_link_chain(LINK_WIDTH, LINK_HEIGHT, LINK_DIAM, true);
+            %three_link_chain(LINK_WIDTH, LINK_HEIGHT, LINK_DIAM, true);
           //}
         }
       }

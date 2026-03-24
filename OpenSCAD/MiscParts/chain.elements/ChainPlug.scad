@@ -1,6 +1,8 @@
 /*
  * Chain Links and chain plug
  * (pour l'écubier - hawsehole - de La Reveuse)
+ *
+ * For prod, see ChartPrinter.scad.
  */
 
 /**
@@ -117,7 +119,8 @@ module plug() {
     union() {
       // Bottom
       translate([0, 0, - 20 / 2]) {
-        plugPart(44, 58, 20);
+        // plugPart(44, 58, 20);
+        plugPart(42, 56, 20);
       }
       // Top
       translate([0, 0, 10 / 2]) {
@@ -146,4 +149,4 @@ module plug() {
 
 LINK_HEIGHT = 50;
 LINK_WIDTH  = 35;
-LINK_DIAM   = 10; // Increase this to get some slack...
+LINK_DIAM   = 12; // Increase this to get some slack...
