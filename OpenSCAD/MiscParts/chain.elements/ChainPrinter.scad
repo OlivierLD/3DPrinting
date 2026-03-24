@@ -65,5 +65,17 @@ if (FOR_DEMO && FOR_PRINT) { // Print both parts
         }
       }
     }
+    // bonus
+    if (true) {
+      translate([0, 0, -5]) {
+        rotate([0, 90, 0]) {
+          color("gray") {
+          // hull() {
+            three_link_chain(LINK_WIDTH, LINK_HEIGHT, LINK_DIAM, false);
+          //}
+          }
+        }
+      }
+    }
   }
 }
