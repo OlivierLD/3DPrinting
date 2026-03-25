@@ -39,3 +39,5 @@ Generating `stl` code by hand is just a nonsense, but take a look at the sizes o
 
 ## Misc Resources
 - [GCode Viewer](http://jherrm.com/gcode-viewer/) online.
+- [Ender 3 v2 Hotend Cleaning - Eliminate Stringing & Clogs](https://www.youtube.com/watch?v=_bZ_ETKBipQ)
+

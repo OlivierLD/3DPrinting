@@ -13,14 +13,15 @@ RIGHT_SIDE = 1;
  * Bonus: See the FOR_DEMO as well         *
  *******************************************/
 
-FOR_PRINT = true; // Set to false to see the full part
+FOR_PRINT = false; // Set to false to see the full part (stuck).
+FOR_DEMO = true;   // If true, shows everything, including the chain.
 SIDE_TO_PRINT = LEFT_SIDE; // RIGHT_SIDE; // Ignored if FOR_PRINT is false.
 
 // Aha ! Now we're talking !
 difference() {
   plug();
 
-  if (FOR_PRINT) {
+  if (FOR_PRINT || FOR_DEMO) {
     // Cut half the plug
     translate([0, SIDE_TO_PRINT == LEFT_SIDE ? 25 : -25, 0]) {
       rotate([0, 0, 0]) {
@@ -38,11 +39,12 @@ difference() {
   }
 }
 
-FOR_DEMO = true;
 // The code below will display the other part, for demo.
 // To be skipped when printing. Set FOR_DEMO to false.
-if (FOR_DEMO && FOR_PRINT) { // Print both parts
+if (FOR_DEMO /* && FOR_PRINT */) { // Print both parts
   translate([0, 1, 0]) {
+    // Needs to be previously set to LEFT_SIDE, 
+    // here we print the "other" side.
     SIDE_TO_PRINT = RIGHT_SIDE;
 
     difference() {
@@ -69,7 +71,7 @@ if (FOR_DEMO && FOR_PRINT) { // Print both parts
     if (true) {
       translate([0, 0, -5]) {
         rotate([0, 90, 0]) {
-          color("gray") {
+          color("silver") {
           // hull() {
             three_link_chain(LINK_WIDTH, LINK_HEIGHT, LINK_DIAM, false);
           //}

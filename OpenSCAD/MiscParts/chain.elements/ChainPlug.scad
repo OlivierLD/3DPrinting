@@ -32,6 +32,7 @@ module top_bottom(width, diam) {
   }
 }
 
+// A Full link
 module one_link(width, height, diam) {
   x = (height / 2) - (1 * width / 2);
   union() {
@@ -68,7 +69,7 @@ module one_link_hull(width, height, diam) {
 
 // a 3-link chain
 module three_link_chain(width, height, diam, hull=false) {
-  // top
+  // top link
   translate([(height - (1.5 * diam)), 0, 0]) {
     rotate([90, 0, 0]) {
       if (!hull) {
@@ -78,7 +79,7 @@ module three_link_chain(width, height, diam, hull=false) {
       }
     }
   }
-  // center
+  // center link
   translate([0, 0, 0]) {
     rotate([0, 0, 0]) {
       if (!hull) {
@@ -88,7 +89,7 @@ module three_link_chain(width, height, diam, hull=false) {
       }
     }
   }
-  // bottom
+  // bottom link
   translate([-(height - (1.5 * diam)), 0, 0]) {
     rotate([90, 0, 0]) {
       if (!hull) {
@@ -100,7 +101,8 @@ module three_link_chain(width, height, diam, hull=false) {
   }
 }
 
-// Common to the two parts (top and bottom). Just dimensions are different
+// Common to the two parts (top and bottom). Just dimensions are different,
+// see the 'plug' module.
 module plugPart(width, length, height) {
   linear_extrude(height=height, center=true) {
     hull() {
@@ -114,6 +116,7 @@ module plugPart(width, length, height) {
   }
 }
 
+// The actual plug, in two parts
 module plug() {
   difference() {
     union() {
