@@ -275,7 +275,7 @@ deltaApart = 10;
 swingFirstRing = [-20, 20]; // Degrees
 swingBucket = [-15, 15];    // Degrees
 
-animate = false;
+animate = true; // To animate: Menu View->Animate. The set the time, FPS, and steps.
 apart = false;
 withColor = false;
 withPCB = false;
