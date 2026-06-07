@@ -439,14 +439,46 @@ module lid() {
 	}
 }
 
+
+module bracket() {
+  hook_depth = 20;
+  difference() {
+    // Main
+    translate([0, 0, -5]) {
+      rotate([0, 0, 0]) {
+        cube([outerWidth + 0, 10, outerHeight + lidThickness + hook_depth + 16], center=true);
+      }
+    }
+    // The hook
+    translate([10, 0, -22]) {
+      rotate([0, 0, 0]) {
+        cube([outerLength + 14, 12, hook_depth], center=true);
+      }
+    }
+    // The box space
+    translate([0, 0, 8.5]) {
+      rotate([0, 0, 0]) {
+        cube([outerWidth - 10, 12, outerHeight + lidThickness], center=true);
+      }
+    }
+    // The top of the hook
+    translate([0, 0, 26]) {
+      rotate([0, 0, 0]) {
+        cube([outerWidth - 20, 12, 14], center=true);
+      }
+    }
+  }
+}
+
 ALL_PARTS = 0;
 
 BOX_ONLY = 1;
 LID_ONLY = 2;
+BRACKET_ONLY = 3;
 
-option = ALL_PARTS;
+option = ALL_PARTS; // TODO With / without bracket
 
-appart = 5.0; //
+appart = 5.0; // 0 to close it
 
 difference() {
 	union() {
@@ -458,16 +490,25 @@ difference() {
 				lid();
 			}
 		}
-	}
-	translate([0, 0, (30 - outerHeight) / 2]) {
-		union() { // Add a '%' in front to see the box's content, remove it to print.
-			rpiAPlusWithConnectors(); // Add % to see just the rPi
-			translate([slack, -slack, 5.35]) {
-				rotate([0, 0, 0]) {
-					protoPiHat();
-				}
+		if (/*option == ALL_PARTS || */ option == BRACKET_ONLY) {
+			translate([0, -0, -7]) {
+        rotate([0, 0, -90]) {
+          bracket();
+        }
 			}
 		}
+	}
+  if (option != BRACKET_ONLY) {
+    translate([0, 0, (30 - outerHeight) / 2]) {
+      union() { // Add a '%' in front to see the box's content, remove it to print.
+        rpiAPlusWithConnectors(); // Add % to see just the rPi
+        translate([slack, -slack, 5.35]) {
+          rotate([0, 0, 0]) {
+            protoPiHat();
+          }
+        }
+      }
+    }
 	}
 }
 
