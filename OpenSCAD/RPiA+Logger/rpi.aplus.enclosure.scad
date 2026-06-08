@@ -456,7 +456,7 @@ module bracket() {
       }
     }
     // The box space
-    slack = 0.5;
+    slack = 0.5; // just a bit bigger...
     translate([0, 0, 8.5]) {
       rotate([0, 0, 0]) {
         cube([outerWidth - 10 + slack, 
@@ -471,23 +471,34 @@ module bracket() {
       }
     }
   }
+  translate([27, 0, +24.9]) {
+    rotate([0, 0, 0]) {
+      cylinder(h=4.3, r=5, center=true, $fn=60);
+    }
+  }
+  translate([-27, 0, +24.9]) {
+    rotate([0, 0, 0]) {
+      cylinder(h=4.3, r=5, center=true, $fn=60);
+    }
+  }
 }
 
 ALL_PARTS = 0;
 
-BOX_ONLY = 1;
-LID_ONLY = 2;
+BOX_ONLY     = 1;
+LID_ONLY     = 2;
 BRACKET_ONLY = 3;
 
 option = ALL_PARTS; // TODO With / without bracket
 
-appart = 5.0; // 0 to close it
+appart = 12.0; // 0 to close it
 
 difference() {
 	union() {
 		if (option == ALL_PARTS || option == BOX_ONLY) {
 			boxPegsAndScrews();
 		}
+    // -- Moved below
 		//if (option == ALL_PARTS || option == LID_ONLY) {
 		//	translate([0, 0, appart + ((boxThickness + outerHeight) / 2)]) {
 		//		lid();
