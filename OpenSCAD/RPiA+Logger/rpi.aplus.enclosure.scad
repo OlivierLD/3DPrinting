@@ -456,9 +456,12 @@ module bracket() {
       }
     }
     // The box space
+    slack = 0.5;
     translate([0, 0, 8.5]) {
       rotate([0, 0, 0]) {
-        cube([outerWidth - 10, 12, outerHeight + lidThickness], center=true);
+        cube([outerWidth - 10 + slack, 
+              12, 
+              outerHeight + lidThickness + slack], center=true);
       }
     }
     // The top of the hook
@@ -485,18 +488,18 @@ difference() {
 		if (option == ALL_PARTS || option == BOX_ONLY) {
 			boxPegsAndScrews();
 		}
-		if (option == ALL_PARTS || option == LID_ONLY) {
-			translate([0, 0, appart + ((boxThickness + outerHeight) / 2)]) {
-				lid();
-			}
-		}
-		if (/*option == ALL_PARTS || */ option == BRACKET_ONLY) {
-			translate([0, -0, -7]) {
-        rotate([0, 0, -90]) {
-          bracket();
-        }
-			}
-		}
+		//if (option == ALL_PARTS || option == LID_ONLY) {
+		//	translate([0, 0, appart + ((boxThickness + outerHeight) / 2)]) {
+		//		lid();
+		//	}
+		//}
+		//if (/*option == ALL_PARTS ||*/ option == BRACKET_ONLY) {
+		//	translate([0, -0, -7]) {
+    //    rotate([0, 0, -90]) {
+    //      bracket();
+    //    }
+		//	}
+		//}
 	}
   if (option != BRACKET_ONLY) {
     translate([0, 0, (30 - outerHeight) / 2]) {
@@ -504,13 +507,37 @@ difference() {
         rpiAPlusWithConnectors(); // Add % to see just the rPi
         translate([slack, -slack, 5.35]) {
           rotate([0, 0, 0]) {
-            protoPiHat();
+            protoPiHat(); // Add % infront to see the hat
           }
         }
       }
     }
 	}
 }
+
+if (option == ALL_PARTS || option == LID_ONLY) {
+  translate([0, 0, appart + ((boxThickness + outerHeight) / 2)]) {
+    lid();
+  }
+}
+// 2 brackets
+if (option == ALL_PARTS || option == BRACKET_ONLY) {
+  // left
+  translate([-20, -0, -7]) {
+    rotate([0, 0, -90]) {
+      bracket();
+    }
+  }
+  if (option != BRACKET_ONLY) { // then print the second one
+    // right
+    translate([+14, -0, -7]) {
+      rotate([0, 0, -90]) {
+        bracket();
+      }
+    }
+  }
+}
+
 
 //rpiAPlusWithConnectors();
 //oneHeaderPin();
