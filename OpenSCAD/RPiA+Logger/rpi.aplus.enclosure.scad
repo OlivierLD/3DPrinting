@@ -449,6 +449,7 @@ module bracket() {
         cube([outerWidth + 0, 10, outerHeight + lidThickness + hook_depth + 16], center=true);
       }
     }
+
     // The hook
     translate([10, 0, -22]) {
       rotate([0, 0, 0]) {
@@ -456,7 +457,7 @@ module bracket() {
       }
     }
     // The box space
-    slack = 0.5; // just a bit bigger...
+    slack = 0.75; // just a bit bigger...
     translate([0, 0, 8.5]) {
       rotate([0, 0, 0]) {
         cube([outerWidth - 10 + slack, 
@@ -471,14 +472,16 @@ module bracket() {
       }
     }
   }
-  translate([27, 0, +24.9]) {
-    rotate([0, 0, 0]) {
-      cylinder(h=4.3, r=5, center=true, $fn=60);
+  if (true) {
+    translate([27, 0, +24.9]) {
+      rotate([0, 0, 0]) {
+        cylinder(h=4.1, r=5, center=true, $fn=60);
+      }
     }
-  }
-  translate([-27, 0, +24.9]) {
-    rotate([0, 0, 0]) {
-      cylinder(h=4.3, r=5, center=true, $fn=60);
+    translate([-27, 0, +24.9]) {
+      rotate([0, 0, 0]) {
+        cylinder(h=4.1, r=5, center=true, $fn=60);
+      }
     }
   }
 }
